@@ -8,9 +8,9 @@
        @vite(['resources/css/app.css'])
     </head>
     <body>
-        
+        @auth
         <x-navbar />
-
+        @endauth
         {{ $slot }}
 
 
