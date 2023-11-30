@@ -5,17 +5,17 @@ La gestione dei ruoli dipende da ActiveDirectory.
 
 ## ToDo
 ### Configurazione Progetto
-[x] Configurazione Bootstrap
-[x] Building Asset
-[x] Configurazione Layout e Componenti
-[x] Configurazione Database
+- [x] Configurazione Bootstrap
+- [x] Building Asset
+- [x] Configurazione Layout e Componenti
+- [x] Configurazione Database
 
 ### Autenticazione
-[x] Installazione LdapRecord
-[x] Configurazione LdapRecord
-[x] Installazione Fortify
-[x] Configurazione Fortify
-[x] Configurazione Fortify <-> LdapRecord
+- [x] Installazione LdapRecord
+- [x] Configurazione LdapRecord
+- [x] Installazione Fortify
+- [x] Configurazione Fortify
+- [x] Configurazione Fortify <-> LdapRecord
 
 ## Installazione
 ```
