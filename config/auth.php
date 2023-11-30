@@ -68,8 +68,9 @@ return [
                 'sync_passwords' => false,
                 'sync_attributes' => [
                     'name' => 'cn',
-                    'email' => 'mail',
+                    'email' => 'userprincipalname',
                     'username' => 'samaccountname',
+                    'groups' => 'memberof',
                 ],
             ],
         ],

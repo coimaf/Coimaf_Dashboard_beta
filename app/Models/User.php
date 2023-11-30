@@ -23,6 +23,7 @@ class User extends Authenticatable implements LdapAuthenticatable
         'name',
         'email',
         'password',
+        'groups'
     ];
 
     /**
@@ -44,4 +45,25 @@ class User extends Authenticatable implements LdapAuthenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+    
+        static::saving(function ($user) {
+            // Verifica se groups è un array
+            if (is_array($user->groups)) {
+                // Converti l'array in una stringa separata da virgola
+                $user->groups = implode(' - ', $user->groups);
+            } elseif (is_string($user->groups)) {
+                // Utilizza una regex per estrarre solo il contenuto tra CN= e la virgola
+                preg_match_all('/CN=(.*?),/', $user->groups, $matches);
+    
+                // Aggiorna $user->groups con il contenuto estratto
+                $user->groups = implode(' - ', $matches[1]);
+            }
+        });
+    }
+    
+
 }

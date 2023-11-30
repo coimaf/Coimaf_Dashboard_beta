@@ -17,6 +17,12 @@ La gestione dei ruoli dipende da ActiveDirectory.
 - [x] Configurazione Fortify
 - [x] Configurazione Fortify <-> LdapRecord
 
+### Permessi
+- [x] Importazione Ruoli da AD
+- [x] Conversione dei Ruoli nel Database
+- [x] Creato Middleware Custom per 'Officina'
+- [x] Gestione errori 403 - 404
+
 ## Installazione
 ```
 composer install

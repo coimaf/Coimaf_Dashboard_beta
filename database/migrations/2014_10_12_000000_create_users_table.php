@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('username')->unique();
+            $table->string('groups')->nullabe();
             $table->string('email')->unique()->nullable();
             $table->string('guid');
             $table->string('domain');
