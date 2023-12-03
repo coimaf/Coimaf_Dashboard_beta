@@ -1,0 +1,41 @@
+main {
+  height: 100vh;
+  height: -webkit-fill-available;
+  max-height: 100vh;
+
+}
+
+.bi {
+  vertical-align: -.125em;
+  fill: currentColor;
+}
+
+.nav-link{
+  color: black;
+}
+
+.nav-link:hover{
+  background-color: #ececec;
+  color: black;
+}
+
+.side-toggle:hover{
+  background-color: #10317f;
+}
+
+@media (max-width: 991.98px) {
+  .sidebar {
+      display: none;
+  }
+  .sidebar.active {
+      display: block;
+      z-index: 1000;
+  }
+  .main-content {
+      width: 100%;
+      overflow: hidden;
+  }
+  .main-content.sidebar-active {
+    margin-left: 280px;
+}
+}

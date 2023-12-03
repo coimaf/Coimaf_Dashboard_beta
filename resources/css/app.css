@@ -1,2 +1,26 @@
 @import 'bootstrap/dist/css/bootstrap.min.css';
-@import './style.css';
+@import './sidebars.css';
+@import 'bootstrap-icons';
+
+
+:root{
+    --bg-primary-cust: #081B49;
+    --bg-primary-cust-hover: #081b49e3;
+    --text-primary-cust: #081B49;
+}
+
+.text-primary{
+    color: #081B49;
+}
+
+.bg-primary-cust{
+    background-color: #081B49;
+}
+
+.table-dark{
+    --bs-table-bg: #081B49;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link{
+    background-color: #081B49;
+}
