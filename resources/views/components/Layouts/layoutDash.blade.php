@@ -13,7 +13,7 @@
         <div class="row">
             <!-- Sidebar Toggle Button -->
             <div class="col-12 col-md-2 p-0 m-0">
-                <button class="btn bg-primary-cust d-block d-lg-none mt-4 ms-4 mb-3 side-toggle" id="sidebarToggle">
+                <button class="btn bg-primary-cust d-block d-lg-none mt-2 ms-4 mb-3 side-toggle" id="sidebarToggle">
                     <i class="bi bi-justify text-white fs-4"></i>
                 </button>
                 @if(auth()->check())

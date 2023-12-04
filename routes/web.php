@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\TestController;
+use App\Http\Controllers\EmployeeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,20 +15,29 @@ use App\Http\Controllers\AuthController;
 |
 */
 
+//! Solo per Test
+Route::get('/test', [TestController::class, 'test'])->name('test');
+
+//? Non sappiamo se servirà
 Route::get('/', function () {
     return view('welcome');
 })->name('home')->middleware('auth');
 
-Route::get('/dipendenti', function () {
-    return view('Dashboard.dipendenti');
-})->name('dipendenti')->middleware('officina');
-
+// Dashboard
 Route::get('/dashboard', function () {
     return view('Dashboard.dashboard');
 })->name('dash')->middleware('officina');
 
-Route::get('/test', [AuthController::class, 'test'])->name('test');
+// Dipendenti
+Route::get('/dipendenti', [EmployeeController::class, 'index'])->name('dashboard.employees.index')->middleware('officina');
+Route::get('/dipendenti/nuovo', [EmployeeController::class, 'create'])->name('dashboard.employees.create')->middleware('officina');
+Route::post('/dipendenti', [EmployeeController::class, 'store'])->name('dashboard.employees.store')->middleware('officina');
+Route::get('/dipendenti/{dipendente}', [EmployeeController::class, 'show'])->name('dashboard.employees.show')->middleware('officina');
+Route::get('/dipendenti/{dipendente}/modifica', [EmployeeController::class, 'edit'])->name('dashboard.employees.edit')->middleware('officina');
+Route::put('/dipendenti/{dipendente}', [EmployeeController::class, 'update'])->name('dashboard.employees.update')->middleware('officina');
+Route::delete('/dipendenti/{dipendente}', [EmployeeController::class, 'destroy'])->name('dashboard.employees.destroy')->middleware('officina');
 
+// Login
 Route::get('/login', function () {
     return view('auth.login');
 })->name('login');

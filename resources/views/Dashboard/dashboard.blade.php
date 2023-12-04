@@ -5,8 +5,10 @@
         $rowData = [];
     @endphp
     
-    <x-table
-    :columnTitles="$columnTitles"
-    :rowData="$rowData"
-    />
+    <div class="container mt-5">
+        <x-table
+        :columnTitles="$columnTitles"
+        :rowData="$rowData"
+        />
+    </div>
 </x-Layouts.layoutDash>

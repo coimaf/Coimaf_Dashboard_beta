@@ -2,7 +2,9 @@ main {
   height: 100vh;
   height: -webkit-fill-available;
   max-height: 100vh;
-
+  position: fixed;
+  
+  
 }
 
 .bi {
@@ -23,19 +25,27 @@ main {
   background-color: #10317f;
 }
 
+#sidebarToggle {
+  position: fixed!important;
+  z-index: 1005;
+}
+
 @media (max-width: 991.98px) {
   .sidebar {
-      display: none;
+    display: none;
   }
   .sidebar.active {
-      display: block;
-      z-index: 1000;
+    display: block;
+    /* z-index: 1000; */
   }
   .main-content {
-      width: 100%;
-      overflow: hidden;
+    width: 100%;
+    overflow: hidden;
   }
   .main-content.sidebar-active {
     margin-left: 280px;
-}
+  }
+  main {
+    width: 100%;
+  }
 }
