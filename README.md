@@ -23,6 +23,22 @@ La gestione dei ruoli dipende da ActiveDirectory.
 - [x] Creato Middleware Custom per 'Officina'
 - [x] Gestione errori 403 - 404
 
+### Dipendenti
+ - [x] Ogni dipendente deve avere un nome, un cognome e un ruolo;
+ - [x] Ogni dipendente deve avere una lista di documenti;
+ - [x] Ogni documento deve avere un nome, un immagine e una scadenza;
+ - [x] Quando creo un dipendente voglio avere un form con i campi:
+    - [x] nome - cognome;
+    - [x] ruolo: [Ufficio, Operaio, Canalista, Frigorista];
+     - [x] quando seleziono il ruolo deve comparire la lista dei nomi dei documenti relativi a quel ruolo, dove posso caricare l'immagine del documento e selezionare la data di scadenza;
+
+- [x] Modifica i dati di un Dipendete esistente;
+- [x] Visualizza i dati principali di ogni dipendente nella tabella;
+- [x] Visualizza i Documenti scaduti e in scadenza nella tabella tramite icona e tooltip;
+- [x] Visualizza i dettagli del singolo dipendente;
+- [x] Conferma prima di eliminare un dipendente
+- [x] Elimina un dipendente;
+
 ## Installazione
 ```
 composer install

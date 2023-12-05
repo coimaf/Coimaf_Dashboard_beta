@@ -17,6 +17,10 @@
     background-color: #081B49;
 }
 
+.bg-primary-cust:hover{
+    background-color: #081b49e6;
+}
+
 .table-dark{
     --bs-table-bg: #081B49;
 }

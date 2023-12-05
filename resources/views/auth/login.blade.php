@@ -2,7 +2,7 @@
     
     <div class="container container-login">
         <div class="row justify-content-center align-items-center vh-100">
-            <div style="background-color:rgb(240, 240, 240) " class="col-md-6 p-5 rounded-5 shadow">
+            <div style="background-color:rgb(240, 240, 240) " class="col-md-6 p-5 rounded-5 shadow container-login">
                 <div class="col-12 text-center">
                     
                     @if ($errors->any())
@@ -32,7 +32,7 @@
                         </div>
                         
                         <div class="mb-3">
-                            <input type="submit" value="Login" class="btn text-white w-100 my-3 py-3" style="background-color: #081B49" />
+                            <input type="submit" value="Login" class="btn text-white w-100 my-2 py-3" style="background-color: #081B49" />
                         </div>
                         
                     </form>
@@ -45,7 +45,7 @@
 
 <style>
     .container-login{
-        padding: 0 50px 0 50px;
+        padding: 10px 30px 0 30px!important;
     }
     
     @media (max-width: 769px) {

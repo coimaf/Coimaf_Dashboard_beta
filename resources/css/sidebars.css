@@ -41,6 +41,7 @@ main {
   .main-content {
     width: 100%;
     overflow: hidden;
+    margin-top: 40px;
   }
   .main-content.sidebar-active {
     margin-left: 280px;
