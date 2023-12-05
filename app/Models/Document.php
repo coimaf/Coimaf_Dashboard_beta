@@ -10,7 +10,7 @@ class Document extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'image', 'expiry_date'];
+    protected $fillable = ['name', 'pdf_path', 'expiry_date'];
 
     public function employee() {
         return $this->belongsTo(Employee::class);

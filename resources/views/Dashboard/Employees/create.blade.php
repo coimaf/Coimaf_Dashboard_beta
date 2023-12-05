@@ -102,7 +102,7 @@
                     html += '<div class="col-12 col-md-6 dynamic-element">';
                         html += '<label for="' + defaultName + '">' + defaultName + '</label>';
                         html += '<input class="my-3" type="hidden" name="documents[' + i + '][name]" value="' + defaultName + '">';
-                        html += '<input type="file" name="documents[' + i + '][image]" class="form-control my-3" required>';
+                        html += '<input type="file" name="documents[' + i + '][pdf]" class="form-control my-3" required accept=".pdf">';
                         html += '<input type="date" name="documents[' + i + '][expiry_date]" class="form-control my-3" required>';
                         html += '</div>';
                     }

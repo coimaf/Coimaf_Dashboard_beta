@@ -14,10 +14,13 @@
                         </thead>
                         <tbody>
                             @foreach ($rowData as $employee)
+                            
                             <tr class="text-center align-middle">
-                                <td class="py-4">{{ $employee->name }} {{ $employee->surname }}</td>
-                                <td class="text-uppercase">{{ $employee->fiscal_code }}</td>
-                                <td>{{ $employee->role }}</td>
+                                <td class="py-4"><a class="link-underline link-underline-opacity-0 link-dark" href="{{ route('dashboard.employees.show', compact('employee')) }}">{{ $employee->name }} {{ $employee->surname }}</a></td>
+
+                                <td class="text-uppercase"><a class="link-underline link-underline-opacity-0 link-dark" href="{{ route('dashboard.employees.show', compact('employee')) }}">{{ $employee->fiscal_code }}</a></td>
+
+                                <td><a class="link-underline link-underline-opacity-0 link-dark" href="{{ route('dashboard.employees.show', compact('employee')) }}">{{ $employee->role }}</a></td>
                                 <td>
                                     @php
                                     $status = $documentStatuses[$employee->id];
@@ -61,46 +64,45 @@
                                 </td>
                                 <td>
                                     <button type="button" class="btn bi bi-trash3-fill text-danger" data-bs-toggle="modal" data-bs-target="#deleteEmployeeModal{{ $employee->id }}"></button>
-
                                     
-                                    <form action="{{route('dashboard.employees.destroy', compact('employee'))}}" method="post">
-                                        @csrf
-                                        @method('delete')
-                                        <!-- Modal -->
-                                        <div class="modal fade" id="deleteEmployeeModal{{ $employee->id }}" tabindex="-1" aria-labelledby="deleteEmployeeModalLabel{{ $employee->id }}" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="deleteEmployeeModalLabel{{ $employee->id }}">Conferma eliminazione dipendente</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body" id="employeeInfoContainer{{ $employee->id }}">
-                                                        Sicuro di voler eliminare {{ $employee->name }} {{ $employee->surname }}? <br>L'azione sarà irreversibile.
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
-                                                        <form action="{{ route('dashboard.employees.destroy', compact('employee')) }}" method="post">
-                                                            @csrf
-                                                            @method('delete')
-                                                            <button type="submit" class="btn btn-danger">Elimina</button>
-                                                        </form>
+                                        <form action="{{route('dashboard.employees.destroy', compact('employee'))}}" method="post">
+                                            @csrf
+                                            @method('delete')
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="deleteEmployeeModal{{ $employee->id }}" tabindex="-1" aria-labelledby="deleteEmployeeModalLabel{{ $employee->id }}" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title text-black" id="deleteEmployeeModalLabel{{ $employee->id }}">Conferma eliminazione dipendente</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body text-black" id="employeeInfoContainer{{ $employee->id }}">
+                                                            Sicuro di voler eliminare <b>{{ $employee->name }} {{ $employee->surname }}</b>? <br>L'azione sarà irreversibile.
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
+                                                            <form action="{{ route('dashboard.employees.destroy', compact('employee')) }}" method="post">
+                                                                @csrf
+                                                                @method('delete')
+                                                                <button type="submit" class="btn btn-danger">Elimina</button>
+                                                            </form>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                    @else
-                    <div class="d-flex align-items-center justify-content-center" style="height: 77vh;">
-                        <p class="text-center fs-4">Nessun dato disponibile.</p>
-                    </div>
-                    @endif
+                                        </form>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
+                @else
+                <div class="d-flex align-items-center justify-content-center" style="height: 77vh;">
+                    <p class="text-center fs-4">Nessun dato disponibile.</p>
+                </div>
+                @endif
             </div>
         </div>
     </div>
+</div>

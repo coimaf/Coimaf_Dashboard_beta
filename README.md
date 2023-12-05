@@ -36,6 +36,7 @@ La gestione dei ruoli dipende da ActiveDirectory.
 - [x] Visualizza i dati principali di ogni dipendente nella tabella;
 - [x] Visualizza i Documenti scaduti e in scadenza nella tabella tramite icona e tooltip;
 - [x] Visualizza i dettagli del singolo dipendente;
+- [x] Download dei documenti di ogni dipendente
 - [x] Conferma prima di eliminare un dipendente
 - [x] Elimina un dipendente;
 

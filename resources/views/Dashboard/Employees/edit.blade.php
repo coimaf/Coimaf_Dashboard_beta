@@ -78,16 +78,15 @@
                                 
                                 @foreach ($employee->documents as $key => $document)
                                 <div class="col-6 dynamic-element">
-                                    {{-- <h6  for="document_{{ $key }}">{{ $document->name }}</h6> --}}
                                     <input type="hidden" name="documents[{{ $key }}][name]" value="{{ $document->name }}">
                                     
-                                    <!-- Visualizza l'immagine esistente -->
-                                    @if ($document->image)
-                                    <img class="img-fluid img-thumbnail mx-auto d-block" width="50%" src="{{ asset('storage/' . $document->image) }}" alt="Document Image" style="max-width: 100%; height: 40%;">
+                                    <!-- Visualizza il documento PDF esistente -->
+                                    @if ($document->pdf_path)
+                                    <a href="{{ asset('storage/' . $document->pdf_path) }}" target="_blank">{{ $document->name }}</a>
                                     @endif
                                     
                                     <h6 class="text-center my-3" for="document_{{ $key }}">{{ $document->name }}</h6>
-                                    <input type="file" name="documents[{{ $key }}][image]" id="file_{{ $key }}" class="form-control my-3">
+                                    <input type="file" name="documents[{{ $key }}][pdf]" id="file_{{ $key }}" class="form-control my-3" accept=".pdf">
                                     
                                     <label class="my-2" for="expiry_date_{{ $key }}">Data di scadenza</label>
                                     <input type="date" name="documents[{{ $key }}][expiry_date]" id="expiry_date_{{ $key }}" class="form-control" value="{{ \Carbon\Carbon::parse($document->expiry_date)->format('Y-m-d') }}">

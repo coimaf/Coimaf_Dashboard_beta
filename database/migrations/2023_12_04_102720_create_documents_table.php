@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('employee_id');
             $table->string('name');
-            $table->string('image')->nullable();
+            $table->string('pdf_path')->nullable();
             $table->date('expiry_date');
             $table->timestamps();
 

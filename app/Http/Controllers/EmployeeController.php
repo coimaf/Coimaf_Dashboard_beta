@@ -50,7 +50,7 @@ class EmployeeController extends Controller
             'email' => 'required|email|max:255',
             'email_work' => 'email|max:255',
             'role' => 'required|in:Ufficio,Operaio,Canalista,Frigorista',
-            'documents.*.image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'documents.*.pdf' => 'required|mimes:pdf|max:2048',
             'documents.*.expiry_date' => 'required|date',
         ]);
         
@@ -66,20 +66,19 @@ class EmployeeController extends Controller
             'role' => $request->input('role'),
         ]);
         
-        foreach ($request->file('documents.*.image') as $key => $image) {
+        foreach ($request->file('documents.*.pdf') as $key => $pdf) {
             $defaultName = $request->input("documents.$key.name");
             $expiryDate = $request->input("documents.$key.expiry_date");
-            
-            $imagePath = $image->store('document_images', 'public');
-            
+
+            $pdfPath = $pdf->storeAs('pdf_documents', $defaultName . '.pdf', 'public');
+
             $employee->documents()->create([
                 'name' => $defaultName,
-                'image' => $imagePath,
+                'pdf_path' => $pdfPath,
                 'expiry_date' => Carbon::createFromFormat('Y-m-d', $expiryDate),
             ]);
         }
-        
-        
+
         return redirect()->route('dashboard.employees.index')->with('success', 'Complimenti! Hai aggiunto un nuovo Dipendente');
     }
     
@@ -103,54 +102,53 @@ class EmployeeController extends Controller
     }
     
     public function update(Request $request, Employee $employee)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'surname' => 'required|string|max:255',
-            'fiscal_code' => 'required|string|max:255',
-            'birthday' => 'required|string|max:255',
-            'phone' => 'required|string|max:255',
-            'address' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'email_work' => 'email|max:255',
-            'role' => 'required|in:Ufficio,Operaio,Canalista,Frigorista',
-            'documents.*.image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'documents.*.expiry_date' => 'nullable|date',
-        ]);
-    
-        $employee->update([
-            'name' => $request->input('name'),
-            'surname' => $request->input('surname'),
-            'fiscal_code' => $request->input('fiscal_code'),
-            'birthday' => $request->input('birthday'),
-            'phone' => $request->input('phone'),
-            'address' => $request->input('address'),
-            'email' => $request->input('email'),
-            'email_work' => $request->input('email_work'),
-            'role' => $request->input('role'),
-        ]);
-    
-    
-        $images = $request->file('documents.*.image');
-    
-        if ($images) {
-            foreach ($images as $key => $image) {
-                $defaultName = $request->input("documents.$key.name");
-                $expiryDate = $request->input("documents.$key.expiry_date");
-    
-                $imagePath = $image ? $image->store('document_images', 'public') : $employee->documents[$key]->image;
-    
-                $employee->documents()->updateOrCreate(
-                    ['name' => $defaultName],
-                    [
-                        'image' => $imagePath,
-                        'expiry_date' => Carbon::createFromFormat('Y-m-d', $expiryDate),
-                    ]
-                );
-            }
-        }
+{
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'surname' => 'required|string|max:255',
+        'fiscal_code' => 'required|string|max:255',
+        'birthday' => 'required|string|max:255',
+        'phone' => 'required|string|max:255',
+        'address' => 'required|string|max:255',
+        'email' => 'required|email|max:255',
+        'email_work' => 'email|max:255',
+        'role' => 'required|in:Ufficio,Operaio,Canalista,Frigorista',
+        'documents.*.pdf' => 'nullable|mimes:pdf|max:2048',
+        'documents.*.expiry_date' => 'nullable|date',
+    ]);
 
-        $documents = $request->input('documents');
+    $employee->update([
+        'name' => $request->input('name'),
+        'surname' => $request->input('surname'),
+        'fiscal_code' => $request->input('fiscal_code'),
+        'birthday' => $request->input('birthday'),
+        'phone' => $request->input('phone'),
+        'address' => $request->input('address'),
+        'email' => $request->input('email'),
+        'email_work' => $request->input('email_work'),
+        'role' => $request->input('role'),
+    ]);
+
+    $pdfs = $request->file('documents.*.pdf');
+
+    if ($pdfs) {
+        foreach ($pdfs as $key => $pdf) {
+            $defaultName = $request->input("documents.$key.name");
+            $expiryDate = $request->input("documents.$key.expiry_date");
+
+            $pdfPath = $pdf ? $pdf->storeAs('pdf_documents', $defaultName . '.pdf', 'public') : $employee->documents[$key]->pdf_path;
+
+            $employee->documents()->updateOrCreate(
+                ['name' => $defaultName],
+                [
+                    'pdf_path' => $pdfPath,
+                    'expiry_date' => Carbon::createFromFormat('Y-m-d', $expiryDate),
+                ]
+            );
+        }
+    }
+
+    $documents = $request->input('documents');
 
     if ($documents) {
         foreach ($documents as $key => $documentData) {
@@ -166,10 +164,9 @@ class EmployeeController extends Controller
             }
         }
     }
-    
-        return redirect()->route('dashboard.employees.index')->with('success', 'Dipendente aggiornato con successo!');
-    }
-    
+
+    return redirect()->route('dashboard.employees.index')->with('success', 'Dipendente aggiornato con successo!');
+}
     
     public function destroy(Employee $employee)
     {
