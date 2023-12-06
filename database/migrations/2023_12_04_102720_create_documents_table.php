@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('employee_id');
             $table->string('name');
             $table->string('pdf_path')->nullable();
-            $table->date('expiry_date');
+            $table->date('expiry_date')->format('d-m-Y');
             $table->timestamps();
 
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');

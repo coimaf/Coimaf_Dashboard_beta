@@ -1,3 +1,3 @@
-<x-Layout.layoutDash>
-    <h1>show</h1>
-</x-Layout.layoutDash>
+<x-Layouts.layoutDash>
+    <h1 class="text-center">show</h1>
+</x-Layouts.layoutDash>

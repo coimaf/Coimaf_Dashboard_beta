@@ -18,54 +18,51 @@
     </div>
     
     <div class="col-12 col-md-11 d-flex justify-content-end mt-5">
-      <a href=""><x-Buttons.buttonBlue type="button" props="NUOVO" /></a>
+      <a href="{{ route('dashboard.deadlines.create') }}"><x-Buttons.buttonBlue type="button" props="NUOVO" /></a>
     </div>
     
     
     <x-table :columnTitles="$columnTitles" :rowData="$deadlines">
         <tbody>
             @foreach ($deadlines as $deadline)
-            
-            <tr class="text-center align-middle">
-                <td class="py-4">{{ $deadline->name }}</td>
-                @foreach ($deadline->documentDeadlines as $document)    
-                <td class="py-4">{{ Carbon\Carbon::parse($deadline->expiry_date)->format('d/m/Y') }}</td>
-                @endforeach
-                <td class="py-4">{{ $deadline->tag }}</td>
-                {{-- <td class="py-4"><a class="link-underline link-underline-opacity-0 link-dark" href="{{ route('dashboard.deadlines.show', compact('deadline')) }}">{{ $deadline->name }} {{ $deadline->surname }}</a></td>
+                <tr class="text-center align-middle">
+                    <td class="py-4"><a class="link-underline link-underline-opacity-0 link-dark" href="{{ route('dashboard.deadlines.show', compact('deadline')) }}">{{ $deadline->name }}</a></td>
+
+                    <td class="py-4">
+                        @foreach ($deadline->documentDeadlines as $document)
+                        <a class="link-underline link-underline-opacity-0 link-dark" href="{{ route('dashboard.deadlines.show', compact('deadline')) }}">{{  Carbon\Carbon::parse($document->expiry_date)->format('d-m-Y') }}</a>
+                    @endforeach
+                    </td>
+
+                    <td class="py-4"><a class="link-underline link-underline-opacity-0 link-dark" href="{{ route('dashboard.deadlines.show', compact('deadline')) }}">{{ $deadline->tag }}</a></td>
+   
                 
-                <td class="text-uppercase"><a class="link-underline link-underline-opacity-0 link-dark" href="{{ route('dashboard.deadlines.show', compact('deadline')) }}">{{ $deadline->fiscal_code }}</a></td>
-                
-                <td><a class="link-underline link-underline-opacity-0 link-dark" href="{{ route('dashboard.deadlines.show', compact('deadline')) }}">{{ $deadline->role }}</a></td>
-                --}}
-                                                  
-                
-                {{-- <td>
-                    <a href='{{route('dashboard.deadlines.edit', compact('employee'))}}'>
+                <td>
+                    <a href='{{route('dashboard.deadlines.edit', compact('deadline'))}}'>
                         <i class='bi bi-pencil-square text-warning'></i>
                     </a>
-                </td> --}}
+                </td>
 
-                {{-- <td>
-                    <button type="button" class="btn bi bi-trash3-fill text-danger" data-bs-toggle="modal" data-bs-target="#deleteEmployeeModal{{ $employee->id }}"></button>
+                <td>
+                    <button type="button" class="btn bi bi-trash3-fill text-danger" data-bs-toggle="modal" data-bs-target="#deleteDeadlineModal{{ $deadline->id }}"></button>
                     
-                    <form action="{{route('dashboard.deadlines.destroy', compact('employee'))}}" method="post">
+                    <form action="{{route('dashboard.deadlines.destroy', compact('deadline'))}}" method="post">
                         @csrf
                         @method('delete')
                         <!-- Modal -->
-                        <div class="modal fade" id="deleteEmployeeModal{{ $employee->id }}" tabindex="-1" aria-labelledby="deleteEmployeeModalLabel{{ $employee->id }}" aria-hidden="true">
+                        <div class="modal fade" id="deleteDeadlineModal{{ $deadline->id }}" tabindex="-1" aria-labelledby="deleteDeadlineModalLabel{{ $deadline->id }}" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title text-black" id="deleteEmployeeModalLabel{{ $employee->id }}">Conferma eliminazione dipendente</h5>
+                                        <h5 class="modal-title text-black" id="deleteDeadlineModalLabel{{ $deadline->id }}">Conferma eliminazione dipendente</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
-                                    <div class="modal-body text-black" id="employeeInfoContainer{{ $employee->id }}">
-                                        Sicuro di voler eliminare <b>{{ $employee->name }} {{ $employee->surname }}</b>? <br>L'azione sarà irreversibile.
+                                    <div class="modal-body text-black" id="DeadlineInfoContainer{{ $deadline->id }}">
+                                        Sicuro di voler eliminare <b>{{ $deadline->name }}</b>? <br>L'azione sarà irreversibile.
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
-                                        <form action="{{ route('dashboard.deadlines.destroy', compact('employee')) }}" method="post">
+                                        <form action="{{ route('dashboard.deadlines.destroy', compact('deadline')) }}" method="post">
                                             @csrf
                                             @method('delete')
                                             <button type="submit" class="btn btn-danger">Elimina</button>
@@ -75,7 +72,7 @@
                             </div>
                         </div>
                     </form>
-                </td> --}}
+                </td>
             </tr>
             @endforeach
         </tbody>
