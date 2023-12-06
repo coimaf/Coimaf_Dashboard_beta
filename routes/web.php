@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TestController;
+use App\Http\Controllers\DeadlineController;
 use App\Http\Controllers\EmployeeController;
 
 /*
@@ -36,6 +37,15 @@ Route::get('/dipendente/{employee}', [EmployeeController::class, 'show'])->name(
 Route::get('/dipendente/{employee}/modifica', [EmployeeController::class, 'edit'])->name('dashboard.employees.edit')->middleware('officina');
 Route::put('/dipendente/{employee}', [EmployeeController::class, 'update'])->name('dashboard.employees.update')->middleware('officina');
 Route::delete('/dipendente/{employee}/elimina', [EmployeeController::class, 'destroy'])->name('dashboard.employees.destroy')->middleware('officina');
+
+// Scadenzario
+Route::get('/scadenzario', [DeadlineController::class, 'index'])->name('dashboard.deadlines.index')->middleware('officina');
+Route::get('/scadenzario/nuovo', [DeadlineController::class, 'create'])->name('dashboard.deadlines.create')->middleware('officina');
+Route::post('/scadenzario', [DeadlineController::class, 'store'])->name('dashboard.deadlines.store')->middleware('officina');
+Route::get('/scadenzario/{employee}', [DeadlineController::class, 'show'])->name('dashboard.deadlines.show')->middleware('officina');
+Route::get('/scadenzario/{employee}/modifica', [DeadlineController::class, 'edit'])->name('dashboard.deadlines.edit')->middleware('officina');
+Route::put('/scadenzario/{employee}', [DeadlineController::class, 'update'])->name('dashboard.deadlines.update')->middleware('officina');
+Route::delete('/scadenzario/{employee}/elimina', [DeadlineController::class, 'destroy'])->name('dashboard.deadlines.destroy')->middleware('officina');
 
 // Login
 Route::get('/login', function () {

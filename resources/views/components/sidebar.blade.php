@@ -16,6 +16,12 @@
                         Dipendenti
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('dashboard.deadlines.index') }}" class="nav-link {{ Request::is('scadenzario') ? 'active' : '' }}" aria-current="page">
+                        <i class="bi bi-file-earmark-medical-fill pe-2"></i>
+                        Scadenzario
+                    </a>
+                </li>
             </ul>
             <hr>
             <div class="dropdown">

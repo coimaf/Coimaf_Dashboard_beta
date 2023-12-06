@@ -20,7 +20,7 @@
                             
                             <div class="col-12 col-md-6">
                                 <label class="my-2" for="fiscal_code">Codice Fiscale</label>
-                                <input type="text" name="fiscal_code" class="form-control" required>
+                                <input type="text" name="fiscal_code" class="form-control text-uppercase" required>
                             </div>
                             
                             <div class="col-12 col-md-6">

@@ -81,9 +81,9 @@
                                     <input type="hidden" name="documents[{{ $key }}][name]" value="{{ $document->name }}">
                                     
                                     <!-- Visualizza il documento PDF esistente -->
-                                    @if ($document->pdf_path)
+                                    {{-- @if ($document->pdf_path)
                                     <a href="{{ asset('storage/' . $document->pdf_path) }}" target="_blank">{{ $document->name }}</a>
-                                    @endif
+                                    @endif --}}
                                     
                                     <h6 class="text-center my-3" for="document_{{ $key }}">{{ $document->name }}</h6>
                                     <input type="file" name="documents[{{ $key }}][pdf]" id="file_{{ $key }}" class="form-control my-3" accept=".pdf">
