@@ -9,10 +9,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Deadline extends Model
 {
     use HasFactory;
-
+    
     protected $fillable = ['name', 'description', 'tag'];
-
+    
     public function documentDeadlines() {
         return $this->hasMany(DocumentDeadline::class);
     }
+    
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
+    }
+    
 }

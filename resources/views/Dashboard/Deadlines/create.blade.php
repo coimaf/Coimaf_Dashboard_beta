@@ -18,16 +18,23 @@
                                 <textarea type="text" name="description" class="form-control" style="height: 100px; resize: none;" required></textarea>
                             </div>
                             
-                            <div class="col-12 col-md-6">
-                                <label class="my-2" for="tag">Tag</label>
-                                <input type="text" name="tag" class="form-control text-uppercase" required>
+                            <div class="mb-4">
+                                <strong>Tags:</strong><br>
+                                @foreach ($tags as $tag)
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" name="tags[]" value="{{ $tag->id }}">
+                                        <label class="form-check-label">{{ $tag->name }}</label>
+                                    </div>
+                                @endforeach
                             </div>
+                            
+                            
                             
                             <div class="col-12 col-md-6 mb-4">
                                 <label class="my-2" for="expiry_date">Data di scadenza</label>
                                 <input type="date" name="expiry_date" class="form-control" required>
                             </div>
-
+                            
                             <div class="col-12 mb-4">
                                 <label class="my-2" for="pdf">Carica Documento</label>
                                 <input type="file" name="pdf" accept=".pdf" class="form-control" required>

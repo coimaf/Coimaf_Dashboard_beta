@@ -11,10 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('deadlines', function (Blueprint $table) {
-            $table->id();
+        Schema::create('tags', function (Blueprint $table) {
+            $table->id();  
             $table->string('name');
-            $table->text('description');
             $table->timestamps();
         });
     }
@@ -24,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('deadlines');
+        Schema::dropIfExists('tags');
     }
 };

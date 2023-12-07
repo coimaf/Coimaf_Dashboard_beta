@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Deadline;
+use App\Models\Tag; // Assicurati di importare il modello Tag
 use Illuminate\Http\Request;
 
 class DeadlineController extends Controller
@@ -21,7 +22,9 @@ class DeadlineController extends Controller
     
     public function create()
     {
-        return view('dashboard.deadlines.create');
+        $tags = Tag::all();
+
+        return view('dashboard.deadlines.create', ['tags' => $tags]);
     }
     
     public function store(Request $request)
@@ -29,18 +32,19 @@ class DeadlineController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string|max:255',
-            'tag' => 'required|string|max:255',
             'pdf' => 'required|mimes:pdf|max:2048',
             'expiry_date' => 'required|date',
-        ]);
+            'tags' => 'required|array',
+        ]);    
         
         $deadline = Deadline::create([
             'name' => $request->input('name'),
             'description' => $request->input('description'),
-            'tag' => $request->input('tag'),
         ]);
+
+        $deadline->tags()->attach($request->input('tags'));
         
-        $pdfPath = $request->file('pdf')->store('pdfs'); // Salva il file nella cartella 'storage/app/pdfs'
+        $pdfPath = $request->file('pdf')->store('pdfs');
         
         $documentName = $request->input('name');
         
@@ -63,34 +67,51 @@ class DeadlineController extends Controller
     public function edit($id)
     {
         $deadline = Deadline::findOrFail($id);
+        $deadline = Deadline::findOrFail($id);
+        $tags = Tag::all();
+
         
-        return view('dashboard.deadlines.edit', ['deadline' => $deadline]);
+        return view('dashboard.deadlines.edit', ['deadline' => $deadline, 'tags' => $tags]);
     }
     
     public function update(Request $request, $id)
-{
-    $request->validate([
-        'name' => 'required|string|max:255',
-        'description' => 'required|string|max:255',
-        'tag' => 'required|string|max:255',
-        'expiry_date' => 'required|date_format:d-m-Y',
-        'pdf' => 'nullable|mimes:pdf|max:2048',
-    ]);
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string|max:255',
+            'tags' => 'required|array',
+            'pdf' => 'nullable|mimes:pdf|max:2048',
+            'expiry_date' => 'required|date',
+        ]);
 
-    $deadline = Deadline::findOrFail($id);
-    $deadline->update($request->only(['name', 'description', 'tag', 'expiry_date']));
+        $deadline = Deadline::findOrFail($id);
 
-    // Carica un nuovo documento solo se fornito
-    if ($request->hasFile('pdf')) {
-        $pdfPath = $request->file('pdf')->store('pdfs');
-        $deadline->pdf_path = $pdfPath;
-        $deadline->save();
+        $deadline->update([
+            'name' => $request->input('name'),
+            'description' => $request->input('description'),
+        ]);
+
+        $deadline->tags()->sync($request->input('tags'));
+
+        $documentName = $request->input('name');
+        $expiryDate = $request->input('expiry_date');
+
+        if ($request->hasFile('pdf')) {
+            $pdfPath = $request->file('pdf')->store('pdfs');
+            $deadline->documentDeadlines()->update([
+                'name' => $documentName,
+                'pdf_path' => $pdfPath,
+                'expiry_date' => $expiryDate,
+            ]);
+        } else {
+            $deadline->documentDeadlines()->update([
+                'name' => $documentName,
+                'expiry_date' => $expiryDate,
+            ]);
+        }
+
+        return redirect()->route('dashboard.deadlines.index')->with('success', 'Scadenza aggiornata con successo!');
     }
-
-    return redirect()->route('dashboard.deadlines.index')->with('success', 'Documento aggiornato con successo.');
-}
-
-    
     
     public function destroy($id)
     {
@@ -100,10 +121,9 @@ class DeadlineController extends Controller
         return redirect()->route('dashboard.deadlines.index')->with('success', 'Scadenza eliminata con successo!');
     }
     
+    // Il mutatore potrebbe essere spostato nel modello Deadline
     public function setExpiryDateAttribute($value)
     {
-        // Parse the incoming date and set it in the desired format
         $this->attributes['expiry_date'] = Carbon::createFromFormat('d-m-Y', $value)->format('Y-m-d');
     }
-    
 }
