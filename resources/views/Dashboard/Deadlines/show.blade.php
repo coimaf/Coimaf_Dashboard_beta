@@ -1,5 +1,5 @@
 <x-Layouts.layoutDash>
-    <section class="m-5" style="background-color: rgb(243, 243, 243); height: 86vh;">
+    <section class="m-5" style="background-color: rgb(243, 243, 243); height: 86vh; overflow:auto">
         <div class="container p-5">
             <div class="row">
                 <div class="col-lg-4">
@@ -16,7 +16,7 @@
                             @foreach ($deadline->tags as $tag)
                             <span class="badge bg-primary">{{ $tag->name }}</span>
                             @endforeach
-                            
+                            <p class="card-footer fw-semibold mt-3">Creato da: {{$deadline->user->name}} <br> il: {{$deadline->created_at->format('d/m/Y')}}</p>
                         </div>
                     </div>
                     <div class="card mb-4 mb-lg-0 text-black">

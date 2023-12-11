@@ -1,5 +1,5 @@
 <x-Layouts.layoutDash>
-    <section class="m-5" style="background-color: rgb(243, 243, 243); height: 86vh;">
+    <section class="m-5" style="background-color: rgb(243, 243, 243); height: 86vh; overflow:auto">
         <div class="container p-5">
             <div class="row">
                 <div class="col-lg-4">
@@ -12,6 +12,7 @@
                             <h5 class="my-3 fs-3 fw-bold text-alt">{{$employee->name}} {{$employee->surname}}</h5>
                             <p class=" mb-1 text-capitalize">{{$employee->role}}</p>
                             <p class=" mb-4 text-uppercase">{{$employee->fiscal_code}}</p>
+                            <p class="card-footer fw-semibold">Creato da: {{$employee->user->name}} <br> il: {{$employee->created_at->format('d/m/Y')}}</p>
                         </div>
                     </div>
                     <div class="card mb-4 mb-lg-0 text-black">

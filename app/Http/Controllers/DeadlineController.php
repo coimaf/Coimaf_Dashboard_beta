@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Deadline;
-use App\Models\Tag; // Assicurati di importare il modello Tag
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Tag; // Assicurati di importare il modello Tag
 
 class DeadlineController extends Controller
 {
@@ -53,6 +54,8 @@ class DeadlineController extends Controller
             'pdf_path' => $pdfPath,
             'expiry_date' => $request->input('expiry_date'),
         ]);
+
+        Auth::user()->deadlines()->save($deadline);
         
         return redirect()->route('dashboard.deadlines.index')->with('success', 'Scadenza aggiunta con successo!');
     }
@@ -125,12 +128,4 @@ class DeadlineController extends Controller
     {
         $this->attributes['expiry_date'] = Carbon::createFromFormat('d-m-Y', $value)->format('Y-m-d');
     }
-
-    // public function searchDeadlines(Request $request)
-    //     {
-    //         $deadlines = Deadline::search($request->searched)->get();
-    //         $columnTitles = ["Nome", "Codice Fiscale", "Ruolo", "Documenti", "Modifica", "Elimina"];
-        
-    //         return view('dashboard.deadlines.index', compact('deadlines', 'columnTitles'));
-    //     }
 }

@@ -8,6 +8,7 @@ use App\Models\Role;
 use App\Models\Document;
 use App\Models\Employee;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class EmployeeController extends Controller
@@ -76,6 +77,8 @@ class EmployeeController extends Controller
                 'expiry_date' => Carbon::createFromFormat('Y-m-d', $expiryDate),
             ]);
         }
+
+        Auth::user()->employees()->save($employee);
         
         return redirect()->route('dashboard.employees.index')->with('success', 'Complimenti! Hai aggiunto un nuovo Dipendente');
     }
@@ -172,15 +175,6 @@ class EmployeeController extends Controller
             
             return redirect()->route('dashboard.employees.index')->with('success', 'Dipendente eliminato con successo!');
         }
-
-        // public function searchEmployees(Request $request)
-        // {
-        //     $employees = Employee::search($request->searched)->get();
-        //     $columnTitles = ["Nome", "Codice Fiscale", "Ruolo", "Documenti", "Modifica", "Elimina"];
-        
-        //     return view('dashboard.employees.index', compact('employees', 'columnTitles'));
-        // }
-        
             
     }
     

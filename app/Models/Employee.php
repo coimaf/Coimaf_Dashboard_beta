@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use App\Models\User;
 use App\Models\Document;
 use Laravel\Scout\Searchable;
 use Illuminate\Database\Eloquent\Model;
@@ -32,6 +33,10 @@ class Employee extends Model
         ];
 
         return $array;
+    }
+
+    public function user() {
+        return $this->belongsTo(User::class);
     }
 
     public function documents() {

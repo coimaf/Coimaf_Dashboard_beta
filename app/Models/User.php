@@ -3,12 +3,14 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+use App\Models\Deadline;
+use App\Models\Employee;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
 use LdapRecord\Laravel\Auth\LdapAuthenticatable;
 use LdapRecord\Laravel\Auth\AuthenticatesWithLdap;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements LdapAuthenticatable
 {
@@ -64,6 +66,13 @@ class User extends Authenticatable implements LdapAuthenticatable
             }
         });
     }
+
+    public function employees() {
+        return $this->hasMany(Employee::class);
+    }
     
+    public function deadlines() {
+        return $this->hasMany(Deadline::class);
+    }
 
 }
