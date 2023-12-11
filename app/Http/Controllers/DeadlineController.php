@@ -121,9 +121,16 @@ class DeadlineController extends Controller
         return redirect()->route('dashboard.deadlines.index')->with('success', 'Scadenza eliminata con successo!');
     }
     
-    // Il mutatore potrebbe essere spostato nel modello Deadline
     public function setExpiryDateAttribute($value)
     {
         $this->attributes['expiry_date'] = Carbon::createFromFormat('d-m-Y', $value)->format('Y-m-d');
     }
+
+    // public function searchDeadlines(Request $request)
+    //     {
+    //         $deadlines = Deadline::search($request->searched)->get();
+    //         $columnTitles = ["Nome", "Codice Fiscale", "Ruolo", "Documenti", "Modifica", "Elimina"];
+        
+    //         return view('dashboard.deadlines.index', compact('deadlines', 'columnTitles'));
+    //     }
 }

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TestController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\DeadlineController;
 use App\Http\Controllers\EmployeeController;
 
@@ -51,3 +52,8 @@ Route::delete('/scadenzario/{deadline}/elimina', [DeadlineController::class, 'de
 Route::get('/login', function () {
     return view('auth.login');
 })->name('login');
+
+// Searchable
+// Route::get('/dipendenti/ricerca', [EmployeeController::class, 'searchEmployees'])->name('dashboard.employees.search')->middleware('officina');
+// Route::get('/scadenzario/ricerca', [DeadlineController::class, 'searchDeadlines'])->name('dashboard.deadlines.search')->middleware('officina');
+Route::get('/dashboard/search', [SearchController::class, 'search'])->name('dashboard.search')->middleware('officina');

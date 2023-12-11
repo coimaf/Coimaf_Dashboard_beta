@@ -2,6 +2,10 @@
     <main class="d-flex flex-nowrap content-main">
         <div class="d-flex flex-column flex-shrink-0 p-3 text-bg-light w-100 main-content" >
             <a class="text-center" href="{{ route('home') }}"><img width="50%" src="{{ asset('assets/coimaf_logo.png') }}" alt="Logo_Coimaf"></a>
+            <form class="d-flex" action="{{ route('dashboard.search') }}" method="GET">
+                <input class="form-control me-2" type="search" placeholder="Cerca" aria-label="Search" name="searched">
+                <x-Buttons.buttonBlue type='submit' props='Cerca' />
+            </form>
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
                 <li class="nav-item">

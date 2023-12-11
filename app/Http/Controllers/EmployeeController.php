@@ -172,6 +172,15 @@ class EmployeeController extends Controller
             
             return redirect()->route('dashboard.employees.index')->with('success', 'Dipendente eliminato con successo!');
         }
+
+        // public function searchEmployees(Request $request)
+        // {
+        //     $employees = Employee::search($request->searched)->get();
+        //     $columnTitles = ["Nome", "Codice Fiscale", "Ruolo", "Documenti", "Modifica", "Elimina"];
+        
+        //     return view('dashboard.employees.index', compact('employees', 'columnTitles'));
+        // }
+        
             
     }
     

@@ -4,14 +4,35 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use App\Models\Document;
+use Laravel\Scout\Searchable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Employee extends Model
 {
-    use HasFactory;
+    use HasFactory, Searchable;
 
     protected $fillable = ['name', 'surname', 'fiscal_code', 'birthday', 'phone', 'address', 'email', 'email_work', 'role'];
+
+    public function toSearchableArray()
+    {
+        $documents = $this->documents;
+        $array = [
+            'id' => $this->id,
+            'name' => $this->name,
+            'surname' => $this->surname,
+            'fiscal_code' => $this->fiscal_code,
+            'birthday' => $this->birthday,
+            'phone' => $this->phone,
+            'address' => $this->address,
+            'email' => $this->email,
+            'email_work' => $this->email_work,
+            'role' => $this->role,
+            'documents' => $documents
+        ];
+
+        return $array;
+    }
 
     public function documents() {
         return $this->hasMany(Document::class);
