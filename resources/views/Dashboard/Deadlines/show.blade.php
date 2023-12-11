@@ -11,7 +11,7 @@
                             </div>
                             <h5 class="my-3 fs-3 fw-bold text-alt">{{$deadline->name}}</h5>
                             @foreach ($deadline->documentDeadlines as $document)
-                            <p class="mb-1 text-capitalize">{{ Carbon\Carbon::parse($document->expiry_date)->format('d-m-Y') }}</p>
+                            <p class="mb-3 text-capitalize lead">{{ Carbon\Carbon::parse($document->expiry_date)->format('d-m-Y') }}</p>
                             @endforeach
                             @foreach ($deadline->tags as $tag)
                             <span class="badge bg-primary">{{ $tag->name }}</span>

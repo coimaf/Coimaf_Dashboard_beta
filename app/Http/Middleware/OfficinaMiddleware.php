@@ -19,7 +19,7 @@ class OfficinaMiddleware
         if (auth()->check()) {
             $user = auth()->user();
 
-            if (is_string($user->groups) && strpos($user->groups, 'Cnc_officina') !== false) {
+            if (is_string($user->groups) && strpos($user->groups, 'Officina') !== false) {
                 return $next($request);
             }
         }
