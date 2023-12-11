@@ -97,7 +97,7 @@ php artisan ldap:browse
     - [x] i tag possono essere più di uno;
 - [x] Modifica i dati di un Documento esistente;
 - [x] Visualizza i dati principali di un documento nella tabella;
-- [ ] Visualizza i Documenti scaduti e in scadenza nella tabella tramite icona e tooltip;
+- [x] Visualizza i Documenti scaduti e in scadenza nella tabella tramite icona e tooltip;
 - [x] Visualizza i dettagli del singolo documento;
 - [x] Download dei documenti;
 - [x] Conferma prima di eliminare un documento;

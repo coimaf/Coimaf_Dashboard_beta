@@ -29,10 +29,25 @@
                 <td class="py-4"><a class="link-underline link-underline-opacity-0 link-dark" href="{{ route('dashboard.deadlines.show', compact('deadline')) }}">{{ $deadline->name }}</a></td>
                 
                 <td class="py-4">
-                    @foreach ($deadline->documentDeadlines as $document)
-                    <a class="link-underline link-underline-opacity-0 link-dark" href="{{ route('dashboard.deadlines.show', compact('deadline')) }}">{{  Carbon\Carbon::parse($document->expiry_date)->format('d-m-Y') }}</a>
-                    @endforeach
+                    <a class="link-underline link-underline-opacity-0 link-dark" href="{{ route('dashboard.deadlines.show', compact('deadline')) }}">
+                
+                        @php
+                            $status = $deadline->getStatus();
+                        @endphp
+                
+                        @if ($status === 'expired')
+                            <i class="bi bi-dash-circle-fill text-danger fs-5 me-3"></i>
+                        @elseif ($status === 'expiring_soon')
+                            <i class="bi bi-exclamation-circle-fill text-warning fs-5 me-3"></i>
+                        @else
+                            <i class='bi bi-check-circle-fill text-success fs-5 me-3'></i>
+                        @endif
+                
+                        {{ Carbon\Carbon::parse($deadline->documentDeadlines->first()->expiry_date)->format('d-m-Y') }}
+                
+                    </a>
                 </td>
+                
                 
                 <td class="py-4">
                     <a class="link-underline link-underline-opacity-0 link-dark" href="{{ route('dashboard.deadlines.show', compact('deadline')) }}">
