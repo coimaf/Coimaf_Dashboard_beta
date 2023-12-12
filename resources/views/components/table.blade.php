@@ -7,11 +7,26 @@
                     <table class="table table-hover">
                         <thead class="table-dark">
                             <tr class="text-center align-middle">
-                                @foreach ($columnTitles as $title)
-                                <th scope="col">{{ $title }}</th>
-                                @endforeach
+                                @foreach ($columnTitles as $column)
+                                <th>
+                                    @if (is_array($column) && array_key_exists('sortBy', $column) && array_key_exists('text', $column))
+                                    <a class="link-light link-offset-2 link-underline link-underline-opacity-0" href="{{ route("$routeName", ['sortBy' => $column['sortBy'], 'direction' => ($direction == 'asc' && $sortBy == $column['sortBy']) ? 'desc' : 'asc']) }}">
+                                            {{ $column['text'] }}
+                                            @if ($sortBy == $column['sortBy'])
+                                                <i class="bi bi-sort-{{ $direction == 'asc' ? 'up' : 'down' }}-alt"></i>
+                                            @else
+                                            <i class="bi bi-sort-down-alt"></i>
+                                            @endif
+                                        </a>
+                                    @else
+                                        {{ $column }}
+                                    @endif
+                                </th>
+                            @endforeach
+                            
                             </tr>
                         </thead>
+                        
                         {{ $slot }}
                     </table>
                 </div>

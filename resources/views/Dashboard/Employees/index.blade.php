@@ -22,7 +22,7 @@
     </div>
     
     
-    <x-table :columnTitles="$columnTitles" :rowData="$employees">
+    <x-table :columnTitles="$columnTitles" :rowData="$employees" :direction="$direction" :sortBy="$sortBy" :routeName="$routeName">
         <tbody>
             @foreach ($employees as $employee)
             

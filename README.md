@@ -105,7 +105,7 @@ php artisan ldap:browse
 
 ### Funzioni generali
 - [ ] Invio Mail di Avviso Scadenza;
-- [ ] Filtri;
+- [x] Filtri;
 - [x] Searchbar;
 - [x] Ogni elemento creato deve avere associato l'utente che lo ha creato;
 - [ ] Utente Admin Persistente nel DB (in caso AD è down);

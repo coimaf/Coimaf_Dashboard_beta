@@ -13,16 +13,50 @@ use Illuminate\Support\Facades\Validator;
 
 class EmployeeController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $columnTitles = ["Nome", "Codice Fiscale", "Ruolo", "Documenti", "Modifica", "Elimina"];
-        $employees = Employee::with('documents')->get();
-
+        $sortBy = $request->input('sortBy', 'default');
+        $direction = $request->input('direction', 'asc');
+    
+        $columnTitles = [
+            ['text' => 'Nome', 'sortBy' => 'name'],
+            'Codice Fiscale',
+            'Ruolo',
+            ['text' => 'Documenti', 'sortBy' => 'expiry_date'],
+            'Modifica',
+            'Elimina'
+        ];
+    
+        $routeName = 'dashboard.employees.index';
+    
+        $query = Employee::with('documents');
+    
+        if ($sortBy == 'expiry_date') {
+            // Utilizza una subquery per ottenere l'ID univoco degli Employee con la data di scadenza più recente
+            $subquery = Document::selectRaw('employee_id, MAX(expiry_date) as latest_expiry_date')
+                ->groupBy('employee_id');
+    
+            // Esegui la join basata sulla subquery
+            $query->joinSub($subquery, 'latest_documents', function ($join) {
+                $join->on('employees.id', '=', 'latest_documents.employee_id');
+            })
+            ->orderBy('latest_documents.latest_expiry_date', $direction)
+            ->select('employees.*');
+        } elseif ($sortBy == 'name') {
+            $query->orderBy('employees.name', $direction);
+        }
+    
+        $employees = $query->get();
+    
         return view('dashboard.employees.index', [
             'columnTitles' => $columnTitles,
             'employees' => $employees,
+            'sortBy' => $sortBy,
+            'direction' => $direction,
+            'routeName' => $routeName
         ]);
     }
+    
     
     public function create()
     {

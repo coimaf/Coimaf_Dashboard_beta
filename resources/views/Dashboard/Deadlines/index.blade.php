@@ -22,7 +22,8 @@
     </div>
     
     
-    <x-table :columnTitles="$columnTitles" :rowData="$deadlines">
+    <x-table :columnTitles="$columnTitles" :rowData="$deadlines" :direction="$direction" :sortBy="$sortBy" :routeName="$routeName">
+
         <tbody>
             @foreach ($deadlines as $deadline)
             <tr class="text-center align-middle">
