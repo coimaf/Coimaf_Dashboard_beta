@@ -103,9 +103,19 @@ php artisan ldap:browse
 - [x] Conferma prima di eliminare un documento;
 - [x] Elimina un documento;
 
+### Profilo
+- [ ] Visualizzare informazioni Profilo;
+- [ ] Possibiltità di aggiungere un Avatar;
+- [ ] Cambio e-mail da ".lan" a ".com";
+
+### Impostazioni
+- [ ] Aggiungere o rimuovere Ruoli ai Dipendenti;
+- [ ] Aggiungere o rimuovere Documenti ai Dipendenti;
+- [ ] Aggiungere o rimuovere Tags per lo scadenzario;
+
 ### Funzioni generali
-- [ ] Invio Mail di Avviso Scadenza;
 - [x] Filtri;
 - [x] Searchbar;
 - [x] Ogni elemento creato deve avere associato l'utente che lo ha creato;
+- [ ] Invio Mail di Avviso Scadenza;
 - [ ] Utente Admin Persistente nel DB (in caso AD è down);

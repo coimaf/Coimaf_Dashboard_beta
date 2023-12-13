@@ -3,8 +3,9 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use App\Models\Role;
 use App\Models\User;
-use App\Models\Document;
+use App\Models\DocumentEmployee;
 use Laravel\Scout\Searchable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,11 +14,11 @@ class Employee extends Model
 {
     use HasFactory, Searchable;
 
-    protected $fillable = ['name', 'surname', 'fiscal_code', 'birthday', 'phone', 'address', 'email', 'email_work', 'role'];
+    protected $fillable = ['role_id', 'name', 'surname', 'fiscal_code', 'birthday', 'phone', 'address', 'email', 'email_work'];
 
     public function toSearchableArray()
     {
-        $documents = $this->documents;
+        $documentEmployees = $this->documentEmployees;
         $array = [
             'id' => $this->id,
             'name' => $this->name,
@@ -28,8 +29,7 @@ class Employee extends Model
             'address' => $this->address,
             'email' => $this->email,
             'email_work' => $this->email_work,
-            'role' => $this->role,
-            'documents' => $documents
+            'documentEmployees' => $documentEmployees,
         ];
 
         return $array;
@@ -39,8 +39,13 @@ class Employee extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function documents() {
-        return $this->hasMany(Document::class);
+    public function documentEmployees() {
+        return $this->hasMany(DocumentEmployee::class);
+    }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
     }
 
     public function getDocumentStatuses()
@@ -51,7 +56,7 @@ class Employee extends Model
         $expiredDocuments = collect();
         $expiringDocuments = collect();
 
-        foreach ($this->documents as $document) {
+        foreach ($this->documentEmployees as $document) {
             $expiryDate = Carbon::parse($document->expiry_date);
 
             if ($expiryDate->isPast()) {

@@ -50,10 +50,10 @@
                             
                             <div class="col-12 col-md-6">
                                 <label class="my-2" for="role">Ruolo</label>
-                                <select id="role" name="role" class="form-control " required>
-                                    <option selected>Seleziona un Ruolo</option>
-                                    @foreach ($roles as $role)
-                                    <option value="{{ $role }}">{{ $role }}</option>
+                                <select name="role" class="form-control" required>
+                                    <option value="">Seleziona un ruolo</option>
+                                    @foreach($roles as $role)
+                                    <option value="{{ $role->id }}">{{ $role->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -83,12 +83,14 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     
     <script>
-        $(document).ready(function() {
-            $('#role').change(function() {
-                var role = $(this).val();
+        $(document).ready(function () {
+            $('[name="role"]').change(function () {
+                var roleName = $(this).find('option:selected').text();  // Ottieni il nome del ruolo selezionato
+                var roleId = $(this).val();  // Aggiungi questa linea per ottenere l'id del ruolo
+                
                 var documentTypes = @json($documentTypes);
                 
-                var documentFields = documentTypes[role];
+                var documentFields = documentTypes[roleName];
                 
                 if (typeof documentFields === 'undefined') {
                     $('#documentFields').html('');
@@ -96,6 +98,7 @@
                 }
                 
                 var html = '<h4 class="m-0 py-3 ps-4">Documenti</h4>';
+                
                 for (var i = 0; i < documentFields.length; i++) {
                     var defaultName = documentFields[i];
                     
@@ -109,10 +112,13 @@
                     
                     $('#documentFields').html(html);
                 });
+                
+                // Chiamare il change() iniziale per visualizzare i documenti iniziali
+                $('[name="role"]').change();
             });
+            
+            
         </script>
-        
-        
         
         
     </x-Layouts.layoutDash>

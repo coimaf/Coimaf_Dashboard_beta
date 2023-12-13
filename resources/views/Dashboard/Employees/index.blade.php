@@ -31,7 +31,7 @@
                 
                 <td class="text-uppercase"><a class="link-underline link-underline-opacity-0 link-dark" href="{{ route('dashboard.employees.show', compact('employee')) }}">{{ $employee->fiscal_code }}</a></td>
                 
-                <td><a class="link-underline link-underline-opacity-0 link-dark" href="{{ route('dashboard.employees.show', compact('employee')) }}">{{ $employee->role }}</a></td>
+                <td><a class="link-underline link-underline-opacity-0 link-dark" href="{{ route('dashboard.employees.show', compact('employee')) }}">{{ $employee->role->name }}</a></td>
                 
                 
                 <td>

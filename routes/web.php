@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\DeadlineController;
 use App\Http\Controllers\EmployeeController;
 
@@ -30,6 +31,11 @@ Route::get('/dashboard', function () {
     return view('Dashboard.dashboard');
 })->name('dash')->middleware('officina');
 
+// Login
+Route::get('/login', function () {
+    return view('auth.login');
+})->name('login');
+
 // Dipendenti
 Route::get('/dipendenti', [EmployeeController::class, 'index'])->name('dashboard.employees.index')->middleware('officina');
 Route::get('/dipendente/nuovo', [EmployeeController::class, 'create'])->name('dashboard.employees.create')->middleware('officina');
@@ -48,12 +54,10 @@ Route::get('/scadenzario/{deadline}/modifica', [DeadlineController::class, 'edit
 Route::put('/scadenzario/{deadline}', [DeadlineController::class, 'update'])->name('dashboard.deadlines.update')->middleware('officina');
 Route::delete('/scadenzario/{deadline}/elimina', [DeadlineController::class, 'destroy'])->name('dashboard.deadlines.destroy')->middleware('officina');
 
-// Login
-Route::get('/login', function () {
-    return view('auth.login');
-})->name('login');
+// Impostazioni
+Route::get('/impostazioni', [SettingController::class, 'index'])->name('dashboard.settings.index')->middleware('officina');
+Route::get('/impostazioni/nuovo/{id}', [SettingController::class, 'create'])->name('dashboard.settings.create')->middleware('officina');
+Route::post('/impostazioni', [SettingController::class, 'store'])->name('dashboard.settings.store')->middleware('officina');
 
 // Searchable
-// Route::get('/dipendenti/ricerca', [EmployeeController::class, 'searchEmployees'])->name('dashboard.employees.search')->middleware('officina');
-// Route::get('/scadenzario/ricerca', [DeadlineController::class, 'searchDeadlines'])->name('dashboard.deadlines.search')->middleware('officina');
 Route::get('/dashboard/search', [SearchController::class, 'search'])->name('dashboard.search')->middleware('officina');

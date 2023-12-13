@@ -63,20 +63,17 @@
                             <div class="col-6">
                                 <label class="my-2" for="role">Ruolo</label>
                                 <select id="role" name="role" class="form-control" required>
-                                    <option value="{{ $employee->role }}" selected>{{ $employee->role }}</option>
-                                    @foreach ($roles as $role)
-                                    @if ($role !== $employee->role)
-                                    <option value="{{ $role }}">{{ $role }}</option>
-                                    @endif
-                                    @endforeach
+                                    <option value="{{ $employee->role->id }}" selected>
+                                        {{ $employee->role->name }}
+                                    </option>
                                 </select>
-                            </div>
+                            </div>                                                 
                             
                             <!-- Document Information -->
                             <div class="row g-3 rounded-5 my-4" id="documentFields" style="background-color: rgb(209, 209, 209)">
                                 <h4 class="m-0 py-3 ps-4">Documenti</h4>
                                 
-                                @foreach ($employee->documents as $key => $document)
+                                @foreach ($employee->documentEmployees as $key => $document)
                                 <div class="col-6 dynamic-element">
                                     <input type="hidden" name="documents[{{ $key }}][name]" value="{{ $document->name }}">
                                     

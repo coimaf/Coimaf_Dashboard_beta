@@ -10,7 +10,7 @@
                                      class="rounded-circle img-fluid" style="width: 200px;">
                             </div>
                             <h5 class="my-3 fs-3 fw-bold text-alt">{{$employee->name}} {{$employee->surname}}</h5>
-                            <p class=" mb-1 text-capitalize">{{$employee->role}}</p>
+                            <p class=" mb-1 text-capitalize">{{$employee->role->name}}</p>
                             <p class=" mb-4 text-uppercase">{{$employee->fiscal_code}}</p>
                             <p class="card-footer fw-semibold">Creato da: {{$employee->user->name}} <br> il: {{$employee->created_at->format('d/m/Y')}}</p>
                         </div>

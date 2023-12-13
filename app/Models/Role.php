@@ -6,13 +6,14 @@ use App\Models\Employee;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Document extends Model
+class Role extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'pdf_path', 'expiry_date'];
+    protected $fillable = ['name'];
 
-    public function employee() {
-        return $this->belongsTo(Employee::class);
+    public function employees()
+    {
+        return $this->hasMany(Employee::class);
     }
 }
