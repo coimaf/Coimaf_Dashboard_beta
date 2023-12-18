@@ -6,12 +6,23 @@
         <tbody>
             @foreach ($employees as $employee)
             <tr class="text-center align-middle">
-                <td class="py-4"><a class="link-underline link-underline-opacity-0 link-dark" href="{{ route('dashboard.employees.show', compact('employee')) }}">{{ $employee->name }} {{ $employee->surname }}</a></td>
+                <td class="py-4">
+                    <a class="link-underline link-underline-opacity-0 link-dark" href="{{ route('dashboard.employees.show', compact('employee')) }}">
+                        {{ $employee->name }} {{ $employee->surname }}
+                    </a>
+                </td>
                 
-                <td class="text-uppercase"><a class="link-underline link-underline-opacity-0 link-dark" href="{{ route('dashboard.employees.show', compact('employee')) }}">{{ $employee->fiscal_code }}</a></td>
+                <td class="text-uppercase">
+                    <a class="link-underline link-underline-opacity-0 link-dark" href="{{ route('dashboard.employees.show', compact('employee')) }}">
+                        {{ $employee->fiscal_code }}
+                    </a>
+                </td>
                 
-                <td><a class="link-underline link-underline-opacity-0 link-dark" href="{{ route('dashboard.employees.show', compact('employee')) }}">{{ $employee->role }}</a></td>
-                
+                <td>
+                    <a class="link-underline link-underline-opacity-0 link-dark" href="{{ route('dashboard.employees.show', compact('employee')) }}">
+                        {{ $employee->roles->pluck('name')->implode(', ') }}
+                    </a>
+                </td>
                 
                 <td>
                     <i data-mdb-tooltip-init title="{{ $employee->getDocumentStatuses()['tooltipText'] }}" class="{{ $employee->getDocumentStatuses()['icon'] }}"></i>
@@ -51,11 +62,10 @@
                                 </div>
                             </div>
                         </div>
-                    </form>
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
     </x-table>
     @endif
 

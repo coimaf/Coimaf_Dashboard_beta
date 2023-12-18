@@ -59,37 +59,30 @@
                                 <label class="my-2" for="email_work">Email Lavoro</label>
                                 <input type="text" name="email_work" class="form-control" value="{{ $employee->email_work }}" required>
                             </div>
+
+                            <div class="col-12 col-md-6">
+                                    @foreach($employee->roles as $role)
+                                    <label>Ruolo: </label>
+                                        <label class="fw-bold">{{ $role->name }}</label>
+                                    @endforeach
+                            </div>
                             
-                            <div class="col-6">
-                                <label class="my-2" for="role">Ruolo</label>
-                                <select id="role" name="role" class="form-control" required>
-                                    <option value="{{ $employee->role->id }}" selected>
-                                        {{ $employee->role->name }}
-                                    </option>
-                                </select>
-                            </div>                                                 
                             
-                            <!-- Document Information -->
-                            <div class="row g-3 rounded-5 my-4" id="documentFields" style="background-color: rgb(209, 209, 209)">
-                                <h4 class="m-0 py-3 ps-4">Documenti</h4>
-                                
-                                @foreach ($employee->documentEmployees as $key => $document)
-                                <div class="col-6 dynamic-element">
-                                    <input type="hidden" name="documents[{{ $key }}][name]" value="{{ $document->name }}">
-                                    
-                                    <!-- Visualizza il documento PDF esistente -->
-                                    {{-- @if ($document->pdf_path)
-                                    <a href="{{ asset('storage/' . $document->pdf_path) }}" target="_blank">{{ $document->name }}</a>
-                                    @endif --}}
-                                    
-                                    <h6 class="text-center my-3" for="document_{{ $key }}">{{ $document->name }}</h6>
-                                    <input type="file" name="documents[{{ $key }}][pdf]" id="file_{{ $key }}" class="form-control my-3" accept=".pdf">
-                                    
-                                    <label class="my-2" for="expiry_date_{{ $key }}">Data di scadenza</label>
-                                    <input type="date" name="documents[{{ $key }}][expiry_date]" id="expiry_date_{{ $key }}" class="form-control" value="{{ \Carbon\Carbon::parse($document->expiry_date)->format('Y-m-d') }}">
-                                </div>
+                            <div class="row g-3" id="documentFields" style="background-color: rgb(209, 209, 209)">
+                                <!-- Visualizza e consente la modifica dei documenti associati -->
+                                @foreach ($employee->documents as $key => $document)
+                                    <div class="col-12 col-md-6 dynamic-element">
+                                        <h4>Documenti</h4>
+                                        <label for="{{ $document->name }}">{{ $document->name }}</label>
+                                        <input type="hidden" name="document_names[{{ $key }}]" value="{{ $document->name }}">
+                                        <input type="file" name="documents[{{ $key }}]" class="form-control my-3" accept=".pdf">
+                                        <input type="date" name="expiry_dates[{{ $key }}]" class="form-control my-3" value="{{ $document->pivot->expiry_date }}" required>
+                                        <input type="hidden" name="document_ids[{{ $key }}]" value="{{ $document->id }}">
+                                    </div>
                                 @endforeach
                             </div>
+                
+                            
                             
                             <x-Buttons.buttonBlue type="submit" props="Aggiorna" />
                         </div>
@@ -104,5 +97,6 @@
             margin-bottom: 40px; /* Aggiungi il margine desiderato */
         }
     </style>
+        
+    </x-Layouts.layoutDash>
     
-</x-Layouts.layoutDash>

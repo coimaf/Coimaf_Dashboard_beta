@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Document;
 use App\Models\Employee;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,8 +13,9 @@ class Role extends Model
 
     protected $fillable = ['name'];
 
-    public function employees()
+    public function documents()
     {
-        return $this->hasMany(Employee::class);
+        return $this->belongsToMany(Document::class)->withPivot('expiry_date');
     }
+    
 }

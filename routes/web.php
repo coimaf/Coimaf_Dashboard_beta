@@ -55,9 +55,13 @@ Route::put('/scadenzario/{deadline}', [DeadlineController::class, 'update'])->na
 Route::delete('/scadenzario/{deadline}/elimina', [DeadlineController::class, 'destroy'])->name('dashboard.deadlines.destroy')->middleware('officina');
 
 // Impostazioni
-Route::get('/impostazioni', [SettingController::class, 'index'])->name('dashboard.settings.index')->middleware('officina');
-Route::get('/impostazioni/nuovo/{id}', [SettingController::class, 'create'])->name('dashboard.settings.create')->middleware('officina');
-Route::post('/impostazioni', [SettingController::class, 'store'])->name('dashboard.settings.store')->middleware('officina');
+Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
+Route::get('/dashboard/settings/create', [SettingController::class, 'create'])->name('dashboard.settings.create');
+Route::post('/dashboard/settings/manage', [SettingController::class, 'manageDocument'])->name('settings.manageDocument');
+Route::post('/dashboard/settings/addRole', [SettingController::class, 'addRole'])->name('settings.addRole');
+Route::delete('/dashboard/settings/removeRole/{roleId}', [SettingController::class, 'removeRole'])->name('settings.removeRole');
+Route::post('/dashboard/settings/addDocument', [SettingController::class, 'addDocument'])->name('settings.addDocument');
+Route::delete('/dashboard/settings/removeDocument/{documentId}', [SettingController::class, 'removeDocument'])->name('settings.removeDocument');
 
 // Searchable
 Route::get('/dashboard/search', [SearchController::class, 'search'])->name('dashboard.search')->middleware('officina');

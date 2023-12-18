@@ -58,10 +58,9 @@
                                 </select>
                             </div>
                             
-                            <!-- Document Information -->
-                            <div class="row g-3 rounded-5 my-4" id="documentFields" style="background-color: rgb(209, 209, 209)">
-                                
-                                
+                            <!-- Aggiungi questa parte per i documenti dinamici -->
+                            <div class="row g-3" id="documentFields" style="background-color: rgb(209, 209, 209)">
+                                <!-- Questa sezione verrà popolata dinamicamente dal JavaScript -->
                             </div>
                             
                             <x-Buttons.buttonBlue type="submit" props="Aggiungi" />
@@ -83,42 +82,44 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     
     <script>
-        $(document).ready(function () {
-            $('[name="role"]').change(function () {
-                var roleName = $(this).find('option:selected').text();  // Ottieni il nome del ruolo selezionato
-                var roleId = $(this).val();  // Aggiungi questa linea per ottenere l'id del ruolo
-                
-                var documentTypes = @json($documentTypes);
-                
-                var documentFields = documentTypes[roleName];
-                
-                if (typeof documentFields === 'undefined') {
-                    $('#documentFields').html('');
-                    return;
-                }
-                
-                var html = '<h4 class="m-0 py-3 ps-4">Documenti</h4>';
-                
-                for (var i = 0; i < documentFields.length; i++) {
-                    var defaultName = documentFields[i];
-                    
-                    html += '<div class="col-12 col-md-6 dynamic-element">';
-                        html += '<label for="' + defaultName + '">' + defaultName + '</label>';
-                        html += '<input class="my-3" type="hidden" name="documents[' + i + '][name]" value="' + defaultName + '">';
-                        html += '<input type="file" name="documents[' + i + '][pdf]" class="form-control my-3" required accept=".pdf">';
-                        html += '<input type="date" name="documents[' + i + '][expiry_date]" class="form-control my-3" required>';
-                        html += '</div>';
-                    }
-                    
-                    $('#documentFields').html(html);
-                });
-                
-                // Chiamare il change() iniziale per visualizzare i documenti iniziali
-                $('[name="role"]').change();
-            });
-            
-            
-        </script>
+$(document).ready(function () {
+    $('[name="role"]').change(function () {
+        var roleId = $(this).val();
+        var roles = @json($roles);
+
+        // Trova il ruolo corrispondente all'ID
+        var role = roles.find(r => r.id == roleId);
+
+        console.log('Role ID:', roleId);
+        console.log('Role:', role);
+
+        // Assicurati che il ruolo sia definito prima di accedere ai documenti
+        var documents = role ? role.documents : [];
+
+        console.log('Documents:', documents);
+
+        var html = '<h4 class="m-0 py-3 ps-4">Documenti</h4>';
+
+        for (var i = 0; i < documents.length; i++) {
+            var defaultName = documents[i].name;
+
+            html += '<div class="col-12 col-md-6 dynamic-element">';
+            html += '<label for="' + defaultName + '">' + defaultName + '</label>';
+            html += '<input type="hidden" name="document_names[' + i + ']" value="' + defaultName + '">';
+            html += '<input type="file" name="documents[' + i + ']" class="form-control my-3" required accept=".pdf">';
+            html += '<input type="date" name="expiry_dates[' + i + ']" class="form-control my-3" required>';
+            html += '</div>';
+        }
+
+        $('#documentFields').html(html);
+    });
+
+    // Chiamare il change() iniziale per visualizzare i documenti iniziali
+    $('[name="role"]').change();
+});
+
+
+    </script>
         
         
     </x-Layouts.layoutDash>

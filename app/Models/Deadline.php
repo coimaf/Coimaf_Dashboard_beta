@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use App\Models\Tag;
 use App\Models\User;
 use Laravel\Scout\Searchable;
 use App\Models\DocumentDeadline;

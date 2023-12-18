@@ -10,7 +10,7 @@
                                      class="rounded-circle img-fluid" style="width: 200px;">
                             </div>
                             <h5 class="my-3 fs-3 fw-bold text-alt">{{$employee->name}} {{$employee->surname}}</h5>
-                            <p class=" mb-1 text-capitalize">{{$employee->role->name}}</p>
+                            <p class=" mb-1 text-capitalize">{{ $employee->roles->pluck('name')->implode(', ')}}</p>
                             <p class=" mb-4 text-uppercase">{{$employee->fiscal_code}}</p>
                             <p class="card-footer fw-semibold">Creato da: {{$employee->user->name}} <br> il: {{$employee->created_at->format('d/m/Y')}}</p>
                         </div>
@@ -20,7 +20,9 @@
                             <ul class="list-group list-group-flush rounded-3 text-black">
                                 @foreach ($employee->documents as $document)
                                 <li class="list-group-item d-flex justify-content-between align-items-center p-3 text-black">                                        
-                                        <i class="bi bi-circle-fill {{ getStatusIconClass($document->expiry_date) }}"></i>
+                                        <i class="bi bi-circle-fill {{ getStatusIconClass($document->pivot->expiry_date ) }}"></i>
+                                        <label for="">{{$document->name}}</label>
+                                        <label for="">{{$document->pivot->expiry_date}}</label>
                                         <a class="link-underline link-underline-opacity-0 link-dark fw-semibold" href="{{ asset('storage/' . $document->pdf_path) }}" download="{{ $document->name }} {{ $employee->name }} {{$employee->surname}}">
                                             <p class="mb-0"><i class="bi bi-download pe-2"></i> {{$document->name}}</p>
                                         </a>
