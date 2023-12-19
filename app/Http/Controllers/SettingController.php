@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Tag;
 use App\Models\Role;
 use App\Models\Document;
 use Illuminate\Http\Request;
@@ -15,7 +16,7 @@ class SettingController extends Controller
         
         return view('dashboard.settings.index', compact('roles', 'documents'));
     }
-    public function create()
+    public function employeesCreate()
     {
         $roles = Role::all();
         $documents = Document::all();
@@ -23,7 +24,7 @@ class SettingController extends Controller
         return view('dashboard.settings.employees.create', compact('roles', 'documents'));
     }
     
-    public function manageDocument(Request $request)
+    public function employeesManageDocument(Request $request)
     {
         $request->validate([
             'role_id' => 'required|exists:roles,id',
@@ -62,7 +63,7 @@ class SettingController extends Controller
         return redirect()->route($redirectRoute)->with($messageType, $message);
     }
     
-    public function addRole(Request $request)
+    public function employeesAddRole(Request $request)
     {
         $roleName = $request->input('role_name');
     
@@ -82,7 +83,7 @@ class SettingController extends Controller
     }
     
     
-    public function removeRole($roleId)
+    public function employeesRemoveRole($roleId)
     {
         $role = Role::find($roleId);
     
@@ -99,7 +100,7 @@ class SettingController extends Controller
         return redirect()->route('dashboard.settings.employees.create')->with($messageType, $message);
     }
     
-    public function addDocument(Request $request)
+    public function employeesAddDocument(Request $request)
     {
         $documentName = $request->input('document_name');
     
@@ -116,7 +117,7 @@ class SettingController extends Controller
         return redirect()->route('dashboard.settings.employees.create')->with($messageType, $message);
     }
     
-    public function removeDocument($documentId)
+    public function employeesRemoveDocument($documentId)
     {
         $document = Document::find($documentId);
     
@@ -131,6 +132,32 @@ class SettingController extends Controller
         }
     
         return redirect()->route('dashboard.settings.employees.create')->with($messageType, $message);
+    }
+
+    public function deadlinesCreate()
+    {
+        $tags = Tag::all();
+        
+        return view('dashboard.settings.deadlines.create', compact('tags'));
+    }
+
+    public function deadlinesAddTag(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|unique:tags',
+        ]);
+
+        Tag::create(['name' => $request->input('name')]);
+
+        return redirect()->route('dashboard.settings.deadlines.create')->with('success', 'Tag aggiunto con successo!');
+    }
+
+    public function deadlinesRemoveTag($tagId)
+    {
+        $tag = Tag::find($tagId);
+        $tag->delete();
+
+        return redirect()->route('dashboard.settings.deadlines.create')->with('success', 'Tag rimosso con successo!');
     }
     
 }

@@ -18,11 +18,6 @@ return new class extends Migration
             $table->timestamps();
         });
         
-            $tags = ['Importante','Assicurazione','Enel','Altro','Revisione','Assegno'];
-                
-                foreach($tags as $tag) {
-                    Tag::create(['name' => $tag]);
-                }
     }
 
     /**

@@ -56,12 +56,16 @@ Route::delete('/scadenzario/{deadline}/elimina', [DeadlineController::class, 'de
 
 // Impostazioni
 Route::get('/impostazioni', [SettingController::class, 'index'])->name('dashboard.settings.index')->middleware('officina');
-Route::get('/dashboard/impostazioni/employees/crea', [SettingController::class, 'create'])->name('dashboard.settings.employees.create')->middleware('officina');
-Route::post('/dashboard/impostazioni/employees/manage', [SettingController::class, 'manageDocument'])->name('dashboard.settings.employees.manageDocument')->middleware('officina');
-Route::post('/dashboard/impostazioni/employees/addRole', [SettingController::class, 'addRole'])->name('dashboard.settings.employees.addRole')->middleware('officina');
-Route::delete('/dashboard/impostazioni/employees/removeRole/{roleId}', [SettingController::class, 'removeRole'])->name('dashboard.settings.employees.removeRole')->middleware('officina');
-Route::post('/dashboard/impostazioni/employees/addDocument', [SettingController::class, 'addDocument'])->name('dashboard.settings.employees.addDocument')->middleware('officina');
-Route::delete('/dashboard/impostazioni/employees/removeDocument/{documentId}', [SettingController::class, 'removeDocument'])->name('dashboard.settings.employees.removeDocument')->middleware('officina');
+Route::get('/dashboard/impostazioni/dipendenti/crea', [SettingController::class, 'employeesCreate'])->name('dashboard.settings.employees.create')->middleware('officina');
+Route::post('/dashboard/impostazioni/dipendenti/manage', [SettingController::class, 'employeesManageDocument'])->name('dashboard.settings.employees.manageDocument')->middleware('officina');
+Route::post('/dashboard/impostazioni/dipendenti/addRole', [SettingController::class, 'employeesAddRole'])->name('dashboard.settings.employees.addRole')->middleware('officina');
+Route::delete('/dashboard/impostazioni/dipendenti/removeRole/{roleId}', [SettingController::class, 'employeesRemoveRole'])->name('dashboard.settings.employees.removeRole')->middleware('officina');
+Route::post('/dashboard/impostazioni/dipendenti/addDocument', [SettingController::class, 'employeesAddDocument'])->name('dashboard.settings.employees.addDocument')->middleware('officina');
+Route::delete('/dashboard/impostazioni/dipendenti/removeDocument/{documentId}', [SettingController::class, 'employeesRemoveDocument'])->name('dashboard.settings.employees.removeDocument')->middleware('officina');
+
+Route::get('/dashboard/impostazioni/scadenzario/crea', [SettingController::class, 'deadlinesCreate'])->name('dashboard.settings.deadlines.create')->middleware('officina');
+Route::post('/dashboard/impostazioni/scadenzario/aggiungi-tag', [SettingController::class, 'deadlinesAddTag'])->name('dashboard.settings.deadlines.tagAdd')->middleware('officina');
+Route::delete('/dashboard/impostazioni/scadenzario/rimuovi-tag/{tagId}', [SettingController::class, 'deadlinesRemoveTag'])->name('dashboard.settings.deadlines.tagRemove')->middleware('officina');
 
 // Searchable
 Route::get('/dashboard/search', [SearchController::class, 'search'])->name('dashboard.search')->middleware('officina');

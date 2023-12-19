@@ -62,7 +62,7 @@ class DeadlineController extends Controller
             'description' => 'required|string|max:255',
             'pdf' => 'required|mimes:pdf|max:2048',
             'expiry_date' => 'required|date',
-            'tags' => 'required|array',
+            'tags' => 'array',
         ]);    
         
         $deadline = Deadline::create([
@@ -96,8 +96,7 @@ class DeadlineController extends Controller
     
     public function edit($id)
     {
-        $deadline = Deadline::findOrFail($id);
-        $deadline = Deadline::findOrFail($id);
+        $deadline = Deadline::with('documentDeadlines')->findOrFail($id);
         $tags = Tag::all();
         
         
@@ -109,7 +108,7 @@ class DeadlineController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string|max:255',
-            'tags' => 'required|array',
+            'tags' => 'array',
             'pdf' => 'nullable|mimes:pdf|max:2048',
             'expiry_date' => 'required|date',
         ]);

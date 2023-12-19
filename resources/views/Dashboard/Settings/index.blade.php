@@ -55,7 +55,7 @@
                                                             <label class="text-muted">Crea o rimuovi i Tags per lo scadenzario.</label>
                                                         </td>
                                                         <td>
-                                                            <a href="{{ route('dashboard.settings.employees.create') }}"><i class="bi bi-pencil-square text-warning fs-5 mx-2"></i></a>
+                                                            <a href="{{ route('dashboard.settings.deadlines.create') }}"><i class="bi bi-pencil-square text-warning fs-5 mx-2"></i></a>
                                                         </td>
                                                     </tr>
                                                 </tbody>

@@ -113,7 +113,7 @@ php artisan ldap:browse
 - [x] Aggiungere o rimuovere Documenti ai Dipendenti;
 - [x] Associa o dissocia Ruoli ai Dipendenti;
 - [x] Associa o dissocia Documenti ai Ruoli;
-- [ ] Aggiungere o rimuovere Tags per lo scadenzario;
+- [x] Aggiungere o rimuovere Tags per lo scadenzario;
 
 ### Funzioni generali
 - [x] Filtri;
