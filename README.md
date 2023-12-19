@@ -109,8 +109,10 @@ php artisan ldap:browse
 - [ ] Cambio e-mail da ".lan" a ".com";
 
 ### Impostazioni
-- [ ] Aggiungere o rimuovere Ruoli ai Dipendenti;
-- [ ] Aggiungere o rimuovere Documenti ai Dipendenti;
+- [x] Aggiungere o rimuovere Ruoli ai Dipendenti;
+- [x] Aggiungere o rimuovere Documenti ai Dipendenti;
+- [x] Associa o dissocia Ruoli ai Dipendenti;
+- [x] Associa o dissocia Documenti ai Ruoli;
 - [ ] Aggiungere o rimuovere Tags per lo scadenzario;
 
 ### Funzioni generali

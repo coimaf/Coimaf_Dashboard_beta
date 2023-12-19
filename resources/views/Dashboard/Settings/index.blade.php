@@ -37,7 +37,25 @@
                                                             <label class="text-muted">Gestisci l'associazione tra ruoli e documenti.</label>
                                                         </td>
                                                         <td>
-                                                            <a href="{{ route('dashboard.settings.create') }}"><i class="bi bi-pencil-square text-warning fs-5 mx-2"></i></a>
+                                                            <a href="{{ route('dashboard.settings.employees.create') }}"><i class="bi bi-pencil-square text-warning fs-5 mx-2"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+
+                                                <thead>
+                                                    <tr class="">
+                                                        <th>Scadenzario</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <p class="mb-0">Tags</p>
+                                                            <label class="text-muted">Crea o rimuovi i Tags per lo scadenzario.</label>
+                                                        </td>
+                                                        <td>
+                                                            <a href="{{ route('dashboard.settings.employees.create') }}"><i class="bi bi-pencil-square text-warning fs-5 mx-2"></i></a>
                                                         </td>
                                                     </tr>
                                                 </tbody>

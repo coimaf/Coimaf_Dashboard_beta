@@ -13,14 +13,14 @@ class SettingController extends Controller
         $roles = Role::all();
         $documents = Document::all();
     
-        return view('dashboard.settings.create', compact('roles', 'documents'));
+        return view('dashboard.settings.index', compact('roles', 'documents'));
     }
     public function create()
     {
         $roles = Role::all();
         $documents = Document::all();
     
-        return view('dashboard.settings.create', compact('roles', 'documents'));
+        return view('dashboard.settings.employees.create', compact('roles', 'documents'));
     }
 
     public function manageDocument(Request $request)
@@ -44,7 +44,7 @@ class SettingController extends Controller
             $message = 'Documento dissociato con successo!';
         }
 
-        return redirect()->route('dashboard.settings.create')->with('success', $message);
+        return redirect()->route('dashboard.settings.employees.create')->with('success', $message);
     }
 
     
@@ -56,7 +56,7 @@ class SettingController extends Controller
     
         Role::create(['name' => $request->input('role_name')]);
     
-        return redirect()->route('dashboard.settings.create')->with('success', 'Ruolo aggiunto con successo!');
+        return redirect()->route('dashboard.settings.employees.create')->with('success', 'Ruolo aggiunto con successo!');
     }
     
     public function removeRole($roleId)
@@ -64,7 +64,7 @@ class SettingController extends Controller
         $role = Role::find($roleId);
         $role->delete();
     
-        return redirect()->route('dashboard.settings.create')->with('success', 'Ruolo rimosso con successo!');
+        return redirect()->route('dashboard.settings.employees.create')->with('success', 'Ruolo rimosso con successo!');
     }
     
     public function addDocument(Request $request)
@@ -75,7 +75,7 @@ class SettingController extends Controller
     
         Document::create(['name' => $request->input('document_name')]);
     
-        return redirect()->route('dashboard.settings.create')->with('success', 'Documento aggiunto con successo!');
+        return redirect()->route('dashboard.settings.employees.create')->with('success', 'Documento aggiunto con successo!');
     }
     
     public function removeDocument($documentId)
@@ -83,6 +83,6 @@ class SettingController extends Controller
         $document = Document::find($documentId);
         $document->delete();
     
-        return redirect()->route('dashboard.settings.create')->with('success', 'Documento rimosso con successo!');
+        return redirect()->route('dashboard.settings.employees.create')->with('success', 'Documento rimosso con successo!');
     }
 }

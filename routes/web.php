@@ -55,13 +55,13 @@ Route::put('/scadenzario/{deadline}', [DeadlineController::class, 'update'])->na
 Route::delete('/scadenzario/{deadline}/elimina', [DeadlineController::class, 'destroy'])->name('dashboard.deadlines.destroy')->middleware('officina');
 
 // Impostazioni
-Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
-Route::get('/dashboard/settings/create', [SettingController::class, 'create'])->name('dashboard.settings.create');
-Route::post('/dashboard/settings/manage', [SettingController::class, 'manageDocument'])->name('settings.manageDocument');
-Route::post('/dashboard/settings/addRole', [SettingController::class, 'addRole'])->name('settings.addRole');
-Route::delete('/dashboard/settings/removeRole/{roleId}', [SettingController::class, 'removeRole'])->name('settings.removeRole');
-Route::post('/dashboard/settings/addDocument', [SettingController::class, 'addDocument'])->name('settings.addDocument');
-Route::delete('/dashboard/settings/removeDocument/{documentId}', [SettingController::class, 'removeDocument'])->name('settings.removeDocument');
+Route::get('/settings', [SettingController::class, 'index'])->name('dashboard.settings.index');
+Route::get('/dashboard/settings/create', [SettingController::class, 'create'])->name('dashboard.settings.employees.create');
+Route::post('/dashboard/settings/manage', [SettingController::class, 'manageDocument'])->name('dashboard.settings.employees.manageDocument');
+Route::post('/dashboard/settings/addRole', [SettingController::class, 'addRole'])->name('dashboard.settings.employees.addRole');
+Route::delete('/dashboard/settings/removeRole/{roleId}', [SettingController::class, 'removeRole'])->name('dashboard.settings.employees.removeRole');
+Route::post('/dashboard/settings/addDocument', [SettingController::class, 'addDocument'])->name('dashboard.settings.employees.addDocument');
+Route::delete('/dashboard/settings/removeDocument/{documentId}', [SettingController::class, 'removeDocument'])->name('dashboard.settings.employees.removeDocument');
 
 // Searchable
 Route::get('/dashboard/search', [SearchController::class, 'search'])->name('dashboard.search')->middleware('officina');
