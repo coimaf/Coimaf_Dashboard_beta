@@ -47,6 +47,7 @@ Route::delete('/dipendente/{employee}/elimina', [EmployeeController::class, 'des
 
 // Scadenzario
 Route::get('/scadenzario', [DeadlineController::class, 'index'])->name('dashboard.deadlines.index')->middleware('officina');
+Route::get('/scadenzario/tag/{tag}', [DeadlineController::class, 'showByTag'])->name('dashboard.deadlines.tag')->middleware('officina');
 Route::get('/scadenzario/nuovo', [DeadlineController::class, 'create'])->name('dashboard.deadlines.create')->middleware('officina');
 Route::post('/scadenzario', [DeadlineController::class, 'store'])->name('dashboard.deadlines.store')->middleware('officina');
 Route::get('/scadenzario/{deadline}', [DeadlineController::class, 'show'])->name('dashboard.deadlines.show')->middleware('officina');

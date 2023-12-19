@@ -47,6 +47,34 @@ class DeadlineController extends Controller
         ]);
     }
     
+    public function showByTag($tag)
+{
+    $deadlines = Deadline::whereHas('tags', function ($query) use ($tag) {
+        $query->where('name', $tag);
+    })->get();
+
+    $columnTitles = [
+        [
+            'text' => 'Nome Documento',
+            'sortBy' => 'name',
+        ],
+        [
+            'text' => 'Scadenza',
+            'sortBy' => 'expiry_date',
+        ],
+        "Tag", "Modifica", "Elimina"
+    ];
+
+    $routeName = 'dashboard.deadlines.index';
+
+    return view('dashboard.deadlines.index', [
+        'columnTitles' => $columnTitles,
+        'deadlines' => $deadlines,
+        'sortBy' => 'default', // Puoi impostare i valori desiderati per queste variabili
+        'direction' => 'asc',
+        'routeName' => $routeName
+    ]);
+}
     
     public function create()
     {
