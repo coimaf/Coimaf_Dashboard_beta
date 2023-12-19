@@ -19,6 +19,7 @@ class Employee extends Model
     
     public function toSearchableArray()
     {
+        $roles = $this->roles->pluck('name')->implode(' '); // Modifica qui
         $documentEmployees = $this->documentEmployees;
         $array = [
             'id' => $this->id,
@@ -30,11 +31,13 @@ class Employee extends Model
             'address' => $this->address,
             'email' => $this->email,
             'email_work' => $this->email_work,
+            'roles' => $roles,
             'documentEmployees' => $documentEmployees,
         ];
         
         return $array;
     }
+    
     
     public function user() {
         return $this->belongsTo(User::class);

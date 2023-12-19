@@ -10,5 +10,13 @@ class Tag extends Model
 {
     use HasFactory,Searchable;
 
+    public function toSearchableArray()
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+        ];
+    }
+
     protected $fillable = ['name'];
 }
