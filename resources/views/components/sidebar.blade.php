@@ -26,6 +26,12 @@
                         Scadenzario
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('dashboard.machinesSolds.index') }}" class="nav-link {{ Request::is('macchine-vendute') ? 'active' : '' }}" aria-current="page">
+                        <i class="bi bi-grid-1x2 pe-2"></i>
+                        Macchine Vendute
+                    </a>                                        
+                </li>
             </ul>
             <hr>
             <div class="dropdown">
@@ -34,8 +40,8 @@
                     <strong>{{ $userName }}</strong>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
-                    <li><a class="dropdown-item" href="{{route('dashboard.settings.index')}}">Settings</a></li>
-                    <li><a class="dropdown-item" href="{{route('dashboard.profile')}}">Profile</a></li>
+                    <li><a class="dropdown-item" href="{{route('dashboard.settings.index')}}">Impostazioni</a></li>
+                    <li><a class="dropdown-item" href="{{route('dashboard.profile')}}">Profilo</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li>
                         <form action="{{ route('logout') }}" method="POST">

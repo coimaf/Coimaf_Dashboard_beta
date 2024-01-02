@@ -154,7 +154,7 @@ class DeadlineController extends Controller
         $expiryDate = $request->input('expiry_date');
         
         if ($request->hasFile('pdf')) {
-            $pdfPath = $request->file('pdf')->store('pdfs');
+            $pdfPath = $request->file('pdf')->store('pdfs', 'public');
             $deadline->documentDeadlines()->update([
                 'name' => $documentName,
                 'pdf_path' => $pdfPath,

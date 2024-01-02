@@ -59,6 +59,24 @@
                                                         </td>
                                                     </tr>
                                                 </tbody>
+
+                                                <thead>
+                                                    <tr class="">
+                                                        <th>Macchine Vendute</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <p class="mb-0">Garanzia</p>
+                                                            <label class="text-muted">Crea o rimuovi i vari tipi di Garanzia per le macchine vendute.</label>
+                                                        </td>
+                                                        <td>
+                                                            <a href="{{ route('dashboard.settings.machinesSold.create') }}"><i class="bi bi-pencil-square text-warning fs-5 mx-2"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
                                             </table>
                                         </div>
                                     </div>

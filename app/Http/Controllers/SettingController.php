@@ -5,17 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\Tag;
 use App\Models\Role;
 use App\Models\Document;
+use App\Models\WarrantyType;
 use Illuminate\Http\Request;
 
 class SettingController extends Controller
 {
     public function index()
     {
-        $roles = Role::all();
-        $documents = Document::all();
-        
-        return view('dashboard.settings.index', compact('roles', 'documents'));
+        return view('dashboard.settings.index');
     }
+
     public function employeesCreate()
     {
         $roles = Role::all();
@@ -158,6 +157,31 @@ class SettingController extends Controller
         $tag->delete();
 
         return redirect()->route('dashboard.settings.deadlines.create')->with('success', 'Tag rimosso con successo!');
+    }
+
+    public function machinesSoldsCreate()
+    {
+        $warrantyType = WarrantyType::all();
+        return view('dashboard.settings.machinesSold.create', compact('warrantyType'));
+    }
+
+    public function machinesSoldsStore(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|unique:warranty_types|max:255',
+        ]);
+
+        WarrantyType::create(['name' => $request->name]);
+
+        return redirect()->route('dashboard.settings.machinesSold.create')->with('success', 'Tipo di garanzia aggiunto con successo!');
+    }
+
+    public function machinesSoldsDelete($warrantyId)
+    {
+        $warranty = WarrantyType::find($warrantyId);
+        $warranty->delete();
+
+        return redirect()->route('dashboard.settings.machinesSold.create')->with('success', 'Tipo di garanzia  rimosso con successo!');
     }
     
 }

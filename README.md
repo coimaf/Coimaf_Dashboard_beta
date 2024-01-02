@@ -114,9 +114,31 @@ php artisan ldap:browse
 - [x] Associa o dissocia Documenti ai Ruoli;
 - [x] Aggiungere o rimuovere Tags per lo scadenzario;
 
+### Macchine Vendute (Implementazione ARCA)
+- [ ] Tutte le macchine vendute devono avere:
+    - [x] Modello;
+    - [ ] Marca (menu a tendina) da ARCA;
+    - [x] Numero Serie;
+    - [x] Data Vendita;
+    - [ ] Primo Acquirente da ARCA;
+    - [ ] Propietario attuale da ARCA;
+    - [x] Data scadenza garanzia;
+    - [x] Tipo Garanzia (menu a tendina config da impostazioni);
+    - [x] Data Registrazione;
+    - [x] DDT Consegna;
+    - [x] Note;
+- [x] Crea
+- [ ] Modifica
+- [x] Visualizza
+- [ ] Visualizza Dettaglio
+- [ ] Elimina
+
 ### Funzioni generali
 - [x] Filtri;
 - [x] Searchbar;
 - [x] Ogni elemento creato deve avere associato l'utente che lo ha creato;
 - [ ] Invio Mail di Avviso Scadenza;
 - [ ] Utente Admin Persistente nel DB (in caso AD è down);
+
+### *********** Bug ***********
+- [ ] Validazione e modifica documenti Dipendenti;
