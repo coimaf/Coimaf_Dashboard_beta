@@ -26,7 +26,7 @@
             @foreach ($machines as $machine)
             <tr class="text-center align-middle">
                 <td class="py-4">
-                    <a class="link-underline link-underline-opacity-0 link-dark" href="#">
+                    <a class="link-underline link-underline-opacity-0 link-dark" href="{{route('dashboard.machinesSolds.show', compact('machine'))}}">
                         {{ $machine->model }}
                     </a>
                 </td>
@@ -58,7 +58,7 @@
                 <td>
                     <button type="button" class="btn bi bi-trash3-fill text-danger" data-bs-toggle="modal" data-bs-target="#deleteMachineModal{{ $machine->id }}"></button>
                     
-                    <form action="#" method="post">
+                    <form action="{{route('dashboard.machinesSolds.destroy', compact('machine'))}}" method="post">
                         @csrf
                         @method('delete')
                         <!-- Modal -->

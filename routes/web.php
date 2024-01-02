@@ -81,6 +81,8 @@ Route::delete('/dashboard/impostazioni/macchine-vendute/rimuovi//{warrantyId}', 
 Route::get('/macchine-vendute', [MachineController::class, 'index'])->name('dashboard.machinesSolds.index')->middleware('officina');
 Route::get('/macchine-vendute/crea', [MachineController::class, 'create'])->name('dashboard.machinesSolds.create')->middleware('officina');
 Route::post('/macchine-vendute/store', [MachineController::class, 'store'])->name('dashboard.machinesSolds.store')->middleware('officina');
+Route::get('/macchine/{machine}', [MachineController::class, 'show'])->name('dashboard.machinesSolds.show')->middleware('officina');
+Route::delete('/macchine/elimina/{machine}', [MachineController::class, 'destroy'])->name('dashboard.machinesSolds.destroy')->middleware('officina');
 
 // Searchable
 Route::get('/dashboard/search', [SearchController::class, 'search'])->name('dashboard.search')->middleware('officina');

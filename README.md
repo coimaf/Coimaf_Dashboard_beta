@@ -127,11 +127,12 @@ php artisan ldap:browse
     - [x] Data Registrazione;
     - [x] DDT Consegna;
     - [x] Note;
-- [x] Crea
-- [ ] Modifica
-- [x] Visualizza
-- [ ] Visualizza Dettaglio
-- [ ] Elimina
+- [x] Crea;
+- [ ] Modifica;
+- [ ] Salva Modifiche;
+- [x] Visualizza;
+- [x] Visualizza Dettaglio;
+- [x] Elimina;
 
 ### Funzioni generali
 - [x] Filtri;

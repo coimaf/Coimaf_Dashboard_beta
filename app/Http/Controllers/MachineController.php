@@ -57,25 +57,26 @@ class MachineController extends Controller
         return redirect()->route("dashboard.machinesSolds.index")->with("success", "Macchina inserita con successo.");
     }
     
-    public function show(Machine $machine)
+    public function show(MachinesSold $machine)
     {
-        return view('machines.show', compact('machine'));
+        return view("Dashboard.MachinesSold.show", compact('machine'));
     }
     
-    public function edit(Machine $machine)
+    public function edit(MachinesSold $machine)
     {
         // Implementa la logica per ottenere le opzioni da ARCA e dalle impostazioni
         // e passale alla vista di modifica.
         return view('machines.edit', compact('machine'));
     }
     
-    public function update(Request $request, Machine $machine)
+    public function update(Request $request, MachinesSold $machine)
     {
         // Implementa la logica per aggiornare i dati nel database.
     }
     
-    public function destroy(Machine $machine)
+    public function destroy(MachinesSold $machine)
     {
-        // Implementa la logica per eliminare il record dal database.
+        $machine->delete();
+        return redirect()->route('dashboard.machinesSolds.index')->with('success', 'Macchina eliminata con successo!');
     }
 }
