@@ -133,6 +133,7 @@ php artisan ldap:browse
 - [x] Visualizza;
 - [x] Visualizza Dettaglio;
 - [x] Elimina;
+- [x] Indicizza per la ricerca;
 
 ### Funzioni generali
 - [x] Filtri;
@@ -143,3 +144,4 @@ php artisan ldap:browse
 
 ### *********** Bug ***********
 - [ ] Validazione e modifica documenti Dipendenti;
+- [ ] Indicizzazione Ricerca dei modelli associati;
