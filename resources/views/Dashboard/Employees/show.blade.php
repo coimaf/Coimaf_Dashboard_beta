@@ -23,8 +23,8 @@
                                         <i class="bi bi-circle-fill {{ getStatusIconClass($document->pivot->expiry_date ) }}"></i>
                                         <label for="">{{$document->name}}</label>
                                         <label for="">{{$document->pivot->expiry_date}}</label>
-                                        <a class="link-underline link-underline-opacity-0 link-dark fw-semibold" href="{{ asset('storage/' . $document->pdf_path) }}" download="{{ $document->name }} {{ $employee->name }} {{$employee->surname}}">
-                                            <p class="mb-0"><i class="bi bi-download pe-2"></i> {{$document->name}}</p>
+                                        <a class="link-underline link-underline-opacity-0 link-dark fw-semibold" href="{{ asset("storage/{$document->pivot->pdf_path}") }}" download="{{ $document->name }}">
+                                            <p class="mb-0"><i class="bi bi-download pe-2"></i> Download</p>
                                         </a>
                                     </li>
                                 @endforeach

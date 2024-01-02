@@ -69,22 +69,22 @@ class EmployeeController extends Controller
     
     public function store(Request $request)
     {
-        // $request->validate([
-            //     'name' => 'required|string|max:255',
-            //     'surname' => 'required|string|max:255',
-            //     'fiscal_code' => 'required|string|max:255',
-            //     'birthday' => 'required|string|max:255',
-            //     'phone' => 'required|string|max:255',
-            //     'address' => 'required|string|max:255',
-            //     'email' => 'required|email|max:255',
-            //     'email_work' => 'email|max:255',
-            //     'roles' => 'array',
-            //     'roles.*' => 'exists:roles,id',
-            //     'documents' => 'array',
-            //     'documents.*.id' => 'exists:documents,id',
-            //     'documents.*.pdf_path' => 'required|string|max:255',
-            //     'documents.*.expiry_date' => 'required|date',
-            // ]);
+        $request->validate([
+                'name' => 'required|string|max:255',
+                'surname' => 'required|string|max:255',
+                'fiscal_code' => 'required|string|max:255',
+                'birthday' => 'required|string|max:255',
+                'phone' => 'required|string|max:255',
+                'address' => 'required|string|max:255',
+                'email' => 'required|email|max:255',
+                'email_work' => 'email|max:255',
+                'roles' => 'array',
+                'roles.*' => 'exists:roles,id',
+                'documents' => 'array',
+                'documents.*.id' => 'exists:documents,id',
+                'documents.*.pdf_path' => 'required|string|max:255',
+                'documents.*.expiry_date' => 'required|date',
+            ]);
             
             // Crea un nuovo Employee
             $employee = Employee::create([
@@ -122,7 +122,7 @@ class EmployeeController extends Controller
             
             Auth::user()->employees()->save($employee);
             
-            return redirect()->route('dashboard.employees.index')->with('success', 'Employee aggiunto con successo!');
+            return redirect()->route('dashboard.employees.index')->with('success', 'Dipendente aggiunto con successo!');
         }
         
         

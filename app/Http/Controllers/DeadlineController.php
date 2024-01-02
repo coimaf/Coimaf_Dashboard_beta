@@ -100,7 +100,7 @@ class DeadlineController extends Controller
         
         $deadline->tags()->attach($request->input('tags'));
         
-        $pdfPath = $request->file('pdf')->store('pdfs');
+        $pdfPath = $request->file('pdf')->store('pdfs', 'public');
         
         $documentName = $request->input('name');
         

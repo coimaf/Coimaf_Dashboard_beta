@@ -23,8 +23,8 @@
                         <div class="card-body p-0 text-black">
                             <ul class="list-group list-group-flush rounded-3 text-black">
                                 <li class="list-group-item d-flex justify-content-between align-items-center p-3 text-black">                                        
-                                    <a class="link-underline link-underline-opacity-0 link-dark fw-semibold" href="{{ asset('storage/' . $document->pdf_path) }}" download="{{ $document->name }} {{ $deadline->name }}">
-                                        <p class="mb-0"><i class="bi bi-download pe-2"></i>Download</p>
+                                    <a class="link-underline link-underline-opacity-0 link-dark fw-semibold" href="{{ asset("storage/{$document->pdf_path}") }}" download="{{ $document->name }} {{ $deadline->name }}">
+                                        <p class="mb-0"><i class="bi bi-download pe-2"></i> Download</p>
                                     </a>
                                 </li>
                             </ul>
