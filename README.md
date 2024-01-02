@@ -104,9 +104,8 @@ php artisan ldap:browse
 - [x] Elimina un documento;
 
 ### Profilo
-- [ ] Visualizzare informazioni Profilo;
-- [ ] Possibiltità di aggiungere un Avatar;
-- [ ] Cambio e-mail da ".lan" a ".com";
+- [x] Visualizzare informazioni Profilo;
+- [x] Cambio e-mail da ".lan" a ".com";
 
 ### Impostazioni
 - [x] Aggiungere o rimuovere Ruoli ai Dipendenti;

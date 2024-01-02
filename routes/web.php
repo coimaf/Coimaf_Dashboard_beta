@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\DeadlineController;
 use App\Http\Controllers\EmployeeController;
@@ -35,6 +36,9 @@ Route::get('/dashboard', function () {
 Route::get('/login', function () {
     return view('auth.login');
 })->name('login');
+
+// Profile
+Route::get('/profile', [ProfileController::class, 'profile'])->name('dashboard.profile')->middleware('auth');
 
 // Dipendenti
 Route::get('/dipendenti', [EmployeeController::class, 'index'])->name('dashboard.employees.index')->middleware('officina');

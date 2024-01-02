@@ -7,7 +7,7 @@
                         <div class="card-body text-center">
                             <div class="d-flex justify-content-center">
                                 <img src="{{asset('assets/PDF_file_icon.svg.png')}}" alt="PDF_icon"
-                                class="img-fluid" style="width: 200px;">
+                                class="img-fluid" style="width: 50px;">
                             </div>
                             <h5 class="my-3 fs-3 fw-bold text-alt">{{$deadline->name}}</h5>
                             @foreach ($deadline->documentDeadlines as $document)

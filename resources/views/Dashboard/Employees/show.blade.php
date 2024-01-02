@@ -7,7 +7,7 @@
                         <div class="card-body text-center">
                             <div class="d-flex justify-content-center">
                                 <img src="{{asset('assets/default-profile.webp')}}" alt="avatar"
-                                     class="rounded-circle img-fluid" style="width: 200px;">
+                                     class="rounded-circle img-fluid" style="width: 50px;">
                             </div>
                             <h5 class="my-3 fs-3 fw-bold text-alt">{{$employee->name}} {{$employee->surname}}</h5>
                             <p class=" mb-1 text-capitalize">{{ $employee->roles->pluck('name')->implode(', ')}}</p>
