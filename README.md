@@ -128,8 +128,8 @@ php artisan ldap:browse
     - [x] DDT Consegna;
     - [x] Note;
 - [x] Crea;
-- [ ] Modifica;
-- [ ] Salva Modifiche;
+- [x] Modifica;
+- [x] Salva Modifiche;
 - [x] Visualizza;
 - [x] Visualizza Dettaglio;
 - [x] Elimina;

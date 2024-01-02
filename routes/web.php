@@ -82,6 +82,8 @@ Route::get('/macchine-vendute', [MachineController::class, 'index'])->name('dash
 Route::get('/macchine-vendute/crea', [MachineController::class, 'create'])->name('dashboard.machinesSolds.create')->middleware('officina');
 Route::post('/macchine-vendute/store', [MachineController::class, 'store'])->name('dashboard.machinesSolds.store')->middleware('officina');
 Route::get('/macchine/{machine}', [MachineController::class, 'show'])->name('dashboard.machinesSolds.show')->middleware('officina');
+Route::get('/macchine/modifica/{machine}', [MachineController::class, 'edit'])->name('dashboard.machinesSolds.edit')->middleware('officina');
+Route::put('/macchine/modifica/{machine}', [MachineController::class, 'update'])->name('dashboard.machinesSolds.update')->middleware('officina');
 Route::delete('/macchine/elimina/{machine}', [MachineController::class, 'destroy'])->name('dashboard.machinesSolds.destroy')->middleware('officina');
 
 // Searchable

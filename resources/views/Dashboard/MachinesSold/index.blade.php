@@ -51,9 +51,9 @@
                     </a>
                 </td>
                 <td>
-                    <a href='#'>
+                    <a href="{{ route('dashboard.machinesSolds.edit', $machine->id) }}">
                         <i class='bi bi-pencil-square text-warning'></i>
-                    </a>
+                    </a>                    
                 </td>
                 <td>
                     <button type="button" class="btn bi bi-trash3-fill text-danger" data-bs-toggle="modal" data-bs-target="#deleteMachineModal{{ $machine->id }}"></button>
