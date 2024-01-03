@@ -96,6 +96,9 @@ Route::delete('/dashboard/macchine/elimina/{machine}', [MachineController::class
 Route::get('/tickets', [TicketController::class, 'index'])->name('dashboard.tickets.index')->middleware('officina');
 Route::get('/dashboard/tickets/crea', [TicketController::class, 'create'])->name('dashboard.tickets.create')->middleware('officina');
 Route::post('/dashboard/tickets/store', [TicketController::class, 'store'])->name('dashboard.tickets.store')->middleware('officina');
+Route::get('/dashboard/tickets/{ticket}/modifica', [TicketController::class, 'edit'])->name('dashboard.tickets.edit')->middleware('officina');
+Route::put('/dashboard/tickets/update/{ticket}', [TicketController::class, 'update'])->name('dashboard.tickets.update')->middleware('officina');
+Route::delete('/dashboard/tickets/elimina/{ticket}', [TicketController::class, 'destroy'])->name('dashboard.tickets.delete')->middleware('officina');
 
 // Searchable
 Route::get('/dashboard/search', [SearchController::class, 'search'])->name('dashboard.search')->middleware('officina');

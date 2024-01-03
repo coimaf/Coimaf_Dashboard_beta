@@ -152,11 +152,11 @@ php artisan ldap:browse
 - [x] Tecnico incaricato - Configurabile da impostazioni;
 - [x] Risoluzione del problema - (text area);
 - [x] Crea;
-- [ ] Modifica;
-- [ ] Salva Modifiche;
+- [x] Modifica;
+- [x] Salva Modifiche;
 - [ ] Visualizza;
 - [ ] Visualizza Dettaglio;
-- [ ] Elimina;
+- [x] Elimina;
 - [ ] Indicizza per la ricerca;
 
 ### Funzioni generali

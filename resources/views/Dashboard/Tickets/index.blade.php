@@ -55,14 +55,14 @@
                     </a>
                 </td>
                 <td>
-                    <a href="#">
+                    <a href="{{ route('dashboard.tickets.edit', $ticket->id) }}">
                         <i class='bi bi-pencil-square text-warning'></i>
                     </a>                    
                 </td>
                 <td>
                     <button type="button" class="btn bi bi-trash3-fill text-danger" data-bs-toggle="modal" data-bs-target="#deleteTicketModal{{ $ticket->id }}"></button>
                     
-                    <form action="#" method="post">
+                    <form action="{{route('dashboard.tickets.delete', compact('ticket'))}}" method="post">
                         @csrf
                         @method('delete')
                         <!-- Modal -->
@@ -78,7 +78,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
-                                        <form action="#" method="post">
+                                        <form action="{{route('dashboard.tickets.delete', compact('ticket'))}}" method="post">
                                             @csrf
                                             @method('delete')
                                             <button type="submit" class="btn btn-danger">Elimina</button>

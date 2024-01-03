@@ -12,7 +12,7 @@ class Ticket extends Model
 {
     use HasFactory, Searchable;
 
-    protected $fillable = ['title', 'description', 'note', 'machine_model_id', 'machine_sold_id', 'closed', 'status', 'priority'];
+    protected $fillable = ['title', 'description', 'notes', 'machine_model_id', 'machine_sold_id', 'closed', 'status', 'priority'];
 
     public function toSearchableArray()
     {
