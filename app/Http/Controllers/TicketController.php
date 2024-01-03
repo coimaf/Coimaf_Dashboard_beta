@@ -59,6 +59,11 @@ class TicketController extends Controller
         
         return redirect()->route('dashboard.tickets.index')->with('success', 'Ticket creato con successo!');
     }
+
+    public function show(Ticket $ticket)
+    {
+        return view("Dashboard.Tickets.show", compact('ticket'));
+    }
     
     
     public function edit(Ticket $ticket)

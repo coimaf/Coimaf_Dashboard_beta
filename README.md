@@ -154,8 +154,8 @@ php artisan ldap:browse
 - [x] Crea;
 - [x] Modifica;
 - [x] Salva Modifiche;
-- [ ] Visualizza;
-- [ ] Visualizza Dettaglio;
+- [x] Visualizza;
+- [x] Visualizza Dettaglio;
 - [x] Elimina;
 - [ ] Indicizza per la ricerca;
 

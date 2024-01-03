@@ -26,7 +26,7 @@
             @foreach ($tickets as $ticket)
             <tr class="text-center align-middle">
                 <td class="py-4">
-                    <a class="link-underline link-underline-opacity-0 link-dark" href="#">
+                    <a class="link-underline link-underline-opacity-0 link-dark" href="{{route('dashboard.tickets.show', compact('ticket'))}}">
                         {{ $ticket->id }}
                     </a>
                 </td>
