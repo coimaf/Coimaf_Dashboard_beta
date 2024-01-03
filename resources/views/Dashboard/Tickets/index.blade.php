@@ -20,8 +20,8 @@
     <div class="col-12 col-md-11 d-flex justify-content-end mt-5">
         <a href="{{route('dashboard.tickets.create')}}"><x-Buttons.buttonBlue type="button" props="NUOVO" /></a>
     </div>
-
-      <x-table :columnTitles="$columnTitles" :rowData="$tickets">
+    
+    <x-table :columnTitles="$columnTitles" :rowData="$tickets">
         <tbody>
             @foreach ($tickets as $ticket)
             <tr class="text-center align-middle">
@@ -43,6 +43,15 @@
                 <td>
                     <a class="link-underline link-underline-opacity-0 link-dark" href="#">
                         {{ $ticket->priority }}
+                    </a>
+                </td>
+                <td>
+                    <a class="link-underline link-underline-opacity-0 link-dark" href="#">
+                        @if ($ticket->technician)
+                        {{ $ticket->technician->name }} {{ $ticket->technician->surname }}
+                        @else
+                        Tecnico non disponibile.
+                        @endif
                     </a>
                 </td>
                 <td>
@@ -79,10 +88,10 @@
                             </div>
                         </div>
                     </td>
-            </tr>
-            @endforeach
-        </tbody>
+                </tr>
+                @endforeach
+            </tbody>
         </x-table>
-
-
-</x-Layouts.layoutDash>
+        
+        
+    </x-Layouts.layoutDash>

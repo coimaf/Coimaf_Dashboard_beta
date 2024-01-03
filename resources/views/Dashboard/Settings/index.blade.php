@@ -77,6 +77,23 @@
                                                         </td>
                                                     </tr>
                                                 </tbody>
+                                                <thead>
+                                                    <tr class="">
+                                                        <th>Tickets</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <p class="mb-0">Tecnici</p>
+                                                            <label class="text-muted">Crea o rimuovi i Tecnici per poterli assegnare ai Tickets.</label>
+                                                        </td>
+                                                        <td>
+                                                            <a href="{{ route('dashboard.settings.tecnicians.create') }}"><i class="bi bi-pencil-square text-warning fs-5 mx-2"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
                                             </table>
                                         </div>
                                     </div>

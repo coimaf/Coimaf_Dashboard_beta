@@ -149,9 +149,9 @@ php artisan ldap:browse
     Aperto - in lavorazione - in attesa di un ricambio - da fatturare - chiuso;
 - [x] Priorità: 
     Bassa - Normale - Urgente;
-- [ ] Tecnico incaricato - Configurabile da impostazioni;
+- [x] Tecnico incaricato - Configurabile da impostazioni;
 - [x] Risoluzione del problema - (text area);
-- [ ] Crea;
+- [x] Crea;
 - [ ] Modifica;
 - [ ] Salva Modifiche;
 - [ ] Visualizza;

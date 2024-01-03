@@ -40,6 +40,16 @@
                             </div>
 
                             <div class="col-12 col-md-6 mb-4">
+                                <label class="my-2" for="technician_id">Tecnico</label>
+                                <select name="technician_id" class="form-control" required>
+                                    <option value="">Seleziona un Tecnico</option>
+                                    @foreach($technicians as $technician)
+                                        <option value="{{ $technician->id }}">{{ $technician->name }} {{ $technician->surname }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="col-12 col-md-6 mb-4">
                                 <label class="my-2" for="status">Stato</label>
                                 <select name="status" class="form-control" required>
                                     <option value="">Seleziona uno stato</option>

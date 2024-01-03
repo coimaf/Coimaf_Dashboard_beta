@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Technician;
 use App\Models\MachinesSold;
 use Laravel\Scout\Searchable;
 use Illuminate\Database\Eloquent\Model;
@@ -44,5 +45,10 @@ class Ticket extends Model
     public static function getPriorityOptions()
     {
         return ['Bassa', 'Normale', 'Urgente'];
+    }
+
+    public function technician()
+    {
+        return $this->belongsTo(Technician::class);
     }
 }

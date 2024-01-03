@@ -9,6 +9,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\DeadlineController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\TechnicianController;
 
 /*
 |--------------------------------------------------------------------------
@@ -77,6 +78,10 @@ Route::delete('/dashboard/impostazioni/scadenzario/rimuovi-tag/{tagId}', [Settin
 Route::get('/dashboard/impostazioni/macchine-vendute/crea', [SettingController::class, 'machinesSoldsCreate'])->name('dashboard.settings.machinesSold.create')->middleware('officina');
 Route::post('/dashboard/impostazioni/macchine-vendute/aggiungi', [SettingController::class, 'machinesSoldsStore'])->name('dashboard.settings.machinesSold.store')->middleware('officina');
 Route::delete('/dashboard/impostazioni/macchine-vendute/rimuovi//{warrantyId}', [SettingController::class, 'machinesSoldsDelete'])->name('dashboard.settings.machinesSold.delete')->middleware('officina');
+
+Route::get('/dashboard/impostazioni/tecnici/crea', [TechnicianController::class, 'create'])->name('dashboard.settings.tecnicians.create')->middleware('officina');
+Route::post('/dashboard/impostazioni/tecnici/aggiungi', [TechnicianController::class, 'store'])->name('dashboard.settings.tecnicians.store')->middleware('officina');
+Route::delete('/dashboard/settings/technicians/{technician}', [TechnicianController::class, 'destroy'])->name('dashboard.settings.tecnicians.delete')->middleware('officina');
 
 // Macchine Vendute
 Route::get('/macchine-vendute', [MachineController::class, 'index'])->name('dashboard.machinesSolds.index')->middleware('officina');
