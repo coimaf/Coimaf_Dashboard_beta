@@ -135,6 +135,30 @@ php artisan ldap:browse
 - [x] Elimina;
 - [x] Indicizza per la ricerca;
 
+### Ticket
+- [x] Oggetto ticket - mandatario;
+- [x] Descrizione del problema (textarea) - mandatario;
+- [ ] Cliente (nome) obbligatorio, compilato se selezionato da elenco, con ricerca da ARCA;
+- [ ] Cliente (codice) - compilato da ARCA;
+- [x] Numero del ticket - compilato incrementalmente;
+- [x] Macchina (descrizione) selezione dal db delle macchine, compilato;
+- [x] Numero di serie macchina selezione dal db delle macchine, compilato;
+- [x] Data apertura - compilata;
+- [x] Data risoluzione - selezionabile da calendario;
+- [x] Stato: 
+    Aperto - in lavorazione - in attesa di un ricambio - da fatturare - chiuso;
+- [x] Priorità: 
+    Bassa - Normale - Urgente;
+- [ ] Tecnico incaricato - Configurabile da impostazioni;
+- [x] Risoluzione del problema - (text area);
+- [ ] Crea;
+- [ ] Modifica;
+- [ ] Salva Modifiche;
+- [ ] Visualizza;
+- [ ] Visualizza Dettaglio;
+- [ ] Elimina;
+- [ ] Indicizza per la ricerca;
+
 ### Funzioni generali
 - [x] Filtri;
 - [x] Searchbar;

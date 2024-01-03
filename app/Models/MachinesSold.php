@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Ticket;
 use App\Models\WarrantyType;
 use Laravel\Scout\Searchable;
 use Illuminate\Database\Eloquent\Model;
@@ -46,6 +47,16 @@ class MachinesSold extends Model
     public function warrantyType()
     {
         return $this->belongsTo(WarrantyType::class);
+    }
+
+    public function tickets()
+    {
+        return $this->hasMany(Ticket::class, 'machine_sold_id');
+    }
+
+    public function ticketsModel()
+    {
+        return $this->hasMany(Ticket::class, 'machine_model_id');
     }
     
 }

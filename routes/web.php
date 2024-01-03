@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\TicketController;
 use App\Http\Controllers\MachineController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingController;
@@ -79,12 +80,17 @@ Route::delete('/dashboard/impostazioni/macchine-vendute/rimuovi//{warrantyId}', 
 
 // Macchine Vendute
 Route::get('/macchine-vendute', [MachineController::class, 'index'])->name('dashboard.machinesSolds.index')->middleware('officina');
-Route::get('/macchine-vendute/crea', [MachineController::class, 'create'])->name('dashboard.machinesSolds.create')->middleware('officina');
-Route::post('/macchine-vendute/store', [MachineController::class, 'store'])->name('dashboard.machinesSolds.store')->middleware('officina');
-Route::get('/macchine/{machine}', [MachineController::class, 'show'])->name('dashboard.machinesSolds.show')->middleware('officina');
-Route::get('/macchine/modifica/{machine}', [MachineController::class, 'edit'])->name('dashboard.machinesSolds.edit')->middleware('officina');
-Route::put('/macchine/modifica/{machine}', [MachineController::class, 'update'])->name('dashboard.machinesSolds.update')->middleware('officina');
-Route::delete('/macchine/elimina/{machine}', [MachineController::class, 'destroy'])->name('dashboard.machinesSolds.destroy')->middleware('officina');
+Route::get('/dashboard/macchine-vendute/crea', [MachineController::class, 'create'])->name('dashboard.machinesSolds.create')->middleware('officina');
+Route::post('/dashboard/macchine-vendute/store', [MachineController::class, 'store'])->name('dashboard.machinesSolds.store')->middleware('officina');
+Route::get('/dashboard/macchine/{machine}', [MachineController::class, 'show'])->name('dashboard.machinesSolds.show')->middleware('officina');
+Route::get('/dashboard/macchine/modifica/{machine}', [MachineController::class, 'edit'])->name('dashboard.machinesSolds.edit')->middleware('officina');
+Route::put('/dashboard/macchine/modifica/{machine}', [MachineController::class, 'update'])->name('dashboard.machinesSolds.update')->middleware('officina');
+Route::delete('/dashboard/macchine/elimina/{machine}', [MachineController::class, 'destroy'])->name('dashboard.machinesSolds.destroy')->middleware('officina');
+
+// Tickets
+Route::get('/tickets', [TicketController::class, 'index'])->name('dashboard.tickets.index')->middleware('officina');
+Route::get('/dashboard/tickets/crea', [TicketController::class, 'create'])->name('dashboard.tickets.create')->middleware('officina');
+Route::post('/dashboard/tickets/store', [TicketController::class, 'store'])->name('dashboard.tickets.store')->middleware('officina');
 
 // Searchable
 Route::get('/dashboard/search', [SearchController::class, 'search'])->name('dashboard.search')->middleware('officina');

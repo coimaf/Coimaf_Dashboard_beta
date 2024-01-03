@@ -32,6 +32,12 @@
                         Macchine Vendute
                     </a>                                        
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('dashboard.tickets.index') }}" class="nav-link {{ Request::is('tickets') ? 'active' : '' }}" aria-current="page">
+                        <i class="bi bi-ticket-detailed pe-2"></i>
+                        Tickets
+                    </a>                                        
+                </li>
             </ul>
             <hr>
             <div class="dropdown">
