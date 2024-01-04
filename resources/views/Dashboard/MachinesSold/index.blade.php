@@ -31,22 +31,22 @@
                     </a>
                 </td>
                 <td>
-                    <a class="link-underline link-underline-opacity-0 link-dark" href="#">
+                    <a class="link-underline link-underline-opacity-0 link-dark" href="{{route('dashboard.machinesSolds.show', compact('machine'))}}">
                         {{ $machine->brand }}
                     </a>
                 </td>
                 <td>
-                    <a class="link-underline link-underline-opacity-0 link-dark" href="#">
+                    <a class="link-underline link-underline-opacity-0 link-dark" href="{{route('dashboard.machinesSolds.show', compact('machine'))}}">
                         {{ $machine->current_owner }}
                     </a>
                 </td>
                 <td>
-                    <a class="link-underline link-underline-opacity-0 link-dark" href="#">
+                    <a class="link-underline link-underline-opacity-0 link-dark" href="{{route('dashboard.machinesSolds.show', compact('machine'))}}">
                         {{ $machine->warrantyType->name }}
                     </a>
                 </td>
                 <td>
-                    <a class="link-underline link-underline-opacity-0 link-dark" href="#">
+                    <a class="link-underline link-underline-opacity-0 link-dark" href="{{route('dashboard.machinesSolds.show', compact('machine'))}}">
                         {{ \Carbon\Carbon::parse($machine->warranty_expiration_date)->format('d-m-Y') }}
                     </a>
                 </td>

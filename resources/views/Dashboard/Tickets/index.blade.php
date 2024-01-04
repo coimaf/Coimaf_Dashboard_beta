@@ -31,22 +31,22 @@
                     </a>
                 </td>
                 <td class="py-4">
-                    <a class="link-underline link-underline-opacity-0 link-dark" href="#">
+                    <a class="link-underline link-underline-opacity-0 link-dark" href="{{route('dashboard.tickets.show', compact('ticket'))}}">
                         {{ $ticket->title }}
                     </a>
                 </td>
                 <td>
-                    <a class="link-underline link-underline-opacity-0 link-dark" href="#">
+                    <a class="link-underline link-underline-opacity-0 link-dark" href="{{route('dashboard.tickets.show', compact('ticket'))}}">
                         {{ $ticket->status }}
                     </a>
                 </td>
                 <td>
-                    <a class="link-underline link-underline-opacity-0 link-dark" href="#">
+                    <a class="link-underline link-underline-opacity-0 link-dark" href="{{route('dashboard.tickets.show', compact('ticket'))}}">
                         {{ $ticket->priority }}
                     </a>
                 </td>
                 <td>
-                    <a class="link-underline link-underline-opacity-0 link-dark" href="#">
+                    <a class="link-underline link-underline-opacity-0 link-dark" href="{{route('dashboard.tickets.show', compact('ticket'))}}">
                         @if ($ticket->technician)
                         {{ $ticket->technician->name }} {{ $ticket->technician->surname }}
                         @else

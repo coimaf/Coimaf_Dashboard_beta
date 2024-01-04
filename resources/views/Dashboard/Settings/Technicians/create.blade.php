@@ -38,7 +38,7 @@
                             <form action="{{ route('dashboard.settings.tecnicians.delete', ['technician' => $technician->id]) }}" method="post">
                                 @csrf
                                 @method('delete')
-                                <label class="mb-3" for="name">Tecnici: </label>
+                                <label class="mb-3" for="name">Tecnico: </label>
                                 <span class="badge bg-primary ms-3">{{$technician->name}} {{$technician->surname}}</span>
                                 <button class="btn" type="submit"><i class='bi bi-trash-fill text-danger fs-5'></i></button>
                             </form>
