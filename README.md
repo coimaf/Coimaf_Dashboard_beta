@@ -157,7 +157,7 @@ php artisan ldap:browse
 - [x] Visualizza;
 - [x] Visualizza Dettaglio;
 - [x] Elimina;
-- [ ] Indicizza per la ricerca;
+- [x] Indicizza per la ricerca;
 
 ### Funzioni generali
 - [x] Filtri;
