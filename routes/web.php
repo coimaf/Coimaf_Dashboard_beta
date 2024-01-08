@@ -32,7 +32,7 @@ Route::get('/', function () {
 
 // Dashboard
 Route::get('/dashboard', function () {
-    return view('Dashboard.dashboard');
+    return view('dashboard.dashboard');
 })->name('dash')->middleware('officina');
 
 // Login
