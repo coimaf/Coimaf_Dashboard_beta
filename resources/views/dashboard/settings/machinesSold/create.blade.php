@@ -26,7 +26,7 @@
                                 <label class="mb-3" for="name">Aggiungi Garanzia: </label>
                                 <input class="form-control mb-3" type="text" name="name" required>
                                 <div class="row">
-                                    <x-Buttons.ButtonBlue type="submit" props="Aggiungi" />
+                                    <x-Buttons.buttonBlue type="submit" props="Aggiungi" />
                                 </div>
                             </form>
                         </div>

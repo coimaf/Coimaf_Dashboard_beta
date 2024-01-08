@@ -192,7 +192,7 @@
                                                         <input type="text" name="document_name" id="document_name" class="form-control" required>
                                                     </div>
                                                     <div class="row px-3 py-0">
-                                                        <x-Buttons.ButtonBlue type="submit" props="Aggiungi"/>
+                                                        <x-Buttons.buttonBlue type="submit" props="Aggiungi"/>
                                                     </div>
                                                 </form>
                                                 
