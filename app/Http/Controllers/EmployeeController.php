@@ -70,137 +70,141 @@ class EmployeeController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-                'name' => 'required|string|max:255',
-                'surname' => 'required|string|max:255',
-                'fiscal_code' => 'required|string|max:255',
-                'birthday' => 'required|string|max:255',
-                'phone' => 'required|string|max:255',
-                'address' => 'required|string|max:255',
-                'email' => 'required|email|max:255',
-                'email_work' => 'email|max:255',
-                'roles' => 'array',
-                'roles.*' => 'exists:roles,id',
-                'documents' => 'array',
-                'documents.*.id' => 'exists:documents,id',
-                'documents.*.pdf_path' => 'required|string|max:255',
-                'documents.*.expiry_date' => 'required|date',
-            ]);
+            'name' => 'required|string|max:255',
+            'surname' => 'required|string|max:255',
+            'fiscal_code' => 'required|string|max:255',
+            'birthday' => 'required|string|max:255',
+            'phone' => 'required|string|max:255',
+            'address' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'email_work' => 'email|max:255',
+            'roles' => 'array',
+            'roles.*' => 'exists:roles,id',
+            'documents' => 'array',
+            'documents.*.id' => 'exists:documents,id',
+            'documents.*.pdf_path' => 'required|string|max:255',
+            'documents.*.expiry_date' => 'required|date',
+        ]);
+        
+        // Crea un nuovo Employee
+        $employee = Employee::create([
+            'name' => $request->input('name'),
+            'surname' => $request->input('surname'),
+            'fiscal_code' => $request->input('fiscal_code'),
+            'birthday' => $request->input('birthday'),
+            'phone' => $request->input('phone'),
+            'address' => $request->input('address'),
+            'email' => $request->input('email'),
+            'email_work' => $request->input('email_work'),
+        ]);
+        
+        // Aggiungi ruolo associato
+        $roleId = $request->input('role');
+        $employee->roles()->sync([$roleId]);
+        
+        // Aggiungi documenti associati con i dettagli
+        $role = Role::with('documents')->find($roleId);
+        
+        foreach ($request->file('documents', []) as $index => $documentFile) {
+            $documentName = $request->input('document_names')[$index] ?? null;
             
-            // Crea un nuovo Employee
-            $employee = Employee::create([
-                'name' => $request->input('name'),
-                'surname' => $request->input('surname'),
-                'fiscal_code' => $request->input('fiscal_code'),
-                'birthday' => $request->input('birthday'),
-                'phone' => $request->input('phone'),
-                'address' => $request->input('address'),
-                'email' => $request->input('email'),
-                'email_work' => $request->input('email_work'),
-            ]);
+            // Cerca il documento corrispondente al nome e al ruolo
+            $documentModel = $role->documents->firstWhere('name', $documentName);
             
-            // Aggiungi ruolo associato
-            $roleId = $request->input('role');
-            $employee->roles()->sync([$roleId]);
-            
-            // Aggiungi documenti associati con i dettagli
-            $role = Role::with('documents')->find($roleId);
-            
-            foreach ($request->file('documents', []) as $index => $documentFile) {
-                $documentName = $request->input('document_names')[$index] ?? null;
-                
-                // Cerca il documento corrispondente al nome e al ruolo
-                $documentModel = $role->documents->firstWhere('name', $documentName);
-                
-                if ($documentModel && $documentFile->isValid()) {
-                    $pdfPath = $documentFile->store('employee_documents', 'public');
-                    $employee->documents()->attach($documentModel->id, [
-                        'pdf_path' => $pdfPath,
-                        'expiry_date' => $request->input('expiry_dates')[$index],
-                    ]);
-                }
-            }
-            
-            Auth::user()->employees()->save($employee);
-            
-            return redirect()->route('dashboard.employees.index')->with('success', 'Dipendente aggiunto con successo!');
-        }
-        
-        
-        public function show($id)
-        {
-            $employee = Employee::with(['documents', 'roles'])->findOrFail($id);
-            return view('dashboard.employees.show', compact('employee'));
-        }
-        
-        public function edit(Employee $employee)
-        {
-            // Carica i ruoli
-            $roles = Role::all();
-        
-            // Recupera tutti i documenti associati al dipendente
-            $documents = $employee->documents;
-        
-            return view('dashboard.employees.edit', compact('employee', 'roles', 'documents'));
-        }
-        
-        
-        public function update(Request $request, Employee $employee)
-{
-    $request->validate([
-        'name' => 'required|string|max:255',
-        'surname' => 'required|string|max:255',
-        'fiscal_code' => 'required|string|max:255',
-        'birthday' => 'required|string|max:255',
-        'phone' => 'required|string|max:255',
-        'address' => 'required|string|max:255',
-        'email' => 'required|email|max:255',
-        'email_work' => 'email|max:255',
-        'documents' => 'array',
-        'documents.*.id' => 'exists:documents,id',
-        'documents.*.pdf_path' => 'required|string|max:255',
-        'documents.*.expiry_date' => 'required|date',
-    ]);
-
-    // Aggiorna i dati dell'Employee
-    $employee->update([
-        'name' => $request->input('name'),
-        'surname' => $request->input('surname'),
-        'fiscal_code' => $request->input('fiscal_code'),
-        'birthday' => $request->input('birthday'),
-        'phone' => $request->input('phone'),
-        'address' => $request->input('address'),
-        'email' => $request->input('email'),
-        'email_work' => $request->input('email_work'),
-    ]);
-
-    // Aggiorna i documenti associati con i dettagli
-    foreach ($request->input('documents', []) as $index => $documentData) {
-        $documentModel = Document::find($documentData['id']);
-
-        if ($documentModel) {
-            $pdfPath = $request->file("documents.$index.pdf_path")->store('employee_documents', 'public');
-
-            // Aggiorna o crea il collegamento con il documento
-            $employee->documents()->updateOrCreate(
-                ['document_id' => $documentModel->id],
-                [
+            if ($documentModel && $documentFile->isValid()) {
+                $pdfPath = $documentFile->store('employee_documents', 'public');
+                $employee->documents()->attach($documentModel->id, [
                     'pdf_path' => $pdfPath,
-                    'expiry_date' => $documentData['expiry_date'],
-                ]
-            );
+                    'expiry_date' => $request->input('expiry_dates')[$index],
+                ]);
+            }
         }
-    }
-
-    return redirect()->route('dashboard.employees.index')->with('success', 'Dipendente aggiornato con successo!');
-}
-
-           
-          
-        public function destroy(Employee $employee)
-        {
-            $employee->delete();
-            
-            return redirect()->route('dashboard.employees.index')->with('success', 'Dipendente eliminato con successo!');
-        }
+        
+        Auth::user()->employees()->save($employee);
+        
+        return redirect()->route('dashboard.employees.index')->with('success', 'Dipendente aggiunto con successo!');
     }
     
+    
+    public function show($id)
+    {
+        $employee = Employee::with(['documents', 'roles'])->findOrFail($id);
+        return view('dashboard.employees.show', compact('employee'));
+    }
+    
+    public function edit(Employee $employee)
+    {
+        // Carica i ruoli
+        $roles = Role::all();
+    
+        // Recupera tutti i documenti associati al dipendente
+        $documents = $employee->documents;
+    
+        return view('dashboard.employees.edit', compact('employee', 'roles', 'documents'));
+    }
+    
+    
+    
+    public function update(Request $request, Employee $employee)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'surname' => 'required|string|max:255',
+            'fiscal_code' => 'required|string|max:255',
+            'birthday' => 'required|string|max:255',
+            'phone' => 'required|string|max:255',
+            'address' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'email_work' => 'nullable|email|max:255',
+            'documentEmployees.*.pdf' => 'nullable|mimes:pdf|max:2048',
+            'documentEmployees.*.expiry_date' => 'nullable|date',
+        ]);
+    
+        // Aggiorna i campi dell'utente
+        $employee->update([
+            'name' => $request->input('name'),
+            'surname' => $request->input('surname'),
+            'fiscal_code' => $request->input('fiscal_code'),
+            'birthday' => $request->input('birthday'),
+            'phone' => $request->input('phone'),
+            'address' => $request->input('address'),
+            'email' => $request->input('email'),
+            'email_work' => $request->input('email_work'),
+            'role_id' => $request->input('role'), // Assicurati di includere role_id
+        ]);
+    
+        foreach ($request->input('document_ids', []) as $key => $documentId) {
+            $document = Document::find($documentId);
+    
+            if ($document && $employee->documents->contains($document)) {
+                // Verifica che il documento sia associato all'utente
+    
+                // Aggiorna i dati del documento se necessario
+                $employee->documents()->updateExistingPivot($documentId, [
+                    'expiry_date' => $request->input("expiry_dates.$key"),
+                    // Altri campi del documento, se necessario
+                ]);
+    
+                // Aggiorna il file del documento solo se è stato fornito
+                if ($request->hasFile("documentEmployees.$key.pdf") && $request->file("documentEmployees.$key.pdf")->isValid()) {
+                    $pdfPath = $request->file("documentEmployees.$key.pdf")->store('employee_documents', 'public');
+                    $employee->documents()->updateExistingPivot($documentId, [
+                        'pdf_path' => $pdfPath,
+                    ]);
+                }
+            } else {
+                // Documento non trovato o non associato all'utente
+                // Puoi aggiungere del codice di gestione degli errori o di registrazione qui
+            }
+        }
+    
+        return redirect()->route('dashboard.employees.index')->with('success', 'Dipendente aggiornato con successo.');
+    }
+    
+    public function destroy(Employee $employee)
+    {
+        $employee->delete();
+        
+        return redirect()->route('dashboard.employees.index')->with('success', 'Dipendente eliminato con successo!');
+    }
+}

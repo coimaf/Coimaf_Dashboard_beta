@@ -22,7 +22,7 @@
                                 <li class="list-group-item d-flex justify-content-between align-items-center p-3 text-black">                                        
                                         <i class="bi bi-circle-fill {{ getStatusIconClass($document->pivot->expiry_date ) }}"></i>
                                         <label for="">{{$document->name}}</label>
-                                        <label for="">{{$document->pivot->expiry_date}}</label>
+                                        <label for="">{{\Carbon\Carbon::parse($document->pivot->expiry_date)->format('d-m-Y')}}</label>
                                         <a class="link-underline link-underline-opacity-0 link-dark fw-semibold" href="{{ asset("storage/{$document->pivot->pdf_path}") }}" download="{{ $document->name }}">
                                             <p class="mb-0"><i class="bi bi-download pe-2"></i> Download</p>
                                         </a>
