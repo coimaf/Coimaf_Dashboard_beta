@@ -147,18 +147,18 @@ class EmployeeController extends Controller
     
     public function update(Request $request, Employee $employee)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'surname' => 'required|string|max:255',
-            'fiscal_code' => 'required|string|max:255',
-            'birthday' => 'required|string|max:255',
-            'phone' => 'required|string|max:255',
-            'address' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'email_work' => 'nullable|email|max:255',
-            'documentEmployees.*.pdf' => 'nullable|mimes:pdf|max:2048',
-            'documentEmployees.*.expiry_date' => 'nullable|date',
-        ]);
+        // $request->validate([
+        //     'name' => 'required|string|max:255',
+        //     'surname' => 'required|string|max:255',
+        //     'fiscal_code' => 'required|string|max:255',
+        //     'birthday' => 'required|string|max:255',
+        //     'phone' => 'required|string|max:255',
+        //     'address' => 'required|string|max:255',
+        //     'email' => 'required|email|max:255',
+        //     'email_work' => 'nullable|email|max:255',
+        //     'documentEmployees.*.pdf' => 'nullable|mimes:pdf|max:2048',
+        //     'documentEmployees.*.expiry_date' => 'nullable|date',
+        // ]);
     
         // Aggiorna i campi dell'utente
         $employee->update([
@@ -170,12 +170,11 @@ class EmployeeController extends Controller
             'address' => $request->input('address'),
             'email' => $request->input('email'),
             'email_work' => $request->input('email_work'),
-            'role_id' => $request->input('role'), // Assicurati di includere role_id
         ]);
     
         foreach ($request->input('document_ids', []) as $key => $documentId) {
             $document = Document::find($documentId);
-    
+            
             if ($document && $employee->documents->contains($document)) {
                 // Verifica che il documento sia associato all'utente
     

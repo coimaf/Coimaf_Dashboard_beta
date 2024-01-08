@@ -75,12 +75,12 @@
                                         <h4>Documenti</h4>
                                         <label for="{{ $document->name }}">{{ $document->name }}</label>
                                         <input type="hidden" name="document_names[{{ $key }}]" value="{{ $document->name }}">
-                                        <input type="file" name="documents[{{ $key }}]" class="form-control my-3" accept=".pdf">
+                                        <input type="file" name="documentEmployees[{{ $key }}][pdf]" class="form-control my-3" accept=".pdf">
                                         <input type="date" name="expiry_dates[{{ $key }}]" class="form-control my-3" value="{{ $document->pivot->expiry_date }}" required>
                                         <input type="hidden" name="document_ids[{{ $key }}]" value="{{ $document->id }}">
                                     </div>
                                 @endforeach
-                            </div>
+                            </div>                            
                 
                             
                             

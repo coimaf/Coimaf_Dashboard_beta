@@ -167,5 +167,5 @@ php artisan ldap:browse
 - [ ] Utente Admin Persistente nel DB (in caso AD è down);
 
 ### *********** Bug ***********
-- [ ] Validazione e modifica documenti Dipendenti;
+- [x] Validazione e modifica documenti Dipendenti;
 - [ ] Indicizzazione Ricerca dei modelli associati;
