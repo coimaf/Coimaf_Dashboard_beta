@@ -23,7 +23,7 @@ class TicketController extends Controller
             'Modifica',
             'Elimina'
         ];
-        return view('Dashboard.tickets.index', [
+        return view('dashboard.tickets.index', [
             'tickets' => $tickets,
             'columnTitles' => $columnTitles
         ]);
@@ -34,7 +34,7 @@ class TicketController extends Controller
         $machines = MachinesSold::all();
         $technicians = Technician::all();
         $nextTicketNumber = DB::table('tickets')->max('id') + 1;
-        return view('Dashboard.tickets.create', compact('machines', 'nextTicketNumber', 'technicians'));
+        return view('dashboard.tickets.create', compact('machines', 'nextTicketNumber', 'technicians'));
     }
     
     public function store(Request $request)
@@ -62,7 +62,7 @@ class TicketController extends Controller
 
     public function show(Ticket $ticket)
     {
-        return view("Dashboard.Tickets.show", compact('ticket'));
+        return view("dashboard.Tickets.show", compact('ticket'));
     }
     
     
@@ -72,7 +72,7 @@ class TicketController extends Controller
         $machines = MachinesSold::all();
         $technicians = Technician::all();
 
-        return view('Dashboard.tickets.edit', compact('ticket', 'machines', 'technicians'));
+        return view('dashboard.tickets.edit', compact('ticket', 'machines', 'technicians'));
     }
     
     public function update(Request $request, Ticket $ticket)

@@ -20,7 +20,7 @@ class MachineController extends Controller
             'Modifica',
             'Elimina'
         ];
-        return view('Dashboard.machinesSold.index', [
+        return view('dashboard.machinesSold.index', [
             'machines' => $machines,
             'columnTitles' => $columnTitles
         ]);
@@ -33,7 +33,7 @@ class MachineController extends Controller
         // Invia le Garanzie alla vista di creazione macchine
         $warranty_type = WarrantyType::all();
         // e passale alla vista di creazione.
-        return view('Dashboard.machinesSold.create', compact('warranty_type'));
+        return view('dashboard.machinesSold.create', compact('warranty_type'));
     }
     
     public function store(Request $request)
@@ -59,7 +59,7 @@ class MachineController extends Controller
     
     public function show(MachinesSold $machine)
     {
-        return view("Dashboard.MachinesSold.show", compact('machine'));
+        return view("dashboard.MachinesSold.show", compact('machine'));
     }
     
     public function edit(MachinesSold $machine)
@@ -70,7 +70,7 @@ class MachineController extends Controller
         $warranty_type = WarrantyType::all();
 
         // e passale alla vista di modifica.
-        return view('Dashboard.MachinesSold.edit', compact('machine', 'warranty_type'));
+        return view('dashboard.MachinesSold.edit', compact('machine', 'warranty_type'));
     }
     
     public function update(Request $request, MachinesSold $machine)

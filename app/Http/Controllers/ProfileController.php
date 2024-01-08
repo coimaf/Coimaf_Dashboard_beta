@@ -10,6 +10,6 @@ class ProfileController extends Controller
     public function profile()
     {
         $users = User::all();
-        return view('Dashboard.profile', ['users' => $users]);
+        return view('dashboard.profile', ['users' => $users]);
     }
 }
