@@ -1,4 +1,4 @@
-<x-Layouts.LayoutDash>
+<x-Layouts.layoutDash>
     
     <div class="container-fluid main-content">
         <div class="row justify-content-center align-items-center">
@@ -49,4 +49,4 @@
         </div>
     </div>
     
-</x-Layouts.LayoutDash>
+</x-Layouts.layoutDash>
