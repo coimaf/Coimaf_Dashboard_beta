@@ -33,7 +33,7 @@ Route::get('/', function () {
 // Dashboard
 Route::get('/dashboard', function () {
     return view('dashboard.dashboard');
-})->name('dash')->middleware('officina');
+})->name('dash');
 
 // Login
 Route::get('/login', function () {
