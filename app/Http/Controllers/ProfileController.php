@@ -9,7 +9,8 @@ class ProfileController extends Controller
 {
     public function profile()
     {
-        $users = User::all();
-        return view('dashboard.profile', ['users' => $users]);
+        $user = auth()->user();
+
+        return view('dashboard.profile', ['user' => $user]);
     }
 }

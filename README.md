@@ -167,5 +167,7 @@ php artisan ldap:browse
 - [ ] Utente Admin Persistente nel DB (in caso AD è down);
 
 ### *********** Bug ***********
+- [x] Visualizzo tutti i profili e non solo quello Loggato;
+- [ ] Ricevo solo l'ultimo gruppo di memberOf anzichè tutti;
 - [x] Validazione e modifica documenti Dipendenti;
 - [ ] Indicizzazione Ricerca dei modelli associati;
