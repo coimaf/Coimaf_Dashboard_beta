@@ -71,7 +71,8 @@ return [
                     'email' => 'userprincipalname',
                     'username' => 'samaccountname',
                     'groups' => 'memberof',
-                ],
+                    'distinguishedname' => 'distinguishedname'
+                ], 
             ],
         ],
     ],

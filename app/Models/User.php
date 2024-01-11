@@ -11,6 +11,10 @@ use LdapRecord\Laravel\Auth\LdapAuthenticatable;
 use LdapRecord\Laravel\Auth\AuthenticatesWithLdap;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use LdapRecord\Models\ActiveDirectory\Group as LdapGroup;
+use LdapRecord\Query\Model\Builder;
+use LdapRecord\Models\ActiveDirectory\User as LdapUser;
+
 
 class User extends Authenticatable implements LdapAuthenticatable
 {
@@ -46,6 +50,7 @@ class User extends Authenticatable implements LdapAuthenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'groups' => 'array',
     ];
 
     public static function boot()
@@ -53,19 +58,31 @@ class User extends Authenticatable implements LdapAuthenticatable
         parent::boot();
     
         static::saving(function ($user) {
-            // Verifica se groups è un array
-            if (is_array($user->groups)) {
-                // Converti l'array in una stringa separata da virgola
-                $user->groups = implode(' - ', $user->groups);
-            } elseif (is_string($user->groups)) {
-                // Utilizza una regex per estrarre solo il contenuto tra CN= e la virgola
-                preg_match_all('/CN=(.*?),/', $user->groups, $matches);
+            // Ottieni l'oggetto utente da Active Directory
+            $ldapUser = LdapUser::find($user->distinguishedname);
     
-                // Aggiorna $user->groups con il contenuto estratto
-                $user->groups = implode(' - ', $matches[1]);
+            // Verifica se l'utente è presente in Active Directory
+            if ($ldapUser) {
+                // Ottieni i gruppi associati all'utente dal campo memberof
+                $groupDNs = $ldapUser->memberof;
+    
+                // Estrai i nomi dei gruppi dai DN
+                $groupNames = collect($groupDNs)->map(function ($groupDN) {
+                    $matches = [];
+                    // Estrai il nome del gruppo dal DN
+                    preg_match('/CN=([^,]+)/', $groupDN, $matches);
+                    return $matches[1] ?? null;
+                })->filter()->toArray();
+    
+                // Formatta gli elementi come una stringa separata da "-"
+                $formattedGroups = implode(' - ', $groupNames);
+    
+                // Assegna la stringa formattata all'attributo 'groups'
+                $user->groups = $formattedGroups;
             }
         });
     }
+    
 
     public function employees() {
         return $this->hasMany(Employee::class);

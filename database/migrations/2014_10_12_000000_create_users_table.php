@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('groups')->nullable();
             $table->string('email')->unique()->nullable();
             $table->string('guid');
+            $table->string('distinguishedname');
             $table->string('domain');
             $table->string('password');
             $table->timestamps();

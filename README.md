@@ -168,6 +168,6 @@ php artisan ldap:browse
 
 ### *********** Bug ***********
 - [x] Visualizzo tutti i profili e non solo quello Loggato;
-- [ ] Ricevo solo l'ultimo gruppo di memberOf anzichè tutti;
+- [x] Ricevo solo l'ultimo gruppo di memberOf anzichè tutti;
 - [x] Validazione e modifica documenti Dipendenti;
 - [ ] Indicizzazione Ricerca dei modelli associati;
