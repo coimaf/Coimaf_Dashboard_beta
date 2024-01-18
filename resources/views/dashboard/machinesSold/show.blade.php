@@ -5,7 +5,8 @@
                 <div class="col-lg-4">
                     <div class="card mb-4 text-black">
                         <div class="card-body text-center">
-                            <h5 class="my-3 fs-3 fw-bold text-alt">{{$machine->model}} {{$machine->brand}}</h5>
+                            <h5 class="my-3 fs-3 fw-bold text-alt">{{$machine->model}}</h5>
+                            <h6 class="my-3 fs-3 fw-bold text-alt">{{$machine->brand}}</h6>
                             <p class="mb-3 text-capitalize lead">{{$machine->serial_number}}</p>
                         </div>
                     </div>
@@ -25,19 +26,19 @@
                             <hr>
                             <div class="row">
                                 <div class="col-sm-3">
-                                    <p class="mb-0 fw-semibold">Primo Proprietario</p>
+                                    <p class="mb-0 fw-semibold">Proprietario Attuale</p>
                                 </div>
                                 <div class="col-sm-9">
-                                    <p class=" mb-0">{{ $machine->first_buyer }}</p>
+                                    <p class=" mb-0">{{ $machine->buyer }}</p>
                                 </div>
                             </div>
                             <hr>
                             <div class="row">
                                 <div class="col-sm-3">
-                                    <p class="mb-0 fw-semibold">Proprietario Attuale</p>
+                                    <p class="mb-0 fw-semibold">Vecchio Proprietario</p>
                                 </div>
                                 <div class="col-sm-9">
-                                    <p class=" mb-0">{{$machine->current_owner}}</p>
+                                    <p class=" mb-0">{{$machine->old_buyer}}</p>
                                 </div>
                             </div>
                             <hr>

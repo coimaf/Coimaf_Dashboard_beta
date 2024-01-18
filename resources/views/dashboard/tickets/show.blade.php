@@ -26,6 +26,24 @@
                             <hr>
                             <div class="row">
                                 <div class="col-sm-3">
+                                    <p class="mb-0 fw-semibold">ID Cliente: </p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <p class=" mb-0">{{ $ticket->cd_cf }}</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0 fw-semibold">Cliente: </p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <p class=" mb-0">{{ $ticket->descrizione }}</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
                                     <p class="mb-0 fw-semibold">Stato: </p>
                                 </div>
                                 <div class="col-sm-9">
