@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\MachinesSold;
 use App\Models\WarrantyType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MachineController extends Controller
 {
@@ -28,12 +29,10 @@ class MachineController extends Controller
     
     public function create()
     {
-        // Implementa la logica per ottenere le opzioni da ARCA e dalle impostazioni
-        
-        // Invia le Garanzie alla vista di creazione macchine
+        $customers = DB::connection('mssql')->table('cf')->get();
+        $brands = DB::connection('mssql')->table('ARMarca')->get();
         $warranty_type = WarrantyType::all();
-        // e passale alla vista di creazione.
-        return view('dashboard.machinesSold.create', compact('warranty_type'));
+        return view('dashboard.machinesSold.create', compact('warranty_type', 'customers', 'brands'));
     }
     
     public function store(Request $request)
@@ -43,17 +42,28 @@ class MachineController extends Controller
             'brand' => 'required',
             'serial_number' => 'required',
             'sale_date' => 'required|date',
-            'first_buyer' => 'required',
-            'current_owner' => 'required',
             'warranty_expiration_date' => 'required|date',
             'warranty_type_id' => 'nullable|exists:warranty_types,id',
             'registration_date' => 'required|date',
             'delivery_ddt' => 'required',
             'notes' => 'required',
         ]);
-        
-        MachinesSold::create($request->all());
-        
+    
+        // Aggiorna il nome del campo nel create
+        MachinesSold::create([
+            'model' => $request->input('model'),
+            'brand' => $request->input('brand'),
+            'serial_number' => $request->input('serial_number'),
+            'sale_date' => $request->input('sale_date'),
+            'warranty_expiration_date' => $request->input('warranty_expiration_date'),
+            'warranty_type_id' => $request->input('warranty_type_id'),
+            'registration_date' => $request->input('registration_date'),
+            'delivery_ddt' => $request->input('delivery_ddt'),
+            'old_buyer' => $request->input('old_buyer'),
+            'buyer' => $request->input('buyer'),
+            'notes' => $request->input('notes'),
+        ]);
+    
         return redirect()->route("dashboard.machinesSolds.index")->with("success", "Macchina inserita con successo.");
     }
     
@@ -65,41 +75,43 @@ class MachineController extends Controller
     public function edit(MachinesSold $machine)
     {
         // Implementa la logica per ottenere le opzioni da ARCA e dalle impostazioni
-        
+        $customers = DB::connection('mssql')->table('cf')->get();
+        $brands = DB::connection('mssql')->table('ARMarca')->get();
         // Invia le Garanzie alla vista di modifica macchine
         $warranty_type = WarrantyType::all();
 
         // e passale alla vista di modifica.
-        return view('dashboard.MachinesSold.edit', compact('machine', 'warranty_type'));
+        return view('dashboard.MachinesSold.edit', compact('machine', 'warranty_type', 'brands', 'customers'));
     }
     
     public function update(Request $request, MachinesSold $machine)
-{
-    $request->validate([
-        'model' => 'required',
-        'brand' => 'required',
-        'serial_number' => 'required',
-        'sale_date' => 'required|date',
-        'first_buyer' => 'required',
-        'current_owner' => 'required',
-        'warranty_expiration_date' => 'required|date',
-        'warranty_type_id' => 'nullable|exists:warranty_types,id',
-        'registration_date' => 'required|date',
-        'delivery_ddt' => 'required',
-        'notes' => 'required',
-    ]);
-
-    $machine->update($request->all());
-
-    // Se desideri anche aggiornare il tipo di garanzia associato, puoi farlo qui
-    if ($request->has('warranty_type_id')) {
-        $warrantyType = WarrantyType::find($request->warranty_type_id);
-        $machine->warrantyType()->associate($warrantyType);
+    {
+        $request->validate([
+            'model' => 'required',
+            'brand' => 'required',
+            'serial_number' => 'required',
+            'sale_date' => 'required|date',
+            'warranty_expiration_date' => 'required|date',
+            'warranty_type_id' => 'nullable|exists:warranty_types,id',
+            'registration_date' => 'required|date',
+            'delivery_ddt' => 'required',
+            'notes' => 'required',
+        ]);
+    
+        $machine->update($request->all());
+    
+        // Aggiorna i campi dei proprietari
+        $machine->old_buyer = $request->input('old_buyer');
+        $machine->buyer = $request->input('buyer');
         $machine->save();
+    
+        // Aggiorna la relazione Eloquent con il tipo di garanzia
+        $machine->warrantyType()->associate($request->input('warranty_type_id'));
+        $machine->save();
+    
+        return redirect()->route("dashboard.machinesSolds.index")->with("success", "Macchina aggiornata con successo.");
     }
-
-    return redirect()->route("dashboard.machinesSolds.index")->with("success", "Macchina aggiornata con successo.");
-}
+    
     
     
     public function destroy(MachinesSold $machine)

@@ -14,14 +14,14 @@
                             </div>
 
                             <div class="col-12 col-md-6">
-                                <label class="my-2" for="brand">Marca</label>
-                                <select name="brand" class="form-control">
+                                <label class="my-2" for="brandInput">Marca</label>
+                                <input list="brandList" class="form-control" id="brandInput" name="brand">
+                                <datalist id="brandList">
                                     <option value="">Seleziona una Marca</option>
-                                    <option value="arca">Arca</option>
-                                    {{-- @foreach($brand as $brand_type)
-                                    <option value="{{ $brand_type->id }}">{{ $brand_type->name }}</option>
-                                    @endforeach --}}
-                                </select>
+                                    @foreach($brands as $brand)
+                                        <option value="{{ $brand->Descrizione }}" data-cd-ar-marca="{{ $brand->Cd_ARMarca }}"></option>
+                                    @endforeach
+                                </datalist>
                             </div>
 
                             <div class="col-12 col-md-6">
@@ -35,13 +35,23 @@
                             </div>
 
                             <div class="col-12 col-md-6">
-                                <label class="my-2" for="first_buyer">Vecchio Proprietario</label>
-                                <input type="text" name="first_buyer" class="form-control" required>
-                            </div>
-
+                                <label class="my-2" for="old_buyer_input">Vecchio Proprietario</label>
+                                <input list="old_buyer" class="form-control" id="old_buyer_input" name="old_buyer">
+                                <datalist id="old_buyer">
+                                    @foreach ($customers as $customer)
+                                        <option value="{{ trim($customer->Descrizione) }}" data-cd-cf="{{ $customer->Cd_CF }}"></option>
+                                    @endforeach
+                                </datalist>
+                            </div> 
+                            
                             <div class="col-12 col-md-6">
-                                <label class="my-2" for="current_owner">Proprietario Attuale</label>
-                                <input type="text" name="current_owner" class="form-control" required>
+                                <label class="my-2" for="buyer_input">Proprietario Attuale</label>
+                                <input list="buyer" class="form-control" id="buyer_input" name="buyer">
+                                <datalist id="buyer" required>
+                                    @foreach ($customers as $customer)
+                                        <option value="{{ trim($customer->Descrizione) }}" data-cd-cf="{{ $customer->Cd_CF }}"></option>
+                                    @endforeach
+                                </datalist>
                             </div>
                             
                             <div class="col-12 col-md-6 mb-4">
@@ -83,3 +93,18 @@
     </div> 
     
 </x-Layouts.layoutDash>
+
+
+
+<script>
+    document.getElementById('customerInput').addEventListener('input', function() {
+        var selectedOption = document.querySelector('#customer option[value="' + this.value + '"]');
+        var cdCFInput = document.getElementById('selectedCdCFInput');
+        
+        if (selectedOption) {
+            cdCFInput.value = selectedOption.getAttribute('data-cd-cf');
+        } else {
+            cdCFInput.value = ''; // Se l'utente cancella l'input, azzera il valore di Cd_CF
+        }
+    });
+</script>

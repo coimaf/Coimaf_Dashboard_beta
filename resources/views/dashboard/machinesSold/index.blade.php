@@ -37,7 +37,7 @@
                 </td>
                 <td>
                     <a class="link-underline link-underline-opacity-0 link-dark" href="{{route('dashboard.machinesSolds.show', compact('machine'))}}">
-                        {{ $machine->current_owner }}
+                        {{ $machine->buyer }}
                     </a>
                 </td>
                 <td>

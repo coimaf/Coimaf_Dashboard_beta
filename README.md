@@ -120,13 +120,13 @@ php artisan ldap:browse
 - [x] Ricevi dati da Arca;
 
 ### Macchine Vendute (Implementazione ARCA)
-- [ ] Tutte le macchine vendute devono avere:
+- [x] Tutte le macchine vendute devono avere:
     - [x] Modello;
-    - [ ] Marca (menu a tendina) da ARCA;
+    - [x] Marca (menu a tendina) da ARCA;
     - [x] Numero Serie;
     - [x] Data Vendita;
-    - [ ] Primo Acquirente da ARCA;
-    - [ ] Propietario attuale da ARCA;
+    - [x] Primo Acquirente da ARCA;
+    - [x] Propietario attuale da ARCA;
     - [x] Data scadenza garanzia;
     - [x] Tipo Garanzia (menu a tendina config da impostazioni);
     - [x] Data Registrazione;

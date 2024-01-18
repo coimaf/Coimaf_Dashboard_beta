@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('machines_solds', function (Blueprint $table) {
             $table->id();
             $table->string('model');
-            $table->string('brand'); // Marca (menu a tendina) da ARCA
+            $table->string('brand');
             $table->string('serial_number');
             $table->date('sale_date');
-            $table->string('first_buyer'); // Primo Acquirente da ARCA
-            $table->string('current_owner'); // Proprietario attuale da ARCA
+            $table->string('old_buyer')->nullable();
+            $table->string('buyer');
             $table->date('warranty_expiration_date');
             $table->date('registration_date');
             $table->string('delivery_ddt');
