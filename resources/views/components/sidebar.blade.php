@@ -1,6 +1,6 @@
 <div class="sidebar">
-    <main class="d-flex flex-nowrap content-main">
-        <div class="d-flex flex-column flex-shrink-0 p-3 text-bg-light w-100 main-content" >
+    <main class="d-flex">
+        <div class="d-flex flex-column p-3 text-bg-light w-75 main-content" >
             <a class="text-center" href="{{ route('home') }}"><img width="50%" src="{{ asset('assets/coimaf_logo.png') }}" alt="Logo_Coimaf"></a>
             <form class="d-flex" action="{{ route('dashboard.search') }}" method="GET">
                 <input class="form-control me-2" type="search" placeholder="Cerca" aria-label="Search" name="searched">
@@ -29,7 +29,7 @@
                 <li class="nav-item">
                     <a href="{{ route('dashboard.machinesSolds.index') }}" class="nav-link {{ Request::is('macchine-vendute') ? 'active' : '' }}" aria-current="page">
                         <i class="bi bi-grid-1x2 pe-2"></i>
-                        Macchine Vendute
+                        Macchine Installate
                     </a>                                        
                 </li>
                 <li class="nav-item">

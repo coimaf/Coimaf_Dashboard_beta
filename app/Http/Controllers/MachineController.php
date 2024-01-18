@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\MachinesSold;
 use App\Models\WarrantyType;
 use Illuminate\Http\Request;
@@ -42,12 +43,15 @@ class MachineController extends Controller
             'brand' => 'required',
             'serial_number' => 'required',
             'sale_date' => 'required|date',
-            'warranty_expiration_date' => 'required|date',
             'warranty_type_id' => 'nullable|exists:warranty_types,id',
-            'registration_date' => 'required|date',
             'delivery_ddt' => 'required',
             'notes' => 'required',
         ]);
+
+        $currentDate = Carbon::now();
+        $warranty_expiration_date = $currentDate->addYear();
+
+        $registration_date = Carbon::today();
     
         // Aggiorna il nome del campo nel create
         MachinesSold::create([
@@ -55,14 +59,15 @@ class MachineController extends Controller
             'brand' => $request->input('brand'),
             'serial_number' => $request->input('serial_number'),
             'sale_date' => $request->input('sale_date'),
-            'warranty_expiration_date' => $request->input('warranty_expiration_date'),
+            'warranty_expiration_date' => $warranty_expiration_date,
             'warranty_type_id' => $request->input('warranty_type_id'),
-            'registration_date' => $request->input('registration_date'),
+            'registration_date' => $registration_date,
             'delivery_ddt' => $request->input('delivery_ddt'),
             'old_buyer' => $request->input('old_buyer'),
             'buyer' => $request->input('buyer'),
             'notes' => $request->input('notes'),
         ]);
+
     
         return redirect()->route("dashboard.machinesSolds.index")->with("success", "Macchina inserita con successo.");
     }

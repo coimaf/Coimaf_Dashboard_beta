@@ -1,5 +1,9 @@
 <x-Layouts.layoutDash>
     
+    <div class="col-12 col-md-11 d-flex justify-content-end my-1 w-100">
+        <a href="{{route('dashboard.employees.create')}}"><x-Buttons.buttonBlue type="button" props="NUOVO" /></a>
+    </div>
+    
     <div class="container d-flex justify-content-center">
         @if (session('success'))
         <div class="alert alert-success mt-5">
@@ -15,10 +19,6 @@
             </ul>
         </div>
         @endif
-    </div>
-    
-    <div class="col-12 col-md-11 d-flex justify-content-end mt-5">
-        <a href="{{route('dashboard.employees.create')}}"><x-Buttons.buttonBlue type="button" props="NUOVO" /></a>
     </div>
     
     

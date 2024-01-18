@@ -17,20 +17,28 @@
                     <i class="bi bi-justify text-white fs-4"></i>
                 </button>
                 @if(auth()->check())
-                    <x-sidebar :userName="auth()->user()->name" />
-                @endif
-            </div>
-            <!-- Main Content -->
-            <div class="col-sm-10 col-12">
-                {{ $slot }}
+                <x-sidebar :userName="auth()->user()->name" />
+                    @endif
+                </div>
+                <!-- Main Content -->
+                <div class="col-sm-10 col-12">
+                    <div class="container-fluid main-content">
+                        <div class="row justify-content-center align-items-center">
+                            <div class="col-xl-10 col-lg-10 col-md-12 col-sm-12 col-12 rounded-3 p-0 m-1" style="background-color: rgb(243, 243, 243); height: 98vh; width:99%">
+                                <div class="col-12 rounded-2 mt-1 p-1 container-create" style="max-height: 95vh; overflow-y: scroll">
+                                    {{ $slot }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-    @vite(['resources/js/app.js'])
-    <script
-    type="text/javascript"
-    src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.umd.min.js"
-  ></script>
+        @vite(['resources/js/app.js'])
+        <script
+        type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.umd.min.js"
+        ></script>
     </body>
     </html>
     

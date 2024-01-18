@@ -17,7 +17,7 @@
         @endif
     </div>
     
-    <div class="col-12 col-md-11 d-flex justify-content-end mt-5">
+    <div class="col-12 col-md-11 d-flex justify-content-end  my-1 w-100">
         <a href="{{route('dashboard.tickets.create')}}"><x-Buttons.buttonBlue type="button" props="NUOVO" /></a>
     </div>
     
