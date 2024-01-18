@@ -84,30 +84,44 @@ class TicketController extends Controller
         
         $machines = MachinesSold::all();
         $technicians = Technician::all();
+        $customers = DB::connection('mssql')->table('cf')->get();
 
-        return view('dashboard.tickets.edit', compact('ticket', 'machines', 'technicians'));
+        return view('dashboard.tickets.edit', compact('ticket', 'machines', 'technicians', 'customers'));
     }
     
-    public function update(Request $request, Ticket $ticket)
+    public function update(Request $request, $id)
     {
-        // Aggiorna i dati del ticket
-        $ticket->update([
-            'title' => $request->input('title'),
-            'description' => $request->input('description'),
-            'notes' => $request->input('notes'),
-            'machine_model_id' => $request->input('machine_model_id'),
-            'machine_sold_id' => $request->input('machine_sold_id'),
-            'closed' => $request->input('closed'),
-            'status' => $request->input('status'),
-            'priority' => $request->input('priority'),
+        // Validazione dei dati
+        $request->validate([
+            'selectedCustomer' => 'required',
+            'selectedCdCF' => 'required',
         ]);
-        
-        // Associa il tecnico al ticket
+    
+        // Trova il ticket da aggiornare
+        $ticket = Ticket::findOrFail($id);
+    
+        // Aggiorna i campi del ticket con i nuovi valori
+        $ticket->title = $request->input('title');
+        $ticket->description = $request->input('description');
+        $ticket->notes = $request->input('notes');
+        $ticket->machine_model_id = $request->input('machine_model_id');
+        $ticket->machine_sold_id = $request->input('machine_sold_id');
+        $ticket->closed = $request->input('closed');
+        $ticket->status = $request->input('status');
+        $ticket->priority = $request->input('priority');
+        $ticket->descrizione = trim($request->input('selectedCustomer'));
+        $ticket->cd_cf = $request->input('selectedCdCF');
+    
+        // Aggiorna l'associazione del tecnico al ticket
         $ticket->technician()->associate($request->input('technician_id'));
+    
+        // Salva le modifiche nel database
         $ticket->save();
-        
+    
         return redirect()->route('dashboard.tickets.index')->with('success', 'Ticket aggiornato con successo!');
     }
+    
+
     
     public function destroy(Ticket $ticket)
     {
