@@ -83,7 +83,7 @@
                 
                 console.log('Documents:', documents);
                 
-                var html = '<h6 class="m-0 pt-1 fw-bold">Documenti</h6>';
+                var html = '<h6 class="m-0 p-2 fw-bold">Documenti</h6>';
                 
                 for (var i = 0; i < documents.length; i++) {
                     var defaultName = documents[i].name;
