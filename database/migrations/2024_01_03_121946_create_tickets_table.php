@@ -17,6 +17,8 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->date('closed')->nullable();
             $table->text('notes')->nullable();
+            $table->string('descrizione');
+            $table->string('cd_cf');
             $table->timestamps();
 
             $table->unsignedBigInteger('machine_sold_id')->nullable();

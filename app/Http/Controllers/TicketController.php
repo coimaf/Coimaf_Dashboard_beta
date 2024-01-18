@@ -34,31 +34,44 @@ class TicketController extends Controller
         $machines = MachinesSold::all();
         $technicians = Technician::all();
         $nextTicketNumber = DB::table('tickets')->max('id') + 1;
-        return view('dashboard.tickets.create', compact('machines', 'nextTicketNumber', 'technicians'));
+        $customers = DB::connection('mssql')->table('cf')->get();
+
+        return view('dashboard.tickets.create', compact('machines', 'nextTicketNumber', 'technicians', 'customers'));
     }
     
     public function store(Request $request)
-    {
-        $ticket = new Ticket([
-            'title' => $request->input('title'),
-            'description' => $request->input('description'),
-            'notes' => $request->input('notes'),
-            'machine_model_id' => $request->input('machine_model_id'),
-            'machine_sold_id' => $request->input('machine_sold_id'),
-            'closed' => $request->input('closed'),
-            'status' => $request->input('status'),
-            'priority' => $request->input('priority'),
-        ]);
-        
-        // Salva il ticket nel database
-        $ticket->save();
-        
-        // Associa il tecnico al ticket
-        $ticket->technician()->associate($request->input('technician_id'));
-        $ticket->save();
-        
-        return redirect()->route('dashboard.tickets.index')->with('success', 'Ticket creato con successo!');
-    }
+{
+    // Validazione dei dati
+    $request->validate([
+        'selectedCustomer' => 'required',
+        'selectedCdCF' => 'required',
+    ]);
+
+    // Continua con il tuo codice
+    $ticket = new Ticket([
+        'title' => $request->input('title'),
+        'description' => $request->input('description'),
+        'notes' => $request->input('notes'),
+        'machine_model_id' => $request->input('machine_model_id'),
+        'machine_sold_id' => $request->input('machine_sold_id'),
+        'closed' => $request->input('closed'),
+        'status' => $request->input('status'),
+        'priority' => $request->input('priority'),
+        'descrizione' => trim($request->input('selectedCustomer')),
+        'cd_cf' => $request->input('selectedCdCF'),
+    ]);
+
+    // Salva il ticket nel database
+    $ticket->save();
+
+    // Associa il tecnico al ticket
+    $ticket->technician()->associate($request->input('technician_id'));
+    $ticket->save();
+
+    return redirect()->route('dashboard.tickets.index')->with('success', 'Ticket creato con successo!');
+}
+
+    
 
     public function show(Ticket $ticket)
     {

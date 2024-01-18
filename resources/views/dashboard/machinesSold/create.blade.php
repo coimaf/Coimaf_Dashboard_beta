@@ -35,7 +35,7 @@
                             </div>
 
                             <div class="col-12 col-md-6">
-                                <label class="my-2" for="first_buyer">Primo Acquirente</label>
+                                <label class="my-2" for="first_buyer">Vecchio Proprietario</label>
                                 <input type="text" name="first_buyer" class="form-control" required>
                             </div>
 

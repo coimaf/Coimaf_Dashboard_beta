@@ -114,6 +114,11 @@ php artisan ldap:browse
 - [x] Associa o dissocia Documenti ai Ruoli;
 - [x] Aggiungere o rimuovere Tags per lo scadenzario;
 
+### Arca
+- [x] Installizione msphpsql ( MicrosoftSQL );
+- [x] Configurazione Arca;
+- [x] Ricevi dati da Arca;
+
 ### Macchine Vendute (Implementazione ARCA)
 - [ ] Tutte le macchine vendute devono avere:
     - [x] Modello;
@@ -138,8 +143,8 @@ php artisan ldap:browse
 ### Ticket
 - [x] Oggetto ticket - mandatario;
 - [x] Descrizione del problema (textarea) - mandatario;
-- [ ] Cliente (nome) obbligatorio, compilato se selezionato da elenco, con ricerca da ARCA;
-- [ ] Cliente (codice) - compilato da ARCA;
+- [x] Cliente (nome) obbligatorio, compilato se selezionato da elenco, con ricerca da ARCA;
+- [x] Cliente (codice) - compilato da ARCA;
 - [x] Numero del ticket - compilato incrementalmente;
 - [x] Macchina (descrizione) selezione dal db delle macchine, compilato;
 - [x] Numero di serie macchina selezione dal db delle macchine, compilato;

@@ -64,6 +64,17 @@ return [
             ]) : [],
         ],
 
+        'mssql' => [
+            'driver' => 'sqlsrv',
+            'host' => env('MS_SQL_HOST', '127.0.0.1'),
+            'port' => env('MS_SQL_PORT', '1433'),
+            'database' => env('MS_SQL_DATABASE', 'forge'),
+            'username' => env('MS_SQL_USERNAME', 'forge'),
+            'password' => env('MS_SQL_PASSWORD', ''),
+            'charset' => 'utf8',
+            'prefix' => '',
+        ],
+
         'pgsql' => [
             'driver' => 'pgsql',
             'url' => env('DATABASE_URL'),
