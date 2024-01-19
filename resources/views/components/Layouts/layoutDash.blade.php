@@ -11,29 +11,28 @@
     
     <div class="container-fluid">
         <div class="row">
-            <!-- Sidebar Toggle Button -->
             <div class="col-12 col-md-2 p-0 m-0">
-                <button class="btn bg-primary-cust d-block d-lg-none mt-2 ms-4 mb-3 side-toggle" id="sidebarToggle">
-                    <i class="bi bi-justify text-white fs-4"></i>
-                </button>
                 @if(auth()->check())
                 <x-sidebar :userName="auth()->user()->name" />
                     @endif
                 </div>
-                <!-- Main Content -->
-                <div class="col-sm-10 col-12">
-                    <div class="container-fluid main-content">
-                        <div class="row justify-content-center align-items-center">
-                            <div class="col-xl-10 col-lg-10 col-md-12 col-sm-12 col-12 rounded-3 p-0 m-1" style="background-color: rgb(243, 243, 243); height: 98vh; width:99%">
-                                <div class="col-12 rounded-2 mt-1 p-1 container-create" style="max-height: 95vh; overflow-y: scroll">
-                                    {{ $slot }}
-                                </div>
-                            </div>
-                        </div>
+                <!-- Sidebar Toggle Button -->
+                <button class="btn bg-primary-cust d-lg-none side-toggle" id="sidebarToggle">
+                    <i class="bi bi-justify text-white fs-4"></i>
+                </button>
+            <div class="col-12 col-md-10 p-0 m-0">
+                <div class="rounded-3 m-2" style="background-color: rgb(243, 243, 243); height: 98vh;">
+                    <div class="rounded-2 mt-1 p-1" style="overflow-y: scroll">
+                        {{ $slot }}
                     </div>
-                </div>
+                </div> 
             </div>
+                <!-- Main Content -->
+            
+            
         </div>
+    </div>
+
         @vite(['resources/js/app.js'])
         <script
         type="text/javascript"

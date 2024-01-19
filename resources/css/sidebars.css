@@ -1,10 +1,11 @@
+.sidebar{
+  width: 100%;
+}
+
 main {
   height: 100vh;
   height: -webkit-fill-available;
   max-height: 100vh;
-  position: fixed;
-  
-  
 }
 
 .bi {
@@ -21,32 +22,30 @@ main {
   color: black;
 }
 
+.side-toggle{
+  width: 50px;
+  margin: 20px;
+}
+
 .side-toggle:hover{
   background-color: #10317f;
 }
 
 #sidebarToggle {
-  position: fixed!important;
   z-index: 1005;
+  display: block;
+  position: sticky;
+  top: 30px;
 }
 
 @media (max-width: 991.98px) {
   .sidebar {
     display: none;
+    width: 100%;
+    position: fixed;
   }
   .sidebar.active {
-    display: block;
-    /* z-index: 1000; */
-  }
-  .main-content {
-    width: 100%;
-    overflow: hidden;
-    margin-top: 40px;
-  }
-  .main-content.sidebar-active {
-    margin-left: 280px;
-  }
-  main {
-    width: 100%;
+    display: flex;
+    z-index: 1000;
   }
 }
