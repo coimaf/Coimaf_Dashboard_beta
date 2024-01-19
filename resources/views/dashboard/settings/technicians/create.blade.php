@@ -14,12 +14,11 @@
                 </div>
                 @endif
             </div>
-            <div class="col-xl-10 col-lg-10 col-md-12 col-sm-12 col-12 rounded-3 mt-5" style="background-color: rgb(243, 243, 243); height: 90vh;">
-                <div class="col-12 rounded-2 mt-3 p-5 container-create" style="max-height: 80vh; overflow-y: scroll">
+           
                     
-                    <h1 class="m-5">Impostazioni Tecnici</h1>
+                 <h4 class="m-1 fw-bold">Impostazioni Tecnici</h4>
                     
-                    <div class="row g-3 m-5">
+                    <div class="row g-3 m-2">
                         <div class="col-12 col-md-6">
                             <form action="{{ route('dashboard.settings.tecnicians.store') }}" method="post">
                                 @csrf
@@ -27,13 +26,14 @@
                                 <input class="form-control mb-3" type="text" name="name" required>
                                 <label class="mb-3" for="surname">Cognome: </label>
                                 <input class="form-control mb-3" type="text" name="surname" required>
-                                <div class="row">
+                                <div class="row m-2">
                                     <x-Buttons.buttonBlue type="submit" props="Aggiungi" />
                                 </div>
                             </form>
                         </div>
                         
-                        <div class="col-12 col-md-6 ps-5">
+                        <div class="col-12 col-md-2 ps-3 ms-3 pt-3 bg-white border border-2">
+                            @if(count($technicians) > 0)
                             @foreach($technicians as $technician)
                             <form action="{{ route('dashboard.settings.tecnicians.delete', ['technician' => $technician->id]) }}" method="post">
                                 @csrf
@@ -43,12 +43,13 @@
                                 <button class="btn" type="submit"><i class='bi bi-trash-fill text-danger fs-5'></i></button>
                             </form>
                             @endforeach
+                            @else
+                            <p class="fw-semibold text-center">Non ci sono Tecnici</p>
+                            @endif
                         </div>
                     </div>
                     
                 </div>
             </div>
-        </div>
-    </div>
     
 </x-Layouts.layoutDash>
