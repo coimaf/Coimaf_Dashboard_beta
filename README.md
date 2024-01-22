@@ -166,7 +166,8 @@ php artisan ldap:browse
 
 ### Funzioni generali
 - [x] Filtri;
-- [x] Searchbar;
+- [x] Searchbar Generale;
+- [ ] Searchbar Dedicata ai modelli;
 - [x] Ogni elemento creato deve avere associato l'utente che lo ha creato;
 - [ ] Invio Mail di Avviso Scadenza;
 - [ ] Utente Admin Persistente nel DB (in caso AD è down);
@@ -175,4 +176,5 @@ php artisan ldap:browse
 - [x] Visualizzo tutti i profili e non solo quello Loggato;
 - [x] Ricevo solo l'ultimo gruppo di memberOf anzichè tutti;
 - [x] Validazione e modifica documenti Dipendenti;
-- [ ] Indicizzazione Ricerca dei modelli associati;
+- [x] Indicizzazione Ricerca dei modelli associati;
+- [ ] Controllare le relazioni con arca in machines_sold e Tickets
