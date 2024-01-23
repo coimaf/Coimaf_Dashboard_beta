@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Tag;
 use App\Models\User;
 use Laravel\Scout\Searchable;
+use App\Models\PersistentUser;
 use App\Models\DocumentDeadline;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -35,6 +36,11 @@ class Deadline extends Model
     
     public function user() {
         return $this->belongsTo(User::class);
+    }
+
+    public function persistentUser()
+    {
+        return $this->belongsTo(PersistentUser::class);
     }
     
     public function documentDeadlines()

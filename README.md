@@ -178,3 +178,4 @@ php artisan ldap:browse
 - [x] Validazione e modifica documenti Dipendenti;
 - [x] Indicizzazione Ricerca dei modelli associati;
 - [ ] Controllare le relazioni con arca in machines_sold e Tickets
+- [ ] Utente persistente non funziona con Guards diversa da web

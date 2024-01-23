@@ -7,6 +7,7 @@ use App\Models\Role;
 use App\Models\User;
 use App\Models\Document;
 use Laravel\Scout\Searchable;
+use App\Models\PersistentUser;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -14,7 +15,7 @@ class Employee extends Model
 {
     use HasFactory, Searchable;
 
-    protected $fillable = ['name', 'surname', 'fiscal_code', 'birthday', 'phone', 'address', 'email', 'email_work'];
+    protected $fillable = ['name', 'surname', 'fiscal_code', 'birthday', 'phone', 'address', 'email', 'email_work', 'persistent_user_id'];
 
     public function toSearchableArray()
     {
@@ -40,6 +41,11 @@ class Employee extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function persistentUser()
+    {
+        return $this->belongsTo(PersistentUser::class);
     }
 
     public function roles()

@@ -17,44 +17,62 @@ class EmployeeController extends Controller
 {
     
     public function index(Request $request)
-    {
-        // Ottieni i parametri di ordinamento e direzione
-        $sortBy = $request->input('sortBy', 'default');
-        $direction = $request->input('direction', 'asc');
-        
-        $columnTitles = [
-            ['text' => 'Nome', 'sortBy' => 'name'],
-            'Codice Fiscale',
-            'Ruolo',
-            'Documenti',
-            'Modifica',
-            'Elimina'
-        ];
-        
-        $routeName = 'dashboard.employees.index';
-        
-        // Costruisci la query di base con le relazioni
-        $query = Employee::with(['documents', 'roles']);
-        
-        
-        // Altrimenti, applica l'ordinamento predefinito
-        if ($sortBy == 'name') {
-            $query->orderBy('employees.name', $direction);
-        }
-        
-        // Esegui la query
-        $employees = $query->get();
-        
-        // Restituisci i dati alla vista
-        return view('dashboard.employees.index', [
-            'employees' => $employees,
-            'sortBy' => $sortBy,
-            'direction' => $direction,
-            'routeName' => $routeName,
-            'columnTitles' => $columnTitles,
-        ]);
+{
+    // Ottieni i parametri di ordinamento e direzione
+    $sortBy = $request->input('sortBy', 'default');
+    $direction = $request->input('direction', 'asc');
+    $searchTerm = $request->input('employeeSearch');
+
+    $columnTitles = [
+        ['text' => 'Nome', 'sortBy' => 'name'],
+        'Codice Fiscale',
+        'Ruolo',
+        'Documenti',
+        'Modifica',
+        'Elimina'
+    ];
+
+    $routeName = 'dashboard.employees.index';
+
+    // Costruisci la query di base con le relazioni
+    $queryBuilder = Employee::with(['documents', 'roles']);
+
+    // Aggiungi la condizione di ricerca se un parametro di ricerca è presente
+    if ($searchTerm) {
+        $queryBuilder->where('employees.name', 'like', '%' . $searchTerm . '%')
+        ->orWhere('surname', 'LIKE', "%$searchTerm%")
+            ->orWhere('fiscal_code', 'LIKE', "%$searchTerm%")
+            ->orWhere('birthday', 'LIKE', "%$searchTerm%")
+            ->orWhere('address', 'LIKE', "%$searchTerm%")
+            ->orWhere('email', 'LIKE', "%$searchTerm%")
+            ->orWhere('email_work', 'LIKE', "%$searchTerm%")
+            ->orWhere('phone', 'LIKE', "%$searchTerm%")
+            ->orWhereHas('roles', function ($query) use ($searchTerm) {
+                $query->where('name', 'LIKE', "%$searchTerm%");
+            })
+            ->orWhereHas('documents', function ($query) use ($searchTerm) {
+                $query->where('name', 'LIKE', "%$searchTerm%");
+            });
     }
-    
+
+    // Altrimenti, applica l'ordinamento predefinito
+    if ($sortBy == 'name') {
+        $queryBuilder->orderBy('employees.name', $direction);
+    }
+
+    // Esegui la query
+    $employees = $queryBuilder->get();
+
+    // Restituisci i dati alla vista
+    return view('dashboard.employees.index', [
+        'employees' => $employees,
+        'sortBy' => $sortBy,
+        'direction' => $direction,
+        'routeName' => $routeName,
+        'columnTitles' => $columnTitles,
+    ]);
+}
+
     
     
     
@@ -96,6 +114,8 @@ class EmployeeController extends Controller
             'address' => $request->input('address'),
             'email' => $request->input('email'),
             'email_work' => $request->input('email_work'),
+            'persistent_user_id' => Auth::id() ?? 1,
+
         ]);
         
         // Aggiungi ruolo associato

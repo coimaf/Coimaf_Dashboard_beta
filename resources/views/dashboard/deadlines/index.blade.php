@@ -23,7 +23,14 @@
     
     
     <x-table :columnTitles="$columnTitles" :rowData="$deadlines" :direction="$direction" :sortBy="$sortBy" :routeName="$routeName">
-        
+        <tr class="text-center align-middle">
+            <th colspan="{{ count($columnTitles) }}">
+                <form class="d-flex" action="{{ route('dashboard.deadlines.index') }}" method="GET">
+                    <input type="search" class="form-control me-2" placeholder="Cerca" name="deadlineSearch" value="{{ request('query') }}">
+                    <x-Buttons.buttonBlue type='submit' props='Cerca' />
+                </form>
+            </th>
+        </tr>
         <tbody>
             @foreach ($deadlines as $deadline)
             <tr class="text-center align-middle">

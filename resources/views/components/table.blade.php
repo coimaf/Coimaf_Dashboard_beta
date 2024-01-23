@@ -25,14 +25,6 @@
                             
                             </tr>
                         </thead>
-                        <tr class="text-center align-middle">
-                            <th colspan="{{ count($columnTitles) }}">
-                                <form class="d-flex" action="{{ route('dashboard.employees.index') }}" method="GET">
-                                    <input type="search" class="form-control me-2" placeholder="Cerca" name="modelSearch" value="{{ request('query') }}">
-                                    <x-Buttons.buttonBlue type='submit' props='Cerca' />
-                                </form>
-                            </th>
-                        </tr>
                         {{ $slot }}
                     </table>
                 </div>

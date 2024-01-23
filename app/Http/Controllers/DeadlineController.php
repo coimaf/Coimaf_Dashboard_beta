@@ -14,6 +14,7 @@ class DeadlineController extends Controller
     {
         $sortBy = $request->input('sortBy', 'default');
         $direction = $request->input('direction', 'asc');
+        $query = $request->input('deadlineSearch');
         
         $columnTitles = [ [
             'text' => 'Nome Documento',
@@ -26,17 +27,21 @@ class DeadlineController extends Controller
 
         $routeName = 'dashboard.deadlines.index';
         
-        $query = Deadline::with(['documentDeadlines']);
+        $queryBuilder = Deadline::with(['documentDeadlines']);
+
+        if ($query) {
+            $queryBuilder->where('deadlines.name', 'like', '%' . $query . '%');
+        }
         
         if ($sortBy == 'expiry_date') {
-            $query->join('document_deadlines', 'deadlines.id', '=', 'document_deadlines.deadline_id')
+            $queryBuilder->join('document_deadlines', 'deadlines.id', '=', 'document_deadlines.deadline_id')
             ->orderBy('document_deadlines.expiry_date', $direction)
             ->select('deadlines.*');
         } elseif ($sortBy == 'name') {
-            $query->orderBy('deadlines.name', $direction);
+            $queryBuilder->orderBy('deadlines.name', $direction);
         }
         
-        $deadlines = $query->get();
+        $deadlines = $queryBuilder->get();
         
         return view('dashboard.deadlines.index', [
             'columnTitles' => $columnTitles,

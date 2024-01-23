@@ -61,7 +61,7 @@ class SearchController extends Controller
             ->orWhere('machine_model_id', 'LIKE', "%$searchTerm%")
             ->orWhere('status', 'LIKE', "%$searchTerm%")
             ->orWhere('priority', 'LIKE', "%$searchTerm%")
-            ->orWhere('technician:id', 'LIKE', "%$searchTerm%")
+            // ->orWhere('technician:id', 'LIKE', "%$searchTerm%")
             ->get();
 
         $columnTitlesEmployees = ["Nome", "Codice Fiscale", "Ruolo", "Documenti", "Modifica", "Elimina"];
@@ -73,7 +73,6 @@ class SearchController extends Controller
             'employees',
             'deadlines',
             'machines',
-            'warrantyType',
             'tickets',
             'columnTitlesEmployees',
             'columnTitlesDeadlines',

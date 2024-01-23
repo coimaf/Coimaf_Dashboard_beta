@@ -36,15 +36,16 @@ return [
     */
 
     'guards' => [
+        'persistent' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
         'web' => [
             'driver' => 'session',
             'provider' => 'ldap',
         ],
-        'web' => [
-            'driver' => 'session',
-            'provider' => 'users', // Usa il nome del tuo nuovo provider qui
-        ],
     ],
+    
 
     /*
     |--------------------------------------------------------------------------

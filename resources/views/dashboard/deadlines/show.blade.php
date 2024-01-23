@@ -16,7 +16,7 @@
                             @foreach ($deadline->tags as $tag)
                             <span class="badge bg-primary">{{ $tag->name }}</span>
                             @endforeach
-                            <p class="card-footer fw-semibold mt-3">Creato da: {{$deadline->user->name}} <br> il: {{$deadline->created_at->format('d/m/Y')}}</p>
+                            <p class="card-footer fw-semibold mt-3">Creato da: {{$deadline->user->name ?? $deadline->persistentUser->name}} <br> il: {{$deadline->created_at->format('d/m/Y')}}</p>
                         </div>
                     </div>
                     <div class="card mb-4 mb-lg-0 text-black">
