@@ -15,7 +15,7 @@
                     </div>
                     @endif
                     
-                    <img width="50%" class="mb-5 logo-login" src="{{asset('assets/coimaf_logo.png')}}" alt="Logo Coimaf">
+                    <img width="100%" class="mb-5 logo-login p-5" src="{{asset('assets/coimaf_logo.svg')}}" alt="Logo Coimaf">
                     
                     <form method="POST" action="{{ route('login') }}">
                         @csrf

@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary sticky-top">
     <div class="container-fluid ">
-        <a class="navbar-brand" href="{{route('home')}}"><img width="90px" src="{{ asset('assets/coimaf_logo.png') }}" alt="Logo_Coimaf"></a>
+        <a class="navbar-brand" href="{{route('home')}}"><img width="150px" src="{{ asset('assets/coimaf_logo.svg') }}" alt="Logo_Coimaf"></a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>

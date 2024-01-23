@@ -1,7 +1,7 @@
 <div class="sidebar">
     <main class="d-flex w-100">
         <div class="d-flex flex-column p-3 text-bg-light w-100" >
-            <a class="text-center" href="{{ route('home') }}"><img width="150px" src="{{ asset('assets/coimaf_logo.png') }}" alt="Logo_Coimaf"></a>
+            <a class="py-5" href="{{ route('home') }}"><img width="100%" src="{{ asset('assets/coimaf_logo.png') }}" alt="Logo_Coimaf"></a>
             <form class="d-flex" action="{{ route('dashboard.search') }}" method="GET">
                 <input class="form-control me-2" type="search" placeholder="Cerca" aria-label="Search" name="searched">
                 <x-Buttons.buttonBlue type='submit' props='Cerca' />
