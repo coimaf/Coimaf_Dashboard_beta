@@ -170,7 +170,7 @@ php artisan ldap:browse
 - [ ] Searchbar Dedicata ai modelli;
 - [x] Ogni elemento creato deve avere associato l'utente che lo ha creato;
 - [ ] Invio Mail di Avviso Scadenza;
-- [ ] Utente Admin Persistente nel DB (in caso AD è down);
+- [x] Utente Admin Persistente nel DB (in caso AD è down);
 
 ### *********** Bug ***********
 - [x] Visualizzo tutti i profili e non solo quello Loggato;

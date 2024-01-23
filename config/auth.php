@@ -40,6 +40,10 @@ return [
             'driver' => 'session',
             'provider' => 'ldap',
         ],
+        'web' => [
+            'driver' => 'session',
+            'provider' => 'users', // Usa il nome del tuo nuovo provider qui
+        ],
     ],
 
     /*
@@ -74,6 +78,11 @@ return [
                     'distinguishedname' => 'distinguishedname'
                 ], 
             ],
+        ],
+
+        'users' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\PersistentUser::class,
         ],
     ],
 
