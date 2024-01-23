@@ -14,7 +14,7 @@ class DeadlineController extends Controller
     {
         $sortBy = $request->input('sortBy', 'default');
         $direction = $request->input('direction', 'asc');
-        $query = $request->input('deadlineSearch');
+        $searchTerm = $request->input('deadlineSearch');
         
         $columnTitles = [ [
             'text' => 'Nome Documento',
@@ -29,8 +29,12 @@ class DeadlineController extends Controller
         
         $queryBuilder = Deadline::with(['documentDeadlines']);
 
-        if ($query) {
-            $queryBuilder->where('deadlines.name', 'like', '%' . $query . '%');
+        if ($searchTerm) {
+            $queryBuilder->where('deadlines.name', 'like', '%' . $searchTerm . '%')
+            ->orWhere('description', 'LIKE', "%$searchTerm%")
+            ->orWhereHas('tags', function ($query) use ($searchTerm) {
+                $query->where('name', 'LIKE', "%$searchTerm%");
+            });
         }
         
         if ($sortBy == 'expiry_date') {
