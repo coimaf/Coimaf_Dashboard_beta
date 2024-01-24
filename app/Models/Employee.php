@@ -43,11 +43,6 @@ class Employee extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function persistentUser()
-    {
-        return $this->belongsTo(PersistentUser::class);
-    }
-
     public function roles()
     {
         return $this->belongsToMany(Role::class);

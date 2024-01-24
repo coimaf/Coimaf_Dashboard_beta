@@ -38,11 +38,6 @@ class Deadline extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function persistentUser()
-    {
-        return $this->belongsTo(PersistentUser::class);
-    }
-    
     public function documentDeadlines()
     {
         return $this->hasMany(DocumentDeadline::class);

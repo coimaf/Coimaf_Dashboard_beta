@@ -36,10 +36,6 @@ return [
     */
 
     'guards' => [
-        'persistent' => [
-            'driver' => 'session',
-            'provider' => 'users',
-        ],
         'web' => [
             'driver' => 'session',
             'provider' => 'ldap',
@@ -79,11 +75,6 @@ return [
                     'distinguishedname' => 'distinguishedname'
                 ], 
             ],
-        ],
-
-        'users' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\PersistentUser::class,
         ],
     ],
 
