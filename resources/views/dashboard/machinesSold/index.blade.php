@@ -1,4 +1,6 @@
 <x-Layouts.layoutDash>
+    <input type="hidden" id="screenWidth" name="screenWidth" value="">
+
 
     <x-allert />
     
@@ -85,3 +87,9 @@
         <x-pagination :props="$machines" />
 
 </x-Layouts.layoutDash>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("screenWidth").value = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+    });
+</script>
