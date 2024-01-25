@@ -59,33 +59,41 @@ class DeadlineController extends Controller
     }
     
     public function showByTag($tag)
-{
-    $deadlines = Deadline::whereHas('tags', function ($query) use ($tag) {
-        $query->where('name', $tag);
-    })->get();
-
-    $columnTitles = [
-        [
-            'text' => 'Nome Documento',
-            'sortBy' => 'name',
-        ],
-        [
-            'text' => 'Scadenza',
-            'sortBy' => 'expiry_date',
-        ],
-        "Tag", "Modifica", "Elimina"
-    ];
-
-    $routeName = 'dashboard.deadlines.index';
-
-    return view('dashboard.deadlines.index', [
-        'columnTitles' => $columnTitles,
-        'deadlines' => $deadlines,
-        'sortBy' => 'default', // Puoi impostare i valori desiderati per queste variabili
-        'direction' => 'asc',
-        'routeName' => $routeName
-    ]);
-}
+    {
+        $sortBy = 'default'; // Set the default sorting value
+        $direction = 'asc'; // Set the default sorting direction
+    
+        $columnTitles = [
+            [
+                'text' => 'Nome Documento',
+                'sortBy' => 'name',
+            ],
+            [
+                'text' => 'Scadenza',
+                'sortBy' => 'expiry_date',
+            ],
+            "Tag", "Modifica", "Elimina"
+        ];
+    
+        $routeName = 'dashboard.deadlines.index';
+    
+        $queryBuilder = Deadline::whereHas('tags', function ($query) use ($tag) {
+            $query->where('name', $tag);
+        });
+    
+        // Add sorting logic if needed
+    
+        $deadlines = $queryBuilder->paginate(19);
+    
+        return view('dashboard.deadlines.index', [
+            'columnTitles' => $columnTitles,
+            'deadlines' => $deadlines,
+            'sortBy' => $sortBy,
+            'direction' => $direction,
+            'routeName' => $routeName
+        ]);
+    }
+    
     
     public function create()
     {
