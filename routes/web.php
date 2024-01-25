@@ -26,9 +26,9 @@ use App\Http\Controllers\TechnicianController;
 // Route::get('/test', [TestController::class, 'test'])->name('test');
 
 //? Non sappiamo se servirà
-Route::get('/', function () {
-    return view('welcome');
-})->name('home')->middleware('auth');
+// Route::get('/', function () {
+//     return view('welcome');
+// })->name('home')->middleware('auth');
 
 // Dashboard
 Route::get('/dashboard', function () {

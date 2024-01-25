@@ -1,6 +1,7 @@
 <x-Layouts.layoutDash>
     <h6 class="fw-bold">Modifica Dipendente</h6>
     
+    <div class="container d-flex justify-content-center my-2 fixed-top">
     @if($errors->any())
     <div class="alert alert-danger">
         <ul>
@@ -10,8 +11,9 @@
         </ul>
     </div>
     @endif
+    </div>
     
-    <form action="{{ route('dashboard.employees.update', ['employee' => $employee->id]) }}" method="post" class="my-1" enctype="multipart/form-data">
+    <form style="overflow: hidden;" action="{{ route('dashboard.employees.update', ['employee' => $employee->id]) }}" method="post" class="my-1" enctype="multipart/form-data">
         @csrf
         @method('PUT') <!-- Utilizza il metodo PUT per l'aggiornamento -->
         

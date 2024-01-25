@@ -54,7 +54,9 @@ class TicketController extends Controller
                 });
         }
 
-        $tickets = $queryBuilder->get();
+        $tickets = $queryBuilder->paginate(19);
+
+        $tickets->appends(['ticketsSearch' => $searchTerm]);
 
         return view('dashboard.tickets.index', [
             'tickets' => $tickets,

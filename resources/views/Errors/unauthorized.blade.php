@@ -7,7 +7,7 @@
                 Non hai i permessi necessari per accedere a questa pagina.<br>
                 Contatta l'amministratore dell'azienda per richiedere i permessi.
               </p>
-            <a href="{{route('home')}}" class="btn btn-primary">Home</a>
+            <a href="{{route('dash')}}" class="btn btn-primary">Home</a>
         </div>
     </div>
 </x-Layouts.layout>

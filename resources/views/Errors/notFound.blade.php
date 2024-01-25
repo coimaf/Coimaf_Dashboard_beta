@@ -6,7 +6,7 @@
             <p class="lead">
                 La pagina che cercavi non esiste
               </p>
-            <a href="{{route('home')}}" class="btn btn-primary">Home</a>
+            <a href="{{route('dash')}}" class="btn btn-primary">Home</a>
         </div>
     </div>
 </x-Layouts.layout>

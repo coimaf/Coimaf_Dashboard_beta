@@ -45,7 +45,9 @@ class DeadlineController extends Controller
             $queryBuilder->orderBy('deadlines.name', $direction);
         }
         
-        $deadlines = $queryBuilder->get();
+        $deadlines = $queryBuilder->paginate(19);
+
+        $deadlines->appends(['deadlinesSearch' => $searchTerm]);
         
         return view('dashboard.deadlines.index', [
             'columnTitles' => $columnTitles,

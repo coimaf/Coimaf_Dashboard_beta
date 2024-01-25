@@ -4,7 +4,7 @@
         <a href="{{route('dashboard.employees.create')}}"><x-Buttons.buttonBlue type="button" props="NUOVO" /></a>
     </div>
     
-    <div class="container d-flex justify-content-center">
+    <div class="container d-flex justify-content-center my-2 fixed-top">
         @if (session('success'))
         <div class="alert alert-success mt-5">
             {{ session('success') }}
@@ -34,7 +34,7 @@
         <tbody>
             @foreach ($employees as $employee)
             <tr class="text-center align-middle">
-                <td class="py-4">
+                <td>
                     <a class="link-underline link-underline-opacity-0 link-dark" href="{{ route('dashboard.employees.show', compact('employee')) }}">
                         {{ $employee->name }} {{ $employee->surname }}
                     </a>
@@ -95,6 +95,6 @@
                 @endforeach
             </tbody>
         </x-table>
-        
+        <x-pagination :props="$employees" />
     </x-Layouts.layoutDash>
     

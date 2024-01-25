@@ -13,8 +13,20 @@
                             <label class="fw-bold">Email: </label>
                             <p class="m-2 rounded-5 p-2 border border-1 border-dark" style="background-color: rgb(232, 232, 232);">{{ substr($user->email, 0, -3) . 'com' }}</p>
                             <label class="fw-bold">Gruppi: </label>
-                            <p class="m-2 rounded-5 p-2 border border-1 border-dark" style="background-color: rgb(232, 232, 232);">{{$user->groups}}</p>
-                        </div>
+                            {{-- Mostra i gruppi utente --}}
+                            @php
+                                $stringa = $user->groups;
+
+                                // Divide la stringa in un array utilizzando il trattino come delimitatore
+                                $arrayDiStringhe = explode(" - ", $stringa);
+
+                                // Unisce l'array in una nuova stringa con il carattere di nuova riga come delimitatore
+                                $nuovaStringa = implode('<br>', $arrayDiStringhe);
+
+                                // Stampa la nuova stringa
+                            @endphp
+
+                            <p class="m-2 rounded-5 p-2 border border-1 border-dark text-start d-flex justify-content-center" style="background-color: rgb(232, 232, 232);">{!! $nuovaStringa !!}</p>
                     </div>
                 </div>
             </div>

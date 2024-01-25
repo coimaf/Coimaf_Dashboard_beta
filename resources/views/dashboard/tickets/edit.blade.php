@@ -1,7 +1,7 @@
 <x-Layouts.layoutDash>
     <h6 class="fw-bold">Modifica Ticket</h6>
     
-    <form action="{{ route('dashboard.tickets.update', $ticket->id) }}" method="POST" class="my-1">
+    <form style="overflow: hidden;" action="{{ route('dashboard.tickets.update', $ticket->id) }}" method="POST" class="my-1">
         @csrf
         @method('PUT')
         <div class="row g-3">

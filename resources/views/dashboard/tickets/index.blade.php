@@ -1,6 +1,6 @@
 <x-Layouts.layoutDash>
     
-    <div class="container d-flex justify-content-center">
+    <div class="container d-flex justify-content-center my-2 fixed-top">
         @if (session('success'))
         <div class="alert alert-success mt-5">
             {{ session('success') }}
@@ -33,12 +33,12 @@
         <tbody>
             @foreach ($tickets as $ticket)
             <tr class="text-center align-middle">
-                <td class="py-4">
+                <td>
                     <a class="link-underline link-underline-opacity-0 link-dark" href="{{route('dashboard.tickets.show', compact('ticket'))}}">
                         {{ $ticket->id }}
                     </a>
                 </td>
-                <td class="py-4">
+                <td>
                     <a class="link-underline link-underline-opacity-0 link-dark" href="{{route('dashboard.tickets.show', compact('ticket'))}}">
                         {{ $ticket->title }}
                     </a>
@@ -100,6 +100,6 @@
                 @endforeach
             </tbody>
         </x-table>
-        
+        <x-pagination :props="$tickets" />
         
     </x-Layouts.layoutDash>

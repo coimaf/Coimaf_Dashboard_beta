@@ -61,7 +61,9 @@ class EmployeeController extends Controller
     }
 
     // Esegui la query
-    $employees = $queryBuilder->get();
+    $employees = $queryBuilder->paginate(19);
+
+    $employees->appends(['employeesSearch' => $searchTerm]);
 
     // Restituisci i dati alla vista
     return view('dashboard.employees.index', [

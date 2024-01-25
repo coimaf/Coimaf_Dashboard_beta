@@ -1,7 +1,7 @@
 <x-Layouts.layoutDash>
     <h6 class="fw-bold">Modifica Macchina</h6>
     
-    <form action="{{ route('dashboard.machinesSolds.update', $machine->id) }}" method="POST" class="my-1" enctype="multipart/form-data">
+    <form action="{{ route('dashboard.machinesSolds.update', $machine->id) }}" method="POST" class="my-1" style="overflow: hidden;" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <div class="row g-3">

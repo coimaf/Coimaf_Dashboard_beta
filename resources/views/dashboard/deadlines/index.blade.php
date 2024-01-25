@@ -2,7 +2,7 @@
     <div class="col-12 col-md-11 d-flex justify-content-end my-1 w-100">
         <a href="{{ route('dashboard.deadlines.create') }}"><x-Buttons.buttonBlue type="button" props="NUOVO" /></a>
     </div>
-    <div class="container d-flex justify-content-center">
+    <div class="container d-flex justify-content-center my-2 fixed-top">
         @if (session('success'))
         <div class="alert alert-success mt-5">
             {{ session('success') }}
@@ -34,9 +34,9 @@
         <tbody>
             @foreach ($deadlines as $deadline)
             <tr class="text-center align-middle">
-                <td class="py-4"><a class="link-underline link-underline-opacity-0 link-dark" href="{{ route('dashboard.deadlines.show', compact('deadline')) }}">{{ $deadline->name }}</a></td>
+                <td><a class="link-underline link-underline-opacity-0 link-dark" href="{{ route('dashboard.deadlines.show', compact('deadline')) }}">{{ $deadline->name }}</a></td>
                 
-                <td class="py-4">
+                <td>
                     <a class="link-underline link-underline-opacity-0 link-dark" href="{{ route('dashboard.deadlines.show', compact('deadline')) }}">
                         
                         @php
@@ -57,7 +57,7 @@
                 </td>
                 
                 
-                <td class="py-4">
+                <td>
                     @foreach ($deadline->tags as $tag)
                     <a class="badge bg-primary link-underline link-underline-opacity-0" href="{{ route('dashboard.deadlines.tag', $tag->name) }}">{{ $tag->name }}</a>
                     @endforeach
@@ -105,5 +105,6 @@
         @endforeach
     </tbody>
 </x-table>
+<x-pagination :props="$deadlines" />
 
 </x-Layouts.layoutDash>

@@ -1,5 +1,5 @@
 <x-Layouts.layoutDash>
-    <div class="container d-flex justify-content-center">
+    <div class="container d-flex justify-content-center my-2 fixed-top">
         @if (session('success'))
         <div class="alert alert-success mt-5">
             {{ session('success') }}

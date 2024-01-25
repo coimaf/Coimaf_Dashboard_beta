@@ -1,11 +1,11 @@
 <x-Layouts.layoutDash>
     
-    <div class="col-12 col-md-11 d-flex justify-content-end  my-1 w-100">
+    <div class="col-12 col-md-11 d-flex justify-content-end w-100">
         <a href="{{route('dashboard.machinesSolds.create')}}"><x-Buttons.buttonBlue type="button" props="NUOVO" /></a>
     </div>
-    <div class="container d-flex justify-content-center">
+    <div class="container d-flex justify-content-center my-2 fixed-top">
         @if (session('success'))
-        <div class="alert alert-success mt-5">
+        <div class="alert alert-success">
             {{ session('success') }}
         </div>
         @endif
@@ -33,7 +33,7 @@
         <tbody>
             @foreach ($machines as $machine)
             <tr class="text-center align-middle">
-                <td class="py-4">
+                <td class="">
                     <a class="link-underline link-underline-opacity-0 link-dark" href="{{route('dashboard.machinesSolds.show', compact('machine'))}}">
                         {{ $machine->model }}
                     </a>
@@ -97,5 +97,6 @@
         </tbody>
         </x-table>
 
+        <x-pagination :props="$machines" />
 
 </x-Layouts.layoutDash>

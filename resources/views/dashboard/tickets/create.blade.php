@@ -3,7 +3,7 @@
     <h6 class="fw-bold">Crea un nuovo Ticket</h6>
     <p>Ticket Numero: {{$nextTicketNumber}}</p>
     
-    <form action="{{route('dashboard.tickets.store')}}" method="POST">
+    <form style="overflow: hidden;" action="{{route('dashboard.tickets.store')}}" method="POST">
         @csrf
         <div class="row g-3">
             <div class="col-12">

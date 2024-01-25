@@ -12,7 +12,6 @@ class MachineController extends Controller
 {
     public function index(Request $request)
     {
-        $machines = MachinesSold::all();
         $columnTitles = [
             'Modello',
             'Marca',
@@ -23,12 +22,12 @@ class MachineController extends Controller
             'Elimina'
         ];
         $searchTerm = $request->input('machinesSearch');
-
+    
         $queryBuilder = MachinesSold::with('warrantyType');
-
+    
         if ($searchTerm) {
             $queryBuilder->where('machines_solds.model', 'like', '%' . $searchTerm . '%')
-            ->orWhere('brand', 'LIKE', "%$searchTerm%")
+                ->orWhere('brand', 'LIKE', "%$searchTerm%")
                 ->orWhere('serial_number', 'LIKE', "%$searchTerm%")
                 ->orWhere('sale_date', 'LIKE', "%$searchTerm%")
                 ->orWhere('old_buyer', 'LIKE', "%$searchTerm%")
@@ -41,14 +40,17 @@ class MachineController extends Controller
                     $query->where('name', 'LIKE', "%$searchTerm%");
                 });
         }
+    
+        $machines = $queryBuilder->paginate(19);
 
-        $machines = $queryBuilder->get();
-
+        $machines->appends(['machinesSearch' => $searchTerm]);
+    
         return view('dashboard.machinesSold.index', [
             'machines' => $machines,
             'columnTitles' => $columnTitles
         ]);
     }
+    
     
     public function create()
     {
