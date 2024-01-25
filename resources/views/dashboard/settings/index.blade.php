@@ -1,16 +1,5 @@
 <x-Layouts.layoutDash>
-    <div class="container d-flex justify-content-center my-2 fixed-top">
-        @if (session('success'))
-        <div class="alert alert-success mt-5">
-            {{ session('success') }}
-        </div>
-        @endif
-        @if (session('error'))
-        <div class="alert alert-danger mt-5">
-            {{ session('error') }}
-        </div>
-        @endif
-    </div>
+    <x-allert />
     <div class="container-fluid">
         <div class="row gutters-sm">
             <div class="col-md-12">

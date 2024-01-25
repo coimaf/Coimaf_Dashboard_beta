@@ -2,18 +2,7 @@
     
     <div class="container-fluid main-content">
         <div class="row justify-content-center align-items-center">
-            <div class="container d-flex justify-content-center my-2 fixed-top">
-                @if (session('success'))
-                <div class="alert alert-success mt-5">
-                    {{ session('success') }}
-                </div>
-                @endif
-                @if (session('error'))
-                <div class="alert alert-danger mt-5">
-                    {{ session('error') }}
-                </div>
-                @endif
-            </div>
+            <x-allert />
            
                     
                  <h4 class="m-1 fw-bold">Impostazioni Tecnici</h4>

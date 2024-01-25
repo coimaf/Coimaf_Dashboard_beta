@@ -1,25 +1,10 @@
 <x-Layouts.layoutDash>
+
+    <x-allert />
     
     <div class="col-12 col-md-11 d-flex justify-content-end w-100">
         <a href="{{route('dashboard.machinesSolds.create')}}"><x-Buttons.buttonBlue type="button" props="NUOVO" /></a>
     </div>
-    <div class="container d-flex justify-content-center my-2 fixed-top">
-        @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-        @endif
-        @if($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach($errors->all() as $error)
-                <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-        @endif
-    </div>
-    
 
       <x-table :columnTitles="$columnTitles" :rowData="$machines">
         <tr class="text-center align-middle">

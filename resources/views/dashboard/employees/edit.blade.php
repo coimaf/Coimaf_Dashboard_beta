@@ -1,17 +1,7 @@
 <x-Layouts.layoutDash>
     <h6 class="fw-bold">Modifica Dipendente</h6>
-    
-    <div class="container d-flex justify-content-center my-2 fixed-top">
-    @if($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach($errors->all() as $error)
-            <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-    @endif
-    </div>
+
+    <x-allert />
     
     <form style="overflow: hidden;" action="{{ route('dashboard.employees.update', ['employee' => $employee->id]) }}" method="post" class="my-1" enctype="multipart/form-data">
         @csrf
