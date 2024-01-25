@@ -22,6 +22,14 @@
     </div>
     
     <x-table :columnTitles="$columnTitles" :rowData="$tickets">
+        <tr class="text-center align-middle">
+            <th colspan="{{ count($columnTitles) }}">
+                <form class="d-flex" action="{{ route('dashboard.tickets.index') }}" method="GET">
+                    <input type="search" class="form-control me-2" placeholder="Cerca" name="ticketsSearch" value="{{ request('query') }}">
+                    <x-Buttons.buttonBlue type='submit' props='Cerca' />
+                </form>
+            </th>
+        </tr>
         <tbody>
             @foreach ($tickets as $ticket)
             <tr class="text-center align-middle">

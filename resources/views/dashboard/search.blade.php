@@ -5,7 +5,7 @@
 @include('dashboard.deadlines.index', ['columnTitles' => $columnTitlesDeadlines, 'rowData' => $deadlines, 'direction' => null, 'sortBy' => null, 'routeName' => null])
 
 @elseif ($machines->count() > 0)
-@include('dashboard.machines.index', ['columnTitles' => $columnTitlesMachines, 'rowData' => $machines, 'direction' => null, 'sortBy' => null, 'routeName' => null])
+@include('dashboard.machinesSold.index', ['columnTitles' => $columnTitlesMachines, 'rowData' => $machines, 'direction' => null, 'sortBy' => null, 'routeName' => null])
 
 @elseif($tickets->count() > 0)
 @include('dashboard.tickets.index', ['columnTitles' => $columnTitlesTickets, 'rowData' => $tickets, 'direction' => null, 'sortBy' => null, 'routeName' => null])

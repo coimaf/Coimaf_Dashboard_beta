@@ -167,15 +167,15 @@ php artisan ldap:browse
 ### Funzioni generali
 - [x] Filtri;
 - [x] Searchbar Generale;
-- [ ] Searchbar Dedicata ai modelli;
+- [x] Searchbar Dedicata ai modelli;
 - [x] Ogni elemento creato deve avere associato l'utente che lo ha creato;
 - [ ] Invio Mail di Avviso Scadenza;
-- [x] Utente Admin Persistente nel DB (in caso AD è down);
+- [ ] Utente Admin Persistente nel DB (in caso AD è down);
 
 ### *********** Bug ***********
 - [x] Visualizzo tutti i profili e non solo quello Loggato;
 - [x] Ricevo solo l'ultimo gruppo di memberOf anzichè tutti;
 - [x] Validazione e modifica documenti Dipendenti;
 - [x] Indicizzazione Ricerca dei modelli associati;
-- [ ] Controllare le relazioni con arca in machines_sold e Tickets
+- [x] Controllare le relazioni con arca in machines_sold e Tickets
 - [ ] Utente persistente non funziona con Guards diversa da web

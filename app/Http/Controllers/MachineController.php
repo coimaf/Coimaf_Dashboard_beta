@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 
 class MachineController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $machines = MachinesSold::all();
         $columnTitles = [
@@ -22,6 +22,28 @@ class MachineController extends Controller
             'Modifica',
             'Elimina'
         ];
+        $searchTerm = $request->input('machinesSearch');
+
+        $queryBuilder = MachinesSold::with('warrantyType');
+
+        if ($searchTerm) {
+            $queryBuilder->where('machines_solds.model', 'like', '%' . $searchTerm . '%')
+            ->orWhere('brand', 'LIKE', "%$searchTerm%")
+                ->orWhere('serial_number', 'LIKE', "%$searchTerm%")
+                ->orWhere('sale_date', 'LIKE', "%$searchTerm%")
+                ->orWhere('old_buyer', 'LIKE', "%$searchTerm%")
+                ->orWhere('buyer', 'LIKE', "%$searchTerm%")
+                ->orWhere('warranty_expiration_date', 'LIKE', "%$searchTerm%")
+                ->orWhere('registration_date', 'LIKE', "%$searchTerm%")
+                ->orWhere('delivery_ddt', 'LIKE', "%$searchTerm%")
+                ->orWhere('notes', 'LIKE', "%$searchTerm%")
+                ->orWhereHas('warrantyType', function ($query) use ($searchTerm) {
+                    $query->where('name', 'LIKE', "%$searchTerm%");
+                });
+        }
+
+        $machines = $queryBuilder->get();
+
         return view('dashboard.machinesSold.index', [
             'machines' => $machines,
             'columnTitles' => $columnTitles

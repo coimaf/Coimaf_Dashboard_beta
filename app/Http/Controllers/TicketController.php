@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class TicketController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $tickets = Ticket::with('technician')->get();
         $columnTitles = [
@@ -23,6 +23,39 @@ class TicketController extends Controller
             'Modifica',
             'Elimina'
         ];
+
+        $searchTerm = $request->input('ticketsSearch');
+
+        $queryBuilder = Ticket::with(['machinesSold', 'machineModel', 'technician']);
+
+        if ($searchTerm) {
+            $queryBuilder->where('tickets.title', 'like', '%' . $searchTerm . '%')
+                ->orWhere('description', 'LIKE', "%$searchTerm%")
+                ->orWhere('closed', 'LIKE', "%$searchTerm%")
+                ->orWhere('notes', 'LIKE', "%$searchTerm%")
+                ->orWhere('descrizione', 'LIKE', "%$searchTerm%")
+                ->orWhere('cd_cf', 'LIKE', "%$searchTerm%")
+                ->orWhere('status', 'LIKE', "%$searchTerm%")
+                ->orWhere('priority', 'LIKE', "%$searchTerm%")
+                ->orWhereHas('technician', function ($query) use ($searchTerm) {
+                    $query->where('name', 'LIKE', "%$searchTerm%");
+                })
+                ->orWhereHas('technician', function ($query) use ($searchTerm) {
+                    $query->where('surname', 'LIKE', "%$searchTerm%");
+                })
+                ->orWhereHas('machinesSold', function ($query) use ($searchTerm) {
+                    $query->where('model', 'LIKE', "%$searchTerm%");
+                })
+                ->orWhereHas('machinesSold', function ($query) use ($searchTerm) {
+                    $query->where('serial_number', 'LIKE', "%$searchTerm%");
+                })
+                ->orWhereHas('machineModel', function ($query) use ($searchTerm) {
+                    $query->where('model', 'LIKE', "%$searchTerm%");
+                });
+        }
+
+        $tickets = $queryBuilder->get();
+
         return view('dashboard.tickets.index', [
             'tickets' => $tickets,
             'columnTitles' => $columnTitles

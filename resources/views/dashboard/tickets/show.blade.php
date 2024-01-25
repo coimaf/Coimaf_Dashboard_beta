@@ -70,7 +70,7 @@
                         <p class="mb-0 fw-semibold">Seriale Macchina: </p>
                     </div>
                     <div class="col-sm-9">
-                        <p class=" mb-0">{{$ticket->machinesSold->serial_number}}</p>
+                        <p class=" mb-0">{{$ticket->machinesSold->serial_number ?? ''}}</p>
                     </div>
                 </div>
                 <hr>
@@ -79,7 +79,7 @@
                         <p class="mb-0 fw-semibold">Modello Macchina: </p>
                     </div>
                     <div class="col-sm-9">
-                        <p class=" mb-0">{{$ticket->machinesSold->model}}</p>
+                        <p class=" mb-0">{{$ticket->machinesSold->model ?? ''}}</p>
                     </div>
                 </div>
                 <hr>

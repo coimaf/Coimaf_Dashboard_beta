@@ -34,7 +34,7 @@ class Ticket extends Model
 
     public function machineModel()
     {
-        return $this->belongsTo(MachineSold::class, 'machine_model_id');
+        return $this->belongsTo(MachinesSold::class, 'machine_model_id');
     }
 
     public static function getStatusOptions()

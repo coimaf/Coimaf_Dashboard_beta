@@ -48,7 +48,9 @@ class SearchController extends Controller
             ->orWhere('registration_date', 'LIKE', "%$searchTerm%")
             ->orWhere('delivery_ddt', 'LIKE', "%$searchTerm%")
             ->orWhere('notes', 'LIKE', "%$searchTerm%")
-            ->orWhere('warranty_type_id', 'LIKE', "%$searchTerm%")
+            ->orWhereHas('warrantyType', function ($query) use ($searchTerm) {
+                $query->where('name', 'LIKE', "%$searchTerm%");
+            })
             ->get();
 
         $tickets = Ticket::where('title', 'LIKE', "%$searchTerm%")
@@ -61,7 +63,21 @@ class SearchController extends Controller
             ->orWhere('machine_model_id', 'LIKE', "%$searchTerm%")
             ->orWhere('status', 'LIKE', "%$searchTerm%")
             ->orWhere('priority', 'LIKE', "%$searchTerm%")
-            // ->orWhere('technician:id', 'LIKE', "%$searchTerm%")
+            ->orWhereHas('technician', function ($query) use ($searchTerm) {
+                $query->where('name', 'LIKE', "%$searchTerm%");
+            })
+            ->orWhereHas('technician', function ($query) use ($searchTerm) {
+                $query->where('surname', 'LIKE', "%$searchTerm%");
+            })
+            ->orWhereHas('machinesSold', function ($query) use ($searchTerm) {
+                $query->where('model', 'LIKE', "%$searchTerm%");
+            })
+            ->orWhereHas('machinesSold', function ($query) use ($searchTerm) {
+                $query->where('serial_number', 'LIKE', "%$searchTerm%");
+            })
+            ->orWhereHas('machineModel', function ($query) use ($searchTerm) {
+                $query->where('model', 'LIKE', "%$searchTerm%");
+            })
             ->get();
 
         $columnTitlesEmployees = ["Nome", "Codice Fiscale", "Ruolo", "Documenti", "Modifica", "Elimina"];
