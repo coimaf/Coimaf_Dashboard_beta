@@ -98,7 +98,7 @@ class MachineController extends Controller
     
     public function show(MachinesSold $machine)
     {
-        return view("dashboard.MachinesSold.show", compact('machine'));
+        return view("dashboard.machinesSold.show", compact('machine'));
     }
     
     public function edit(MachinesSold $machine)
@@ -110,7 +110,7 @@ class MachineController extends Controller
         $warranty_type = WarrantyType::all();
 
         // e passale alla vista di modifica.
-        return view('dashboard.MachinesSold.edit', compact('machine', 'warranty_type', 'brands', 'customers'));
+        return view('dashboard.machinesSold.edit', compact('machine', 'warranty_type', 'brands', 'customers'));
     }
     
     public function update(Request $request, MachinesSold $machine)
