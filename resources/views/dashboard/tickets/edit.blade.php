@@ -45,14 +45,25 @@
                 </select>
             </div>
 
+            <div class="col-12 col-md-6">
+                <label for="selectedCustomer">Seleziona un Cliente*</label>
+                <input type="text" placeholder="Seleziona un Cliente*" list="customer" class="form-control" id="customerInput" name="selectedCustomer" value="{{ $ticket->descrizione }}">
+                <input type="hidden" id="selectedCdCFInput" name="selectedCdCF" value="{{ $ticket->cd_cf }}">
+                <datalist id="customer" required>
+                    @foreach ($customers as $customer)
+                    <option value="{{ trim($customer->Descrizione) }}" data-cd-cf="{{ $customer->Cd_CF }}"></option>
+                    @endforeach
+                </datalist>
+            </div>       
+
             <div class="col-12">
                 <label class="pb-3" for="description">Descrizione Problema</label>
-                <textarea type="text" name="description" class="form-control" style="height: 100px; resize: none;" required>{{ old('description', $ticket->description) }}</textarea>
+                <textarea type="text" name="description" class="form-control" style="height: 100px; resize: none;">{{ old('description', $ticket->description) }}</textarea>
             </div>
             
             <div class="col-12 col-md-6">
                 <label class="my-2" for="machine_model_id">Modello Macchina</label>
-                <select name="machine_model_id" class="form-control" required>
+                <select name="machine_model_id" class="form-control">
                     <option value="">Seleziona un Modello</option>
                     @foreach($machines as $machine)
                     <option value="{{ $machine->id }}" {{ old('machine_model_id', $ticket->machine_model_id) == $machine->id ? 'selected' : '' }}>
@@ -64,7 +75,7 @@
             
             <div class="col-12 col-md-6">
                 <label class="my-2" for="machine_sold_id">Seriale Macchina</label>
-                <select name="machine_sold_id" class="form-control" required>
+                <select name="machine_sold_id" class="form-control">
                     <option value="">Seleziona un Seriale</option>
                     @foreach($machines as $machine)
                     <option value="{{ $machine->id }}" {{ old('machine_sold_id', $ticket->machine_sold_id) == $machine->id ? 'selected' : '' }}>

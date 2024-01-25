@@ -17,11 +17,11 @@ return new class extends Migration
             $table->string('name');
             $table->string('surname');
             $table->string('fiscal_code');
-            $table->string('birthday');
-            $table->string('phone');
-            $table->string('address');
+            $table->string('birthday')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('address')->nullable();
             $table->string('email');
-            $table->string('email_work');
+            $table->string('email_work')->nullable();
             $table->timestamps();
             
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

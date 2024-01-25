@@ -33,12 +33,12 @@
             
             <div class="col-6">
                 <label class="my-2" for="phone">Cellulare</label>
-                <input type="text" name="phone" class="form-control" value="{{ $employee->phone }}" required>
+                <input type="text" name="phone" class="form-control" value="{{ $employee->phone }}">
             </div>
             
             <div class="col-6">
                 <label class="my-2" for="address">Indirizzo</label>
-                <input type="text" name="address" class="form-control" value="{{ $employee->address }}" required>
+                <input type="text" name="address" class="form-control" value="{{ $employee->address }}">
             </div>
             
             <div class="col-6">
@@ -48,12 +48,12 @@
             
             <div class="col-6">
                 <label class="my-2" for="email_work">Email Lavoro</label>
-                <input type="text" name="email_work" class="form-control" value="{{ $employee->email_work }}" required>
+                <input type="text" name="email_work" class="form-control" value="{{ $employee->email_work }}">
             </div>
       
             <div class="col-6">
                 <label class="my-2" for="birthday">Data di nascita</label>
-                <input type="date" name="birthday" class="form-control" value="{{ $employee->birthday }}" required>
+                <input type="date" name="birthday" class="form-control" value="{{ $employee->birthday }}">
             </div>
             
             <div class="col-12 col-md-6 d-flex align-items-center">

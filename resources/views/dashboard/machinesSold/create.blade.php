@@ -52,7 +52,7 @@
 
             <div class="col-12 col-md-6 mb-4">
                 <label class="my-2" for="sale_date">Data di vendita</label>
-                <input type="date" name="sale_date" class="form-control" required>
+                <input type="date" name="sale_date" class="form-control">
             </div>
             
             

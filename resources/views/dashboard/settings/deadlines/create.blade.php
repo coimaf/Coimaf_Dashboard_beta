@@ -15,7 +15,7 @@
             </form>
         </div>
         
-        <div class="col-12 col-md-2 ps-3 pt-3 bg-white border border-2">
+        <div class="col-12 col-md-3 ps-3 pt-3 bg-white border border-2">
             @if(count($tags) > 0)
             @foreach($tags as $tag)
             <form action="{{ route('dashboard.settings.deadlines.tagRemove', ['tagId' => $tag->id]) }}" method="post">
@@ -27,7 +27,7 @@
             </form>
             @endforeach
             @else
-                <p class="text-center fw-semibold fs-4">Nessun Tag</p>
+                <p class="fw-semibold text-center">Nessun Tag</p>
             @endif
         </div>
     </div>

@@ -34,11 +34,11 @@
 
             <div class="col-12 col-md-6">
                 <label class="my-2" for="birthday">Data di nascita</label>
-                <input type="date" name="birthday" class="form-control" required>
+                <input type="date" name="birthday" class="form-control">
             </div>
             
             <div class="col-12 col-md-6">
-                <label class="my-2" for="role">Ruolo</label>
+                <label class="my-2" for="role">Ruolo*</label>
                 <select name="role" class="form-control" required>
                     <option value="">Seleziona un ruolo</option>
                     @foreach($roles as $role)

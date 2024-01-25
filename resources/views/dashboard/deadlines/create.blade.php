@@ -20,12 +20,12 @@
             </select>
 
             <div class="col-12 col-md-6">
-                <label class="my-2" for="pdf">Carica Documento</label>
+                <label class="my-2" for="pdf">Carica Documento*</label>
                 <input type="file" name="pdf" accept=".pdf" class="form-control" required>
             </div>
             
             <div class="col-12 col-md-6">
-                <label class="my-2" for="expiry_date">Data di scadenza</label>
+                <label class="my-2" for="expiry_date">Data di scadenza*</label>
                 <input type="date" name="expiry_date" class="form-control" required>
             </div>
             

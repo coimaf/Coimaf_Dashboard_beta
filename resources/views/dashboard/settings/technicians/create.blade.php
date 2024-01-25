@@ -32,7 +32,7 @@
                             </form>
                         </div>
                         
-                        <div class="col-12 col-md-2 ps-3 ms-3 pt-3 bg-white border border-2">
+                        <div class="col-12 col-md-3 ps-3 ms-3 pt-3 bg-white border border-2">
                             @if(count($technicians) > 0)
                             @foreach($technicians as $technician)
                             <form action="{{ route('dashboard.settings.tecnicians.delete', ['technician' => $technician->id]) }}" method="post">

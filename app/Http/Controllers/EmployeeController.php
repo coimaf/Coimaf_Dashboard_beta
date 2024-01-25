@@ -87,22 +87,22 @@ class EmployeeController extends Controller
     
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'surname' => 'required|string|max:255',
-            'fiscal_code' => 'required|string|max:255',
-            'birthday' => 'required|string|max:255',
-            'phone' => 'required|string|max:255',
-            'address' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'email_work' => 'email|max:255',
-            'roles' => 'array',
-            'roles.*' => 'exists:roles,id',
-            'documents' => 'array',
-            'documents.*.id' => 'exists:documents,id',
-            'documents.*.pdf_path' => 'required|string|max:255',
-            'documents.*.expiry_date' => 'required|date',
-        ]);
+        // $request->validate([
+        //     'name' => 'required|string|max:255',
+        //     'surname' => 'required|string|max:255',
+        //     'fiscal_code' => 'required|string|max:255',
+        //     'birthday' => 'string|max:255',
+        //     'phone' => 'string|max:255',
+        //     'address' => 'string|max:255',
+        //     'email' => 'required|email|max:255',
+        //     'email_work' => 'email|max:255',
+        //     'roles' => 'array',
+        //     'roles.*' => 'exists:roles,id',
+        //     'documents' => 'array',
+        //     'documents.*.id' => 'exists:documents,id',
+        //     'documents.*.pdf_path' => 'string|max:255',
+        //     'documents.*.expiry_date' => 'date',
+        // ]);
         
         // Crea un nuovo Employee
         $employee = Employee::create([
@@ -114,7 +114,6 @@ class EmployeeController extends Controller
             'address' => $request->input('address'),
             'email' => $request->input('email'),
             'email_work' => $request->input('email_work'),
-            'persistent_user_id' => Auth::id() ?? 1,
 
         ]);
         

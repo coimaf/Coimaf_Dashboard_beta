@@ -58,17 +58,17 @@
 
             <div class="col-12 col-md-6">
                 <label class="my-2" for="sale_date">Data di vendita</label>
-                <input type="date" name="sale_date" class="form-control" value="{{ old('sale_date', $machine->sale_date) }}" required>
+                <input type="date" name="sale_date" class="form-control" value="{{ old('sale_date', $machine->sale_date) }}">
             </div>
             
             <div class="col-12 col-md-6">
                 <label class="my-2" for="delivery_ddt">Consegna DDT</label>
-                <input type="text" name="delivery_ddt" class="form-control" value="{{ old('delivery_ddt', $machine->delivery_ddt) }}" required>
+                <input type="text" name="delivery_ddt" class="form-control" value="{{ old('delivery_ddt', $machine->delivery_ddt) }}">
             </div>
             
             <div class="col-12 col-md-6">
                 <label class="pb-3" for="notes">Note</label>
-                <textarea type="text" name="notes" class="form-control" style="height: 100px; resize: none;" required>{{ old('notes', $machine->notes) }}</textarea>
+                <textarea type="text" name="notes" class="form-control" style="height: 100px; resize: none;">{{ old('notes', $machine->notes) }}</textarea>
             </div>
             
             <x-Buttons.buttonBlue type="submit" props="Aggiorna" />

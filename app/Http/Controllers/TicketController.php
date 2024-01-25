@@ -92,10 +92,10 @@ class TicketController extends Controller
     public function update(Request $request, $id)
     {
         // Validazione dei dati
-        $request->validate([
-            'selectedCustomer' => 'required',
-            'selectedCdCF' => 'required',
-        ]);
+        // $request->validate([
+        //     'selectedCustomer' => 'required',
+        //     'selectedCdCF' => 'required',
+        // ]);
     
         // Trova il ticket da aggiornare
         $ticket = Ticket::findOrFail($id);

@@ -42,10 +42,7 @@ class MachineController extends Controller
             'model' => 'required',
             'brand' => 'required',
             'serial_number' => 'required',
-            'sale_date' => 'required|date',
             'warranty_type_id' => 'nullable|exists:warranty_types,id',
-            'delivery_ddt' => 'required',
-            'notes' => 'required',
         ]);
 
         $currentDate = Carbon::now();
@@ -95,12 +92,6 @@ class MachineController extends Controller
             'model' => 'required',
             'brand' => 'required',
             'serial_number' => 'required',
-            'sale_date' => 'required|date',
-            'warranty_expiration_date' => 'required|date',
-            'warranty_type_id' => 'nullable|exists:warranty_types,id',
-            'registration_date' => 'required|date',
-            'delivery_ddt' => 'required',
-            'notes' => 'required',
         ]);
     
         $machine->update($request->all());

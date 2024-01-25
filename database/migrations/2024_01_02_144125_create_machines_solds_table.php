@@ -16,13 +16,13 @@ return new class extends Migration
             $table->string('model');
             $table->string('brand');
             $table->string('serial_number');
-            $table->date('sale_date');
+            $table->date('sale_date')->nullable();
             $table->string('old_buyer')->nullable();
-            $table->string('buyer');
-            $table->date('warranty_expiration_date');
-            $table->date('registration_date');
-            $table->string('delivery_ddt');
-            $table->text('notes');
+            $table->string('buyer')->nullable();
+            $table->date('warranty_expiration_date')->nullable();
+            $table->date('registration_date')->nullable();
+            $table->string('delivery_ddt')->nullable();
+            $table->text('notes')->nullable();
             $table->timestamps();
             
             $table->unsignedBigInteger('warranty_type_id')->nullable();

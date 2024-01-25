@@ -23,7 +23,7 @@
             
             <div class="col-12">
                 <label class="my-2" for="description">Descrizione</label>
-                <textarea type="text" name="description" class="form-control" required>{{ $deadline->description }}</textarea>
+                <textarea type="text" name="description" class="form-control">{{ $deadline->description }}</textarea>
             </div>
             
             <div class="col-12">
