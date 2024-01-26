@@ -1,5 +1,5 @@
 <x-Layouts.layoutDash>
-
+    <input type="hidden" id="screenWidth" name="screenWidth" value="">
     <x-allert />
     
     <div class="col-12 col-md-11 d-flex justify-content-end my-1 w-100">
@@ -83,3 +83,28 @@
         <x-pagination :props="$employees" />
     </x-Layouts.layoutDash>
     
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Check if the current URL matches the desired URL
+        if (window.location.href === 'dipendenti') {
+            var screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+    
+            // Effettua una richiesta AJAX per inviare la larghezza dello schermo al controller
+            $.ajax({
+                url: '{{ route("dashboard.employees.index") }}',
+                type: 'GET',
+                data: { screenWidth: screenWidth },
+                success: function(response) {
+                    // Aggiorna la pagina con i nuovi dati ricevuti dal controller (se necessario)
+                    document.documentElement.innerHTML = response;
+                },
+                error: function(error) {
+                    console.error('Errore nella richiesta AJAX:', error);
+                }
+            });
+        }
+    });
+    </script>

@@ -1,4 +1,4 @@
-<div class="container d-flex justify-content-center my-2 fixed-top">
+<div class="container d-flex justify-content-center my-5 fixed-top">
     @if (session('success'))
     <div id="success-alert" class="alert alert-success">
         {{ session('success') }}

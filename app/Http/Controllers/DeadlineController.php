@@ -15,48 +15,61 @@ class DeadlineController extends Controller
         $sortBy = $request->input('sortBy', 'default');
         $direction = $request->input('direction', 'asc');
         $searchTerm = $request->input('deadlineSearch');
-        
-        $columnTitles = [ [
-            'text' => 'Nome Documento',
-            'sortBy' => 'name',
-        ],
-        [
-            'text' => 'Scadenza',
-            'sortBy' => 'expiry_date',
-        ],"Tag", "Modifica", "Elimina"];
-
+        $screenWidth = $request->input('screenWidth');
+    
+        $columnTitles = [
+            [
+                'text' => 'Nome Documento',
+                'sortBy' => 'name',
+            ],
+            [
+                'text' => 'Scadenza',
+                'sortBy' => 'expiry_date',
+            ],
+            "Tag", "Modifica", "Elimina"
+        ];
+    
         $routeName = 'dashboard.deadlines.index';
-        
+    
         $queryBuilder = Deadline::with(['documentDeadlines']);
-
+    
         if ($searchTerm) {
             $queryBuilder->where('deadlines.name', 'like', '%' . $searchTerm . '%')
-            ->orWhere('description', 'LIKE', "%$searchTerm%")
-            ->orWhereHas('tags', function ($query) use ($searchTerm) {
-                $query->where('name', 'LIKE', "%$searchTerm%");
-            });
+                ->orWhere('description', 'LIKE', "%$searchTerm%")
+                ->orWhereHas('tags', function ($query) use ($searchTerm) {
+                    $query->where('name', 'LIKE', "%$searchTerm%");
+                });
         }
-        
+    
         if ($sortBy == 'expiry_date') {
             $queryBuilder->join('document_deadlines', 'deadlines.id', '=', 'document_deadlines.deadline_id')
-            ->orderBy('document_deadlines.expiry_date', $direction)
-            ->select('deadlines.*');
+                ->orderBy('document_deadlines.expiry_date', $direction)
+                ->select('deadlines.*');
         } elseif ($sortBy == 'name') {
             $queryBuilder->orderBy('deadlines.name', $direction);
         }
-        
-        $deadlines = $queryBuilder->paginate(19);
-
-        $deadlines->appends(['deadlinesSearch' => $searchTerm]);
-        
+    
+        // Determine items per page based on screen width
+        $itemsPerPage = $screenWidth >= 1600 ? 50 : ($screenWidth >= 768 ? 18 : 18);
+    
+        $deadlines = $queryBuilder->paginate($itemsPerPage);
+    
+        // Paginazione con i parametri di ricerca
+        $deadlines->appends([
+            'sortBy' => $sortBy,
+            'direction' => $direction,
+            'deadlineSearch' => $searchTerm,
+        ]);
+    
         return view('dashboard.deadlines.index', [
             'columnTitles' => $columnTitles,
             'deadlines' => $deadlines,
             'sortBy' => $sortBy,
             'direction' => $direction,
-            'routeName' => $routeName
+            'routeName' => $routeName,
         ]);
     }
+    
     
     public function showByTag($tag)
     {

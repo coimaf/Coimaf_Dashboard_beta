@@ -23,11 +23,12 @@ class TicketController extends Controller
             'Modifica',
             'Elimina'
         ];
-
+    
         $searchTerm = $request->input('ticketsSearch');
-
+        $screenWidth = $request->input('screenWidth');
+    
         $queryBuilder = Ticket::with(['machinesSold', 'machineModel', 'technician']);
-
+    
         if ($searchTerm) {
             $queryBuilder->where('tickets.title', 'like', '%' . $searchTerm . '%')
                 ->orWhere('description', 'LIKE', "%$searchTerm%")
@@ -53,16 +54,24 @@ class TicketController extends Controller
                     $query->where('model', 'LIKE', "%$searchTerm%");
                 });
         }
-
-        $tickets = $queryBuilder->paginate(19);
-
-        $tickets->appends(['ticketsSearch' => $searchTerm]);
-
+    
+        // Determine items per page based on screen width
+        $itemsPerPage = $screenWidth >= 1600 ? 50 : ($screenWidth >= 768 ? 18 : 18);
+    
+        $tickets = $queryBuilder->paginate($itemsPerPage);
+    
+        // Paginazione con i parametri di ricerca
+        $tickets->appends([
+            'ticketsSearch' => $searchTerm,
+            'screenWidth' => $screenWidth,
+        ]);
+    
         return view('dashboard.tickets.index', [
             'tickets' => $tickets,
             'columnTitles' => $columnTitles
         ]);
     }
+    
     
     public function create()
     {
