@@ -6,9 +6,9 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-          <li class="nav-item">
+          {{-- <li class="nav-item">
             <a class="btn bg-primary-cust text-white m-2" aria-current="page" href="{{route('dash')}}">Dashboard</a>
-          </li>
+          </li> --}}
           @guest
             <a href="{{route('login')}}"><button class="btn btn-primary">Login</button></a>
           @endguest

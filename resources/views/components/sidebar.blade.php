@@ -14,30 +14,38 @@
                         Dashboard
                     </a>
                 </li>
+                @if(Str::contains(auth()->user()->groups, 'GESTIONALE-Dipendenti'))
                 <li class="nav-item">
                     <a href="{{ route('dashboard.employees.index') }}" class="nav-link {{ Request::is('dipendenti') ? 'active' : '' }}" aria-current="page">
                         <i class="bi bi-people-fill pe-2"></i>
                         Dipendenti
                     </a>
                 </li>
+                @endif
+                @if(Str::contains(auth()->user()->groups, 'GESTIONALE-Scadenzario'))
                 <li class="nav-item">
                     <a href="{{ route('dashboard.deadlines.index') }}" class="nav-link {{ Request::is('scadenzario') ? 'active' : '' }}" aria-current="page">
                         <i class="bi bi-file-earmark-medical-fill pe-2"></i>
                         Scadenzario
                     </a>
                 </li>
+                @endif
+                @if(Str::contains(auth()->user()->groups, 'GESTIONALE-DbMacchine'))
                 <li class="nav-item">
                     <a href="{{ route('dashboard.machinesSolds.index') }}" class="nav-link {{ Request::is('macchine-vendute') ? 'active' : '' }}" aria-current="page">
                         <i class="bi bi-grid-1x2 pe-2"></i>
                         Macchine installate
                     </a>                                        
                 </li>
+                @endif
+                @if(Str::contains(auth()->user()->groups, 'GESTIONALE-Ticket'))
                 <li class="nav-item">
                     <a href="{{ route('dashboard.tickets.index') }}" class="nav-link {{ Request::is('tickets') ? 'active' : '' }}" aria-current="page">
                         <i class="bi bi-ticket-detailed pe-2"></i>
                         Tickets
                     </a>                                        
                 </li>
+                @endif
             </ul>
             <hr>
             <div class="dropdown">
@@ -46,7 +54,9 @@
                     <strong>{{ $userName }}</strong>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
+                    @if(Str::contains(auth()->user()->groups, 'COIMAF-Cnc_officina'))
                     <li><a class="dropdown-item" href="{{route('dashboard.settings.index')}}">Impostazioni</a></li>
+                    @endif
                     <li><a class="dropdown-item" href="{{route('dashboard.profile')}}">Profilo</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li>
