@@ -7,6 +7,7 @@ use App\Models\Technician;
 use App\Models\MachinesSold;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class TicketController extends Controller
@@ -130,6 +131,8 @@ class TicketController extends Controller
     // Associa il tecnico al ticket
     $ticket->technician()->associate($request->input('technician_id'));
     $ticket->save();
+    
+    Auth::user()->machinesSolds()->save($ticket);
 
     return redirect()->route('dashboard.tickets.index')->with('success', 'Ticket creato con successo!');
 }

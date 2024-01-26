@@ -8,6 +8,7 @@
                             <h5 class="my-3 fs-3 fw-bold text-alt">{{$machine->model}}</h5>
                             <h6 class="my-3 fs-3 fw-bold text-alt">{{$machine->brand}}</h6>
                             <p class="mb-3 text-capitalize lead">{{$machine->serial_number}}</p>
+                            <p class="card-footer fw-semibold mt-3">Creato da: {{$machine->user->name}} <br> il: {{$machine->created_at->format('d/m/Y')}}</p>
                         </div>
                     </div>
                 </div>

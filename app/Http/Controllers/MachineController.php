@@ -7,6 +7,7 @@ use App\Models\MachinesSold;
 use App\Models\WarrantyType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class MachineController extends Controller
 {
@@ -103,7 +104,7 @@ class MachineController extends Controller
         $registration_date = Carbon::today();
     
         // Aggiorna il nome del campo nel create
-        MachinesSold::create([
+        $machine = MachinesSold::create([
             'model' => $request->input('model'),
             'brand' => $request->input('brand'),
             'serial_number' => $request->input('serial_number'),
@@ -117,6 +118,7 @@ class MachineController extends Controller
             'notes' => $request->input('notes'),
         ]);
 
+        Auth::user()->machinesSolds()->save($machine);
     
         return redirect()->route("dashboard.machinesSolds.index")->with("success", "Macchina inserita con successo.");
     }

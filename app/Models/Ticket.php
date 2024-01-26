@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\User;
 use App\Models\Technician;
 use App\Models\MachinesSold;
 use Laravel\Scout\Searchable;
@@ -25,6 +26,10 @@ class Ticket extends Model
             'machine_sold_id' => $this->machine_sold_id,
             'machine_model_id' => $this->machine_model_id,
         ];
+    }
+
+    public function user() {
+        return $this->belongsTo(User::class);
     }
 
     public function machinesSold()

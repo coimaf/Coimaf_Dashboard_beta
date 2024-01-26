@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('machines_solds', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->string('model');
             $table->string('brand');
             $table->string('serial_number');
@@ -24,7 +25,8 @@ return new class extends Migration
             $table->string('delivery_ddt')->nullable();
             $table->text('notes')->nullable();
             $table->timestamps();
-            
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('warranty_type_id')->nullable();
             $table->foreign('warranty_type_id')->references('id')->on('warranty_types')->onDelete('set null');
         });

@@ -3,17 +3,19 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Ticket;
 use App\Models\Deadline;
 use App\Models\Employee;
+use App\Models\MachinesSold;
 use Laravel\Sanctum\HasApiTokens;
+use LdapRecord\Query\Model\Builder;
 use Illuminate\Notifications\Notifiable;
 use LdapRecord\Laravel\Auth\LdapAuthenticatable;
 use LdapRecord\Laravel\Auth\AuthenticatesWithLdap;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use LdapRecord\Models\ActiveDirectory\Group as LdapGroup;
-use LdapRecord\Query\Model\Builder;
 use LdapRecord\Models\ActiveDirectory\User as LdapUser;
+use LdapRecord\Models\ActiveDirectory\Group as LdapGroup;
 
 
 class User extends Authenticatable implements LdapAuthenticatable
@@ -90,6 +92,14 @@ class User extends Authenticatable implements LdapAuthenticatable
     
     public function deadlines() {
         return $this->hasMany(Deadline::class);
+    }
+
+    public function machinesSolds() {
+        return $this->hasMany(MachinesSold::class);
+    }
+
+    public function tickets() {
+        return $this->hasMany(Ticket::class);
     }
 
 }
