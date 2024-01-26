@@ -25,10 +25,10 @@ use App\Http\Controllers\TechnicianController;
 //! Solo per Test
 // Route::get('/test', [TestController::class, 'test'])->name('test');
 
-//? Non sappiamo se servirà
-// Route::get('/', function () {
-//     return view('welcome');
-// })->name('home')->middleware('auth');
+//? Non esiste home
+Route::get('/', function () {
+    return view('dashboard.dashboard');
+})->name('home')->middleware('auth');
 
 // Dashboard
 Route::get('/dashboard', function () {
