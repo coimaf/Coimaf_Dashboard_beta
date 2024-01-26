@@ -55,10 +55,9 @@ class EmployeeController extends Controller
                 });
         }
     
-        // Altrimenti, applica l'ordinamento predefinito
-        if ($sortBy == 'name') {
-            $queryBuilder->orderBy('employees.name', $direction);
-        }
+        $queryBuilder->when($sortBy == 'name', function ($query) use ($direction) {
+            $query->orderBy('employees.name', $direction);
+        });
     
         $itemsPerPage = $screenWidth >= 1600 ? 50 : ($screenWidth >= 768 ? 18 : 18);
         

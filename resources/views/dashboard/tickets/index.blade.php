@@ -8,7 +8,7 @@
         <a href="{{route('dashboard.tickets.create')}}"><x-Buttons.buttonBlue type="button" props="NUOVO" /></a>
     </div>
     
-    <x-table :columnTitles="$columnTitles" :rowData="$tickets">
+    <x-table :columnTitles="$columnTitles" :direction="$direction" :sortBy="$sortBy" :routeName="$routeName" :rowData="$tickets">
         <tr class="ps-4 align-middle">
             <th colspan="{{ count($columnTitles) }}">
                 <form class="d-flex" action="{{ route('dashboard.tickets.index') }}" method="GET">

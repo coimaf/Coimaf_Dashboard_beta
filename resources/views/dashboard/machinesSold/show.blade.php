@@ -17,7 +17,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-sm-3">
-                                    <p class="mb-0 fw-semibold">Venduto il</p>
+                                    <p class="mb-0 fw-semibold">Data installazione</p>
                                 </div>
                                 <div class="col-sm-9">
                                     <p class=" mb-0">{{ \Carbon\Carbon::parse($machine->sale_date)->format('d/m/Y') }}</p>
@@ -71,7 +71,7 @@
                             <hr>
                             <div class="row">
                                 <div class="col-sm-3">
-                                    <p class="mb-0 fw-semibold">Spedizione DTT</p>
+                                    <p class="mb-0 fw-semibold">Documento di trasporto</p>
                                 </div>
                                 <div class="col-sm-9">
                                     <p class=" mb-0">{{ $machine->delivery_ddt }}</p>

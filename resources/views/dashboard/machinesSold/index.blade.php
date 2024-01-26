@@ -8,7 +8,7 @@
         <a href="{{route('dashboard.machinesSolds.create')}}"><x-Buttons.buttonBlue type="button" props="NUOVO" /></a>
     </div>
 
-      <x-table :columnTitles="$columnTitles" :rowData="$machines">
+      <x-table :columnTitles="$columnTitles" :rowData="$machines" :direction="$direction" :sortBy="$sortBy" :routeName="$routeName">
         <tr class="align-middle">
             <th colspan="{{ count($columnTitles) }}">
                 <form class="d-flex" action="{{ route('dashboard.machinesSolds.index') }}" method="GET">
@@ -40,9 +40,9 @@
                         {{ $machine->warrantyType->name }}
                     </a>
                 </td>
-                <td class="ps-5">
+                <td class="ps-3">
                     <a class="link-underline link-underline-opacity-0 link-dark" href="{{route('dashboard.machinesSolds.show', compact('machine'))}}">
-                        {{ \Carbon\Carbon::parse($machine->warranty_expiration_date)->format('d-m-Y') }}
+                        {{ \Carbon\Carbon::parse($machine->sale_date)->format('d-m-Y') }}
                     </a>
                 </td>
                 <td class="ps-4">

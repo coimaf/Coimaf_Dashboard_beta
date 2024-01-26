@@ -13,19 +13,23 @@ class TicketController extends Controller
 {
     public function index(Request $request)
     {
+        $sortBy = $request->input('sortBy', 'default');
+        $direction = $request->input('direction', 'asc');
         $tickets = Ticket::with('technician')->get();
         $columnTitles = [
-            'Ticket ID',
-            'Titolo',
-            'Stato',
-            'Priorità',
-            'Tecnico',
+            ['text' => 'Ticket ID', 'sortBy' => 'id'],
+            ['text' => 'Titolo', 'sortBy' => 'title'],
+            ['text' => 'Stato', 'sortBy' => 'status'],
+            ['text' => 'Priorità', 'sortBy' => 'priority'],
+            ['text' => 'Tecnico', 'sortBy' => 'technician'],
             'Modifica',
             'Elimina'
         ];
     
         $searchTerm = $request->input('ticketsSearch');
         $screenWidth = $request->input('screenWidth');
+
+        $routeName = 'dashboard.tickets.index';
     
         $queryBuilder = Ticket::with(['machinesSold', 'machineModel', 'technician']);
     
@@ -54,21 +58,36 @@ class TicketController extends Controller
                     $query->where('model', 'LIKE', "%$searchTerm%");
                 });
         }
+
+        $queryBuilder->when($sortBy == 'id', function ($query) use ($direction) {
+            $query->orderBy('tickets.id', $direction);
+        })->when($sortBy == 'title', function ($query) use ($direction) {
+            $query->orderBy('tickets.title', $direction);
+        })->when($sortBy == 'status', function ($query) use ($direction) {
+            $query->orderBy('tickets.status', $direction);
+        })
+        ->when($sortBy == 'priority', function ($query) use ($direction) {
+            $query->orderBy('tickets.priority', $direction);
+        })->when($sortBy == 'technician', function ($query) use ($direction) {
+            $query->join('technicians', 'tickets.technician_id', '=', 'technicians.id')
+                  ->orderBy('technicians.name', $direction);
+        });
     
         // Determine items per page based on screen width
         $itemsPerPage = $screenWidth >= 1600 ? 50 : ($screenWidth >= 768 ? 18 : 18);
     
-        $tickets = $queryBuilder->paginate($itemsPerPage);
-    
-        // Paginazione con i parametri di ricerca
-        $tickets->appends([
+        $tickets = $queryBuilder->paginate($itemsPerPage)->appends([
+            'sortBy' => $sortBy,
+            'direction' => $direction,
             'ticketsSearch' => $searchTerm,
-            'screenWidth' => $screenWidth,
         ]);
     
         return view('dashboard.tickets.index', [
             'tickets' => $tickets,
-            'columnTitles' => $columnTitles
+            'sortBy' => $sortBy,
+            'direction' => $direction,
+            'routeName' => $routeName,
+            'columnTitles' => $columnTitles,
         ]);
     }
     

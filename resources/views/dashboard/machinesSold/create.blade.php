@@ -51,13 +51,13 @@
             </div>                            
 
             <div class="col-12 col-md-6 mb-4">
-                <label class="my-2" for="sale_date">Data di vendita</label>
+                <label class="my-2" for="sale_date">Data installazione</label>
                 <input type="date" name="sale_date" class="form-control">
             </div>
             
             
             <div class="col-12 col-md-6 mb-4">
-                <label class="my-2" for="delivery_ddt">Consegna DDT</label>
+                <label class="my-2" for="delivery_ddt">Documento di trasporto</label>
                 <input type="text" name="delivery_ddt" class="form-control">
             </div>
             

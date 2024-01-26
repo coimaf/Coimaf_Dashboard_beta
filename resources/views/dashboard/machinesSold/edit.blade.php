@@ -57,12 +57,12 @@
             </div>
 
             <div class="col-12 col-md-6">
-                <label class="my-2" for="sale_date">Data di vendita</label>
+                <label class="my-2" for="sale_date">Data installazione</label>
                 <input type="date" name="sale_date" class="form-control" value="{{ old('sale_date', $machine->sale_date) }}">
             </div>
             
             <div class="col-12 col-md-6">
-                <label class="my-2" for="delivery_ddt">Consegna DDT</label>
+                <label class="my-2" for="delivery_ddt">Documento di trasporto</label>
                 <input type="text" name="delivery_ddt" class="form-control" value="{{ old('delivery_ddt', $machine->delivery_ddt) }}">
             </div>
             

@@ -12,18 +12,24 @@ class MachineController extends Controller
 {
     public function index(Request $request)
     {
+        $sortBy = $request->input('sortBy', 'default');
+        $direction = $request->input('direction', 'asc');
+
         $columnTitles = [
-            'Modello',
-            'Marca',
-            'Propietario Attuale',
-            'Tipo Garanzia',
-            'Scadenza Garanzia',
+            ['text' => 'Modello', 'sortBy' => 'model'],
+            ['text' => 'Marca', 'sortBy' => 'brand'],
+            ['text' => 'Propietario Attuale', 'sortBy' => 'buyer'],
+            ['text' => 'Tipo Garanzia', 'sortBy' => 'warrantyType'],
+            ['text' => 'Data installazione', 'sortBy' => 'sale_date'],
             'Modifica',
             'Elimina'
         ];
         $searchTerm = $request->input('machinesSearch');
         
         $screenWidth = $request->input('screenWidth');
+
+        $routeName = 'dashboard.machinesSolds.index';
+    
         
     
         $queryBuilder = MachinesSold::with('warrantyType');
@@ -44,14 +50,32 @@ class MachineController extends Controller
                 });
         }
 
-        $itemsPerPage = $screenWidth >= 1600 ? 50 : ($screenWidth >= 768 ? 18 : 18);
-        $machines = $queryBuilder->paginate($itemsPerPage);
+        $queryBuilder->when($sortBy == 'model', function ($query) use ($direction) {
+            $query->orderBy('machines_solds.model', $direction);
+        })->when($sortBy == 'brand', function ($query) use ($direction) {
+            $query->orderBy('machines_solds.brand', $direction);
+        })->when($sortBy == 'buyer', function ($query) use ($direction) {
+            $query->orderBy('machines_solds.buyer', $direction);
+        })->when($sortBy == 'warrantyType', function ($query) use ($direction) {
+            $query->join('warranty_types', 'machines_solds.warranty_type_id', '=', 'warranty_types.id')
+                  ->orderBy('warranty_types.name', $direction);
+        })->when($sortBy == 'sale_date', function ($query) use ($direction) {
+            $query->orderBy('machines_solds.sale_date', $direction);
+        });
 
-        $machines->appends(['machinesSearch' => $searchTerm]);
+        $itemsPerPage = $screenWidth >= 1600 ? 50 : ($screenWidth >= 768 ? 18 : 18);
+        $machines = $queryBuilder->paginate($itemsPerPage)->appends([
+            'sortBy' => $sortBy,
+            'direction' => $direction,
+            'machinesSearch' => $searchTerm,
+        ]);
     
         return view('dashboard.machinesSold.index', [
             'machines' => $machines,
-            'columnTitles' => $columnTitles
+            'sortBy' => $sortBy,
+            'direction' => $direction,
+            'routeName' => $routeName,
+            'columnTitles' => $columnTitles,
         ]);
     }
     
