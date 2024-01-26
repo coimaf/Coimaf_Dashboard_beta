@@ -141,7 +141,7 @@ class TicketController extends Controller
 
     public function show(Ticket $ticket)
     {
-        return view("dashboard.Tickets.show", compact('ticket'));
+        return view("dashboard.tickets.show", compact('ticket'));
     }
     
     
