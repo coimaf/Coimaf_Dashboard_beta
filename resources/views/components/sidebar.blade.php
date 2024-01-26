@@ -54,7 +54,7 @@
                     <strong>{{ $userName }}</strong>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
-                    @if(Str::contains(auth()->user()->groups, 'COIMAF-Cnc_officina'))
+                    @if(Str::contains(auth()->user()->groups, 'GESTIONALE-Impostazioni'))
                     <li><a class="dropdown-item" href="{{route('dashboard.settings.index')}}">Impostazioni</a></li>
                     @endif
                     <li><a class="dropdown-item" href="{{route('dashboard.profile')}}">Profilo</a></li>

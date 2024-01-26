@@ -63,25 +63,25 @@ Route::put('/scadenzario/{deadline}', [DeadlineController::class, 'update'])->na
 Route::delete('/scadenzario/{deadline}/elimina', [DeadlineController::class, 'destroy'])->name('dashboard.deadlines.destroy')->middleware('auth', 'scadenzario');
 
 // Impostazioni
-Route::get('/impostazioni', [SettingController::class, 'index'])->name('dashboard.settings.index')->middleware('auth', 'officina');
-Route::get('/dashboard/impostazioni/dipendenti/crea', [SettingController::class, 'employeesCreate'])->name('dashboard.settings.employees.create')->middleware('auth', 'officina');
-Route::post('/dashboard/impostazioni/dipendenti/manage', [SettingController::class, 'employeesManageDocument'])->name('dashboard.settings.employees.manageDocument')->middleware('auth', 'officina');
-Route::post('/dashboard/impostazioni/dipendenti/addRole', [SettingController::class, 'employeesAddRole'])->name('dashboard.settings.employees.addRole')->middleware('auth', 'officina');
-Route::delete('/dashboard/impostazioni/dipendenti/removeRole/{roleId}', [SettingController::class, 'employeesRemoveRole'])->name('dashboard.settings.employees.removeRole')->middleware('auth', 'officina');
-Route::post('/dashboard/impostazioni/dipendenti/addDocument', [SettingController::class, 'employeesAddDocument'])->name('dashboard.settings.employees.addDocument')->middleware('auth', 'officina');
-Route::delete('/dashboard/impostazioni/dipendenti/removeDocument/{documentId}', [SettingController::class, 'employeesRemoveDocument'])->name('dashboard.settings.employees.removeDocument')->middleware('auth', 'officina');
+Route::get('/impostazioni', [SettingController::class, 'index'])->name('dashboard.settings.index')->middleware('auth', 'impostazioni');
+Route::get('/dashboard/impostazioni/dipendenti/crea', [SettingController::class, 'employeesCreate'])->name('dashboard.settings.employees.create')->middleware('auth', 'impostazioni');
+Route::post('/dashboard/impostazioni/dipendenti/manage', [SettingController::class, 'employeesManageDocument'])->name('dashboard.settings.employees.manageDocument')->middleware('auth', 'impostazioni');
+Route::post('/dashboard/impostazioni/dipendenti/addRole', [SettingController::class, 'employeesAddRole'])->name('dashboard.settings.employees.addRole')->middleware('auth', 'impostazioni');
+Route::delete('/dashboard/impostazioni/dipendenti/removeRole/{roleId}', [SettingController::class, 'employeesRemoveRole'])->name('dashboard.settings.employees.removeRole')->middleware('auth', 'impostazioni');
+Route::post('/dashboard/impostazioni/dipendenti/addDocument', [SettingController::class, 'employeesAddDocument'])->name('dashboard.settings.employees.addDocument')->middleware('auth', 'impostazioni');
+Route::delete('/dashboard/impostazioni/dipendenti/removeDocument/{documentId}', [SettingController::class, 'employeesRemoveDocument'])->name('dashboard.settings.employees.removeDocument')->middleware('auth', 'impostazioni');
 
-Route::get('/dashboard/impostazioni/scadenzario/crea', [SettingController::class, 'deadlinesCreate'])->name('dashboard.settings.deadlines.create')->middleware('auth', 'officina');
-Route::post('/dashboard/impostazioni/scadenzario/aggiungi-tag', [SettingController::class, 'deadlinesAddTag'])->name('dashboard.settings.deadlines.tagAdd')->middleware('auth', 'officina');
-Route::delete('/dashboard/impostazioni/scadenzario/rimuovi-tag/{tagId}', [SettingController::class, 'deadlinesRemoveTag'])->name('dashboard.settings.deadlines.tagRemove')->middleware('auth', 'officina');
+Route::get('/dashboard/impostazioni/scadenzario/crea', [SettingController::class, 'deadlinesCreate'])->name('dashboard.settings.deadlines.create')->middleware('auth', 'impostazioni');
+Route::post('/dashboard/impostazioni/scadenzario/aggiungi-tag', [SettingController::class, 'deadlinesAddTag'])->name('dashboard.settings.deadlines.tagAdd')->middleware('auth', 'impostazioni');
+Route::delete('/dashboard/impostazioni/scadenzario/rimuovi-tag/{tagId}', [SettingController::class, 'deadlinesRemoveTag'])->name('dashboard.settings.deadlines.tagRemove')->middleware('auth', 'impostazioni');
 
-Route::get('/dashboard/impostazioni/macchine-vendute/crea', [SettingController::class, 'machinesSoldsCreate'])->name('dashboard.settings.machinesSold.create')->middleware('auth', 'officina');
-Route::post('/dashboard/impostazioni/macchine-vendute/aggiungi', [SettingController::class, 'machinesSoldsStore'])->name('dashboard.settings.machinesSold.store')->middleware('auth', 'officina');
-Route::delete('/dashboard/impostazioni/macchine-vendute/rimuovi//{warrantyId}', [SettingController::class, 'machinesSoldsDelete'])->name('dashboard.settings.machinesSold.delete')->middleware('auth', 'officina');
+Route::get('/dashboard/impostazioni/macchine-vendute/crea', [SettingController::class, 'machinesSoldsCreate'])->name('dashboard.settings.machinesSold.create')->middleware('auth', 'impostazioni');
+Route::post('/dashboard/impostazioni/macchine-vendute/aggiungi', [SettingController::class, 'machinesSoldsStore'])->name('dashboard.settings.machinesSold.store')->middleware('auth', 'impostazioni');
+Route::delete('/dashboard/impostazioni/macchine-vendute/rimuovi//{warrantyId}', [SettingController::class, 'machinesSoldsDelete'])->name('dashboard.settings.machinesSold.delete')->middleware('auth', 'impostazioni');
 
-Route::get('/dashboard/impostazioni/tecnici/crea', [TechnicianController::class, 'create'])->name('dashboard.settings.tecnicians.create')->middleware('auth', 'officina');
-Route::post('/dashboard/impostazioni/tecnici/aggiungi', [TechnicianController::class, 'store'])->name('dashboard.settings.tecnicians.store')->middleware('auth', 'officina');
-Route::delete('/dashboard/settings/technicians/{technician}', [TechnicianController::class, 'destroy'])->name('dashboard.settings.tecnicians.delete')->middleware('auth', 'officina');
+Route::get('/dashboard/impostazioni/tecnici/crea', [TechnicianController::class, 'create'])->name('dashboard.settings.tecnicians.create')->middleware('auth', 'impostazioni');
+Route::post('/dashboard/impostazioni/tecnici/aggiungi', [TechnicianController::class, 'store'])->name('dashboard.settings.tecnicians.store')->middleware('auth', 'impostazioni');
+Route::delete('/dashboard/settings/technicians/{technician}', [TechnicianController::class, 'destroy'])->name('dashboard.settings.tecnicians.delete')->middleware('auth', 'impostazioni');
 
 // Macchine Vendute
 Route::get('/macchine-vendute', [MachineController::class, 'index'])->name('dashboard.machinesSolds.index')->middleware('auth', 'DbMacchine');
