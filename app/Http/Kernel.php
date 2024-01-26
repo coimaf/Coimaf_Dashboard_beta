@@ -69,5 +69,6 @@ class Kernel extends HttpKernel
         'dipendenti' => \App\Http\Middleware\DipendentiMiddleware::class,
         'DbMacchine' => \App\Http\Middleware\DbMacchineMiddleware::class,
         'ticket' => \App\Http\Middleware\TicketMiddleware::class,
+        'impostazioni' => \App\Http\Middleware\ImpostazioniMiddleware::class,
     ];
 }
