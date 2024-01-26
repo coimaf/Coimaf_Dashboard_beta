@@ -44,7 +44,7 @@ class MachineController extends Controller
                 });
         }
 
-        $itemsPerPage = $screenWidth >= 1600 ? 50 : ($screenWidth >= 768 ? 18 : 7);
+        $itemsPerPage = $screenWidth >= 1600 ? 50 : ($screenWidth >= 768 ? 18 : 18);
         $machines = $queryBuilder->paginate($itemsPerPage);
 
         $machines->appends(['machinesSearch' => $searchTerm]);
