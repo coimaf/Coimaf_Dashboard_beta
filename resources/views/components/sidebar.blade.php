@@ -1,11 +1,11 @@
 <div class="sidebar">
     <main class="d-flex ">
         <div class="d-flex flex-column p-3 text-bg-light " >
-            <a class="py-4 text-center" href="{{ route('dash') }}"><img width="60%" src="{{ asset('assets/coimaf_logo.png') }}" alt="Logo_Coimaf"></a>
-            <form class="d-flex" action="{{ route('dashboard.search') }}" method="GET">
+            <a class="py-3 text-center" href="{{ route('dash') }}"><img width="60%" src="{{ asset('assets/coimaf_logo.png') }}" alt="Logo_Coimaf"></a>
+            {{-- <form class="d-flex" action="{{ route('dashboard.search') }}" method="GET">
                 <input class="form-control me-2" type="search" placeholder="Cerca" aria-label="Search" name="searched">
                 <x-Buttons.buttonBlue type='submit' props='Cerca' />
-            </form>
+            </form> --}}
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
                 <li class="nav-item">
