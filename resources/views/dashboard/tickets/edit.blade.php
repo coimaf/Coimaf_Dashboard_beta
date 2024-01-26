@@ -1,7 +1,7 @@
 <x-Layouts.layoutDash>
-    <h6 class="fw-bold">Modifica Ticket</h6>
+    <h6 class="fw-bold px-4 pt-4 fs-5">Modifica Ticket</h6>
     
-    <form style="overflow: hidden;" action="{{ route('dashboard.tickets.update', $ticket->id) }}" method="POST" class="my-1">
+    <form class="p-4" style="overflow: hidden;" action="{{ route('dashboard.tickets.update', $ticket->id) }}" method="POST" class="my-1">
         @csrf
         @method('PUT')
         <div class="row g-3">
@@ -106,8 +106,9 @@
                 <label class="pb-3" for="notes">Risoluzione Problema</label>
                 <textarea type="text" name="notes" class="form-control" style="height: 100px; resize: none;" >{{ old('notes', $ticket->notes) }}</textarea>
             </div>
-            
-            <x-Buttons.buttonBlue type="submit" props="Aggiorna" />
+            <div class="row py-3">
+                <x-Buttons.buttonBlue type="submit" props="Aggiorna" />
+            </div>
         </div>
     </form>
 </x-Layouts.layoutDash>

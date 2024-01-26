@@ -1,7 +1,7 @@
 <x-Layouts.layoutDash>
-    <h6 class="fw-bold">Aggiungi Documento</h6>
+    <h6 class="fw-bold p-4 fs-5">Aggiungi Documento</h6>
     
-    <form style="overflow: hidden;" action="{{ route('dashboard.deadlines.store') }}" method="POST" enctype="multipart/form-data">
+    <form class="px-4 py-3" style="overflow: hidden;" action="{{ route('dashboard.deadlines.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="row g-3">
             <div class="col-12">
@@ -29,8 +29,9 @@
                 <input type="date" name="expiry_date" class="form-control" required>
             </div>
             
-            
+            <div class="row py-3">
             <x-Buttons.buttonBlue type="submit" props="Aggiungi" />
+            </div>
         </div>
     </form>
     

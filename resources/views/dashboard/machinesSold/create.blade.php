@@ -1,7 +1,7 @@
 <x-Layouts.layoutDash>
-    <h6 class="fw-bold">Aggiungi una nuova Macchina</h6>
+    <h6 class="fw-bold p-4 fs-5">Aggiungi una nuova Macchina</h6>
     
-    <form style="overflow: hidden;" action="{{route('dashboard.machinesSolds.store')}}" method="POST" enctype="multipart/form-data">
+    <form class="p-4" style="overflow: hidden;" action="{{route('dashboard.machinesSolds.store')}}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="row g-3">
             <div class="col-12">
@@ -65,8 +65,9 @@
                 <label class="pb-3" for="notes">Note</label>
                 <textarea type="text" name="notes" class="form-control" style="height: 100px; resize: none;"></textarea>
             </div>
-            
-            <x-Buttons.buttonBlue type="submit" props="Aggiungi" />
+            <div class="row py-3">
+                <x-Buttons.buttonBlue type="submit" props="Aggiungi" />
+            </div>
         </div>
     </form>
     

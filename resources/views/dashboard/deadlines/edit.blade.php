@@ -1,9 +1,9 @@
 <x-Layouts.layoutDash>
-    <h6 class="fw-bold">Modifica Documento</h6>
+    <h6 class="fw-bold px-4 pt-4 fs-5">Modifica Documento</h6>
     
     <x-allert />
     
-    <form style="overflow: hidden;" action="{{ route('dashboard.deadlines.update', ['deadline' => $deadline->id]) }}" method="post" class="my-" enctype="multipart/form-data">
+    <form style="overflow: hidden;" action="{{ route('dashboard.deadlines.update', ['deadline' => $deadline->id]) }}" method="post" class="p-4" enctype="multipart/form-data">
         @csrf
         @method('PUT') <!-- Utilizza il metodo PUT per l'aggiornamento -->
         

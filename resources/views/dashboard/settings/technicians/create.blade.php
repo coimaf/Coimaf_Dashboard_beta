@@ -5,9 +5,9 @@
             <x-allert />
            
                     
-                 <h4 class="m-1 fw-bold">Impostazioni Tecnici</h4>
+                 <h4 class="m-4 fw-bold">Impostazioni Tecnici</h4>
                     
-                    <div class="row g-3 m-2">
+                    <div class="row g-3 m-4">
                         <div class="col-12 col-md-6">
                             <form action="{{ route('dashboard.settings.tecnicians.store') }}" method="post">
                                 @csrf

@@ -7,7 +7,7 @@
     </div>
     
     <x-table :columnTitles="$columnTitles" :rowData="$deadlines" :direction="$direction" :sortBy="$sortBy" :routeName="$routeName">
-        <tr class="text-center align-middle">
+        <tr class="ps-3 align-middle">
             <th colspan="{{ count($columnTitles) }}">
                 <form class="d-flex" action="{{ route('dashboard.deadlines.index') }}" method="GET">
                     <input type="search" class="form-control me-2" placeholder="Cerca" name="deadlineSearch" value="{{ request('query') }}">
@@ -17,8 +17,8 @@
         </tr>
         <tbody>
             @foreach ($deadlines as $deadline)
-            <tr class="text-center align-middle">
-                <td><a class="link-underline link-underline-opacity-0 link-dark" href="{{ route('dashboard.deadlines.show', compact('deadline')) }}">{{ $deadline->name }}</a></td>
+            <tr class="align-middle">
+                <td class="ps-3"><a class="link-underline link-underline-opacity-0 link-dark" href="{{ route('dashboard.deadlines.show', compact('deadline')) }}">{{ $deadline->name }}</a></td>
                 
                 <td>
                     <a class="link-underline link-underline-opacity-0 link-dark" href="{{ route('dashboard.deadlines.show', compact('deadline')) }}">
@@ -49,13 +49,13 @@
                 </a>
             </td>
             
-            <td>
+            <td class="ps-5">
                 <a href='{{route('dashboard.deadlines.edit', compact('deadline'))}}'>
                     <i class='bi bi-pencil-square text-warning'></i>
                 </a>
             </td>
             
-            <td>
+            <td class="ps-4">
                 <button type="button" class="btn bi bi-trash3-fill text-danger" data-bs-toggle="modal" data-bs-target="#deleteDeadlineModal{{ $deadline->id }}"></button>
                 
                 <form action="{{route('dashboard.deadlines.destroy', compact('deadline'))}}" method="post">

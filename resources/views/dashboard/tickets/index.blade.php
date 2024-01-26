@@ -7,7 +7,7 @@
     </div>
     
     <x-table :columnTitles="$columnTitles" :rowData="$tickets">
-        <tr class="text-center align-middle">
+        <tr class="ps-4 align-middle">
             <th colspan="{{ count($columnTitles) }}">
                 <form class="d-flex" action="{{ route('dashboard.tickets.index') }}" method="GET">
                     <input type="search" class="form-control me-2" placeholder="Cerca" name="ticketsSearch" value="{{ request('query') }}">
@@ -17,8 +17,8 @@
         </tr>
         <tbody>
             @foreach ($tickets as $ticket)
-            <tr class="text-center align-middle">
-                <td>
+            <tr class="align-middle">
+                <td class="ps-4">
                     <a class="link-underline link-underline-opacity-0 link-dark" href="{{route('dashboard.tickets.show', compact('ticket'))}}">
                         {{ $ticket->id }}
                     </a>
@@ -47,12 +47,12 @@
                         @endif
                     </a>
                 </td>
-                <td>
+                <td class="ps-4">
                     <a href="{{ route('dashboard.tickets.edit', $ticket->id) }}">
                         <i class='bi bi-pencil-square text-warning'></i>
                     </a>                    
                 </td>
-                <td>
+                <td class="ps-4">
                     <button type="button" class="btn bi bi-trash3-fill text-danger" data-bs-toggle="modal" data-bs-target="#deleteTicketModal{{ $ticket->id }}"></button>
                     
                     <form action="{{route('dashboard.tickets.delete', compact('ticket'))}}" method="post">

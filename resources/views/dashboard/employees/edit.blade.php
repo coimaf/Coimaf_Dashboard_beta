@@ -1,9 +1,9 @@
 <x-Layouts.layoutDash>
-    <h6 class="fw-bold">Modifica Dipendente</h6>
+    <h6 class="fw-bold px-4 pt-4 fs-5">Modifica Dipendente</h6>
 
     <x-allert />
     
-    <form style="overflow: hidden;" action="{{ route('dashboard.employees.update', ['employee' => $employee->id]) }}" method="post" class="my-1" enctype="multipart/form-data">
+    <form style="overflow: hidden;" action="{{ route('dashboard.employees.update', ['employee' => $employee->id]) }}" method="post" class="p-4" enctype="multipart/form-data">
         @csrf
         @method('PUT') <!-- Utilizza il metodo PUT per l'aggiornamento -->
         
@@ -56,11 +56,11 @@
             </div>
             
             
-            <div class="row g-3" id="documentFields" style="background-color: rgb(209, 209, 209)">
+            <div class="row g-3 rounded-5" id="documentFields" style="background-color: rgb(209, 209, 209)">
                 <!-- Visualizza e consente la modifica dei documenti associati -->
                 @foreach ($employee->documents as $key => $document)
                 <div class="col-12 col-md-6 dynamic-element">
-                    <h6 class="fw-bold">Documenti</h6>
+                    <h6 class="fw-bold py-3">Documenti</h6>
                     <label for="{{ $document->name }}">{{ $document->name }}</label>
                     <input type="hidden" name="document_names[{{ $key }}]" value="{{ $document->name }}">
                     <input type="file" name="documentEmployees[{{ $key }}][pdf]" class="form-control my-3" accept=".pdf">
@@ -71,8 +71,9 @@
             </div>                            
             
             
-            
-            <x-Buttons.buttonBlue type="submit" props="Aggiorna" />
+            <div class="row py-3">
+                <x-Buttons.buttonBlue type="submit" props="Aggiorna" />
+            </div>
         </div>
     </form>
     

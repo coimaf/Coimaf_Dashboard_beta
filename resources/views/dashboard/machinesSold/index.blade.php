@@ -35,22 +35,22 @@
                         {{ $machine->buyer }}
                     </a>
                 </td>
-                <td>
+                <td class="text-center">
                     <a class="link-underline link-underline-opacity-0 link-dark" href="{{route('dashboard.machinesSolds.show', compact('machine'))}}">
                         {{ $machine->warrantyType->name }}
                     </a>
                 </td>
-                <td>
+                <td class="text-center">
                     <a class="link-underline link-underline-opacity-0 link-dark" href="{{route('dashboard.machinesSolds.show', compact('machine'))}}">
                         {{ \Carbon\Carbon::parse($machine->warranty_expiration_date)->format('d-m-Y') }}
                     </a>
                 </td>
-                <td>
+                <td class="text-center">
                     <a href="{{ route('dashboard.machinesSolds.edit', $machine->id) }}">
                         <i class='bi bi-pencil-square text-warning'></i>
                     </a>                    
                 </td>
-                <td>
+                <td class="text-center">
                     <button type="button" class="btn bi bi-trash3-fill text-danger" data-bs-toggle="modal" data-bs-target="#deleteMachineModal{{ $machine->id }}"></button>
                     
                     <form action="{{route('dashboard.machinesSolds.destroy', compact('machine'))}}" method="post">

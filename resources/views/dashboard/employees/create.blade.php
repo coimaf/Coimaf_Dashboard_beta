@@ -1,7 +1,7 @@
 <x-Layouts.layoutDash>
-    <h6 class="fw-bold">Aggiungi Dipendente</h6>
+    <h6 class="fw-bold p-4 fs-5">Aggiungi Dipendente</h6>
     
-    <form style="overflow: hidden;" action="{{ route('dashboard.employees.store') }}" method="POST" enctype="multipart/form-data">
+    <form style="overflow: hidden;" class="p-4" action="{{ route('dashboard.employees.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="row g-3">
             <div class="col-12 col-md-6">
@@ -48,11 +48,12 @@
             </div>
             
             <!-- Aggiungi questa parte per i documenti dinamici -->
-            <div class="row g-3" id="documentFields" style="background-color: rgb(209, 209, 209)">
+            <div class="row g-3 p-2 rounded-5" id="documentFields" style="background-color: rgb(224, 224, 224)">
                 <!-- Questa sezione verrà popolata dinamicamente dal JavaScript -->
             </div>
-            
-            <x-Buttons.buttonBlue type="submit" props="Aggiungi" />
+            <div class="row py-3">
+                <x-Buttons.buttonBlue type="submit" props="Aggiungi" />
+            </div>
         </div>
     </form>
     <style>
@@ -83,7 +84,7 @@
                 
                 console.log('Documents:', documents);
                 
-                var html = '<h6 class="m-0 p-2 fw-bold">Documenti</h6>';
+                var html = '<h6 class="fw-bold">Documenti</h6>';
                 
                 for (var i = 0; i < documents.length; i++) {
                     var defaultName = documents[i].name;

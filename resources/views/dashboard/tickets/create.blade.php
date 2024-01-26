@@ -1,9 +1,9 @@
 <x-Layouts.layoutDash>
     
-    <h6 class="fw-bold">Crea un nuovo Ticket</h6>
-    <p>Ticket Numero: {{$nextTicketNumber}}</p>
+    <h6 class="fw-bold p-4 fs-5">Crea un nuovo Ticket</h6>
+    <p class="px-4">Ticket Numero: {{$nextTicketNumber}}</p>
     
-    <form style="overflow: hidden;" action="{{route('dashboard.tickets.store')}}" method="POST">
+    <form class="p-4" style="overflow: hidden;" action="{{route('dashboard.tickets.store')}}" method="POST">
         @csrf
         <div class="row g-3">
             <div class="col-12">
@@ -76,8 +76,9 @@
             <div class="col-12 col-md-6">
                 <textarea placeholder="Risoluzione Problema" type="text" name="notes" class="form-control" style="height: 100px; resize: none;"></textarea>
             </div>
-            
+            <div class="row py-3">
             <x-Buttons.buttonBlue type="submit" props="Aggiungi" />
+            </div>
         </div>
     </form>
     

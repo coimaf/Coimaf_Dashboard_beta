@@ -8,7 +8,7 @@
     
     
     <x-table :columnTitles="$columnTitles" :rowData="$employees" :direction="$direction" :sortBy="$sortBy" :routeName="$routeName">
-        <tr class="text-center align-middle">
+        <tr class="align-middle">
             <th colspan="{{ count($columnTitles) }}">
                 <form class="d-flex" action="{{ route('dashboard.employees.index') }}" method="GET">
                     <input type="search" class="form-control me-2" placeholder="Cerca" name="employeeSearch" value="{{ request('query') }}">
@@ -18,8 +18,8 @@
         </tr>
         <tbody>
             @foreach ($employees as $employee)
-            <tr class="text-center align-middle">
-                <td>
+            <tr class="align-middle">
+                <td class="ps-3">
                     <a class="link-underline link-underline-opacity-0 link-dark" href="{{ route('dashboard.employees.show', compact('employee')) }}">
                         {{ $employee->name }} {{ $employee->surname }}
                     </a>
@@ -31,23 +31,23 @@
                     </a>
                 </td>
                 
-                <td>
+                <td class="ps-2">
                     <a class="link-underline link-underline-opacity-0 link-dark" href="{{ route('dashboard.employees.show', compact('employee')) }}">
                         {{ $employee->roles->pluck('name')->implode(', ') }}
                     </a>
                 </td>
                 
-                <td>
+                <td class="ps-5">
                     <i data-mdb-tooltip-init title="{{ $employee->getDocumentStatuses()['tooltipText'] }}" class="{{ $employee->getDocumentStatuses()['icon'] }}"></i>
                 </td>
                 
                 
-                <td>
+                <td class="ps-5">
                     <a href='{{route('dashboard.employees.edit', compact('employee'))}}'>
                         <i class='bi bi-pencil-square text-warning'></i>
                     </a>
                 </td>
-                <td>
+                <td class="ps-5">
                     <button type="button" class="btn bi bi-trash3-fill text-danger" data-bs-toggle="modal" data-bs-target="#deleteEmployeeModal{{ $employee->id }}"></button>
                     
                     <form action="{{route('dashboard.employees.destroy', compact('employee'))}}" method="post">

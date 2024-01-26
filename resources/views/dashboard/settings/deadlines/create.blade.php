@@ -1,9 +1,9 @@
 <x-Layouts.layoutDash>
     
     
-    <h4 class="fw-bold m-1">Impostazioni Deadline</h4>
+    <h4 class="fw-bold m-4">Impostazioni Deadline</h4>
     
-    <div class="row g-3 m-1">
+    <div class="row g-3 m-4">
         <div class="col-12 col-md-6">
             <form action="{{ route('dashboard.settings.deadlines.tagAdd') }}" method="post">
                 @csrf
