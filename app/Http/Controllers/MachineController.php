@@ -24,6 +24,7 @@ class MachineController extends Controller
         $searchTerm = $request->input('machinesSearch');
         
         $screenWidth = $request->input('screenWidth');
+        
     
         $queryBuilder = MachinesSold::with('warrantyType');
     
@@ -43,7 +44,7 @@ class MachineController extends Controller
                 });
         }
 
-        $itemsPerPage = $screenWidth >= 1200 ? 50 : ($screenWidth >= 768 ? 30 : 18);
+        $itemsPerPage = $screenWidth >= 1600 ? 50 : ($screenWidth >= 768 ? 18 : 7);
         $machines = $queryBuilder->paginate($itemsPerPage);
 
         $machines->appends(['machinesSearch' => $searchTerm]);

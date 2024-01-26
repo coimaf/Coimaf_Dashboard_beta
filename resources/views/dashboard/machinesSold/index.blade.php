@@ -9,7 +9,7 @@
     </div>
 
       <x-table :columnTitles="$columnTitles" :rowData="$machines">
-        <tr class="text-center align-middle">
+        <tr class="align-middle">
             <th colspan="{{ count($columnTitles) }}">
                 <form class="d-flex" action="{{ route('dashboard.machinesSolds.index') }}" method="GET">
                     <input type="search" class="form-control me-2" placeholder="Cerca" name="machinesSearch" value="{{ request('query') }}">
@@ -19,8 +19,8 @@
         </tr>
         <tbody>
             @foreach ($machines as $machine)
-            <tr class="text-center align-middle">
-                <td class="">
+            <tr class="align-middle">
+                <td class="ps-3">
                     <a class="link-underline link-underline-opacity-0 link-dark" href="{{route('dashboard.machinesSolds.show', compact('machine'))}}">
                         {{ $machine->model }}
                     </a>
@@ -88,8 +88,25 @@
 
 </x-Layouts.layoutDash>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        document.getElementById("screenWidth").value = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+document.addEventListener("DOMContentLoaded", function() {
+    var screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+
+    // Effettua una richiesta AJAX per inviare la larghezza dello schermo al controller
+    $.ajax({
+        url: '{{ route("dashboard.machinesSolds.index") }}',
+        type: 'GET',
+        data: { screenWidth: screenWidth },
+        success: function(response) {
+            // Aggiorna la pagina con i nuovi dati ricevuti dal controller (se necessario)
+            document.documentElement.innerHTML = response;
+        },
+        error: function(error) {
+            console.error('Errore nella richiesta AJAX:', error);
+        }
     });
+});
+
 </script>

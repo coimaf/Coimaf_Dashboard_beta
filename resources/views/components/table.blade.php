@@ -1,11 +1,11 @@
 <div class="container-fluid p-0">
    
-            <div class="col-12 rounded-2 table-custom-padding">
+            <div class="col-12 rounded-2">
                 @if(count($rowData) > 0)
                 <div class="table-responsive table-custom-padding">
                     <table class="table table-hover table-custom-padding">
                         <thead class="table-dark"> 
-                            <tr class="text-center align-middle table-custom-padding">
+                            <tr class="align-middle table-custom-padding">
                                 @foreach ($columnTitles as $column)
                                 <th class="table-custom-padding">
                                     @if (is_array($column) && array_key_exists('sortBy', $column) && array_key_exists('text', $column))
@@ -39,14 +39,13 @@
 
         <style>
             .table-custom-padding {
-              padding: 3px!important;
               margin: 0!important; /* Adjust the padding value as needed */
               font-size: 12px;
               border-bottom-width: 0px;
-              padding-top: 0px;
-              padding-bottom: 0px;
-              padding-right: 0px;
-              padding-left: 0px;
+              padding-top: 5px!important;
+              padding-bottom: 5px!important;
+              padding-right: 10px!important;
+              padding-left: 10px!important;
             }
             .table > :not(caption) > * > *{
                 padding: 0;
