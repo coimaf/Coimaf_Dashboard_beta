@@ -157,6 +157,10 @@ class MachineController extends Controller
     
         // Aggiorna la relazione Eloquent con il tipo di garanzia
         $machine->warrantyType()->associate($request->input('warranty_type_id'));
+
+        $lastModifiedUser = Auth::user();
+        $machine->updated_by = $lastModifiedUser->name;
+
         $machine->save();
     
         return redirect()->route("dashboard.machinesSolds.index")->with("success", "Macchina aggiornata con successo.");

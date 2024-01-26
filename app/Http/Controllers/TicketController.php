@@ -181,6 +181,9 @@ class TicketController extends Controller
         // Aggiorna l'associazione del tecnico al ticket
         $ticket->technician()->associate($request->input('technician_id'));
     
+        $lastModifiedUser = Auth::user();
+        $ticket->updated_by = $lastModifiedUser->name;
+
         // Salva le modifiche nel database
         $ticket->save();
     

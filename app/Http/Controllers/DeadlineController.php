@@ -194,6 +194,11 @@ class DeadlineController extends Controller
                 'expiry_date' => $expiryDate,
             ]);
         }
+
+        
+        $lastModifiedUser = Auth::user();
+        $deadline->updated_by = $lastModifiedUser->name;
+        $deadline->save();
         
         return redirect()->route('dashboard.deadlines.index')->with('success', 'Scadenza aggiornata con successo!');
     }

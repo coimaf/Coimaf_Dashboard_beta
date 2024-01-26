@@ -221,6 +221,10 @@ class EmployeeController extends Controller
                 // Puoi aggiungere del codice di gestione degli errori o di registrazione qui
             }
         }
+        
+        $lastModifiedUser = Auth::user();
+        $employee->updated_by = $lastModifiedUser->name;
+        $employee->save();
     
         return redirect()->route('dashboard.employees.index')->with('success', 'Dipendente aggiornato con successo.');
     }

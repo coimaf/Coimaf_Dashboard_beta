@@ -6,7 +6,10 @@
                     <div class="card mb-4 text-black">
                         <div class="card-body text-center">
                             <h5 class="my-3 fs-3 fw-bold text-alt">Ticket Numero: {{$ticket->id}}</h5>
-                            <p class="card-footer fw-semibold mt-3">Creato da: {{$ticket->user->name}} <br> il: {{$ticket->created_at->format('d/m/Y')}}</p>
+                            <p class="card-footer fw-semibold mt-3">Creato da: {{$ticket->user->name}}  il: {{$ticket->created_at->format('d/m/Y')}} 
+                            @if($ticket->updated_by)
+                            <br><br>Modificato da: {{$ticket->updated_by}} il: {{$ticket->updated_at->format('d/m/Y')}}</p>
+                            @endif
                         </div>
                     </div>
                 </div>

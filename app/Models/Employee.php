@@ -43,6 +43,11 @@ class Employee extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function lastModifiedBy()
+    {
+        return $this->belongsTo(User::class, 'updated_by');
+    }
+
     public function roles()
     {
         return $this->belongsToMany(Role::class);

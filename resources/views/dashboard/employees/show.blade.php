@@ -12,7 +12,10 @@
                             <h5 class="my-3 fs-3 fw-bold text-alt">{{$employee->name}} {{$employee->surname}}</h5>
                             <p class=" mb-1 text-capitalize">{{ $employee->roles->pluck('name')->implode(', ')}}</p>
                             <p class=" mb-4 text-uppercase">{{$employee->fiscal_code}}</p>
-                            <p class="card-footer fw-semibold">Creato da: {{$employee->user->name}} <br> il: {{$employee->created_at->format('d/m/Y')}}</p>
+                            <p class="card-footer fw-semibold mt-3">Creato da: {{$employee->user->name}}  il: {{$employee->created_at->format('d/m/Y')}} 
+                                @if($employee->updated_by)
+                                <br><br>Modificato da: {{$employee->updated_by}} il: {{$employee->updated_at->format('d/m/Y')}}</p>
+                                @endif
                         </div>
                     </div>
                     <div class="card mb-4 mb-lg-0 text-black">

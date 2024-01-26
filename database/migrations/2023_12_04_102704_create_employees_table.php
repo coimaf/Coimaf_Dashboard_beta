@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->string('email');
             $table->string('email_work')->nullable();
+            $table->string('updated_by')->nullable();
             $table->timestamps();
             
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

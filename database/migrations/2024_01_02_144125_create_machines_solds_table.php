@@ -24,6 +24,7 @@ return new class extends Migration
             $table->date('registration_date')->nullable();
             $table->string('delivery_ddt')->nullable();
             $table->text('notes')->nullable();
+            $table->string('updated_by')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

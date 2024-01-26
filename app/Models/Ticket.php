@@ -13,7 +13,7 @@ class Ticket extends Model
 {
     use HasFactory, Searchable;
 
-    protected $fillable = ['title', 'description', 'notes', 'descrizione', 'cd_cf', 'machine_model_id', 'machine_sold_id', 'closed', 'status', 'priority'];
+    protected $fillable = ['updated_by','title', 'description', 'notes', 'descrizione', 'cd_cf', 'machine_model_id', 'machine_sold_id', 'closed', 'status', 'priority'];
 
     public function toSearchableArray()
     {
@@ -30,6 +30,11 @@ class Ticket extends Model
 
     public function user() {
         return $this->belongsTo(User::class);
+    }
+
+    public function lastModifiedBy()
+    {
+        return $this->belongsTo(User::class, 'updated_by');
     }
 
     public function machinesSold()
