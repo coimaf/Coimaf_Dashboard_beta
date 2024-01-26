@@ -38,7 +38,7 @@ Route::get('/dashboard', function () {
 // Login
 Route::get('/login', function () {
     return view('auth.login');
-})->name('login');
+})->name('login')->middleware('guest');
 
 // Profile
 Route::get('/profile', [ProfileController::class, 'profile'])->name('dashboard.profile')->middleware('auth');

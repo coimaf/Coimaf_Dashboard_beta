@@ -37,6 +37,18 @@ class FortifyServiceProvider extends ServiceProvider
             return view('auth.login');
         });
 
+        Fortify::authenticateUsing(function (Request $request) {
+            $user = Auth::user();
+    
+            if ($user) {
+                return Redirect::to('/dashboard');
+            }
+    
+            // Resto del tuo codice di autenticazione se necessario
+    
+            return null;
+        });
+
         RateLimiter::for('login', function (Request $request) {
             $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())).'|'.$request->ip());
 
