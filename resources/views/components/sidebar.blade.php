@@ -107,3 +107,13 @@
     });
     
 </script>
+
+
+<style>
+    @media print{
+        
+    .side-toggle{
+        visibility: hidden;
+    }
+    }
+</style>

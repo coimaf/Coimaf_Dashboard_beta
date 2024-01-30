@@ -72,8 +72,16 @@
                 <label class="my-2" for="">Data Apertura</label>
                 <label class="form-control"> {{  \Carbon\Carbon::now()->format('d-m-Y') }} </label>
             </div>
+
+            <div class="col-12 col-md-1">
+                <label class="my-2" for="intervention_date">Data intervento</label>
+            </div>
+
+            <div class="col-12 col-md-3 mb-4">
+                <input type="date" name="intervention_date" class="form-control">
+            </div>
             
-            <div class="col-12 col-md-6">
+            <div class="col-12">
                 <textarea placeholder="Risoluzione Problema" type="text" name="notes" class="form-control" style="height: 100px; resize: none;"></textarea>
             </div>
             <div class="row py-3">

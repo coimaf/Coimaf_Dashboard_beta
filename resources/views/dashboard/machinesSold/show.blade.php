@@ -1,99 +1,83 @@
-<x-Layouts.layoutDash>
-    <section class="m-5" style="background-color: rgb(243, 243, 243); height: 86vh; overflow:auto">
-        <div class="container p-5">
-            <div class="row">
-                <div class="col-lg-4">
-                    <div class="card mb-4 text-black">
-                        <div class="card-body text-center">
-                            <h5 class="my-3 fs-3 fw-bold text-alt">{{$machine->model}}</h5>
-                            <h6 class="my-3 fs-3 fw-bold text-alt">{{$machine->brand}}</h6>
-                            <p class="mb-3 text-capitalize lead">{{$machine->serial_number}}</p>
-                            <p class="card-footer fw-semibold mt-3">Creato da: {{$machine->user->name}}  il: {{$machine->created_at->format('d/m/Y')}} 
-                                @if($machine->updated_by)
-                                <br><br>Modificato da: {{$machine->updated_by}} il: {{$machine->updated_at->format('d/m/Y')}}</p>
-                                @endif
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-lg-8">
-                    <div class="card mb-4 text-black">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <p class="mb-0 fw-semibold">Data installazione</p>
-                                </div>
-                                <div class="col-sm-9">
-                                    <p class=" mb-0">{{ \Carbon\Carbon::parse($machine->sale_date)->format('d/m/Y') }}</p>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <p class="mb-0 fw-semibold">Proprietario Attuale</p>
-                                </div>
-                                <div class="col-sm-9">
-                                    <p class=" mb-0">{{ $machine->buyer }}</p>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <p class="mb-0 fw-semibold">Vecchio Proprietario</p>
-                                </div>
-                                <div class="col-sm-9">
-                                    <p class=" mb-0">{{$machine->old_buyer}}</p>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <p class="mb-0 fw-semibold">Scadenza Garanzia</p>
-                                </div>
-                                <div class="col-sm-9">
-                                    <p class=" mb-0">{{ \Carbon\Carbon::parse($machine->warranty_expiration_date)->format('d/m/Y') }}</p>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <p class="mb-0 fw-semibold">Tipo Garanzia</p>
-                                </div>
-                                <div class="col-sm-9">
-                                    <p class=" mb-0">{{ $machine->warrantyType->name }}</p>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <p class="mb-0 fw-semibold">Registrata il</p>
-                                </div>
-                                <div class="col-sm-9">
-                                    <p class=" mb-0">{{ \Carbon\Carbon::parse($machine->registration_date)->format('d-m-Y' )}}</p>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <p class="mb-0 fw-semibold">Documento di trasporto</p>
-                                </div>
-                                <div class="col-sm-9">
-                                    <p class=" mb-0">{{ $machine->delivery_ddt }}</p>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <p class="mb-0 fw-semibold">Note</p>
-                                </div>
-                                <div class="col-sm-9">
-                                    <p class=" mb-0">{{ $machine->notes }}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <x-Layouts.layoutDash>
+        
+        <div class="row justify-content-end">
+            <div class="col-3 no-print">
+                <a href="{{ route('dashboard.machinesSolds.edit', $machine->id) }}" class="btn btn-warning float-end fs-4 m-4">Modifica</a>
             </div>
         </div>
-    </section>
-</x-Layouts>
+        
+        <div class="p-3 row g-3">
+            
+            <div class="col-12">
+                <label class="fs-5 mb-1 fw-semibold">Modello</label>
+                <input value="{{$machine->model}}" class="form-control form-custom fs-5" readonly>
+            </div>
+            
+            <div class="col-12 col-md-6">
+                <label class="fs-5 mb-1 fw-semibold">Marca</label>
+                <input value="{{$machine->brand}}" class="form-control form-custom fs-5" readonly>
+            </div>
+            
+            <div class="col-12 col-md-6">
+                <label class="fs-5 mb-1 fw-semibold">Numero di Serie</label>
+                <input value="{{$machine->serial_number}}" class="form-control form-custom fs-5" readonly>
+            </div>
+            
+            <div class="col-12 col-md-6">
+                <label class="fs-5 mb-1 fw-semibold">Vecchio Proprietario</label>
+                <input value="{{$machine->old_buyer}}" class="form-control form-custom fs-5" readonly>
+            </div>
+            
+            <div class="col-12 col-md-6">
+                <label class="fs-5 mb-1 fw-semibold">Proprietario Attuale</label>
+                <input value="{{$machine->buyer}}" class="form-control form-custom fs-5" readonly>
+            </div>
+            
+            <div class="col-12 col-md-6">
+                <label class="fs-5 mb-1 fw-semibold">Tipo di garanzia</label>
+                <input value="{{$machine->warrantyType->name}}" class="form-control form-custom fs-5" readonly>
+            </div>
+            
+            <div class="col-12 col-md-6">
+                <label class="fs-5 mb-1 fw-semibold">Scadenza garanzia</label>
+                <input value="{{ \Carbon\Carbon::parse($machine->warranty_expiration_date)->format('d/m/Y') }}" class="form-control form-custom fs-5" readonly>
+            </div>
+            
+            <div class="col-12 col-md-6">
+                <label class="fs-5 mb-1 fw-semibold">Data installazione</label>
+                <input value="{{ \Carbon\Carbon::parse($machine->sale_date)->format('d-m-Y' )}}" class="form-control form-custom fs-5" readonly>
+            </div>
+            
+            <div class="col-12 col-md-6">
+                <label class="fs-5 mb-1 fw-semibold">Registrata il</label>
+                <input value="{{ \Carbon\Carbon::parse($machine->registration_date)->format('d-m-Y' )}}" class="form-control form-custom fs-5" readonly>
+            </div>
+            
+            <div class="col-12 col-md-6">
+                <label class="fs-5 mb-1 fw-semibold">Documento di trasporto</label>
+                <input value="{{$machine->delivery_ddt}}" class="form-control form-custom fs-5" readonly>
+            </div>
+            
+            <div class="col-12 col-md-6">
+                <label class="fs-5 mb-1 fw-semibold">Note</label>
+                <textarea class="form-control form-custom fs-5" style="height: 100px; resize: none;" readonly>{{$machine->notes}}</textarea>
+            </div>
+            
+        </div>
+        <p class="card-footer fw-semibold mt-3">Creato da: {{$machine->user->name}}  il: {{$machine->created_at->format('d/m/Y')}} 
+            @if($machine->updated_by)
+            <br><br>Modificato da: {{$machine->updated_by}} il: {{$machine->updated_at->format('d/m/Y')}}</p>
+            @endif
+    </x-Layouts.layoutDash>
+    
+    <style>
+        .form-custom{
+            cursor: default;
+        }
+        
+        .form-custom:hover, .form-custom:focus{
+            box-shadow: none;
+            border-color: var(--bs-border-color);
+        }
+        
+    </style>

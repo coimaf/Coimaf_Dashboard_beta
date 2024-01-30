@@ -1,24 +1,13 @@
 <x-Layouts.layoutDash>
-    <h6 class="fw-bold px-4 pt-4 fs-5">Modifica Ticket</h6>
     
     <form class="p-4" style="overflow: hidden;" action="{{ route('dashboard.tickets.update', $ticket->id) }}" method="POST" class="my-1">
         @csrf
         @method('PUT')
+        <h6 class="fw-bold fs-5">Modifica Ticket</h6>
         <div class="row g-3">
             <div class="col-12">
                 <label class="my-2" for="title">Titolo</label>
                 <input type="text" name="title" class="form-control" value="{{ old('title', $ticket->title) }}" required>
-            </div>
-            
-            <div class="col-12">
-                <label class="my-2" for="customerInput">Cliente</label>
-                <input list="customer" class="form-control" id="customerInput" name="selectedCustomer" value="{{ old('selectedCustomer', $ticket->customer->Descrizione ?? '') }}">
-                <input type="hidden" id="selectedCdCFInput" name="selectedCdCF">
-                <datalist id="customer" required>
-                    @foreach ($customers as $customer)
-                    <option value="{{ trim($customer->Descrizione) }}" data-cd-cf="{{ $customer->Cd_CF }}"></option>
-                    @endforeach
-                </datalist>
             </div>
             
             <div class="col-12 col-md-6">

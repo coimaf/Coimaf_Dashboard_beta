@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('notes')->nullable();
             $table->string('descrizione');
             $table->string('cd_cf');
+            $table->date('intervention_date');
             $table->timestamps();
 
             $table->unsignedBigInteger('machine_sold_id')->nullable();

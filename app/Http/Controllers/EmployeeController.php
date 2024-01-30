@@ -21,7 +21,6 @@ class EmployeeController extends Controller
         $sortBy = $request->input('sortBy', 'default');
         $direction = $request->input('direction', 'asc');
         $searchTerm = $request->input('employeeSearch');
-        $screenWidth = $request->input('screenWidth');
             
         $columnTitles = [
             ['text' => 'Nome', 'sortBy' => 'name'],
@@ -58,11 +57,9 @@ class EmployeeController extends Controller
         $queryBuilder->when($sortBy == 'name', function ($query) use ($direction) {
             $query->orderBy('employees.name', $direction);
         });
-    
-        $itemsPerPage = $screenWidth >= 1600 ? 50 : ($screenWidth >= 768 ? 18 : 18);
         
         // Paginazione con i parametri di ricerca
-        $employees = $queryBuilder->paginate($itemsPerPage)->appends([
+        $employees = $queryBuilder->paginate(31)->appends([
             'sortBy' => $sortBy,
             'direction' => $direction,
             'employeeSearch' => $searchTerm,

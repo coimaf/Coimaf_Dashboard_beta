@@ -28,7 +28,6 @@ class TicketController extends Controller
         ];
     
         $searchTerm = $request->input('ticketsSearch');
-        $screenWidth = $request->input('screenWidth');
 
         $routeName = 'dashboard.tickets.index';
     
@@ -74,10 +73,7 @@ class TicketController extends Controller
                   ->orderBy('technicians.name', $direction);
         });
     
-        // Determine items per page based on screen width
-        $itemsPerPage = $screenWidth >= 1600 ? 50 : ($screenWidth >= 768 ? 18 : 18);
-    
-        $tickets = $queryBuilder->paginate($itemsPerPage)->appends([
+        $tickets = $queryBuilder->paginate(31)->appends([
             'sortBy' => $sortBy,
             'direction' => $direction,
             'ticketsSearch' => $searchTerm,
@@ -98,7 +94,11 @@ class TicketController extends Controller
         $machines = MachinesSold::all();
         $technicians = Technician::all();
         $nextTicketNumber = DB::table('tickets')->max('id') + 1;
-        $customers = DB::connection('mssql')->table('cf')->get();
+        $customers = DB::connection('mssql')
+        ->table('cf')
+        ->where('Cliente', 1)
+        ->where('Obsoleto', 0)
+        ->get();   
 
         return view('dashboard.tickets.create', compact('machines', 'nextTicketNumber', 'technicians', 'customers'));
     }
@@ -115,6 +115,7 @@ class TicketController extends Controller
     $ticket = new Ticket([
         'title' => $request->input('title'),
         'description' => $request->input('description'),
+        'intervention_date' => $request->input('intervention_date'),
         'notes' => $request->input('notes'),
         'machine_model_id' => $request->input('machine_model_id'),
         'machine_sold_id' => $request->input('machine_sold_id'),
@@ -197,6 +198,10 @@ class TicketController extends Controller
         $ticket->delete();
         
         return redirect()->route('dashboard.tickets.index')->with('success', 'Ticket eliminato con successo!');
+    }
+
+    public function print() {
+        return view('components.printTicket');
     }
     
 }

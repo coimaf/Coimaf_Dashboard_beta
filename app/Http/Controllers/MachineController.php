@@ -26,8 +26,6 @@ class MachineController extends Controller
             'Elimina'
         ];
         $searchTerm = $request->input('machinesSearch');
-        
-        $screenWidth = $request->input('screenWidth');
 
         $routeName = 'dashboard.machinesSolds.index';
     
@@ -64,8 +62,7 @@ class MachineController extends Controller
             $query->orderBy('machines_solds.sale_date', $direction);
         });
 
-        $itemsPerPage = $screenWidth >= 1600 ? 50 : ($screenWidth >= 768 ? 18 : 18);
-        $machines = $queryBuilder->paginate($itemsPerPage)->appends([
+        $machines = $queryBuilder->paginate(31)->appends([
             'sortBy' => $sortBy,
             'direction' => $direction,
             'machinesSearch' => $searchTerm,
@@ -83,7 +80,7 @@ class MachineController extends Controller
     
     public function create()
     {
-        $customers = DB::connection('mssql')->table('cf')->get();
+        $customers = DB::connection('mssql')->table('cf')->where('Cliente', 1)->get();
         $brands = DB::connection('mssql')->table('ARMarca')->get();
         $warranty_type = WarrantyType::all();
         return view('dashboard.machinesSold.create', compact('warranty_type', 'customers', 'brands'));

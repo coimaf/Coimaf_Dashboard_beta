@@ -1,6 +1,4 @@
 <x-Layouts.layoutDash>
-
-    <input type="hidden" id="screenWidth" name="screenWidth" value="">
     
     <x-allert />
     
@@ -90,27 +88,4 @@
         <x-pagination :props="$tickets" />
         
     </x-Layouts.layoutDash>
-
     
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // Check if the current URL matches the desired URL
-        if (window.location.href === 'tickets') {
-            var screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-    
-            // Effettua una richiesta AJAX per inviare la larghezza dello schermo al controller
-            $.ajax({
-                url: '{{ route("dashboard.tickets.index") }}',
-                type: 'GET',
-                data: { screenWidth: screenWidth },
-                success: function(response) {
-                    // Aggiorna la pagina con i nuovi dati ricevuti dal controller (se necessario)
-                    document.documentElement.innerHTML = response;
-                },
-                error: function(error) {
-                    console.error('Errore nella richiesta AJAX:', error);
-                }
-            });
-        }
-    });
-    </script>

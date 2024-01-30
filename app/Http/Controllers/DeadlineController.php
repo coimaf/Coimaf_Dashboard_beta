@@ -15,7 +15,6 @@ class DeadlineController extends Controller
         $sortBy = $request->input('sortBy', 'default');
         $direction = $request->input('direction', 'asc');
         $searchTerm = $request->input('deadlineSearch');
-        $screenWidth = $request->input('screenWidth');
     
         $columnTitles = [
             [
@@ -49,10 +48,7 @@ class DeadlineController extends Controller
             $queryBuilder->orderBy('deadlines.name', $direction);
         }
     
-        // Determine items per page based on screen width
-        $itemsPerPage = $screenWidth >= 1600 ? 50 : ($screenWidth >= 768 ? 18 : 18);
-    
-        $deadlines = $queryBuilder->paginate($itemsPerPage);
+        $deadlines = $queryBuilder->paginate(31);
     
         // Paginazione con i parametri di ricerca
         $deadlines->appends([
@@ -96,7 +92,7 @@ class DeadlineController extends Controller
     
         // Add sorting logic if needed
     
-        $deadlines = $queryBuilder->paginate(19);
+        $deadlines = $queryBuilder->paginate(31);
     
         return view('dashboard.deadlines.index', [
             'columnTitles' => $columnTitles,

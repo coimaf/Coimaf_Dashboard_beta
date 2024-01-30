@@ -1,124 +1,127 @@
-<x-Layouts.layoutDash>
-    <section class="m-5" style="background-color: rgb(243, 243, 243); height: 86vh; overflow:auto">
-        <div class="container p-5">
-            <div class="row">
-                <div class="col-lg-4">
-                    <div class="card mb-4 text-black">
-                        <div class="card-body text-center">
-                            <h5 class="my-3 fs-3 fw-bold text-alt">Ticket Numero: {{$ticket->id}}</h5>
-                            <p class="card-footer fw-semibold mt-3">Creato da: {{$ticket->user->name}}  il: {{$ticket->created_at->format('d/m/Y')}} 
-                            @if($ticket->updated_by)
-                            <br><br>Modificato da: {{$ticket->updated_by}} il: {{$ticket->updated_at->format('d/m/Y')}}</p>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-8">
-                    <div class="card mb-1 text-black">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <p class="mb-0 fw-semibold">Titolo: </p>
-                                </div>
-                                <div class="col-sm-9">
-                                    <p class=" mb-0">{{ $ticket->title }}</p>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <p class="mb-0 fw-semibold">ID Cliente: </p>
-                                </div>
-                                <div class="col-sm-9">
-                                    <p class=" mb-0">{{ $ticket->cd_cf }}</p>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <p class="mb-0 fw-semibold">Cliente: </p>
-                                </div>
-                                <div class="col-sm-9">
-                                    <p class=" mb-0">{{ $ticket->descrizione }}</p>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <p class="mb-0 fw-semibold">Stato: </p>
-                                </div>
-                                <div class="col-sm-9">
-                                    <p class=" mb-0">{{$ticket->status}}</p>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <p class="mb-0 fw-semibold">Priorità: </p>
-                                </div>
-                                <div class="col-sm-9">
-                                    <p class=" mb-0">{{ $ticket->priority }}</p>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <p class="mb-0 fw-semibold">Creato il: </p>
-                                </div>
-                                <div class="col-sm-9">
-                                    <p class=" mb-0">{{\Carbon\Carbon::parse($ticket->created_at)->format('d-m-Y')}}</p>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <p class="mb-0 fw-semibold">Seriale Macchina: </p>
-                                </div>
-                                <div class="col-sm-9">
-                                    <p class=" mb-0">{{$ticket->machinesSold->serial_number ?? ''}}</p>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <p class="mb-0 fw-semibold">Modello Macchina: </p>
-                                </div>
-                                <div class="col-sm-9">
-                                    <p class=" mb-0">{{$ticket->machinesSold->model ?? ''}}</p>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <p class="mb-0 fw-semibold">Tecnico: </p>
-                                </div>
-                                <div class="col-sm-9">
-                                    <p class=" mb-0">{{$ticket->technician->name}} {{$ticket->technician->surname}}</p>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <p class="mb-0 fw-semibold">Descrizione Problema: </p>
-                                </div>
-                                <div class="col-sm-9">
-                                    <p class=" mb-0">{{$ticket->description}}</p>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <p class="mb-0 fw-semibold">Risoluzione Problema: </p>
-                                </div>
-                                <div class="col-sm-9">
-                                    <p class=" mb-0">{{$ticket->notes}}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+<div class="print-preview">
+    <x-Layouts.layoutDash>
+        
+        <div class="row">
+            <div class="col-3">
+                <p class="card-footer fw-semibold m-4 fs-4 print">Ticket Numero: {{$ticket->id}}</p>
             </div>
+            <div class="col-3 print">
+                <p class="card-footer fw-semibold m-4 fs-4
+                @if($ticket->status === 'Aperto')
+                text-success
+                @elseif($ticket->status === 'Chiuso')
+                text-danger
+                @elseif($ticket->status === 'In lavorazione')
+                text-warning
+                @else
+                text-primary
+                @endif">
+                Stato: {{ $ticket->status }}
+            </p>
+            
         </div>
-    </section>
-</x-Layouts>
+        <div class="col-3 no-print">
+            <p class="card-footer fw-semibold m-4">Creato da: {{$ticket->user->name}}  il: {{$ticket->created_at->format('d/m/Y')}} 
+                @if($ticket->updated_by)
+                <br><br>Modificato da: {{$ticket->updated_by}} il: {{$ticket->updated_at->format('d/m/Y')}}
+                @endif
+            </p>
+        </div>
+        <div class="col-3 no-print">
+            <a href="{{ route('dashboard.tickets.edit', $ticket->id) }}" class="btn btn-warning float-end fs-4 m-4">Modifica</a>
+            <a href="#" id="printButton" class="btn btn-success fs-4 float-end m-4">Stampa</a>
+        </div>
+    </div>
+    
+    <div class="p-3 row g-3">
+        
+        <div class="col-12">
+            <label class="fs-5 mb-1 fw-semibold">Titolo</label>
+            <input value="{{$ticket->title}}" class="form-control form-custom fs-5" readonly>
+        </div>
+        
+        <div class="col-12 col-md-6">
+            <label class="fs-5 mb-1 fw-semibold">Cliente</label>
+            <input value="{{$ticket->cd_cf}} {{$ticket->descrizione}}" class="form-control form-custom fs-5" readonly>
+        </div>
+        
+        <div class="col-12 col-md-6">
+            <label class="fs-5 mb-1 fw-semibold">Priorità</label>
+            <input value="{{$ticket->priority}}" class="form-control form-custom fs-5" readonly>
+        </div>
+        
+        <div class="col-12">
+            <label class="fs-5 mb-1 fw-semibold">Descrizione Problema</label>
+            <textarea class="form-control form-custom fs-5" style="height: 100px; resize: none;" readonly>{{$ticket->description}}</textarea>
+        </div>
+        
+        <div class="col-12 col-md-6">
+            <label class="fs-5 mb-1 fw-semibold">Modello</label>
+            <input value="{{$ticket->machinesSold->model ?? ''}}" class="form-control form-custom fs-5" readonly>
+        </div>
+        
+        <div class="col-12 col-md-6">
+            <label class="fs-5 mb-1 fw-semibold">Seriale</label>
+            <input value="{{$ticket->machinesSold->serial_number ?? ''}}" class="form-control form-custom fs-5" readonly>
+        </div>
+        
+        <div class="col-12">
+            <label class="fs-5 mb-1 fw-semibold">Risoluzione Problema</label>
+            <textarea class="form-control form-custom fs-5" style="height: 100px; resize: none;" readonly>{{$ticket->notes}}</textarea>
+        </div>
+        
+        <div class="col-12 col-md-6">
+            <label class="fs-5 mb-1 fw-semibold">Tecnico</label>
+            <input value="{{$ticket->technician->name}} {{$ticket->technician->surname}}" class="form-control form-custom fs-5" readonly>
+        </div>
+        
+        <div class="col-12 col-md-6">
+            <label class="fs-5 mb-1 fw-semibold">Data intervento</label>
+            <input value="{{\Carbon\Carbon::parse($ticket->intervention_date)->format('d/m/Y')}}" class="form-control form-custom fs-5" readonly>
+        </div>
+        
+    </div>
+    
+</x-Layouts.layoutDash>
+</div>
+
+
+<style>
+    .form-custom{
+        cursor: default;
+    }
+    
+    .form-custom:hover, .form-custom:focus{
+        box-shadow: none;
+        border-color: var(--bs-border-color);
+    }
+
+    @media print {
+        .print{
+
+        }
+
+        .no-print{
+            visibility: hidden;
+        }
+    }
+    
+</style>
+
+<script>
+    // Aggiungi un ascoltatore di eventi al pulsante Stampa
+    document.getElementById('printButton').addEventListener('click', function() {
+        // Apri l'anteprima di stampa della tua nuova pagina
+        var printWindow = window.open('{{ route('dashboard.tickets.print') }}', '_print');
+        
+        // Esegui l'azione di stampa nell'anteprima di stampa
+        printWindow.onload = function() {
+            printWindow.print();
+            
+            // Chiudi la finestra dopo l'azione di stampa
+            printWindow.close();
+        };
+    });
+</script>
+
 

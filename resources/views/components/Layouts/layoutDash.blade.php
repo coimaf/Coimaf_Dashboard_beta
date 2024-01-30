@@ -22,7 +22,7 @@
                 </button>
             <div class="col-12 col-md-10 p-0 m-0">
                 <div class="rounded-3 m-2" style="background-color: rgb(243, 243, 243); height: 98vh;">
-                    <div class="rounded-2 mt-1 p-1" style="overflow-y: scroll">
+                    <div class="rounded-2 mt-1 p-1" style="overflow-y: scroll; overflow-x: hidden;">
                         {{ $slot }}
                     </div>
                 </div> 

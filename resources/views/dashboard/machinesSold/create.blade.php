@@ -11,7 +11,6 @@
             <div class="col-12 col-md-6">
                 <input placeholder="Seleziona Marca*" list="brandList" class="form-control" id="brandInput" name="brand" required>
                 <datalist id="brandList">
-                    <option value="">Seleziona una Marca</option>
                     @foreach($brands as $brand)
                     <option value="{{ $brand->Descrizione }}" data-cd-ar-marca="{{ $brand->Cd_ARMarca }}"></option>
                     @endforeach

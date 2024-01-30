@@ -72,6 +72,9 @@
         cursor: pointer;
         color: #666;
     }
+    .placeholder{
+        cursor:pointer;
+    }
     .multiselect-dropdown span.optext .optdel:hover { color: #c66;}
     .multiselect-dropdown span.placeholder{
         color:#ced4da;

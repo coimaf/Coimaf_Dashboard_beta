@@ -23,7 +23,7 @@ use App\Http\Controllers\TechnicianController;
 */
 
 //! Solo per Test
-// Route::get('/test', [TestController::class, 'test'])->name('test');
+// Route::get('/test', [TestController::class, 'index'])->name('test');
 
 //? Non esiste home
 Route::get('/', function () {
@@ -100,6 +100,10 @@ Route::get('/dashboard/tickets/dettaglio/{ticket}', [TicketController::class, 's
 Route::get('/dashboard/tickets/{ticket}/modifica', [TicketController::class, 'edit'])->name('dashboard.tickets.edit')->middleware('auth', 'ticket');
 Route::put('/dashboard/tickets/update/{ticket}', [TicketController::class, 'update'])->name('dashboard.tickets.update')->middleware('auth', 'ticket');
 Route::delete('/dashboard/tickets/elimina/{ticket}', [TicketController::class, 'destroy'])->name('dashboard.tickets.delete')->middleware('auth', 'ticket');
+Route::get('/dashboard/tickets/stampa', [TicketController::class, 'print'])->name('dashboard.tickets.print')->middleware('auth', 'ticket');
+
+// Route::post('/print', function() { return view('dashboard.tickets.show'); });
+
 
 // Searchable
 // Route::get('/dashboard/search', [SearchController::class, 'search'])->name('dashboard.search')->middleware('auth', 'officina');
