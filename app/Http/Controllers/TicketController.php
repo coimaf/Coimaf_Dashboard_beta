@@ -73,7 +73,7 @@ class TicketController extends Controller
                   ->orderBy('technicians.name', $direction);
         });
     
-        $tickets = $queryBuilder->paginate(31)->appends([
+        $tickets = $queryBuilder->paginate(25)->appends([
             'sortBy' => $sortBy,
             'direction' => $direction,
             'ticketsSearch' => $searchTerm,

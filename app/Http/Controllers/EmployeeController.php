@@ -59,7 +59,7 @@ class EmployeeController extends Controller
         });
         
         // Paginazione con i parametri di ricerca
-        $employees = $queryBuilder->paginate(31)->appends([
+        $employees = $queryBuilder->paginate(25)->appends([
             'sortBy' => $sortBy,
             'direction' => $direction,
             'employeeSearch' => $searchTerm,

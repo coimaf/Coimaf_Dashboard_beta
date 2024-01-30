@@ -62,7 +62,7 @@ class MachineController extends Controller
             $query->orderBy('machines_solds.sale_date', $direction);
         });
 
-        $machines = $queryBuilder->paginate(31)->appends([
+        $machines = $queryBuilder->paginate(25)->appends([
             'sortBy' => $sortBy,
             'direction' => $direction,
             'machinesSearch' => $searchTerm,

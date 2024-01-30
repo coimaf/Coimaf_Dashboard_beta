@@ -48,7 +48,7 @@ class DeadlineController extends Controller
             $queryBuilder->orderBy('deadlines.name', $direction);
         }
     
-        $deadlines = $queryBuilder->paginate(31);
+        $deadlines = $queryBuilder->paginate(25);
     
         // Paginazione con i parametri di ricerca
         $deadlines->appends([
@@ -92,7 +92,7 @@ class DeadlineController extends Controller
     
         // Add sorting logic if needed
     
-        $deadlines = $queryBuilder->paginate(31);
+        $deadlines = $queryBuilder->paginate(25);
     
         return view('dashboard.deadlines.index', [
             'columnTitles' => $columnTitles,
