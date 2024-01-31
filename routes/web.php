@@ -10,6 +10,7 @@ use App\Http\Controllers\SettingController;
 use App\Http\Controllers\DeadlineController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\TechnicianController;
+use App\Http\Controllers\AuthCustomAuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,6 +40,11 @@ Route::get('/dashboard', function () {
 Route::get('/login', function () {
     return view('auth.login');
 })->name('login')->middleware('guest');
+
+Route::get('/login/root', function () {
+    return view('auth.loginRoot');
+})->name('loginRoot')->middleware('guest');
+Route::post('custom-login', [AuthCustomAuthController::class, 'login'])->name('custom.login');
 
 // Profile
 Route::get('/profile', [ProfileController::class, 'profile'])->name('dashboard.profile')->middleware('auth');
