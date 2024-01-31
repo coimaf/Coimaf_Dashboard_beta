@@ -64,7 +64,7 @@
             </div>
             
         </div>
-        <p class="card-footer fw-semibold mt-3">Creato da: {{$machine->user->name}}  il: {{$machine->created_at->format('d/m/Y')}} 
+        <p class="card-footer fw-semibold mt-3 ps-3">Creato da: {{$machine->user->name}}  il: {{$machine->created_at->format('d/m/Y')}} 
             @if($machine->updated_by)
             <br><br>Modificato da: {{$machine->updated_by}} il: {{$machine->updated_at->format('d/m/Y')}}</p>
             @endif

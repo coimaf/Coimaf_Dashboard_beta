@@ -1,5 +1,5 @@
 <div class="sidebar">
-    <main class="d-flex ">
+    <main class="d-flex vh-100">
         <div class="d-flex flex-column p-3 text-bg-light " >
             <a class="py-3 text-center" href="{{ route('dash') }}"><img width="60%" src="{{ asset('assets/coimaf_logo.png') }}" alt="Logo_Coimaf"></a>
             {{-- <form class="d-flex" action="{{ route('dashboard.search') }}" method="GET">
