@@ -14,7 +14,7 @@
                             <p class=" mb-4 text-uppercase">{{$employee->fiscal_code}}</p>
                             <p class="card-footer fw-semibold mt-3">Creato da: {{$employee->user->name}}  il: {{$employee->created_at->format('d/m/Y')}} 
                                 @if($employee->updated_by)
-                                <br><br>Modificato da: {{$employee->updated_by}} il: {{$employee->updated_at->format('d/m/Y')}}</p>
+                                <br><br>Modificato da: {{$employee->updatedBy->name}} il: {{$employee->updated_at->format('d/m/Y')}}</p>
                                 @endif
                         </div>
                     </div>

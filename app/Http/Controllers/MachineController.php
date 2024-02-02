@@ -115,7 +115,9 @@ class MachineController extends Controller
             'notes' => $request->input('notes'),
         ]);
 
-        Auth::user()->machinesSolds()->save($machine);
+        $machine->user()->associate(Auth::user());
+    
+        $machine->save();
     
         return redirect()->route("dashboard.machinesSolds.index")->with("success", "Macchina inserita con successo.");
     }
@@ -155,9 +157,8 @@ class MachineController extends Controller
         // Aggiorna la relazione Eloquent con il tipo di garanzia
         $machine->warrantyType()->associate($request->input('warranty_type_id'));
 
-        $lastModifiedUser = Auth::user();
-        $machine->updated_by = $lastModifiedUser->name;
-
+        $machine->updated_by = Auth::user()->id;
+    
         $machine->save();
     
         return redirect()->route("dashboard.machinesSolds.index")->with("success", "Macchina aggiornata con successo.");

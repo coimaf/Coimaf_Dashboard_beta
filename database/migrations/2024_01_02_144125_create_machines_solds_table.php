@@ -24,12 +24,13 @@ return new class extends Migration
             $table->date('registration_date')->nullable();
             $table->string('delivery_ddt')->nullable();
             $table->text('notes')->nullable();
-            $table->string('updated_by')->nullable();
+            $table->unsignedBigInteger('updated_by')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('warranty_type_id')->nullable();
             $table->foreign('warranty_type_id')->references('id')->on('warranty_types')->onDelete('set null');
+            $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null');
         });
     }
     

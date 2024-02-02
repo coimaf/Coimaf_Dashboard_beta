@@ -23,7 +23,7 @@
         <div class="col-3 no-print">
             <p class="card-footer fw-semibold m-4">Creato da: {{$ticket->user->name}}  il: {{$ticket->created_at->format('d/m/Y')}} 
                 @if($ticket->updated_by)
-                <br><br>Modificato da: {{$ticket->updated_by}} il: {{$ticket->updated_at->format('d/m/Y')}}
+                <br><br>Modificato da: {{$ticket->updatedBy->name}} il: {{$ticket->updated_at->format('d/m/Y')}}</p>
                 @endif
             </p>
         </div>

@@ -38,6 +38,11 @@ class Deadline extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function updatedBy()
+    {
+        return $this->belongsTo(User::class, 'updated_by');
+    }
+
     public function lastModifiedBy()
     {
         return $this->belongsTo(User::class, 'updated_by');

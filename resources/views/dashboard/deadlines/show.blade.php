@@ -16,7 +16,7 @@
                             <h5 class="my-3 fs-3 fw-bold text-alt">{{$deadline->name}}</h5>
                             <p class="card-footer fw-semibold mt-3">Creato da: {{$deadline->user->name}}  il: {{$deadline->created_at->format('d/m/Y')}} 
                                 @if($deadline->updated_by)
-                                <br><br>Modificato da: {{$deadline->updated_by}} il: {{$deadline->updated_at->format('d/m/Y')}}</p>
+                                <br><br>Modificato da: {{$deadline->updatedBy->name}} il: {{$deadline->updated_at->format('d/m/Y')}}</p>
                                 @endif
                         </div>
                     </div>

@@ -133,7 +133,9 @@ class TicketController extends Controller
     $ticket->technician()->associate($request->input('technician_id'));
     $ticket->save();
     
-    Auth::user()->machinesSolds()->save($ticket);
+    $ticket->user()->associate(Auth::user());
+    
+    $ticket->save();
 
     return redirect()->route('dashboard.tickets.index')->with('success', 'Ticket creato con successo!');
 }
@@ -182,10 +184,8 @@ class TicketController extends Controller
         // Aggiorna l'associazione del tecnico al ticket
         $ticket->technician()->associate($request->input('technician_id'));
     
-        $lastModifiedUser = Auth::user();
-        $ticket->updated_by = $lastModifiedUser->name;
-
-        // Salva le modifiche nel database
+        $ticket->updated_by = Auth::user()->id;
+    
         $ticket->save();
     
         return redirect()->route('dashboard.tickets.index')->with('success', 'Ticket aggiornato con successo!');

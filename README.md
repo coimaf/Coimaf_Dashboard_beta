@@ -171,7 +171,11 @@ php artisan ldap:browse
 - [x] Searchbar Generale;
 - [x] Searchbar Dedicata ai modelli;
 - [x] Ogni elemento creato deve avere associato l'utente che lo ha creato;
-- [ ] Invio Mail di Avviso Scadenza;
+- [x] Invio Mail di Avviso Scadenza;
+ - [ ] Aggiungi env con dati email mittente:
+ - [ ] Definire logica invio email;
+ - [ ] Definire destinatario;
+ - [ ] * * * * * cd /percorso-del-tuo-progetto && php artisan schedule:run >> /dev/null 2>&1 comando per inviare mail ogni giorno dal server;
 - [x] Utente Admin Persistente nel DB (in caso AD è down);
 
 ### *********** Bug ***********

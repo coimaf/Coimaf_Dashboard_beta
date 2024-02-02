@@ -87,19 +87,19 @@ class User extends Authenticatable implements LdapAuthenticatable
     
 
     public function employees() {
-        return $this->hasMany(Employee::class);
+        return $this->hasMany(Employee::class, 'updated_by');
     }
     
     public function deadlines() {
-        return $this->hasMany(Deadline::class);
+        return $this->hasMany(Deadline::class, 'updated_by');
     }
 
     public function machinesSolds() {
-        return $this->hasMany(MachinesSold::class);
+        return $this->hasMany(MachinesSold::class, 'updated_by');
     }
 
     public function tickets() {
-        return $this->hasMany(Ticket::class);
+        return $this->hasMany(Ticket::class, 'updated_by');
     }
 
 }

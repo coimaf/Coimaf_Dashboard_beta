@@ -142,7 +142,9 @@ class EmployeeController extends Controller
             }
         }
         
-        Auth::user()->employees()->save($employee);
+        $employee->user()->associate(Auth::user());
+    
+        $employee->save();
         
         return redirect()->route('dashboard.employees.index')->with('success', 'Dipendente aggiunto con successo!');
     }
@@ -219,8 +221,8 @@ class EmployeeController extends Controller
             }
         }
         
-        $lastModifiedUser = Auth::user();
-        $employee->updated_by = $lastModifiedUser->name;
+        $employee->updated_by = Auth::user()->id;
+    
         $employee->save();
     
         return redirect()->route('dashboard.employees.index')->with('success', 'Dipendente aggiornato con successo.');

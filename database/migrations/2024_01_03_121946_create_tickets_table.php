@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('descrizione');
             $table->string('cd_cf');
             $table->date('intervention_date');
+            $table->unsignedBigInteger('updated_by')->nullable();
             $table->timestamps();
 
             $table->unsignedBigInteger('machine_sold_id')->nullable();
@@ -27,6 +28,7 @@ return new class extends Migration
 
             $table->unsignedBigInteger('machine_model_id')->nullable();
             $table->foreign('machine_model_id')->references('id')->on('machines_solds')->onDelete('set null');
+            $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null');
         });
     }
 
