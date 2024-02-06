@@ -14,7 +14,10 @@ class SendExpiredDeadlineNotifications extends Command
 
     public function handle()
     {
-        $expiredDeadlines = Deadline::where('expiry_date', '<', now())->get();
+        $expiredDeadlines = Deadline::whereHas('documentDeadlines', function ($query) {
+            $query->where('expiry_date', '<', now());
+        })->get();
+        
 
         foreach ($expiredDeadlines as $deadline) {
             $cacheKey = 'scadenza_scaduta_' . $deadline->id;
