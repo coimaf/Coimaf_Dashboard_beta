@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
-    <title>Ticket</title>
+    <title>Ticket Numero {{$ticket->id}}</title>
 </head>
 <body>
     <div class="print-preview">
@@ -36,20 +36,29 @@
                     <hr class="hr-print">
                     <p style="font-size: 9px; margin:2px;" class="grassetto">{{$ticket->descrizione}}</p>
                     @foreach ($customers as $customer)
-                    @if(isset($customer->Telefono))
-                    <p style="font-size: 9px; margin:2px;">{{ preg_replace('/[^0-9]/', '', $customer->Telefono) }}<br></p>
-                    @endif
-                    @if(isset($customer->Telefono2))
-                    <p style="font-size: 9px; margin:2px;">{{ preg_replace('/[^0-9]/', '', $customer->Telefono2) }}<br></p>
-                    @endif
-                    @if(isset($customer->Cellulare))
-                    <p style="font-size: 9px; margin:2px;">{{ preg_replace('/[^0-9]/', '', $customer->Cellulare) }}<br></p>
-                    @endif
-                    @if(isset($customer->Cellulare2))
-                    <p style="font-size: 9px; margin:2px;">{{ preg_replace('/[^0-9]/', '', $customer->Cellulare2) }}<br></p>
+                    @php $numbers = ''; @endphp
+                    
+                    @if(isset($customer->Telefono) && $customer->Telefono !== null)
+                    @php $numbers .= preg_replace('/[^0-9]/', '', $customer->Telefono) . '<br>'; @endphp
                     @endif
                     
+                    @if(isset($customer->Telefono2) && $customer->Telefono2 !== null)
+                    @php $numbers .= preg_replace('/[^0-9]/', '', $customer->Telefono2) . '<br>'; @endphp
+                    @endif
+                    
+                    @if(isset($customer->Cellulare) && $customer->Cellulare !== null)
+                    @php $numbers .= preg_replace('/[^0-9]/', '', $customer->Cellulare) . '<br>'; @endphp
+                    @endif
+                    
+                    @if(isset($customer->Cellulare2) && $customer->Cellulare2 !== null)
+                    @php $numbers .= preg_replace('/[^0-9]/', '', $customer->Cellulare2) . '<br>'; @endphp
+                    @endif
+                    
+                    @if(!empty($numbers))
+                    <p style="font-size: 9px; margin:2px;">{!! rtrim($numbers, '<br>') !!}</p>
+                    @endif
                     @endforeach
+                    
                     
                     @foreach ($indirizziFiltrati as $indirizzo)
                     <p style="font-size: 9px; margin:2px;">{{ $indirizzo }}<br></p>
@@ -60,7 +69,15 @@
                 </div>
                 
                 <div class="problema-container">
-                    <h6 style="margin-top: 40px; margin-bottom: 0; padding:0;">PROBLEMA: {{$ticket->title}} - {{$ticket->machinesSold->model ?? ''}} - {{$ticket->machinesSold->serial_number ?? ''}}</h6>
+                    <h6 style="margin-top: 40px; margin-bottom: 0; padding:0;">PROBLEMA: {{$ticket->title}} 
+                        @isset($ticket->machinesSold->model)
+                        - {{$ticket->machinesSold->model}}
+                        @endisset
+                        @isset($ticket->machinesSold->serial_number)
+                        - {{$ticket->machinesSold->serial_number}}
+                        @endisset
+                    </h6>
+                    
                     
                     <h6 style="text-align:end; padding:0; margin-top: 40px; margin-bottom:0;">Priorità {{$ticket->priority}}</h6>
                 </div>
@@ -113,20 +130,29 @@
                     <hr class="hr-print">
                     <p style="font-size: 9px; margin:2px;" class="grassetto">{{$ticket->descrizione}}</p>
                     @foreach ($customers as $customer)
-                    @if(isset($customer->Telefono))
-                    <p style="font-size: 9px; margin:2px;">{{ preg_replace('/[^0-9]/', '', $customer->Telefono) }}<br></p>
-                    @endif
-                    @if(isset($customer->Telefono2))
-                    <p style="font-size: 9px; margin:2px;">{{ preg_replace('/[^0-9]/', '', $customer->Telefono2) }}<br></p>
-                    @endif
-                    @if(isset($customer->Cellulare))
-                    <p style="font-size: 9px; margin:2px;">{{ preg_replace('/[^0-9]/', '', $customer->Cellulare) }}<br></p>
-                    @endif
-                    @if(isset($customer->Cellulare2))
-                    <p style="font-size: 9px; margin:2px;">{{ preg_replace('/[^0-9]/', '', $customer->Cellulare2) }}<br></p>
+                    @php $numbers = ''; @endphp
+                    
+                    @if(isset($customer->Telefono) && $customer->Telefono !== null)
+                    @php $numbers .= preg_replace('/[^0-9]/', '', $customer->Telefono) . '<br>'; @endphp
                     @endif
                     
+                    @if(isset($customer->Telefono2) && $customer->Telefono2 !== null)
+                    @php $numbers .= preg_replace('/[^0-9]/', '', $customer->Telefono2) . '<br>'; @endphp
+                    @endif
+                    
+                    @if(isset($customer->Cellulare) && $customer->Cellulare !== null)
+                    @php $numbers .= preg_replace('/[^0-9]/', '', $customer->Cellulare) . '<br>'; @endphp
+                    @endif
+                    
+                    @if(isset($customer->Cellulare2) && $customer->Cellulare2 !== null)
+                    @php $numbers .= preg_replace('/[^0-9]/', '', $customer->Cellulare2) . '<br>'; @endphp
+                    @endif
+                    
+                    @if(!empty($numbers))
+                    <p style="font-size: 9px; margin:2px;">{!! rtrim($numbers, '<br>') !!}</p>
+                    @endif
                     @endforeach
+                    
                     
                     @foreach ($indirizziFiltrati as $indirizzo)
                     <p style="font-size: 9px; margin:2px;">{{ $indirizzo }}<br></p>
@@ -137,7 +163,15 @@
                 </div>
                 
                 <div class="problema-container">
-                    <h6 style="margin-top: 40px; margin-bottom: 0; padding:0;">PROBLEMA: {{$ticket->title}} - {{$ticket->machinesSold->model ?? ''}} - {{$ticket->machinesSold->serial_number ?? ''}}</h6>
+                    <h6 style="margin-top: 40px; margin-bottom: 0; padding:0;">PROBLEMA: {{$ticket->title}} 
+                        @isset($ticket->machinesSold->model)
+                        - {{$ticket->machinesSold->model}}
+                        @endisset
+                        @isset($ticket->machinesSold->serial_number)
+                        - {{$ticket->machinesSold->serial_number}}
+                        @endisset
+                    </h6>
+                    
                     
                     <h6 style="text-align:end; padding:0; margin-top: 40px; margin-bottom:0;">Priorità {{$ticket->priority}}</h6>
                 </div>
