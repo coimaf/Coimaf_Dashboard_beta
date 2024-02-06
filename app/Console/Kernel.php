@@ -12,7 +12,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('send:expired-deadline-notifications')->dailyAt('16:30');
+        $schedule->command('send:expired-deadline-notifications')->dailyAt('17:00');
     }
     
 
