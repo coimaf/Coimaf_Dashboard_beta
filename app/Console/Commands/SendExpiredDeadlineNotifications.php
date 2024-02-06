@@ -13,20 +13,19 @@ class SendExpiredDeadlineNotifications extends Command
     protected $description = 'Send notifications for expired deadlines';
 
     public function handle()
-{
-    $expiredDeadlines = Deadline::whereHas('documentDeadlines', function ($query) {
-        $query->where('document_deadlines.expiry_date', '<', now());
-    })->get();    
+    {
+        // Trova tutte le scadenze scadute
+        $expiredDeadlines = Deadline::whereHas('documentDeadlines', function ($query) {
+            $query->where('expiry_date', '<', now());
+        })->get();    
 
-    foreach ($expiredDeadlines as $deadline) {
-        $cacheKey = 'scadenza_scaduta_' . $deadline->id;
-    
-        if (!Cache::has($cacheKey)) {
+        // Invia le notifiche per le scadenze scadute
+        foreach ($expiredDeadlines as $deadline) {
             $recipients = collect([$deadline->user]);
             if ($deadline->updated_by) {
                 $recipients->push($deadline->updatedBy);
             }
-    
+
             foreach ($recipients as $recipient) {
                 if ($recipient) {
                     // Ottieni la data di scadenza del primo documento associato
@@ -34,10 +33,7 @@ class SendExpiredDeadlineNotifications extends Command
                     $recipient->notify(new \App\Notifications\ScadenzaScadutaNotification($deadline, $expiryDate));
                 }
             }
-    
-            Cache::put($cacheKey, true, now()->endOfDay());
         }
     }    
-}
     
 }
