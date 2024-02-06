@@ -20,23 +20,24 @@ class SendExpiredDeadlineNotifications extends Command
 
     foreach ($expiredDeadlines as $deadline) {
         $cacheKey = 'scadenza_scaduta_' . $deadline->id;
-
+    
         if (!Cache::has($cacheKey)) {
             $recipients = collect([$deadline->user]);
             if ($deadline->updated_by) {
                 $recipients->push($deadline->updatedBy);
             }
-
+    
             foreach ($recipients as $recipient) {
                 if ($recipient) {
+                    // Ottieni la data di scadenza del primo documento associato
                     $expiryDate = $deadline->documentDeadlines->first()->expiry_date;
                     $recipient->notify(new \App\Notifications\ScadenzaScadutaNotification($deadline, $expiryDate));
                 }
             }
-
+    
             Cache::put($cacheKey, true, now()->endOfDay());
         }
-    }
+    }    
 }
     
 }
