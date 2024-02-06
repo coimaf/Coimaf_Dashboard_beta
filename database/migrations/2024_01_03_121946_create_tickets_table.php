@@ -19,7 +19,7 @@ return new class extends Migration
             $table->text('notes')->nullable();
             $table->string('descrizione');
             $table->string('cd_cf');
-            $table->date('intervention_date');
+            $table->date('intervention_date')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->timestamps();
 

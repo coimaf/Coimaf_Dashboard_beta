@@ -112,7 +112,7 @@
     // Aggiungi un ascoltatore di eventi al pulsante Stampa
     document.getElementById('printButton').addEventListener('click', function() {
         // Apri l'anteprima di stampa della tua nuova pagina
-        var printWindow = window.open('{{ route('dashboard.tickets.print') }}', '_print');
+        var printWindow = window.open('{{ route('dashboard.tickets.print', ['ticket' => $ticket->id]) }}', '_print');
         
         // Esegui l'azione di stampa nell'anteprima di stampa
         printWindow.onload = function() {

@@ -200,8 +200,31 @@ class TicketController extends Controller
         return redirect()->route('dashboard.tickets.index')->with('success', 'Ticket eliminato con successo!');
     }
 
-    public function print() {
-        return view('components.printTicket');
+    public function print(Ticket $ticket) {
+        $ticketCdCf = $ticket->cd_cf;
+    
+        $indirizziStampati = [];
+        $indirizziFiltrati = [];
+    
+        $customers = DB::connection('mssql')
+            ->table('cfcontatto')
+            ->where('cd_cf', $ticketCdCf)
+            ->get();  
+        $infoCustomers = DB::connection('mssql')
+            ->table('cf4mm')
+            ->where('cd_cf', $ticketCdCf)
+            ->get();
+        
+        foreach ($infoCustomers as $info) {
+            if (!in_array($info->Indirizzo, $indirizziStampati)) {
+                $indirizziFiltrati[] = $info->Indirizzo;
+                $indirizziStampati[] = $info->Indirizzo;
+            }
+        }
+        $indirizziFiltrati = array_unique($indirizziFiltrati);
+    
+        return view('components.printTicket', compact('ticket', 'customers', 'infoCustomers', 'indirizziFiltrati'));
     }
+    
     
 }

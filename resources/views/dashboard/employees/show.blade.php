@@ -1,4 +1,9 @@
 <x-Layouts.layoutDash>
+    <div class="row justify-content-end">
+        <div class="col-3 no-print">
+            <a href="{{ route('dashboard.employees.edit', $employee->id) }}" class="btn btn-warning float-end fs-4 m-4">Modifica</a>
+        </div>
+    </div>
     <section class="m-5" style="background-color: rgb(243, 243, 243); height: 86vh; overflow:auto">
         <div class="container p-5">
             <div class="row">

@@ -28,28 +28,47 @@
                 
                 <div class="numero-ticket-container">
                     <p> </p>
-                    <p style="text-align: center;  font-size: 10px; margin-top: 20px">Ticket Numero 1 del 29/01/2024</p>
+                    <p style="text-align: center;  font-size: 10px; margin-top: 20px">Ticket Numero {{$ticket->id}} del {{$ticket->created_at->format('d/m/Y')}}</p>
                 </div>
                 
                 <div class="cliente-container">
                     <h6 style="padding: 0; margin: 0; font-size: 8px;">DATI CLIENTE</h6>
                     <hr class="hr-print">
-                    <p style="font-size: 9px;" class="grassetto">COSTARABA</p>
-                    <p style="font-size: 9px;">321239392</p>
-                    <p style="font-size: 9px;">VIA ROMA</p>
-                    <p style="font-size: 9px;">88060 MONTAURO (CZ)</p>
+                    <p style="font-size: 9px; margin:2px;" class="grassetto">{{$ticket->descrizione}}</p>
+                    @foreach ($customers as $customer)
+                    @if(isset($customer->Telefono))
+                    <p style="font-size: 9px; margin:2px;">{{ preg_replace('/[^0-9]/', '', $customer->Telefono) }}<br></p>
+                    @endif
+                    @if(isset($customer->Telefono2))
+                    <p style="font-size: 9px; margin:2px;">{{ preg_replace('/[^0-9]/', '', $customer->Telefono2) }}<br></p>
+                    @endif
+                    @if(isset($customer->Cellulare))
+                    <p style="font-size: 9px; margin:2px;">{{ preg_replace('/[^0-9]/', '', $customer->Cellulare) }}<br></p>
+                    @endif
+                    @if(isset($customer->Cellulare2))
+                    <p style="font-size: 9px; margin:2px;">{{ preg_replace('/[^0-9]/', '', $customer->Cellulare2) }}<br></p>
+                    @endif
+                    
+                    @endforeach
+                    
+                    @foreach ($indirizziFiltrati as $indirizzo)
+                    <p style="font-size: 9px; margin:2px;">{{ $indirizzo }}<br></p>
+                    @endforeach
+                    @foreach ($infoCustomers as $info)
+                    <p style="font-size: 9px; margin:2px;">{{$info->Città}}</p>
+                    @endforeach
                 </div>
                 
                 <div class="problema-container">
-                    <h6 style="margin-top: 40px; margin-bottom: 0; padding:0;">PROBLEMA: FRIGO - MODELLO - 02221551220</h6>
+                    <h6 style="margin-top: 40px; margin-bottom: 0; padding:0;">PROBLEMA: {{$ticket->title}} - {{$ticket->machinesSold->model ?? ''}} - {{$ticket->machinesSold->serial_number ?? ''}}</h6>
                     
-                    <h6 style="text-align:end; padding:0; margin-top: 40px; margin-bottom:0;">Priorità Normale</h6>
+                    <h6 style="text-align:end; padding:0; margin-top: 40px; margin-bottom:0;">Priorità {{$ticket->priority}}</h6>
                 </div>
                 <hr class="hr-print">
                 
                 <div style="height: 100px;">
                     <br>
-                    <p>Non si accende piu' la spia del Frigo</p>
+                    <p>{{$ticket->description}}</p>
                 </div>
                 
                 <div style="height: 180px;">
@@ -86,28 +105,47 @@
                 
                 <div class="numero-ticket-container">
                     <p> </p>
-                    <p style="text-align: center;  font-size: 10px; margin-top: 20px">Ticket Numero 1 del 29/01/2024</p>
+                    <p style="text-align: center;  font-size: 10px; margin-top: 20px">Ticket Numero {{$ticket->id}} del {{$ticket->created_at->format('d/m/Y')}}</p>
                 </div>
                 
                 <div class="cliente-container">
                     <h6 style="padding: 0; margin: 0; font-size: 8px;">DATI CLIENTE</h6>
                     <hr class="hr-print">
-                    <p style="font-size: 9px;" class="grassetto">COSTARABA</p>
-                    <p style="font-size: 9px;">321239392</p>
-                    <p style="font-size: 9px;">VIA ROMA</p>
-                    <p style="font-size: 9px;">88060 MONTAURO (CZ)</p>
+                    <p style="font-size: 9px; margin:2px;" class="grassetto">{{$ticket->descrizione}}</p>
+                    @foreach ($customers as $customer)
+                    @if(isset($customer->Telefono))
+                    <p style="font-size: 9px; margin:2px;">{{ preg_replace('/[^0-9]/', '', $customer->Telefono) }}<br></p>
+                    @endif
+                    @if(isset($customer->Telefono2))
+                    <p style="font-size: 9px; margin:2px;">{{ preg_replace('/[^0-9]/', '', $customer->Telefono2) }}<br></p>
+                    @endif
+                    @if(isset($customer->Cellulare))
+                    <p style="font-size: 9px; margin:2px;">{{ preg_replace('/[^0-9]/', '', $customer->Cellulare) }}<br></p>
+                    @endif
+                    @if(isset($customer->Cellulare2))
+                    <p style="font-size: 9px; margin:2px;">{{ preg_replace('/[^0-9]/', '', $customer->Cellulare2) }}<br></p>
+                    @endif
+                    
+                    @endforeach
+                    
+                    @foreach ($indirizziFiltrati as $indirizzo)
+                    <p style="font-size: 9px; margin:2px;">{{ $indirizzo }}<br></p>
+                    @endforeach
+                    @foreach ($infoCustomers as $info)
+                    <p style="font-size: 9px; margin:2px;">{{$info->Città}}</p>
+                    @endforeach
                 </div>
                 
                 <div class="problema-container">
-                    <h6 style="margin-top: 40px; margin-bottom: 0; padding:0;">PROBLEMA: FRIGO - MODELLO - 02221551220</h6>
+                    <h6 style="margin-top: 40px; margin-bottom: 0; padding:0;">PROBLEMA: {{$ticket->title}} - {{$ticket->machinesSold->model ?? ''}} - {{$ticket->machinesSold->serial_number ?? ''}}</h6>
                     
-                    <h6 style="text-align:end; padding:0; margin-top: 40px; margin-bottom:0;">Priorità Normale</h6>
+                    <h6 style="text-align:end; padding:0; margin-top: 40px; margin-bottom:0;">Priorità {{$ticket->priority}}</h6>
                 </div>
                 <hr class="hr-print">
                 
                 <div style="height: 100px;">
                     <br>
-                    <p>Non si accende piu' la spia del Frigo</p>
+                    <p>{{$ticket->description}}</p>
                 </div>
                 
                 <div style="height: 180px;">
