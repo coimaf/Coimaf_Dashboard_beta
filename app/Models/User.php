@@ -81,6 +81,9 @@ class User extends Authenticatable implements LdapAuthenticatable
     
                 // Assegna la stringa formattata all'attributo 'groups'
                 $user->groups = $formattedGroups;
+    
+                // Modifica l'indirizzo email se termina con ".lan"
+                $user->email = str_ends_with($user->email, 'azienda.lan') ? substr($user->email, 0, -11) . 'coimaf.com' : $user->email;
             }
         });
     }
