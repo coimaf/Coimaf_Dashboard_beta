@@ -34,6 +34,22 @@ class TicketController extends Controller
         $routeName = 'dashboard.tickets.index';
     
         $queryBuilder = Ticket::with(['machinesSold', 'machineModel', 'technician']);
+
+        // Filtraggio per stato se specificato nella richiesta
+        if ($request->has('status')) {
+            $status = $request->input('status');
+            $queryBuilder->where('status', $status);
+        }
+
+        // Filtraggio per ticket in attesa di ricambio
+        if ($request->has('waiting_for_spare_parts')) {
+            $queryBuilder->where('status', 'In attesa di un ricambio');
+        }
+
+        // Filtraggio per ticket urgenti
+        if ($request->has('urgent')) {
+            $queryBuilder->where('priority', 'Urgente');
+        }
     
         if ($searchTerm) {
             $queryBuilder->where('tickets.title', 'like', '%' . $searchTerm . '%')
@@ -80,6 +96,7 @@ class TicketController extends Controller
             'direction' => $direction,
             'ticketsSearch' => $searchTerm,
         ]);
+
     
         return view('dashboard.tickets.index', [
             'tickets' => $tickets,
@@ -166,7 +183,14 @@ class TicketController extends Controller
         
         $machines = MachinesSold::all();
         $technicians = Technician::all();
-        $customers = DB::connection('mssql')->table('cf')->get();
+        // $customers = DB::connection('mssql')->table('cf')->get();
+
+                // Crea una collezione fittizia di clienti
+                $customers = new Collection([
+                    (object) ['id' => 1, 'Descrizione' => 'Cliente A', 'Cd_CF' => 'clienteA@example.com'],
+                    (object) ['id' => 2, 'Descrizione' => 'Cliente B', 'Cd_CF' => 'clienteB@example.com'],
+                    // Aggiungi altri clienti come desiderato
+                ]);
 
         return view('dashboard.tickets.edit', compact('ticket', 'machines', 'technicians', 'customers'));
     }

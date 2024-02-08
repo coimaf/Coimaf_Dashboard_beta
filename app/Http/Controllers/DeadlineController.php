@@ -31,6 +31,20 @@ class DeadlineController extends Controller
         $routeName = 'dashboard.deadlines.index';
     
         $queryBuilder = Deadline::with(['documentDeadlines']);
+
+        if ($request->has('inscadenza')) {
+            $queryBuilder->whereHas('documentDeadlines', function ($query) {
+                $query->where('expiry_date', '>', now())
+                    ->where('expiry_date', '<=', now()->addDays(60));
+            });
+        }
+        
+        // Aggiungi la condizione per le scadenze scadute
+        if ($request->has('scadute')) {
+            $queryBuilder->whereHas('documentDeadlines', function ($query) {
+                $query->where('expiry_date', '<', now());
+            });
+        }
     
         if ($searchTerm) {
             $queryBuilder->where('deadlines.name', 'like', '%' . $searchTerm . '%')
