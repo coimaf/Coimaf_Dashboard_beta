@@ -165,6 +165,7 @@ php artisan ldap:browse
 - [x] Elimina;
 - [x] Indicizza per la ricerca;
 - [x] Stampa Ticket con impaginazione dedicata;
+- [x] Invia email di avviso ogni nuovo ticket;
 
 ### Homepage
 - [ ] Mostra i ticket aperti - in attesa di ricambio - urgenti.

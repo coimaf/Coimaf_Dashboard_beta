@@ -11,9 +11,33 @@
                 <li class="nav-item">
                     <a href="{{ route('dash') }}" class="nav-link {{ Request::is('dashboard') ? 'active' : '' }}" aria-current="page">
                         <i class="bi bi-house-fill pe-2"></i>
-                        Dashboard
+                        Home
                     </a>
                 </li>
+                @if(Str::contains(auth()->user()->groups, 'GESTIONALE-Ticket'))
+                <li class="nav-item">
+                    <a href="{{ route('dashboard.tickets.index') }}" class="nav-link pb-0 {{ Request::is('tickets') ? 'active pb-2' : '' }}" aria-current="page">
+                        <i class="bi bi-ticket-detailed pe-2"></i>
+                        Tickets
+                    </a>
+                    <ul class="nav flex-column">
+                        <li class="nav-item ps-4">
+                            <a href="{{ route('dashboard.tickets.create') }}" class="nav-link pt-0 {{ Request::is('dashboard/tickets/crea') ? 'active pt-2' : '' }}" aria-current="page">
+                                <i class="bi bi-plus-circle fs-6 pe-2"></i>
+                                Nuovo Ticket
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                @endif
+                @if(Str::contains(auth()->user()->groups, 'GESTIONALE-DbMacchine'))
+                <li class="nav-item">
+                    <a href="{{ route('dashboard.machinesSolds.index') }}" class="nav-link {{ Request::is('macchine-vendute') ? 'active' : '' }}" aria-current="page">
+                        <i class="bi bi-grid-1x2 pe-2"></i>
+                        Macchine installate
+                    </a>                                        
+                </li>
+                @endif
                 @if(Str::contains(auth()->user()->groups, 'GESTIONALE-Dipendenti'))
                 <li class="nav-item">
                     <a href="{{ route('dashboard.employees.index') }}" class="nav-link {{ Request::is('dipendenti') ? 'active' : '' }}" aria-current="page">
@@ -28,22 +52,6 @@
                         <i class="bi bi-file-earmark-medical-fill pe-2"></i>
                         Scadenzario
                     </a>
-                </li>
-                @endif
-                @if(Str::contains(auth()->user()->groups, 'GESTIONALE-DbMacchine'))
-                <li class="nav-item">
-                    <a href="{{ route('dashboard.machinesSolds.index') }}" class="nav-link {{ Request::is('macchine-vendute') ? 'active' : '' }}" aria-current="page">
-                        <i class="bi bi-grid-1x2 pe-2"></i>
-                        Macchine installate
-                    </a>                                        
-                </li>
-                @endif
-                @if(Str::contains(auth()->user()->groups, 'GESTIONALE-Ticket'))
-                <li class="nav-item">
-                    <a href="{{ route('dashboard.tickets.index') }}" class="nav-link {{ Request::is('tickets') ? 'active' : '' }}" aria-current="page">
-                        <i class="bi bi-ticket-detailed pe-2"></i>
-                        Tickets
-                    </a>                                        
                 </li>
                 @endif
             </ul>
