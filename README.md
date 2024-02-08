@@ -191,3 +191,4 @@ php artisan ldap:browse
 - [x] Controllare le relazioni con arca in machines_sold e Tickets
 - [x] Utente persistente non funziona con Guards diversa da web
 - [x] Updatedby non funziona nelle notifiche di employee
+- [ ] Cambiare email e DB fittizio dal controller Ticket in create e store;

@@ -6,8 +6,10 @@ use App\Models\Ticket;
 use App\Models\Technician;
 use App\Models\MachinesSold;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Notifications\NewTicketNotification;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class TicketController extends Controller
@@ -94,11 +96,18 @@ class TicketController extends Controller
         $machines = MachinesSold::all();
         $technicians = Technician::all();
         $nextTicketNumber = DB::table('tickets')->max('id') + 1;
-        $customers = DB::connection('mssql')
-        ->table('cf')
-        ->where('Cliente', 1)
-        ->where('Obsoleto', 0)
-        ->get();   
+        // $customers = DB::connection('mssql')
+        // ->table('cf')
+        // ->where('Cliente', 1)
+        // ->where('Obsoleto', 0)
+        // ->get();  
+        
+        // Crea una collezione fittizia di clienti
+        $customers = new Collection([
+            (object) ['id' => 1, 'Descrizione' => 'Cliente A', 'Cd_CF' => 'clienteA@example.com'],
+            (object) ['id' => 2, 'Descrizione' => 'Cliente B', 'Cd_CF' => 'clienteB@example.com'],
+            // Aggiungi altri clienti come desiderato
+        ]);
 
         return view('dashboard.tickets.create', compact('machines', 'nextTicketNumber', 'technicians', 'customers'));
     }
@@ -136,6 +145,10 @@ class TicketController extends Controller
     $ticket->user()->associate(Auth::user());
     
     $ticket->save();
+
+    // Invia la notifica passando l'oggetto del ticket
+    \Illuminate\Support\Facades\Notification::route('mail', 'nicola.mazzaferro@coimaf.com')
+    ->notify(new NewTicketNotification($ticket));
 
     return redirect()->route('dashboard.tickets.index')->with('success', 'Ticket creato con successo!');
 }
