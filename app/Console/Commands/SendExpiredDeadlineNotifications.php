@@ -15,11 +15,11 @@ class SendExpiredDeadlineNotifications extends Command
     
     public function handle()
     {
-        // Trova tutte le scadenze scadute o future
+        // Trova tutte le scadenze scadute o con scadenza entro 60, 30 e 7 giorni
         $deadlines = Deadline::whereHas('documentDeadlines', function ($query) {
-            $query->where('expiry_date', '<=', now()->addDays(60)); // Aggiungi giorni per includere anche le scadenze a 60 giorni
-            $query->orWhere('expiry_date', '<=', now()->addDays(30)); // Aggiungi giorni per includere anche le scadenze a 30 giorni
-            $query->orWhere('expiry_date', '<=', now()->addDays(7)); // Aggiungi giorni per includere anche le scadenze a 7 giorni
+            $query->where('expiry_date', '<=', now()->addDays(60)->format('Y-m-d'))
+                  ->orWhere('expiry_date', '<=', now()->addDays(30)->format('Y-m-d'))
+                  ->orWhere('expiry_date', '<=', now()->addDays(7)->format('Y-m-d'));
         })->get();    
         
         foreach ($deadlines as $deadline) {
@@ -27,8 +27,8 @@ class SendExpiredDeadlineNotifications extends Command
             $expiryDate = Carbon::parse($deadline->documentDeadlines->first()->expiry_date);
             $daysRemaining = now()->diffInDays($expiryDate, false);
             
-            // Invia la notifica se ci sono meno di 60, 30 o 7 giorni alla scadenza oppure se è già scaduta
-            if ($daysRemaining <= 0 || $daysRemaining <= 7 || $daysRemaining <= 30 || $daysRemaining <= 60) {
+            // Invia la notifica solo se mancano 60, 30 o 7 giorni alla scadenza oppure se è già scaduta
+            if ($daysRemaining <= 0 || $daysRemaining === 6 || $daysRemaining === 29 || $daysRemaining === 59) {
                 $this->sendNotification($deadline, $daysRemaining);
                 $this->sendNotificationToUpdatedBy($deadline, $daysRemaining);
             }

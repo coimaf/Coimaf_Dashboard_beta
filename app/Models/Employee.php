@@ -15,7 +15,9 @@ class Employee extends Model
 {
     use HasFactory, Searchable;
 
-    protected $fillable = ['name', 'surname', 'fiscal_code', 'birthday', 'phone', 'address', 'email', 'email_work', 'persistent_user_id'];
+    protected $with = ['user'];
+
+    protected $fillable = ['name', 'surname', 'fiscal_code', 'birthday', 'phone', 'address', 'email', 'email_work'];
 
     public function toSearchableArray()
     {
@@ -66,10 +68,11 @@ class Employee extends Model
         $tooltipText = '';
         $expiredDocuments = collect();
         $expiringDocuments = collect();
-
+        $daysRemaining = 0; // Aggiungi questa linea per inizializzare la variabile $daysRemaining
+    
         foreach ($this->documents as $document) {
             $expiryDate = Carbon::parse($document->pivot->expiry_date);
-
+    
             if ($expiryDate->isPast()) {
                 $expiredDocuments->push($document->name);
                 $status = 'red';
@@ -77,22 +80,27 @@ class Employee extends Model
                 $status = 'yellow';
                 $expiringDocuments->push($document->name);
             }
+    
+            // Calcola i giorni rimanenti fino alla scadenza
+            $daysRemaining = now()->diffInDays($expiryDate, false);
         }
-
+    
         $icon = match ($status) {
             'red' => '<i class="bi bi-dash-circle-fill text-danger fs-3"></i>',
             'yellow' => '<i class="bi bi-exclamation-circle-fill text-warning fs-3"></i>',
             default => '<i class="bi bi-check-circle-fill text-success fs-3"></i>',
         };
-
+    
         if ($expiredDocuments->isNotEmpty()) {
             $tooltipText .= 'Scaduti: ' . implode(', ', $expiredDocuments->toArray()) . "\n";
         }
-
+    
         if ($expiringDocuments->isNotEmpty()) {
             $tooltipText .= 'Stanno per scadere: ' . implode(', ', $expiringDocuments->toArray()) . "\n";
         }
-
-        return compact('icon', 'tooltipText');
+    
+        // Restituisci un array contenente 'daysRemaining'
+        return compact('icon', 'tooltipText', 'daysRemaining');
     }
+    
 }

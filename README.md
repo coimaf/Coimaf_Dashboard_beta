@@ -166,6 +166,11 @@ php artisan ldap:browse
 - [x] Indicizza per la ricerca;
 - [x] Stampa Ticket con impaginazione dedicata;
 
+### Homepage
+- [ ] Mostra i ticket aperti - in attesa di ricambio - urgenti.
+- [ ] Mostra le scadenze di scadenzario in scadenza - scaduti.
+
+
 ### Funzioni generali
 - [x] Filtri;
 - [x] Searchbar Generale;
@@ -185,3 +190,4 @@ php artisan ldap:browse
 - [x] Indicizzazione Ricerca dei modelli associati;
 - [x] Controllare le relazioni con arca in machines_sold e Tickets
 - [x] Utente persistente non funziona con Guards diversa da web
+- [x] Updatedby non funziona nelle notifiche di employee
