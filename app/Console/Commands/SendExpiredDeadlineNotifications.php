@@ -2,10 +2,11 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
-use App\Models\Deadline;
-use Illuminate\Support\Facades\Cache;
 use Carbon\Carbon;
+use App\Models\Deadline;
+use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Cache;
 
 class SendExpiredDeadlineNotifications extends Command
 {
@@ -39,6 +40,7 @@ class SendExpiredDeadlineNotifications extends Command
     private function sendNotification(Deadline $deadline, int $daysRemaining)
     {
         $deadline->user->notify(new \App\Notifications\ScadenzaScadutaNotification($deadline, $daysRemaining));
+        // Mail::to('operativo@coimaf.com')->send(new \App\Notifications\ScadenzaScadutaNotification($deadline, $daysRemaining));
     }
     
     private function sendNotificationToUpdatedBy(Deadline $deadline, int $daysRemaining)

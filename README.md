@@ -168,8 +168,8 @@ php artisan ldap:browse
 - [x] Invia email di avviso ogni nuovo ticket;
 
 ### Homepage
-- [ ] Mostra i ticket aperti - in attesa di ricambio - urgenti.
-- [ ] Mostra le scadenze di scadenzario in scadenza - scaduti.
+- [x] Mostra i ticket aperti - in attesa di ricambio - urgenti.
+- [x] Mostra le scadenze di scadenzario in scadenza - scaduti.
 
 
 ### Funzioni generali
@@ -192,4 +192,5 @@ php artisan ldap:browse
 - [x] Controllare le relazioni con arca in machines_sold e Tickets
 - [x] Utente persistente non funziona con Guards diversa da web
 - [x] Updatedby non funziona nelle notifiche di employee
-- [ ] Cambiare email e DB fittizio dal controller Ticket in create e store;
+- [x] Cambiare email e DB fittizio dal controller Ticket in create e store;
+- [ ] Testare le mail operativo e assistenza in ticket - deadline - employee
