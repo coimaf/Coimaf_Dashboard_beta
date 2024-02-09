@@ -12,8 +12,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('send:expired-deadline-notifications')->dailyAt('10:40');
-        $schedule->command('send:expired-employee-document-notifications')->dailyAt('10:40');
+        $schedule->command('send:expired-deadline-notifications')->dailyAt('07:00');
+        $schedule->command('send:expired-employee-document-notifications')->dailyAt('07:00');
     }
     
 
