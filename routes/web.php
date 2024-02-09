@@ -28,9 +28,10 @@ use App\Http\Controllers\AuthCustomAuthController;
 // Route::get('/test', [TestController::class, 'index'])->name('test');
 
 //? Non esiste home
-Route::get('/', function () {
-    return view('dashboard.dashboard');
-})->name('home')->middleware('auth');
+// Route::get('/', function () {
+//     return view('dashboard.dashboard');
+// })->name('home')->middleware('auth');
+Route::get('/', [HomeController::class, 'indexHome'])->name('home')->middleware('auth');
 
 // Dashboard
 // Route::get('/dashboard', function () {

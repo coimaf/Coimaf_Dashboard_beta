@@ -113,18 +113,17 @@ class TicketController extends Controller
         $machines = MachinesSold::all();
         $technicians = Technician::all();
         $nextTicketNumber = DB::table('tickets')->max('id') + 1;
-        // $customers = DB::connection('mssql')
-        // ->table('cf')
-        // ->where('Cliente', 1)
-        // ->where('Obsoleto', 0)
-        // ->get();  
+        $customers = DB::connection('mssql')
+        ->table('cf')
+        ->where('Cliente', 1)
+        ->where('Obsoleto', 0)
+        ->get();  
         
         // Crea una collezione fittizia di clienti
-        $customers = new Collection([
-            (object) ['id' => 1, 'Descrizione' => 'Cliente A', 'Cd_CF' => 'clienteA@example.com'],
-            (object) ['id' => 2, 'Descrizione' => 'Cliente B', 'Cd_CF' => 'clienteB@example.com'],
-            // Aggiungi altri clienti come desiderato
-        ]);
+        // $customers = new Collection([
+        //     (object) ['id' => 1, 'Descrizione' => 'Cliente A', 'Cd_CF' => 'clienteA@example.com'],
+        //     (object) ['id' => 2, 'Descrizione' => 'Cliente B', 'Cd_CF' => 'clienteB@example.com'],
+        // ]);
 
         return view('dashboard.tickets.create', compact('machines', 'nextTicketNumber', 'technicians', 'customers'));
     }
@@ -183,14 +182,13 @@ class TicketController extends Controller
         
         $machines = MachinesSold::all();
         $technicians = Technician::all();
-        // $customers = DB::connection('mssql')->table('cf')->get();
+        $customers = DB::connection('mssql')->table('cf')->get();
 
-                // Crea una collezione fittizia di clienti
-                $customers = new Collection([
-                    (object) ['id' => 1, 'Descrizione' => 'Cliente A', 'Cd_CF' => 'clienteA@example.com'],
-                    (object) ['id' => 2, 'Descrizione' => 'Cliente B', 'Cd_CF' => 'clienteB@example.com'],
-                    // Aggiungi altri clienti come desiderato
-                ]);
+        // Crea una collezione fittizia di clienti
+        // $customers = new Collection([
+        //     (object) ['id' => 1, 'Descrizione' => 'Cliente A', 'Cd_CF' => 'clienteA@example.com'],
+        //     (object) ['id' => 2, 'Descrizione' => 'Cliente B', 'Cd_CF' => 'clienteB@example.com'],
+        // ]);
 
         return view('dashboard.tickets.edit', compact('ticket', 'machines', 'technicians', 'customers'));
     }
