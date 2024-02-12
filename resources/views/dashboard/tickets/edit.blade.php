@@ -34,9 +34,9 @@
                 </select>
             </div>
             
-            <div class="col-12 col-md-6">
-                <label class="pb-3" for="selectedCustomer">Seleziona un Cliente*</label>
-                <input type="text" placeholder="Seleziona un Cliente*" list="customer" class="form-control" id="customerInput" name="selectedCustomer" value="{{ $ticket->descrizione }}">
+            <div class="col-12 col-md-4">
+                <label class="pb-3" for="selectedCustomer">Cliente*</label>
+                <input type="text" placeholder="Cliente*" list="customer" class="form-control" id="customerInput" name="selectedCustomer" value="{{ $ticket->descrizione }}">
                 <input type="hidden" id="selectedCdCFInput" name="selectedCdCF" value="{{ $ticket->cd_cf }}">
                 <datalist id="customer" required>
                     @foreach ($customers as $customer)
@@ -45,12 +45,7 @@
                 </datalist>
             </div>       
             
-            <div class="col-12 col-md-6">
-                <label class="pb-3" for="description">Descrizione Problema</label>
-                <textarea type="text" name="description" class="form-control" style="height: 70px; resize: none;">{{ old('description', $ticket->description) }}</textarea>
-            </div>
-            
-            <div class="col-12 col-md-3">
+            <div class="col-12 col-md-4">
                 <label class="my-2" for="machine_model_id">Modello Macchina</label>
                 <select name="machine_model_id" class="form-control">
                     <option value="">Seleziona un Modello</option>
@@ -62,7 +57,7 @@
                 </select>
             </div>
             
-            <div class="col-12 col-md-3">
+            <div class="col-12 col-md-4">
                 <label class="my-2" for="machine_sold_id">Seriale Macchina</label>
                 <select name="machine_sold_id" class="form-control">
                     <option value="">Seleziona un Seriale</option>
@@ -74,7 +69,17 @@
                 </select>
             </div>
             
-            <div class="col-12 col-md-3">
+            <div class="col-12 col-md-12">
+                <label class="pb-3" for="description">Descrizione Problema</label>
+                <textarea type="text" name="description" class="form-control" style="height: 70px; resize: none;">{{ old('description', $ticket->description) }}</textarea>
+            </div>
+            
+            <div class="col-12 col-md-12">
+                <label class="pb-3" for="notes">Risoluzione Problema</label>
+                <textarea type="text" name="notes" class="form-control" style="height: 100px; resize: none;" >{{ old('notes', $ticket->notes) }}</textarea>
+            </div>
+
+            <div class="col-12 col-md-6">
                 <label class="my-2" for="technician_id">Tecnico</label>
                 <select name="technician_id" class="form-control" required>
                     <option value="">Seleziona un Tecnico</option>
@@ -86,15 +91,11 @@
                 </select>
             </div>
             
-            <div class="col-12 col-md-3">
-                <label class="my-2" for="closed">Data Chiusura</label>
+            <div class="col-12 col-md-6">
+                <label class="my-2" for="closed">Data Intervento</label>
                 <input type="date" name="closed" class="form-control" value="{{ old('closed', $ticket->closed) }}" >
             </div>
             
-            <div class="col-12 col-md-12">
-                <label class="pb-3" for="notes">Risoluzione Problema</label>
-                <textarea type="text" name="notes" class="form-control" style="height: 100px; resize: none;" >{{ old('notes', $ticket->notes) }}</textarea>
-            </div>
             
         </div>
         
@@ -290,4 +291,19 @@
 
         document.getElementById('tot').value = total.toFixed(3); // Ottieni il totale con tre decimali
     }
+
+    document.addEventListener('DOMContentLoaded', function() {
+
+        // Pulisci gli input per l'articolo e la descrizione
+        document.getElementById('articleInput').value = '';
+        document.getElementById('descInput').value = '';
+
+        // Imposta il prezzo, la quantità e lo sconto a 0
+        document.getElementById('prz').value = '0';
+        document.getElementById('qnt').value = '0';
+        document.getElementById('sconto').value = '0';
+
+        // Calcola e imposta il totale
+        updateTotalWithDiscount();
+    });
 </script>
