@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\User;
 use App\Models\Technician;
+use App\Models\Replacement;
 use App\Models\MachinesSold;
 use Laravel\Scout\Searchable;
 use Illuminate\Database\Eloquent\Model;
@@ -60,5 +61,10 @@ class Ticket extends Model
     public function technician()
     {
         return $this->belongsTo(Technician::class);
+    }
+
+    public function replacements(): HasMany
+    {
+        return $this->hasMany(Replacement::class);
     }
 }

@@ -110,6 +110,7 @@ Route::get('/dashboard/tickets/{ticket}/modifica', [TicketController::class, 'ed
 Route::put('/dashboard/tickets/update/{ticket}', [TicketController::class, 'update'])->name('dashboard.tickets.update')->middleware('auth', 'ticket');
 Route::delete('/dashboard/tickets/elimina/{ticket}', [TicketController::class, 'destroy'])->name('dashboard.tickets.delete')->middleware('auth', 'ticket');
 Route::get('/dashboard/tickets/stampa/{ticket}', [TicketController::class, 'print'])->name('dashboard.tickets.print')->middleware('auth', 'ticket');
+Route::delete('/dashboard/replacements/{id}', [TicketController::class, 'destroyReplacement'])->name('dashboard.replacements.destroy')->middleware('auth', 'ticket');
 
 // Route::post('/print', function() { return view('dashboard.tickets.show'); });
 
