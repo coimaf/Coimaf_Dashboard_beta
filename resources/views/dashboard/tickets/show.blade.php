@@ -107,7 +107,7 @@
                             <td>{{ $replacement->desc }}</td>
                             <td class="text-center quantity" width='10px;'>{{ $replacement->qnt }}</td>
                             <td class="text-end" width='100px;'>{{ number_format($replacement->prz, 3, ',', '.') }}</td>
-                            <td class="text-center" width='80px;'>{{ $replacement->sconto }}</td>
+                            <td class="text-center" width='80px;'>{{ $replacement->sconto }}%</td>
                             <td class="text-end total" width='80px;'>{{ number_format($replacement->tot, 3, ',', '.') }}</td>
                             <td class="text-center"></td> <!-- Aggiungo una cella vuota per il completamento della riga -->
                         </tr>
@@ -115,6 +115,16 @@
                         <tr>
                             <td colspan="5" class="text-end fw-bold">Totale:</td>
                             <td class="text-end fw-bold" id="totalCell"></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td colspan="5" class="text-end fw-bold">Iva:</td>
+                            <td class="text-end fw-bold" id="iva"></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td colspan="5" class="text-end fw-bold">A Pagare:</td>
+                            <td class="text-end fw-bold" id="aPagare"></td>
                             <td></td>
                         </tr>
                     </tbody>
@@ -180,10 +190,23 @@
 }
 
 
+function calculateIVA() {
+    var total = parseFloat(document.getElementById('totalCell').textContent.replace(/\./g, '').replace(',', '.')); // Ottieni il totale senza il simbolo '€'
+    var ivaPercentage = 22; // Percentuale IVA del 22%
+    var iva = total * (ivaPercentage / 100); // Calcola l'IVA
+    var formattedIVA = iva.toLocaleString('it-IT', { minimumFractionDigits: 3 }) + ' €'; // Formatta l'IVA secondo il formato desiderato
+    document.getElementById('iva').textContent = formattedIVA; // Aggiorna il contenuto della cella con id "iva" con l'IVA formattata
+
+    var totalToPay = total + iva; // Calcola l'importo totale da pagare
+    var formattedTotalToPay = totalToPay.toLocaleString('it-IT', { minimumFractionDigits: 3 }) + ' €'; // Formatta l'importo totale da pagare secondo il formato desiderato
+    document.getElementById('aPagare').textContent = formattedTotalToPay; // Aggiorna il contenuto della cella con id "aPagare" con l'importo totale da pagare formattato
+}
 
 window.onload = function() {
-        updateTotal();
-    };
+    updateTotal();
+    calculateIVA();
+};
+
 </script>
 
 
