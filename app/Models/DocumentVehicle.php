@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class DocumentVehicle extends Model
 {
     use HasFactory;
+    protected $table = 'document_vehicles';
 
     protected $fillable = ['name'];
 

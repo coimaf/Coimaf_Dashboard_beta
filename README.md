@@ -180,7 +180,12 @@ php artisan ldap:browse
 - [x] Crea CRUD per Flotta;
 - [x] Associa documenti a Flotta;
 - [x] Gestisci documenti per flotta in impostazioni;
-- [ ] Aggiungi i documenti associati a flotta nel CRUD di Flottta;
+- [x] Aggiungi i documenti associati a flotta nel CRUD di Flottta;
+    - [x] Create;
+    - [x] Store;
+    - [ ] Edit;
+    - [ ] Update;
+    - [ ] Show;
 - [ ] Crea una gestione di manutenzioni dei veicoli per flotta su impostazioni;
 - [ ] Collega le manutenzion ai veicoli di flotta;
 - [ ] Pssibilita di aggiungere le manutenzioni solo in fase di modifica di un veicolo;

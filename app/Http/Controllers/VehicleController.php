@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Vehicle;
 use App\Models\TypeVehicle;
 use Illuminate\Http\Request;
+use App\Models\DocumentVehicle;
+use App\Models\DocumentVehicles;
 use Illuminate\Support\Facades\Auth;
 
 class VehicleController extends Controller
@@ -40,8 +42,9 @@ class VehicleController extends Controller
     public function create()
     {
         $typeVehicles = TypeVehicle::all();
+        $documents = DocumentVehicle::all();
         
-        return view('dashboard.vehicles.create', compact('typeVehicles'));
+        return view('dashboard.vehicles.create', compact('typeVehicles', 'documents'));
     }
 
     /**
@@ -49,14 +52,38 @@ class VehicleController extends Controller
      */
     public function store(Request $request)
     {
+        // Crea un nuovo veicolo
         $vehicle = Vehicle::create($request->all());
-
+        
+        // Associa il tipo di veicolo
         $vehicle->TypeVehicle()->associate($request->input('type_vehicle_id'));
-
+        
+        // Associa l'utente autenticato al veicolo
         $vehicle->user()->associate(Auth::user());
-    
+        
+        // Salva il veicolo nel database
         $vehicle->save();
+        
+      // Itera sui documenti nella richiesta
+      foreach ($request->documents as $documentId => $files) {
+        foreach ($files as $file) {
+            // Verifica se è stato caricato un file per il documento corrente
+            if ($file->isValid()) {
+                $path = $file->store('documenti');
+            } else {
+                $path = null;
+            }
     
+            // Crea un nuovo documento veicolo e assegna le informazioni
+            $documentVehicle = new DocumentVehicles();
+            $documentVehicle->document_id = $documentId;
+            $documentVehicle->vehicle_id = $vehicle->id;
+            $documentVehicle->path = $path;
+            $documentVehicle->expiry_date = $request->input("expiry_dates.{$documentId}");
+            $documentVehicle->save();
+        }
+    }
+        
         return redirect()->route("dashboard.vehicles.index")->with("success", "Veicolo inserito con successo.");
     }
 
