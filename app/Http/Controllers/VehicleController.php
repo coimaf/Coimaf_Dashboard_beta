@@ -85,6 +85,8 @@ public function update(Request $request, Vehicle $vehicle)
     $vehicle->update($request->all());
 
     $vehicle->TypeVehicle()->associate($request->input('type_vehicle_id'));
+
+    $vehicle->updated_by_id = Auth::user()->id;
     
     $vehicle->save();
     

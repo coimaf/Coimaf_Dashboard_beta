@@ -15,7 +15,7 @@
                         </div>
                         <h5 class="my-3 fs-3 fw-bold text-alt">{{$vehicle->typeVehicle->name}} {{$vehicle->brand}} {{$vehicle->model}}</h5>
                         <p class="card-footer fw-semibold mt-3">Creato da: {{$vehicle->user->name}}  il: {{$vehicle->created_at->format('d/m/Y')}} 
-                            @if($vehicle->updated_by)
+                            @if($vehicle->updated_by_id)
                             <br><br>Modificato da: {{$vehicle->updatedBy->name}} il: {{$vehicle->updated_at->format('d/m/Y')}}</p>
                             @endif
                     </div>
