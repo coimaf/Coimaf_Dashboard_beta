@@ -8,6 +8,7 @@ use App\Models\Document;
 use App\Models\TypeVehicle;
 use App\Models\WarrantyType;
 use Illuminate\Http\Request;
+use App\Models\DocumentVehicle;
 
 class SettingController extends Controller
 {
@@ -208,5 +209,24 @@ class SettingController extends Controller
         $vehicle->delete();
 
         return redirect()->route('dashboard.settings.vehicle.create')->with('success', 'Tipo di veicolo rimosso con successo!');
+    }
+
+    public function documentVehiclesCreate()
+    {
+        $documentVehicles = DocumentVehicle::all();
+        return view('dashboard.settings.vehicle.documentVehicleCreate', compact('documentVehicles'));
+    }
+
+    public function documentVehiclesStore(Request $request)
+    {
+        $documentVehicles = DocumentVehicle::create(['name' => $request->name]);
+        return redirect()->route('dashboard.settings.documentVehiclesCreate.create')->with('success', 'Tipo di documento aggiunto con successo!');
+    }
+
+    public function documentVehiclesDelete($documentVehicleId)
+    {
+        $documentVehicles = DocumentVehicle::find($documentVehicleId);
+        $documentVehicles->delete();
+        return redirect()->route('dashboard.settings.documentVehiclesCreate.create')->with('success', 'Tipo di documento eliminato con successo!');
     }
 }

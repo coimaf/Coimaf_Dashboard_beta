@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\User;
 use App\Models\TypeVehicle;
+use App\Models\DocumentVehicle;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -32,5 +33,11 @@ class Vehicle extends Model
     public function TypeVehicle() 
     {
        return $this->belongsTo(TypeVehicle::class);
+    }
+
+    public function documents()
+    {
+        return $this->belongsToMany(DocumentVehicle::class, 'document_vehicle')
+            ->withPivot('path', 'expiry_date');
     }
 }

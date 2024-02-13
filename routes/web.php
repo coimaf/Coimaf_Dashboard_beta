@@ -96,7 +96,11 @@ Route::delete('/dashboard/settings/technicians/{technician}', [TechnicianControl
 
 Route::get('/dashboard/impostazioni/flotta/crea', [SettingController::class, 'vehiclesCreate'])->name('dashboard.settings.vehicle.create')->middleware('auth', 'impostazioni');
 Route::post('/dashboard/impostazioni/flotta/aggiungi', [SettingController::class, 'vehiclesStore'])->name('dashboard.settings.vehicle.store')->middleware('auth', 'impostazioni');
-Route::delete('/dashboard/impostazioni/flotta/rimuovi//{vehicleType}', [SettingController::class, 'vehiclesDelete'])->name('dashboard.settings.vehicle.delete')->middleware('auth', 'impostazioni');
+Route::delete('/dashboard/impostazioni/flotta/rimuovi/{vehicleType}', [SettingController::class, 'vehiclesDelete'])->name('dashboard.settings.vehicle.delete')->middleware('auth', 'impostazioni');
+
+Route::get('/dashboard/impostazioni/flotta/documenti/crea', [SettingController::class, 'documentVehiclesCreate'])->name('dashboard.settings.documentVehiclesCreate.create')->middleware('auth', 'impostazioni');
+Route::post('/dashboard/impostazioni/flotta/documenti/aggiungi', [SettingController::class, 'documentVehiclesStore'])->name('dashboard.settings.documentVehiclesCreate.store')->middleware('auth', 'impostazioni');
+Route::delete('/dashboard/impostazioni/flotta/documenti/elimina/{documentVehicle}', [SettingController::class, 'documentVehiclesDelete'])->name('dashboard.settings.documentVehiclesCreate.delete')->middleware('auth', 'impostazioni');
 
 // Macchine Vendute
 Route::get('/macchine-vendute', [MachineController::class, 'index'])->name('dashboard.machinesSolds.index')->middleware('auth', 'DbMacchine');
