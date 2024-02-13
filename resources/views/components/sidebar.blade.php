@@ -62,6 +62,14 @@
                     </a>
                 </li>
                 @endif
+                @if(Str::contains(auth()->user()->groups, 'GESTIONALE-Impostazioni'))
+                <li class="nav-item">
+                    <a href="#" class="nav-link {{ Request::is('flotta') ? 'active' : '' }}" aria-current="page">
+                        <i class="bi bi-car-front-fill pe-2"></i>
+                        Flotta
+                    </a>
+                </li>
+                @endif
             </ul>
             <hr>
             <div class="dropdown">

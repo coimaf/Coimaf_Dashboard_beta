@@ -79,6 +79,23 @@
                                         </td>
                                     </tr>
                                 </tbody>
+                                <thead>
+                                    <tr class="">
+                                        <th>Flotta</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <p class="mb-0">Tipo Veicolo</p>
+                                            <label class="text-muted">Aggiungi o rimuovi i tipi di veicolo da aggiungere alla Flotta.</label>
+                                        </td>
+                                        <td>
+                                            <a href="{{ route('dashboard.settings.vehicle.create') }}"><i class="bi bi-pencil-square text-warning fs-5 mx-2"></i></a>
+                                        </td>
+                                    </tr>
+                                </tbody>
                             </table>
                         </div>
                     </div>

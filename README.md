@@ -167,9 +167,30 @@ php artisan ldap:browse
 - [x] Stampa Ticket con impaginazione dedicata;
 - [x] Invia email di avviso ogni nuovo ticket;
 
+### Articoli Sotto Scorta
+- [x] Crea index per articoli sotto scorta;
+- [x] Ricevi articoli sotto scorta da arca;
+- [x] Ottimizza query per visualizzare gli articoli sotto scorta;
+- [x] Filtra per nome articoli sotto scorta;
+- [x] Filtra per prezzo articoli sotto scorta;
+- [x] Ricerca articoli sotto scorta;
+
+### Flotta
+- [x] Crea in impostazioni la possibilita di gestire il tipo di veicolo ( auto - furgone ecc...);
+- [ ] Crea CRUD per Flotta;
+- [ ] Associa documenti a Flotta;
+- [ ] Gestisci documenti per flotta in impostazioni;
+- [ ] Aggiungi i documenti associati a flotta nel CRUD di Flottta;
+- [ ] Crea una gestione di manutenzioni dei veicoli per flotta su impostazioni;
+- [ ] Collega le manutenzion ai veicoli di flotta;
+- [ ] Pssibilita di aggiungere le manutenzioni solo in fase di modifica di un veicolo;
+
 ### Homepage
 - [x] Mostra i ticket aperti - in attesa di ricambio - urgenti.
 - [x] Mostra le scadenze di scadenzario in scadenza - scaduti.
+- [ ] Mostra Articoli Sotto Scorta;
+- [ ] Mostra Scadenze Flotta;
+
 
 
 ### Funzioni generali

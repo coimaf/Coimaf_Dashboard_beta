@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Tag;
 use App\Models\Role;
 use App\Models\Document;
+use App\Models\TypeVehicle;
 use App\Models\WarrantyType;
 use Illuminate\Http\Request;
 
@@ -183,5 +184,29 @@ class SettingController extends Controller
 
         return redirect()->route('dashboard.settings.machinesSold.create')->with('success', 'Tipo di garanzia  rimosso con successo!');
     }
+
+    public function vehiclesCreate()
+    {
+        $vehicleTypes = TypeVehicle::all();
+        return view('dashboard.settings.vehicle.create', compact('vehicleTypes'));
+    }
+
+    public function vehiclesStore(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|max:255',
+        ]);
+
+        $vehicleTypes = TypeVehicle::create(['name' => $request->name]);
+
+        return redirect()->route('dashboard.settings.vehicle.create')->with('success', 'Tipo di veicolo aggiunto con successo!');
+    }
     
+    public function vehiclesDelete($vehicleId)
+    {
+        $vehicle = TypeVehicle::find($vehicleId);
+        $vehicle->delete();
+
+        return redirect()->route('dashboard.settings.vehicle.create')->with('success', 'Tipo di veicolo rimosso con successo!');
+    }
 }
