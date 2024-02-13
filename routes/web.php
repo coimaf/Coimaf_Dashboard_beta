@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TestController;
+use App\Http\Controllers\ItemsUnderStock;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\MachineController;
@@ -111,6 +112,9 @@ Route::put('/dashboard/tickets/update/{ticket}', [TicketController::class, 'upda
 Route::delete('/dashboard/tickets/elimina/{ticket}', [TicketController::class, 'destroy'])->name('dashboard.tickets.delete')->middleware('auth', 'ticket');
 Route::get('/dashboard/tickets/stampa/{ticket}', [TicketController::class, 'print'])->name('dashboard.tickets.print')->middleware('auth', 'ticket');
 Route::delete('/dashboard/replacements/{id}', [TicketController::class, 'destroyReplacement'])->name('dashboard.replacements.destroy')->middleware('auth', 'ticket');
+
+// Articoli Sotto Scorta
+Route::get('/articoli-sotto-scorta', [ItemsUnderStock::class, 'index'])->name('items_under_stock')->middleware('auth', 'impostazioni');
 
 // Route::post('/print', function() { return view('dashboard.tickets.show'); });
 

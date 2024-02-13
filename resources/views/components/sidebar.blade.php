@@ -54,6 +54,14 @@
                     </a>
                 </li>
                 @endif
+                @if(Str::contains(auth()->user()->groups, 'GESTIONALE-Impostazioni'))
+                <li class="nav-item">
+                    <a href="{{ route('items_under_stock') }}" class="nav-link {{ Request::is('articoli-sotto-scorta') ? 'active' : '' }}" aria-current="page">
+                        <i class="bi bi-box-seam pe-2"></i>
+                        Articoli sotto scorta
+                    </a>
+                </li>
+                @endif
             </ul>
             <hr>
             <div class="dropdown">
