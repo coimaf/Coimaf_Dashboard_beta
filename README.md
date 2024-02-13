@@ -177,7 +177,7 @@ php artisan ldap:browse
 
 ### Flotta
 - [x] Crea in impostazioni la possibilita di gestire il tipo di veicolo ( auto - furgone ecc...);
-- [ ] Crea CRUD per Flotta;
+- [x] Crea CRUD per Flotta;
 - [ ] Associa documenti a Flotta;
 - [ ] Gestisci documenti per flotta in impostazioni;
 - [ ] Aggiungi i documenti associati a flotta nel CRUD di Flottta;

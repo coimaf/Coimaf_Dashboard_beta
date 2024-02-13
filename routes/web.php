@@ -9,6 +9,7 @@ use App\Http\Controllers\TicketController;
 use App\Http\Controllers\MachineController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\VehicleController;
 use App\Http\Controllers\DeadlineController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\TechnicianController;
@@ -120,7 +121,16 @@ Route::delete('/dashboard/replacements/{id}', [TicketController::class, 'destroy
 // Articoli Sotto Scorta
 Route::get('/articoli-sotto-scorta', [ItemsUnderStock::class, 'index'])->name('items_under_stock')->middleware('auth', 'impostazioni');
 
-// Route::post('/print', function() { return view('dashboard.tickets.show'); });
+// Articoli Sotto Scorta
+Route::get('/flotta', [VehicleController::class, 'index'])->name('dashboard.vehicles.index')->middleware('auth', 'impostazioni');
+Route::get('/flotta/crea', [VehicleController::class, 'create'])->name('dashboard.vehicles.create')->middleware('auth', 'impostazioni');
+Route::post('/flotta/store', [VehicleController::class, 'store'])->name('dashboard.vehicles.store')->middleware('auth', 'impostazioni');
+Route::get('/flotta/dettaglio/{vehicle}', [VehicleController::class, 'show'])->name('dashboard.vehicles.show')->middleware('auth', 'impostazioni');
+Route::get('/flotta/modifica/{vehicle}', [VehicleController::class, 'edit'])->name('dashboard.vehicles.edit')->middleware('auth', 'impostazioni');
+Route::put('/flotta/modifica/{vehicle}', [VehicleController::class, 'update'])->name('dashboard.vehicles.update')->middleware('auth', 'impostazioni');
+Route::delete('/flotta/elimina/{vehicle}', [VehicleController::class, 'destroy'])->name('dashboard.vehicles.destroy')->middleware('auth', 'impostazioni');
+
+
 
 
 // Searchable
