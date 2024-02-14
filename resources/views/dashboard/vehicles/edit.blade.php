@@ -45,13 +45,11 @@
             
             @foreach($documents as $document)
             <div class="col-12 col-md-6">
-                <div class="form-group">
-                    <label for="path_{{ $document->id }}">{{ $document->name }}</label>
-                    <input type="file" class="form-control-file" id="path_{{ $document->id }}" name="documents[{{ $document->id }}][]">
-                </div>
-        
-                <div class="form-group">
-                    <label for="expiry_date_{{ $document->id }}">Data di Scadenza per {{ $document->name }}</label>
+                <div class="form-control">
+                    <label class="my-3" for="path_{{ $document->id }}">{{ $document->name }}</label>
+                    <input type="file" class="form-control" id="path_{{ $document->id }}" name="documents[{{ $document->id }}][]">
+ 
+                    <label class="my-3" for="expiry_date_{{ $document->id }}">Data di Scadenza per {{ $document->name }}</label>
                     <input type="date" class="form-control" id="expiry_date_{{ $document->id }}" name="expiry_dates[{{ $document->id }}]"
                            value="{{ $documentsDate->firstWhere('document_id', $document->id)->expiry_date ?? '' }}">
                 </div>
