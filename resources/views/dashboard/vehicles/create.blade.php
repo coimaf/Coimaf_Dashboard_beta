@@ -35,22 +35,23 @@
             </div>
 
             @foreach($documents as $document)
-                <div class="form-group">
-                    <label for="path_{{ $document->id }}">{{ $document->name }}</label>
-                    <input type="file" class="form-control-file" id="path_{{ $document->id }}" name="documents[{{ $document->id }}][]">
-                </div>
-                
-                <div class="form-group">
-                    <label for="expiry_date_{{ $document->id }}">Data di Scadenza per {{ $document->name }}</label>
-                    <input type="date" class="form-control" id="expiry_date_{{ $document->id }}" name="expiry_dates[{{ $document->id }}]">
+                <div class="col-12 col-md-6">
+                    <div class="form-control my-3">
+                        <label class="mb-2" for="path_{{ $document->id }}">{{ $document->name }}</label>
+                        <input type="file" class="form-control" id="path_{{ $document->id }}" name="documents[{{ $document->id }}][]">
+                    </div>
+                    
+                    <div class="form-control my-3">
+                        <label class="mb-2" for="expiry_date_{{ $document->id }}">Data di Scadenza per {{ $document->name }}</label>
+                        <input type="date" class="form-control" id="expiry_date_{{ $document->id }}" name="expiry_dates[{{ $document->id }}]">
+                    </div>
                 </div>
             @endforeach
 
-        
-            
             <div class="row py-3">
                 <x-Buttons.buttonBlue type="submit" props="Aggiungi" />
             </div>
+
         </div>
     </form>
     

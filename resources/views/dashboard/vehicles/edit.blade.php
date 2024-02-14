@@ -30,12 +30,12 @@
 
             <div class="col-12 col-md-4">
                 <label class="my-2" for="license_plate">Targa</label>
-                <input type="text" name="license_plate" class="form-control" value="{{ $vehicle->license_plate }}" required>
+                <input type="text" name="license_plate" class="form-control text-uppercase" value="{{ $vehicle->license_plate }}" required>
             </div>
 
             <div class="col-12 col-md-4">
                 <label class="my-2" for="chassis">Telaio</label>
-                <input type="text" name="chassis" class="form-control" value="{{ $vehicle->chassis }}" required>
+                <input type="text" name="chassis" class="form-control text-uppercase" value="{{ $vehicle->chassis }}" required>
             </div>
 
             <div class="col-12 col-md-4">
@@ -43,17 +43,24 @@
                 <input type="text" name="registration_year" class="form-control" value="{{ \Carbon\Carbon::parse($vehicle->registration_year)->format('d-m-Y') }}" required>
             </div>
             
+            @foreach($documents as $document)
+            <div class="col-12 col-md-6">
+                <div class="form-group">
+                    <label for="path_{{ $document->id }}">{{ $document->name }}</label>
+                    <input type="file" class="form-control-file" id="path_{{ $document->id }}" name="documents[{{ $document->id }}][]">
+                </div>
+        
+                <div class="form-group">
+                    <label for="expiry_date_{{ $document->id }}">Data di Scadenza per {{ $document->name }}</label>
+                    <input type="date" class="form-control" id="expiry_date_{{ $document->id }}" name="expiry_dates[{{ $document->id }}]"
+                           value="{{ $documentsDate->firstWhere('document_id', $document->id)->expiry_date ?? '' }}">
+                </div>
+            </div>
+        @endforeach
+        
             
-            {{-- <div class="col-6 mb-3">
-                <label class="my-2" for="expiry_date">Data di Scadenza</label>
-                <input type="date" name="expiry_date" class="form-control" value="" required>
-            </div>                                
             
             
-            <div class="col-6 mb-3">
-                <label class="my-2" for="pdf">Documento</label>
-                <input type="file" name="pdf" class="form-control">
-            </div> --}}
             
             
             <div class="row mt-5">
