@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Vehicle;
+use App\Models\Maintenance;
 use App\Models\TypeVehicle;
 use Illuminate\Http\Request;
 use App\Models\DocumentVehicle;
@@ -112,15 +113,16 @@ class VehicleController extends Controller
         $typeVehicles = TypeVehicle::all();
         $documents = DocumentVehicle::all();
         $documentsDate = DocumentVehicles::where('vehicle_id', $vehicle->id)->get();
+        $maintenance = $vehicle->maintenances;
         
         
-        return view("dashboard.vehicles.edit", compact('typeVehicles', 'vehicle', 'documents', 'documentsDate'));
+        return view("dashboard.vehicles.edit", compact('typeVehicles', 'vehicle', 'documents', 'documentsDate', 'maintenance'));
     }
     
     /**
     * Update the specified resource in storage.
     */
-    public function update(Request $request, Vehicle $vehicle)
+    public function update(Request $request, Vehicle $vehicle , Maintenance $maintenance)
     {
         $vehicle->update($request->all());
         
@@ -129,6 +131,15 @@ class VehicleController extends Controller
         $vehicle->updated_by_id = Auth::user()->id;
         
         $vehicle->save();
+
+         // Aggiunta della nuova manutenzione
+         $vehicle->maintenances()->create([
+            'name' => $request->input('name'),
+            'start_at' => $request->input('start_at'),
+            'expiry_date' => $request->input('expiry_date'),
+        ]);
+        
+        
         
         // Verifica se ci sono documenti nella richiesta
         if ($request->has('documents')) {
@@ -174,7 +185,7 @@ class VehicleController extends Controller
             }
         }
             
-        return redirect()->route("dashboard.vehicles.index")->with("success", "Veicolo aggiornato con successo.");
+        return redirect()->route("dashboard.vehicles.edit", compact('vehicle'))->with("success", "Veicolo aggiornato con successo.");
     }
     
     
@@ -216,4 +227,11 @@ class VehicleController extends Controller
 
         return $documentData;
     }
+
+    public function destroyMaintenance(Vehicle $vehicle, Maintenance $maintenance)
+{
+    $maintenance->delete();
+    return redirect()->back()->with('success', 'Manutenzione eliminata con successo.');
+}
+
 }

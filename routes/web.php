@@ -125,7 +125,7 @@ Route::delete('/dashboard/replacements/{id}', [TicketController::class, 'destroy
 // Articoli Sotto Scorta
 Route::get('/articoli-sotto-scorta', [ItemsUnderStock::class, 'index'])->name('items_under_stock')->middleware('auth', 'impostazioni');
 
-// Articoli Sotto Scorta
+// Flotta
 Route::get('/flotta', [VehicleController::class, 'index'])->name('dashboard.vehicles.index')->middleware('auth', 'impostazioni');
 Route::get('/flotta/crea', [VehicleController::class, 'create'])->name('dashboard.vehicles.create')->middleware('auth', 'impostazioni');
 Route::post('/flotta/store', [VehicleController::class, 'store'])->name('dashboard.vehicles.store')->middleware('auth', 'impostazioni');
@@ -133,6 +133,8 @@ Route::get('/flotta/dettaglio/{vehicle}', [VehicleController::class, 'show'])->n
 Route::get('/flotta/modifica/{vehicle}', [VehicleController::class, 'edit'])->name('dashboard.vehicles.edit')->middleware('auth', 'impostazioni');
 Route::put('/flotta/modifica/{vehicle}', [VehicleController::class, 'update'])->name('dashboard.vehicles.update')->middleware('auth', 'impostazioni');
 Route::delete('/flotta/elimina/{vehicle}', [VehicleController::class, 'destroy'])->name('dashboard.vehicles.destroy')->middleware('auth', 'impostazioni');
+Route::delete('/flotta/{vehicle}/maintenances/{maintenance}', [VehicleController::class, 'destroyMaintenance'])->name('maintenance.destroy');
+
 
 
 

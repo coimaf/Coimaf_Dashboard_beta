@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Maintenance;
 use App\Models\TypeVehicle;
 use App\Models\DocumentVehicle;
 use App\Models\DocumentVehicles;
@@ -46,6 +47,11 @@ class Vehicle extends Model
     public function documentsName()
     {
         return $this->hasMany(DocumentVehicle::class);
+    }
+
+    public function maintenances()
+    {
+        return $this->hasMany(Maintenance::class);
     }
 
     public function getDocumentStatuses()

@@ -187,9 +187,13 @@ php artisan ldap:browse
     - [x] Update;
     - [x] Show;
     - [x] Index;
-- [ ] Crea una gestione di manutenzioni dei veicoli per flotta su impostazioni;
-- [ ] Collega le manutenzion ai veicoli di flotta;
-- [ ] Pssibilita di aggiungere le manutenzioni solo in fase di modifica di un veicolo;
+- [x] Collega le manutenzion ai veicoli di flotta;
+- [x] Possibilita di aggiungere le manutenzioni solo in fase di modifica di un veicolo;
+    - [x] Edit;
+    - [x] Update;
+    - [x] Show;
+- [ ] Filtra;
+- [ ] Cerca;
 
 ### Homepage
 - [x] Mostra i ticket aperti - in attesa di ricambio - urgenti.
