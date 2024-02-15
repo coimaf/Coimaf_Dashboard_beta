@@ -20,11 +20,11 @@ class VehicleController extends Controller
     {
         
         $columnTitles = [
-            'Tipo',
-            'Marca',
-            'Modello',
-            'Targa',
-            'Telaio',
+            ['text' => 'Tipo', 'sortBy' => 'TypeVehicle'],
+            ['text' => 'Marca', 'sortBy' => 'brand'],
+            ['text' => 'Modello', 'sortBy' => 'model'],
+            ['text' => 'Targa', 'sortBy' => 'license_plate'],
+            ['text' => 'Telaio', 'sortBy' => 'chassis'],
             'Anno immatricolazione',
             'Scadenza Documenti',
             'Modifica',
@@ -34,12 +34,50 @@ class VehicleController extends Controller
         $vehicles = Vehicle::all();
         $documentsDate = DocumentVehicles::where('vehicle_id', $vehicle->id)->get();
         $documents = DocumentVehicles::all();
+
+        $queryBuilder = Vehicle::with(['documents', 'TypeVehicle']);
+        $searchTerm = $request->input('vehicleSearch');
+
+        $sortBy = $request->input('sortBy', 'default');
+        $direction = $request->input('direction', 'asc');
+        $routeName = 'dashboard.vehicles.index';
+
+        if ($searchTerm) {
+            $queryBuilder->where('brand', 'like', '%' . $searchTerm . '%')
+            ->orWhere('model', 'LIKE', "%$searchTerm%")
+            ->orWhere('license_plate', 'LIKE', "%$searchTerm%")
+            ->orWhere('chassis', 'LIKE', "%$searchTerm%")
+            ->orWhere('registration_year', 'LIKE', "%$searchTerm%")
+            ->orWhereHas('TypeVehicle', function ($query) use ($searchTerm) {
+                $query->where('name', 'LIKE', "%$searchTerm%");
+            });
+        }
+
+        $queryBuilder->when($sortBy == 'brand', function ($query) use ($direction) {
+            $query->orderBy('brand', $direction);
+        })->when($sortBy == 'model', function ($query) use ($direction) {
+            $query->orderBy('model', $direction);
+        })->when($sortBy == 'license_plate', function ($query) use ($direction) {
+            $query->orderBy('license_plate', $direction);
+        })->when($sortBy == 'chassis', function ($query) use ($direction) {
+            $query->orderBy('chassis', $direction);
+        })->when($sortBy == 'TypeVehicle', function ($query) use ($direction) {
+            $query->join('type_vehicles', 'type_vehicle_id', '=', 'type_vehicles.id')
+            ->orderBy('type_vehicles.name', $direction);
+        });
         
+        $vehicles = $queryBuilder->paginate(25)->appends([
+            'ticketsSearch' => $searchTerm,
+        ]);
+
         return view('dashboard.vehicles.index', [
             'vehicles' => $vehicles,
             'documentsDate' => $documentsDate,
             'documents' => $documents,
             'columnTitles' => $columnTitles,
+            'sortBy' => $sortBy,
+            'direction' => $direction,
+            'routeName' => $routeName,
         ]);
     }
     
@@ -72,22 +110,22 @@ class VehicleController extends Controller
         $vehicle->save();
         
         // Itera sui documenti nella richiesta
-        foreach ($request->documents as $documentId => $files) {
-            foreach ($files as $file) {
-                // Verifica se è stato caricato un file per il documento corrente
-                if ($file->isValid()) {
-                    $path = $file->store('pdfs', 'public');
-                } else {
-                    $path = null;
+        if ($request->has('documents')) {
+            foreach ($request->documents as $documentId => $files) {
+                foreach ($files as $file) {
+                    // Verifica se è stato caricato un file per il documento corrente
+                    if ($file->isValid()) {
+                        $path = $file->store('pdfs', 'public');
+        
+                        // Crea un nuovo documento veicolo e assegna le informazioni
+                        $documentVehicle = new DocumentVehicles();
+                        $documentVehicle->document_id = $documentId;
+                        $documentVehicle->vehicle_id = $vehicle->id;
+                        $documentVehicle->path = $path;
+                        $documentVehicle->expiry_date = $request->input("expiry_dates.{$documentId}");
+                        $documentVehicle->save();
+                    }
                 }
-                
-                // Crea un nuovo documento veicolo e assegna le informazioni
-                $documentVehicle = new DocumentVehicles();
-                $documentVehicle->document_id = $documentId;
-                $documentVehicle->vehicle_id = $vehicle->id;
-                $documentVehicle->path = $path;
-                $documentVehicle->expiry_date = $request->input("expiry_dates.{$documentId}");
-                $documentVehicle->save();
             }
         }
         
@@ -102,7 +140,8 @@ class VehicleController extends Controller
         $documents = DocumentVehicle::all();
         $documentsDate = DocumentVehicles::where('vehicle_id', $vehicle->id)->get();
         $documentData = $this->getDocumentData($documents, $documentsDate);
-        return view("dashboard.vehicles.show", compact('vehicle', 'documents','documentsDate', 'documentData'));
+        $maintenance = $vehicle->maintenances;
+        return view("dashboard.vehicles.show", compact('vehicle', 'documents','documentsDate', 'documentData', 'maintenance'));
     }
     
     /**
@@ -202,32 +241,37 @@ class VehicleController extends Controller
     private function getDocumentData($documents, $documentsDate)
     {
         $documentData = [];
-
+    
         foreach ($documents as $document) {
-            $expiryDate = Carbon::parse($documentsDate->firstWhere('document_id', $document->id)->expiry_date);
-            $today = Carbon::today();
-            $daysUntilExpiry = $today->diffInDays($expiryDate, false);
-
-            if ($daysUntilExpiry <= 0) {
-                $icon = 'bi bi-circle-fill text-danger'; // Rosso se scaduto
-            } elseif ($daysUntilExpiry <= 60) {
-                $icon = 'bi bi-circle-fill text-warning'; // Giallo se meno di 30 giorni alla scadenza
-            } else {
-                $icon = 'bi bi-circle-fill text-success'; // Verde se valido
+            $documentInfo = $documentsDate->firstWhere('document_id', $document->id);
+    
+            // Verifica se esiste un record per il documento corrente
+            if ($documentInfo) {
+                $expiryDate = Carbon::parse($documentInfo->expiry_date);
+                $today = Carbon::today();
+                $daysUntilExpiry = $today->diffInDays($expiryDate, false);
+    
+                if ($daysUntilExpiry <= 0) {
+                    $icon = 'bi bi-circle-fill text-danger'; // Rosso se scaduto
+                } elseif ($daysUntilExpiry <= 60) {
+                    $icon = 'bi bi-circle-fill text-warning'; // Giallo se meno di 30 giorni alla scadenza
+                } else {
+                    $icon = 'bi bi-circle-fill text-success'; // Verde se valido
+                }
+    
+                $documentData[] = [
+                    'name' => $document->name,
+                    'expiry_date' => $expiryDate->format('d-m-Y'),
+                    'icon' => $icon,
+                    'download_path' => asset("storage/{$documentInfo->path}"),
+                    'download_name' => $document->name,
+                ];
             }
-
-            $documentData[] = [
-                'name' => $document->name,
-                'expiry_date' => $expiryDate->format('d-m-Y'),
-                'icon' => $icon,
-                'download_path' => asset("storage/{$documentsDate->firstWhere('document_id', $document->id)->path}"),
-                'download_name' => $document->name,
-            ];
         }
-
+    
         return $documentData;
     }
-
+    
     public function destroyMaintenance(Vehicle $vehicle, Maintenance $maintenance)
 {
     $maintenance->delete();

@@ -6,7 +6,7 @@
         <a href="{{ route('dashboard.vehicles.create') }}"><x-Buttons.buttonBlue type="button" props="NUOVO" /></a>
     </div>
     
-    <x-table :columnTitles="$columnTitles" :rowData="$vehicles">
+    <x-table :columnTitles="$columnTitles" :rowData="$vehicles" :direction="$direction" :sortBy="$sortBy" :routeName="$routeName">
         <tr class="ps-3 align-middle">
             <th colspan="{{ count($columnTitles) }}">
                 <form class="d-flex" action="{{ route('dashboard.vehicles.index') }}" method="GET">
@@ -89,6 +89,6 @@
         @endforeach
     </tbody>
 </x-table>
-{{-- <x-pagination :props="$vehicles" /> --}}
+<x-pagination :props="$vehicles" />
 
 </x-Layouts.layoutDash>

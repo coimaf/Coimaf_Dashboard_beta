@@ -70,6 +70,28 @@
                             </div>
                         </div>
                     </div>
+
+                    @if($maintenance->isNotEmpty())
+                    <!-- Visualizzazione delle manutenzioni esistenti -->
+                    @foreach ($maintenance as $item)
+                    
+                    <div class="row g-3 my-3 bg-white border border-1 m-2 rounded-2 align-items-center">
+                        <div class="col-12 col-md-3">
+                            <p class="fw-bold fs-5">{{$item->name}}</p>
+                        </div>
+                        
+                        <div class="col-12 col-md-3">
+                           <p>{{\Carbon\Carbon::parse($item->start_at)->format('d-m-Y')}}</p>
+                        </div>
+                        
+                        <div class="col-12 col-md-3">
+                            <p> {{\Carbon\Carbon::parse($item->expiry_date)->format('d-m-Y')}}</p>
+                        </div>
+                    </div>
+                    
+                    @endforeach
+                    @endif
+
                 </div>
             </div>
         </div>

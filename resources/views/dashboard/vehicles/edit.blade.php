@@ -89,11 +89,11 @@
                 </div>
                 
                 <div class="col-12 col-md-3">
-                   <p>{{$item->start_at}}</p>
+                   <p>{{\Carbon\Carbon::parse($item->start_at)->format('d-m-Y')}}</p>
                 </div>
                 
                 <div class="col-12 col-md-3">
-                    <p> {{$item->expiry_date}}</p>
+                    <p> {{\Carbon\Carbon::parse($item->expiry_date)->format('d-m-Y')}}</p>
                 </div>
 
                 <div class="col-12 col-md-3 m-0">

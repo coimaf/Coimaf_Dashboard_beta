@@ -192,8 +192,8 @@ php artisan ldap:browse
     - [x] Edit;
     - [x] Update;
     - [x] Show;
-- [ ] Filtra;
-- [ ] Cerca;
+- [x] Filtra;
+- [x] Cerca;
 
 ### Homepage
 - [x] Mostra i ticket aperti - in attesa di ricambio - urgenti.
