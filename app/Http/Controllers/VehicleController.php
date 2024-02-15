@@ -208,19 +208,23 @@ if ($request->has('scaduti')) {
         $vehicle->updated_by_id = Auth::user()->id;
         
         $vehicle->save();
-
-         // Aggiunta della nuova manutenzione
-         $vehicle->maintenances()->create([
+    
+        // Aggiunta della nuova manutenzione solo se i campi non sono vuoti
+        $maintenanceData = [
             'name' => $request->input('name'),
             'start_at' => $request->input('start_at'),
             'expiry_date' => $request->input('expiry_date'),
-        ]);
-        
-        
-        
+        ];
+    
+        // Verifica se i campi per la manutenzione sono vuoti
+        if (!empty(array_filter($maintenanceData))) {
+            // Crea la nuova manutenzione solo se i campi non sono vuoti
+            $vehicle->maintenances()->create($maintenanceData);
+        }
+    
+        // Itera sui documenti nella richiesta
         // Verifica se ci sono documenti nella richiesta
         if ($request->has('documents')) {
-            // Itera sui documenti nella richiesta
             foreach ($request->documents as $documentId => $files) {
                 // Trova il documento veicolo corrente o crea un nuovo oggetto se non esiste
                 $documentVehicle = DocumentVehicles::where('vehicle_id', $vehicle->id)
@@ -264,6 +268,7 @@ if ($request->has('scaduti')) {
             
         return redirect()->route("dashboard.vehicles.edit", compact('vehicle'))->with("success", "Veicolo aggiornato con successo.");
     }
+    
     
     
     /**

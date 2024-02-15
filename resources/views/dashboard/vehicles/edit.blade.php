@@ -88,6 +88,8 @@
                     <p>{{$item->name}}</p>
                 </div>
                 
+                @if ($item->start_at || $item->expiry_date)
+                            
                 <div class="col-12 col-md-3">
                    <p>{{\Carbon\Carbon::parse($item->start_at)->format('d-m-Y')}}</p>
                 </div>
@@ -95,6 +97,13 @@
                 <div class="col-12 col-md-3">
                     <p> {{\Carbon\Carbon::parse($item->expiry_date)->format('d-m-Y')}}</p>
                 </div>
+
+                @else
+                <div class="col-12 col-md-3">
+                </div>
+                <div class="col-12 col-md-3">
+                </div>
+                @endif
 
                 <div class="col-12 col-md-3 m-0">
                     <form action="{{ route('maintenance.destroy', ['vehicle' => $vehicle, 'maintenance' => $item]) }}" method="POST">

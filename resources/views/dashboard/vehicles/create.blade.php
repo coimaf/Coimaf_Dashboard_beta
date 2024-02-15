@@ -38,10 +38,10 @@
                 <div class="col-12 col-md-6">
                     <div class="form-control my-3">
                         <label class="my-3" for="path_{{ $document->id }}">{{ $document->name }}</label>
-                        <input type="file" class="form-control" id="path_{{ $document->id }}" name="documents[{{ $document->id }}][]">
+                        <input type="file" class="form-control" id="path_{{ $document->id }}" name="documents[{{ $document->id }}][]" required>
 
                         <label class="my-3" for="expiry_date_{{ $document->id }}">Data di Scadenza per {{ $document->name }}</label>
-                        <input type="date" class="form-control" id="expiry_date_{{ $document->id }}" name="expiry_dates[{{ $document->id }}]">
+                        <input type="date" class="form-control" id="expiry_date_{{ $document->id }}" name="expiry_dates[{{ $document->id }}]" required>
                     </div>
                 </div>
             @endforeach
