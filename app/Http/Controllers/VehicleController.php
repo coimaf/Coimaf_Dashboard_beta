@@ -70,6 +70,44 @@ class VehicleController extends Controller
             'ticketsSearch' => $searchTerm,
         ]);
 
+          
+  // Filtraggio per documenti in scadenza
+if ($request->has('inscadenza')) {
+    // Recupera solo i veicoli che hanno documenti in scadenza
+    $vehiclesWithExpiringDocuments = Vehicle::whereHas('documents', function ($query) {
+        $query->where('expiry_date', '>', now())
+              ->where('expiry_date', '<=', now()->addDays(60)); // Aggiungi il punto e virgola qui
+    })->paginate(25)->appends(['inscadenza' => true]);
+
+    // Restituisci la vista con i veicoli che hanno documenti in scadenza
+    return view('dashboard.vehicles.index', [
+        'vehicles' => $vehiclesWithExpiringDocuments,
+        'columnTitles' => $columnTitles,
+        'sortBy' => $sortBy,
+        'direction' => $direction,
+        'routeName' => $routeName,
+    ]);
+}
+
+// Filtraggio per documenti scaduti
+if ($request->has('scaduti')) {
+    // Recupera solo i veicoli che hanno documenti scaduti
+    $vehiclesWithExpiredDocuments = Vehicle::whereHas('documents', function ($query) {
+        $query->where('expiry_date', '<', now());
+    })->paginate(25)->appends(['scaduti' => true]);
+
+    // Restituisci la vista con i veicoli che hanno documenti scaduti
+    return view('dashboard.vehicles.index', [
+        'vehicles' => $vehiclesWithExpiredDocuments,
+        'columnTitles' => $columnTitles,
+        'sortBy' => $sortBy,
+        'direction' => $direction,
+        'routeName' => $routeName,
+    ]);
+}
+
+
+
         return view('dashboard.vehicles.index', [
             'vehicles' => $vehicles,
             'documentsDate' => $documentsDate,

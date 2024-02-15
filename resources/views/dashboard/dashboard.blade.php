@@ -66,61 +66,61 @@
         </div>
     </div>
     
-      <div class="col-md-3 my-2">
-        <div class="card container-filter-home text-black" style="width: 80%;">
-          <h4 class="card-title text-center py-3 text-uppercase fw-bold" style="color: #ffffff; background-color: #081B49;"> ............. </h4>
+    <div class="col-md-3 my-2">
+      <div class="card container-filter-home text-black" style="width: 80%;">
+          <h4 class="card-title text-center py-3 text-uppercase fw-bold" style="color: #ffffff; background-color: #081B49;">Articoli sotto scorta</h4>
           <div class="container p-3">
-            <div class="row flex-column align-items-center justify-content-center" style="margin: 15%;">
-              <div class="col-md-6 w-100 d-flex align-items-center justify-content-center">
-                <a href="#" class="text-decoration-none text-dark">
-                  <div class="card-custom card m-2 text-black fw-bold">
-                    <div class="card-body text-center">
-                      <p class="card-text fs-1"> ... </p>
-                    </div>
+              <div class="row flex-column">
+                  <div class="col-md-6 w-100 d-flex align-items-center">
+                      <a href="{{ route('dashboard.vehicles.index', ['inscadenza' => true]) }}" class="text-decoration-none text-dark">
+                          <div class="card-custom card text-warning fw-bold">
+                              <div class="card-body">
+                                  <p class="card-text">........................</p>
+                              </div>
+                          </div>
+                      </a>
                   </div>
-                </a>
-              </div>
-              <div class="col-md-6 w-100 d-flex align-items-center justify-content-center">
-                <a href="#" class="text-decoration-none text-dark">
-                  <div class="card-custom card m-2 text-black fw-bold">
-                    <div class="card-body text-center">
-                      <p class="card-text fs-1"> ... </p>
-                    </div>
+                  <div class="col-md-6 w-100 d-flex align-items-center">
+                      <a href="{{ route('dashboard.vehicles.index', ['scaduti' => true]) }}" class="text-decoration-none text-dark">
+                          <div class="card-custom card text-danger fw-bold">
+                              <div class="card-body">
+                                  <p class="card-text">........................</p>
+                              </div>
+                          </div>
+                      </a>
                   </div>
-                </a>
               </div>
-            </div>
           </div>
-        </div>
       </div>
+  </div>
 
       <div class="col-md-3 my-2">
         <div class="card container-filter-home text-black" style="width: 80%;">
-          <h4 class="card-title text-center py-3 text-uppercase fw-bold" style="color: #ffffff; background-color: #081B49;"> ............. </h4>
-          <div class="container p-3">
-            <div class="row flex-column align-items-center justify-content-center" style="margin: 15%;">
-              <div class="col-md-6 w-100 d-flex align-items-center justify-content-center">
-                <a href="#" class="text-decoration-none text-dark">
-                  <div class="card-custom card m-2 text-black fw-bold">
-                    <div class="card-body text-center">
-                      <p class="card-text fs-1"> ... </p>
+            <h4 class="card-title text-center py-3 text-uppercase fw-bold" style="color: #ffffff; background-color: #081B49;">Flotta</h4>
+            <div class="container p-3">
+                <div class="row flex-column">
+                    <div class="col-md-6 w-100 d-flex align-items-center">
+                        <a href="{{ route('dashboard.vehicles.index', ['inscadenza' => true]) }}" class="text-decoration-none text-dark">
+                            <div class="card-custom card text-warning fw-bold">
+                                <div class="card-body">
+                                    <p class="card-text"><i class="bi pe-3 bi-exclamation-triangle-fill fs-1"></i> In scadenza: {{ $expiringVehiclesCount }} </p>
+                                </div>
+                            </div>
+                        </a>
                     </div>
-                  </div>
-                </a>
-              </div>
-              <div class="col-md-6 w-100 d-flex align-items-center justify-content-center">
-                <a href="#" class="text-decoration-none text-dark">
-                  <div class="card-custom card m-2 text-black fw-bold">
-                    <div class="card-body text-center">
-                      <p class="card-text fs-1"> ... </p>
+                    <div class="col-md-6 w-100 d-flex align-items-center">
+                        <a href="{{ route('dashboard.vehicles.index', ['scaduti' => true]) }}" class="text-decoration-none text-dark">
+                            <div class="card-custom card text-danger fw-bold">
+                                <div class="card-body">
+                                    <p class="card-text"><i class="bi pe-3 bi-x-circle-fill fs-1"></i> Scaduti: {{ $expiredVehiclesCount }}</p>
+                                </div>
+                            </div>
+                        </a>
                     </div>
-                  </div>
-                </a>
-              </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
+    </div>
 
     </div>
   </div>

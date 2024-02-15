@@ -199,7 +199,7 @@ php artisan ldap:browse
 - [x] Mostra i ticket aperti - in attesa di ricambio - urgenti.
 - [x] Mostra le scadenze di scadenzario in scadenza - scaduti.
 - [ ] Mostra Articoli Sotto Scorta;
-- [ ] Mostra Scadenze Flotta;
+- [x] Mostra Scadenze Flotta;
 
 
 

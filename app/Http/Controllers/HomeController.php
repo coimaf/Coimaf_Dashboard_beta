@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ticket;
+use App\Models\Vehicle;
 use App\Models\Deadline;
 use Illuminate\Http\Request;
+use App\Models\DocumentVehicles;
 
 class HomeController extends Controller
 {
@@ -26,8 +28,19 @@ class HomeController extends Controller
             $query->where('expiry_date', '<', now());
         })
         ->count();
+
+
+        $expiredVehiclesCount = Vehicle::whereHas('documents', function ($query) {
+            $query->where('expiry_date', '<', now());
+        })->count();
+
+        $expiringVehiclesCount = Vehicle::whereHas('documents', function ($query) {
+            $query->where('expiry_date', '>', now())
+            ->where('expiry_date', '<=', now()->addDays(60));
+        })
+        ->count();
         
-        return view('dashboard.dashboard',  compact('openTicketsCount', 'waitingForSparePartsCount', 'urgentTicketsCount', 'expiringDeadlinesCount', 'expiredDeadlinesCount'));
+        return view('dashboard.dashboard',  compact('openTicketsCount', 'waitingForSparePartsCount', 'urgentTicketsCount', 'expiringDeadlinesCount', 'expiredDeadlinesCount', 'expiredVehiclesCount', 'expiringVehiclesCount'));
     }
 
     public function indexHome()
