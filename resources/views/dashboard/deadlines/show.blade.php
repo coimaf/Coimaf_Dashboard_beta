@@ -10,8 +10,7 @@
                     <div class="card mb-4 text-black">
                         <div class="card-body text-center">
                             <div class="d-flex justify-content-center">
-                                <img src="{{asset('assets/PDF_file_icon.svg.png')}}" alt="PDF_icon"
-                                class="img-fluid" style="width: 50px;">
+                                <i class="bi bi-file-earmark-medical-fill pe-2 fs-1"></i>
                             </div>
                             <h5 class="my-3 fs-3 fw-bold text-alt">{{$deadline->name}}</h5>
                             <p class="card-footer fw-semibold mt-3">Creato da: {{$deadline->user->name}}  il: {{$deadline->created_at->format('d/m/Y')}} 

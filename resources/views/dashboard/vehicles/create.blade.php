@@ -23,15 +23,16 @@
             </div>
             
             <div class="col-12 col-md-4">
-                <input placeholder="Targa*" type="text" name="license_plate" class="form-control text-uppercase" required>
+                <input placeholder="Targa*" type="text" name="license_plate" class="form-control  mt-4 text-uppercase" required>
             </div>
             
             <div class="col-12 col-md-4">
-                <input placeholder="Telaio*" type="text" name="chassis" class="form-control text-uppercase" required>
+                <input placeholder="Telaio*" type="text" name="chassis" class="form-control mt-4 text-uppercase" required>
             </div>
             
             <div class="col-12 col-md-4">
-                <input placeholder="Anno immatricolazione*" type="date" name="registration_year" class="form-control" required>
+                <label for="registration_year">Anno immatricolazione*</label>
+                <input type="date" name="registration_year" class="form-control" required>
             </div>
 
             @foreach($documents as $document)

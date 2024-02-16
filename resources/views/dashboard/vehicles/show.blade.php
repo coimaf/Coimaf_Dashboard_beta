@@ -10,8 +10,7 @@
                 <div class="card mb-4 text-black">
                     <div class="card-body text-center">
                         <div class="d-flex justify-content-center">
-                            <img src="{{asset('assets/PDF_file_icon.svg.png')}}" alt="PDF_icon"
-                            class="img-fluid" style="width: 50px;">
+                            <i class="bi bi-car-front-fill pe-2 fs-1"></i>
                         </div>
                         <h5 class="my-3 fs-3 fw-bold text-alt">{{$vehicle->typeVehicle->name}} {{$vehicle->brand}} {{$vehicle->model}}</h5>
                         <p class="card-footer fw-semibold mt-3">Creato da: {{$vehicle->user->name}}  il: {{$vehicle->created_at->format('d/m/Y')}} 
@@ -85,9 +84,6 @@
                            <p>{{\Carbon\Carbon::parse($item->start_at)->format('d-m-Y')}}</p>
                         </div>
                         
-                        <div class="col-12 col-md-3">
-                            <p> {{\Carbon\Carbon::parse($item->expiry_date)->format('d-m-Y')}}</p>
-                        </div>
                         @endif
                     </div>
                     

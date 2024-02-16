@@ -68,14 +68,10 @@
                 </div>
                 
                 <div class="col-12 col-md-4">
-                    <label class="my-2" for="start_at">Data Inizio Manutenzione</label>
+                    <label class="my-2" for="start_at">Data Manutenzione</label>
                     <input type="date" name="start_at" class="form-control">
                 </div>
-                
-                <div class="col-12 col-md-4">
-                    <label class="my-2" for="expiry_date">Data Scadenza Manutenzione</label>
-                    <input type="date" name="expiry_date" class="form-control">
-                </div>
+            
             </div>
         </form>
             
@@ -93,14 +89,8 @@
                 <div class="col-12 col-md-3">
                    <p>{{\Carbon\Carbon::parse($item->start_at)->format('d-m-Y')}}</p>
                 </div>
-                
-                <div class="col-12 col-md-3">
-                    <p> {{\Carbon\Carbon::parse($item->expiry_date)->format('d-m-Y')}}</p>
-                </div>
 
                 @else
-                <div class="col-12 col-md-3">
-                </div>
                 <div class="col-12 col-md-3">
                 </div>
                 @endif
