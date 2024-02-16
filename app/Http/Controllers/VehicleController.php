@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Models\DocumentVehicle;
 use App\Models\VehicleDocument;
 use App\Models\DocumentVehicles;
+use App\Models\VehicleMaintenance;
 use Illuminate\Support\Facades\Auth;
 
 class VehicleController extends Controller
@@ -149,21 +150,20 @@ class VehicleController extends Controller
     /**
     * Update the specified resource in storage.
     */
-    
     public function update(Request $request, $id)
     {
         // Trova il veicolo da aggiornare
         $vehicle = Vehicle::findOrFail($id);
-    
+        
         // Aggiorna i campi del veicolo
         $vehicle->update($request->all());
-    
+        
         // Se sono stati forniti documenti, li elabora
         if ($request->filled('document_id')) {
             foreach ($request->input('document_id') as $key => $documentId) {
                 // Trova il documento esistente
                 $document = VehicleDocument::findOrFail($documentId);
-    
+                
                 // Modifica solo se sono stati forniti nuovi dati
                 if ($request->hasFile('document_file.' . $key)) {
                     $document->file = $request->file('document_file')[$key]->store('documents', 'public');
@@ -174,7 +174,7 @@ class VehicleController extends Controller
                 $document->save();
             }
         }
-    
+        
         // Se sono stati forniti nuovi documenti, li salva
         if ($request->filled('new_document_name')) {
             foreach ($request->input('new_document_name') as $key => $documentName) {
@@ -183,20 +183,57 @@ class VehicleController extends Controller
                 $newDocument->name = $documentName;
                 $newDocument->date_start = $request->input('new_document_date_start.' . $key);
                 $newDocument->expiry_date = $request->input('new_document_expiry_date.' . $key);
-    
+                
                 // Se è fornito un file, lo salva
                 if ($request->hasFile('new_document_file.' . $key)) {
                     $newDocument->file = $request->file('new_document_file')[$key]->store('documents', 'public');
                 }
-    
+                
                 // Associa il documento al veicolo
                 $vehicle->documents()->save($newDocument);
             }
         }
-    
+        
+        // Se sono state fornite nuove manutenzioni, le salva
+        if ($request->filled('new_maintenance_name')) {
+            foreach ($request->input('new_maintenance_name') as $key => $maintenanceName) {
+                // Crea una nuova manutenzione
+                $newMaintenance = new VehicleMaintenance();
+                $newMaintenance->name = $maintenanceName;
+                // Verifica se è stata fornita una descrizione per la manutenzione e imposta il valore se presente
+                $newMaintenance->description = $request->input('new_maintenance_description.' . $key, null);
+                // Verifica se è stato caricato un file per la manutenzione e imposta il valore se presente
+                if ($request->hasFile('new_maintenance_file.' . $key)) {
+                    $newMaintenance->file = $request->file('new_maintenance_file.' . $key)->store('maintenances', 'public');
+                }
+                // Verifica se è stato fornito un prezzo per la manutenzione e imposta il valore se presente
+                $newMaintenance->price = $request->input('new_maintenance_price.' . $key, null);
+                // Verifica se è stata fornita una data di esecuzione per la manutenzione e imposta il valore se presente
+                $newMaintenance->start_at = $request->input('new_maintenance_start_at.' . $key, null);
+                // Associa la manutenzione al veicolo
+                $vehicle->maintenances()->save($newMaintenance);
+            }
+        }
+        
+        // Se sono state fornite modifiche per le manutenzioni esistenti, le aggiorna nel database
+        if ($request->filled('maintenance_id')) {
+            foreach ($request->input('maintenance_id') as $key => $maintenanceId) {
+                // Trova la manutenzione esistente
+                $existingMaintenance = VehicleMaintenance::findOrFail($maintenanceId);
+                // Aggiorna i dettagli della manutenzione
+                $existingMaintenance->update([
+                    'name' => $request->input('maintenance_name.' . $key),
+                    'description' => $request->input('maintenance_description.' . $key, null),
+                    // Aggiorna il file solo se è stato fornito un nuovo file
+                    'file' => $request->hasFile('maintenance_file.' . $key) ? $request->file('maintenance_file.' . $key)->store('maintenances', 'public') : $existingMaintenance->file,
+                    'price' => $request->input('maintenance_price.' . $key, null),
+                    'start_at' => $request->input('maintenance_start_at.' . $key, null),
+                ]);
+            }
+        }
+        
         return redirect()->route("dashboard.vehicles.index")->with("success", "Veicolo aggiornato con successo.");
     }
-    
     
     
     /**

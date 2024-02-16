@@ -78,25 +78,40 @@
                         </div>
                     </div>
 
-                    {{-- @if($maintenance->isNotEmpty())
+                    @if($vehicle->maintenances)
                     <!-- Visualizzazione delle manutenzioni esistenti -->
-                    @foreach ($maintenance as $item)
+                    @foreach ($vehicle->maintenances as $item)
                     
                     <div class="row g-3 my-3 bg-white border border-1 m-2 rounded-2 align-items-center">
                         <div class="col-12 col-md-3">
                             <p class="fw-bold fs-5">{{$item->name}}</p>
                         </div>
-                        @if ($item->start_at || $item->expiry_date)
-                            
+
+                        <div class="col-12 col-md-3">
+                            <p>{{$item->description}}</p>
+                         </div>
+                         @if( $item->price )
+                            <div class="col-12 col-md-3">
+                                <p>{{ $item->price . " €"}}</p>
+                            </div>
+                            @else
+                            <div class="col-12 col-md-3">
+                                <p> </p>
+                            </div>
+                        @endif
+                        @if( $item->start_at )
                         <div class="col-12 col-md-3">
                            <p>{{\Carbon\Carbon::parse($item->start_at)->format('d-m-Y')}}</p>
                         </div>
-                        
-                        @endif
+                        @else
+                        <div class="col-12 col-md-3">
+                            <p> </p>
+                         </div>
+                         @endif
                     </div>
                     
                     @endforeach
-                    @endif --}}
+                    @endif
 
                 </div>
             </div>

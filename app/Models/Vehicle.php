@@ -9,6 +9,7 @@ use App\Models\TypeVehicle;
 use App\Models\DocumentVehicle;
 use App\Models\VehicleDocument;
 use App\Models\DocumentVehicles;
+use App\Models\VehicleMaintenance;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -42,6 +43,11 @@ class Vehicle extends Model
     public function documents()
     {
         return $this->hasMany(VehicleDocument::class);
+    }
+
+    public function maintenances()
+    {
+        return $this->hasMany(VehicleMaintenance::class);
     }
     
     public function getDocumentStatuses()
