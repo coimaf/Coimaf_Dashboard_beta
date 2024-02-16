@@ -19,18 +19,21 @@
                             @endif
                         </div>
                     </div>
+
                     <div class="card mb-4 mb-lg-0 text-black">
                         <div class="card-body p-0 text-black">
                             <ul class="list-group list-group-flush rounded-3 text-black">
                                 @foreach($vehicle->documents as $document)
                                 <li class="list-group-item d-flex justify-content-between align-items-center p-3 text-black">
                                     <label class="w-25">{{ $document->name }}</label>
-                                    @if($document->date_start)
-                                    <label>{{\Carbon\Carbon::parse($document->date_start)->format('d-m-Y')}}</label><br/>
-                                    @endif
-                                    @if($document->expiry_date)
-                                    <label>{{\Carbon\Carbon::parse($document->expiry_date)->format('d-m-Y')}}</label><br/>
-                                    @endif
+                                    <div class="d-flex flex-column align-items-end">
+                                        @if($document->date_start)
+                                        <span>Data Esecuzione: {{ \Carbon\Carbon::parse($document->date_start)->format('d-m-Y') }}</span>
+                                        @endif
+                                        @if($document->expiry_date)
+                                        <span>Data Scadenza: {{ \Carbon\Carbon::parse($document->expiry_date)->format('d-m-Y') }}</span>
+                                        @endif
+                                    </div>
                                     @if($document->file)
                                     <a class="link-underline link-underline-opacity-0 link-dark fw-bold" href="{{ asset("storage/{$document->file}") }}" download="{{ $document->name }}" >
                                         <p class="mb-0"><i class="bi bi-download pe-2"></i> Download</p>
@@ -41,7 +44,6 @@
                             </ul>
                         </div>
                     </div>
-                    
                     
                 </div>
                 <div class="col-lg-8">

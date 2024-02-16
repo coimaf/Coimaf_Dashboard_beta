@@ -43,14 +43,18 @@
                 <input type="text" name="registration_year" class="form-control" value="{{ \Carbon\Carbon::parse($vehicle->registration_year)->format('d-m-Y') }}" required>
             </div>
 
-            <div>
+            <div class="col-12">
                 <div id="documents">
+                    <!-- Loop attraverso i documenti esistenti per la visualizzazione e modifica -->
                     @foreach ($vehicle->documents as $key => $document)
-                        <div class="document row align-items-center">
+                        <div class="document row align-items-center my-3">
                             <div class="col-12 col-md-3">
+                                <label for="">Nome del documento</label>
                                 <input class="form-control" type="text" name="document_name[]" placeholder="Nome del documento" value="{{ $document->name }}">
                             </div>
                             <div class="col-12 col-md-3">
+                                <label for="">File del documento</label>
+                                <!-- Aggiungi condizione per mostrare il campo solo se il documento ha un file -->
                                 @if ($document->file)
                                     <input class="form-control" type="file" name="document_file[]">
                                 @else
@@ -58,9 +62,11 @@
                                 @endif
                             </div>
                             <div class="col-12 col-md-3">
+                                <label for="">Data Esecuzione</label>
                                 <input class="form-control" type="date" name="document_date_start[]" value="{{ $document->date_start }}">
                             </div>
                             <div class="col-12 col-md-3">
+                                <label for="">Data Scadenza</label>
                                 <input class="form-control" type="date" name="document_expiry_date[]" value="{{ $document->expiry_date }}">
                             </div>
                             <!-- Aggiungi un campo nascosto per l'ID del documento -->
@@ -68,13 +74,43 @@
                         </div>
                     @endforeach
                 </div>
+                <!-- Aggiungi un pulsante per aggiungere un nuovo documento -->
+                <button type="button" class="btn btn-primary my-3" onclick="addDocument()">Aggiungi documento</button>
             </div>
-            
-            
-            
+
+            <!-- Altri campi per la modifica del veicolo -->
+
             <div class="row mt-5">
-                <x-Buttons.buttonBlue type="submit" props="Aggiorna" />
+                <x-Buttons.buttonBlue type="submit" props="Modifica" />
             </div>
         </div>
-    
+    </form>
+
+    <script>
+        // Funzione per aggiungere un nuovo campo documento
+        function addDocument() {
+            var container = document.getElementById('documents');
+            var newDocument = document.createElement('div');
+            newDocument.classList.add('document', 'row', 'align-items-center', 'my-3');
+            newDocument.innerHTML = `
+                <div class="col-12 col-md-3">
+                    <label for="">Nome del documento</label>
+                    <input class="form-control" type="text" name="new_document_name[]" placeholder="Nome del documento">
+                </div>
+                <div class="col-12 col-md-3">
+                    <label for="">File del documento</label>
+                    <input class="form-control" type="file" name="new_document_file[]">
+                </div>
+                <div class="col-12 col-md-3">
+                    <label for="">Data Esecuzione</label>
+                    <input class="form-control" type="date" name="new_document_date_start[]">
+                </div>
+                <div class="col-12 col-md-3">
+                    <label for="">Data Scadenza</label>
+                    <input class="form-control" type="date" name="new_document_expiry_date[]">
+                </div>
+            `;
+            container.appendChild(newDocument);
+        }
+    </script>
 </x-Layouts.layoutDash>

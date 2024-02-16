@@ -175,10 +175,27 @@ class VehicleController extends Controller
             }
         }
     
+        // Se sono stati forniti nuovi documenti, li salva
+        if ($request->filled('new_document_name')) {
+            foreach ($request->input('new_document_name') as $key => $documentName) {
+                // Crea un nuovo documento
+                $newDocument = new VehicleDocument();
+                $newDocument->name = $documentName;
+                $newDocument->date_start = $request->input('new_document_date_start.' . $key);
+                $newDocument->expiry_date = $request->input('new_document_expiry_date.' . $key);
+    
+                // Se è fornito un file, lo salva
+                if ($request->hasFile('new_document_file.' . $key)) {
+                    $newDocument->file = $request->file('new_document_file')[$key]->store('documents', 'public');
+                }
+    
+                // Associa il documento al veicolo
+                $vehicle->documents()->save($newDocument);
+            }
+        }
+    
         return redirect()->route("dashboard.vehicles.index")->with("success", "Veicolo aggiornato con successo.");
     }
-    
-    
     
     
     
