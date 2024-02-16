@@ -68,23 +68,14 @@
     
     <div class="col-md-3 my-2">
       <div class="card container-filter-home text-black" style="width: 80%;">
-          <h4 class="card-title text-center py-3 text-uppercase fw-bold" style="color: #ffffff; background-color: #081B49;">Articoli sotto scorta</h4>
+          <h4 class="card-title text-center py-3 text-uppercase fw-bold" style="color: #ffffff; background-color: #081B49;">Articoli sottoscorta</h4>
           <div class="container p-3">
               <div class="row flex-column">
                   <div class="col-md-6 w-100 d-flex align-items-center">
-                      <a href="{{ route('dashboard.vehicles.index', ['inscadenza' => true]) }}" class="text-decoration-none text-dark">
+                      <a href="{{ route('items_under_stock')}}" class="text-decoration-none text-dark">
                           <div class="card-custom card text-warning fw-bold">
                               <div class="card-body">
-                                  <p class="card-text">........................</p>
-                              </div>
-                          </div>
-                      </a>
-                  </div>
-                  <div class="col-md-6 w-100 d-flex align-items-center">
-                      <a href="{{ route('dashboard.vehicles.index', ['scaduti' => true]) }}" class="text-decoration-none text-dark">
-                          <div class="card-custom card text-danger fw-bold">
-                              <div class="card-body">
-                                  <p class="card-text">........................</p>
+                                  <p class="card-text"><i class="bi pe-3 bi-exclamation-triangle-fill fs-1"></i> Sottoscorta: {{count($itemsUnderstock)}}</p>
                               </div>
                           </div>
                       </a>
