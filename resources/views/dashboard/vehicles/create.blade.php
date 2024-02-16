@@ -34,24 +34,61 @@
                 <label for="registration_year">Anno immatricolazione*</label>
                 <input type="date" name="registration_year" class="form-control" required>
             </div>
-
-            @foreach($documents as $document)
-                <div class="col-12 col-md-6">
-                    <div class="form-control my-3">
-                        <label class="my-3" for="path_{{ $document->id }}">{{ $document->name }}</label>
-                        <input type="file" class="form-control" id="path_{{ $document->id }}" name="documents[{{ $document->id }}][]" required>
-
-                        <label class="my-3" for="expiry_date_{{ $document->id }}">Data di Scadenza per {{ $document->name }}</label>
-                        <input type="date" class="form-control" id="expiry_date_{{ $document->id }}" name="expiry_dates[{{ $document->id }}]" required>
+            
+            <div>
+                <h3 class="my-4">Aggiungi Documenti</h3>
+                <div id="documents">
+                    <div class="document row align-items-center">
+                        <div class="col-12 col-md-3">
+                            <input class="form-control" type="text" name="document_name[]" placeholder="Nome del documento">
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <input class="form-control" type="file" name="document_file[]">
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <input class="form-control" type="date" name="document_date_start[]">
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <input class="form-control" type="date" name="document_expiry_date[]">
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <button class="btn" type="button" onclick="addDocument()"><i class="bi bi-plus-circle fs-3 text-success"></i></button>
+                        </div>
                     </div>
                 </div>
-            @endforeach
-
+            </div>
+            
             <div class="row py-3">
                 <x-Buttons.buttonBlue type="submit" props="Aggiungi" />
             </div>
-
+            
         </div>
     </form>
     
 </x-Layouts.layoutDash>
+
+
+<script>
+    function addDocument() {
+        var container = document.getElementById('documents');
+        var newDocument = document.createElement('div');
+        newDocument.classList.add('document');
+        newDocument.innerHTML = `
+        <div class="document row align-items-center my-4">
+            <div class="col-12 col-md-3">
+                <input class="form-control" type="text" name="document_name[]" placeholder="Nome del documento">
+            </div>
+            <div class="col-12 col-md-3">
+                <input class="form-control" type="file" name="document_file[]">
+            </div>
+            <div class="col-12 col-md-3">
+                <input class="form-control" type="date" name="document_date_start[]">
+            </div>
+            <div class="col-12 col-md-3">
+                <input class="form-control" type="date" name="document_expiry_date[]">
+            </div>
+        </div>
+        `;
+        container.appendChild(newDocument);
+    }
+</script>

@@ -6,16 +6,15 @@ use App\Models\Vehicle;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Maintenance extends Model
+class VehicleDocument extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'name', 'start_at', 'expiry_date', 'vehicle_id',
-    ];
-
+    protected $fillable = [ 'vehicle_id', 'name', 'file', 'date_start', 'expiry_date' ];
+    
     public function vehicle()
     {
         return $this->belongsTo(Vehicle::class);
     }
+    
 }

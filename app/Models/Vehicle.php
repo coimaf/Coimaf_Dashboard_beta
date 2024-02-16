@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Maintenance;
 use App\Models\TypeVehicle;
 use App\Models\DocumentVehicle;
+use App\Models\VehicleDocument;
 use App\Models\DocumentVehicles;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -14,91 +15,33 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Vehicle extends Model
 {
     use HasFactory;
-
-
+    
+    
     protected $fillable =  [
         'brand',
         'model',
         'license_plate',
         'chassis',
         'registration_year',
-        ];
+    ];
     
     public function user() {
         return $this->belongsTo(User::class);
     }
-
+    
     public function updatedBy()
     {
         return $this->belongsTo(User::class, 'updated_by_id');
     }
-
+    
     public function TypeVehicle() 
     {
-       return $this->belongsTo(TypeVehicle::class);
+        return $this->belongsTo(TypeVehicle::class);
     }
-
+    
     public function documents()
     {
-        return $this->hasMany(DocumentVehicles::class);
-    }
-
-
-    public function documentsName()
-    {
-        return $this->hasMany(DocumentVehicle::class);
-    }
-
-    public function maintenances()
-    {
-        return $this->hasMany(Maintenance::class);
-    }
-
-    public function getDocumentStatuses()
-{
-    $status = 'green';
-    $icon = '';
-    $tooltipText = '';
-    $expiredDocuments = collect();
-    $expiringDocuments = collect();
-    $daysRemaining = 0; // Inizializza la variabile $daysRemaining
-    
-    foreach ($this->documents as $document) {
-        $expiryDate = Carbon::parse($document->expiry_date);
-        $documentVehicle = DocumentVehicle::find($document->document_id); // Correggi il nome dell'attributo 'document_id'
-        
-        if ($expiryDate->isPast()) {
-            if ($documentVehicle) {
-                $expiredDocuments->push($documentVehicle->name);
-            }
-            $status = 'red';
-        } elseif ($expiryDate->diffInDays(now()) <= 60 && $status !== 'red') {
-            if ($documentVehicle) {
-                $expiringDocuments->push($documentVehicle->name);
-            }
-            $status = 'yellow';
-        }
-    
-        // Calcola i giorni rimanenti fino alla scadenza
-        $daysRemaining = now()->diffInDays($expiryDate, false);
+        return $this->hasMany(VehicleDocument::class);
     }
     
-    $icon = match ($status) {
-        'red' => '<i class="bi bi-dash-circle-fill text-danger fs-3"></i>',
-        'yellow' => '<i class="bi bi-exclamation-circle-fill text-warning fs-3"></i>',
-        default => '<i class="bi bi-check-circle-fill text-success fs-3"></i>',
-    };
-    
-    if ($expiredDocuments->isNotEmpty()) {
-        $tooltipText .= 'Scaduti: ' . implode(', ', $expiredDocuments->toArray()) . "\n";
-    }
-    
-    if ($expiringDocuments->isNotEmpty()) {
-        $tooltipText .= 'Stanno per scadere: ' . implode(', ', $expiringDocuments->toArray()) . "\n";
-    }
-    
-    // Restituisci un array contenente 'daysRemaining'
-    return compact('icon', 'tooltipText', 'daysRemaining');
-}
-
 }

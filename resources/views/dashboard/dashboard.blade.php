@@ -94,7 +94,7 @@
                         <a href="{{ route('dashboard.vehicles.index', ['inscadenza' => true]) }}" class="text-decoration-none text-dark">
                             <div class="card-custom card text-warning fw-bold">
                                 <div class="card-body">
-                                    <p class="card-text"><i class="bi pe-3 bi-exclamation-triangle-fill fs-1"></i> In scadenza: {{ $expiringVehiclesCount }} </p>
+                                    <p class="card-text"><i class="bi pe-3 bi-exclamation-triangle-fill fs-1"></i> In scadenza: </p>
                                 </div>
                             </div>
                         </a>
@@ -103,7 +103,7 @@
                         <a href="{{ route('dashboard.vehicles.index', ['scaduti' => true]) }}" class="text-decoration-none text-dark">
                             <div class="card-custom card text-danger fw-bold">
                                 <div class="card-body">
-                                    <p class="card-text"><i class="bi pe-3 bi-x-circle-fill fs-1"></i> Scaduti: {{ $expiredVehiclesCount }}</p>
+                                    <p class="card-text"><i class="bi pe-3 bi-x-circle-fill fs-1"></i> Scaduti: </p>
                                 </div>
                             </div>
                         </a>

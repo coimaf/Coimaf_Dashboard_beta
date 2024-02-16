@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('maintenances', function (Blueprint $table) {
+        Schema::create('vehicle_documents', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('vehicle_id');
-            $table->string('name')->nullable();
-            $table->text('start_at')->nullable();
-            $table->text('expiry_date')->nullable();
-            $table->timestamps();
-
             $table->foreign('vehicle_id')->references('id')->on('vehicles')->onDelete('cascade');
+            $table->string('name');
+            $table->string('file')->nullable();
+            $table->date('date_start')->nullable();
+            $table->date('expiry_date')->nullable();
+            $table->timestamps();
         });
     }
 
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('maintenances');
+        Schema::dropIfExists('vehicle_documents');
     }
 };

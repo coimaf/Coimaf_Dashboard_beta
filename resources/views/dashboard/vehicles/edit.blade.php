@@ -42,70 +42,33 @@
                 <label class="my-2" for="registration_year">Anno immatricolazione</label>
                 <input type="text" name="registration_year" class="form-control" value="{{ \Carbon\Carbon::parse($vehicle->registration_year)->format('d-m-Y') }}" required>
             </div>
-            
-            @foreach($documents as $document)
-            <div class="col-12 col-md-6">
-                <div class="form-control">
-                    <label class="my-3" for="path_{{ $document->id }}">{{ $document->name }}</label>
-                    <input type="file" class="form-control" id="path_{{ $document->id }}" name="documents[{{ $document->id }}][]">
-                    
-                    <label class="my-3" for="expiry_date_{{ $document->id }}">Data di Scadenza per {{ $document->name }}</label>
-                    <input type="date" class="form-control" id="expiry_date_{{ $document->id }}" name="expiry_dates[{{ $document->id }}]"
-                    value="{{ $documentsDate->firstWhere('document_id', $document->id)->expiry_date ?? '' }}">
-                </div>
-            </div>
-            @endforeach
-            
-            <!-- Form per l'aggiunta di una nuova manutenzione -->
-            <div class="row g-3 my-3">
-                <div class="col-12">
-                    <h6 class="fw-bold pt-4 fs-5">Aggiungi Manutenzione</h6>
-                </div>
-                
-                <div class="col-12 col-md-4">
-                    <label class="my-2" for="name">Nome Manutenzione</label>
-                    <input type="text" name="name" class="form-control">
-                </div>
-                
-                <div class="col-12 col-md-4">
-                    <label class="my-2" for="start_at">Data Manutenzione</label>
-                    <input type="date" name="start_at" class="form-control">
-                </div>
-            
-            </div>
-        </form>
-            
-            @if($maintenance->isNotEmpty())
-            <!-- Visualizzazione delle manutenzioni esistenti -->
-            @foreach ($maintenance as $item)
-            
-            <div class="row g-3 my-3 bg-white border border-1 m-2 rounded-2 align-items-center">
-                <div class="col-12 col-md-3">
-                    <p>{{$item->name}}</p>
-                </div>
-                
-                @if ($item->start_at || $item->expiry_date)
-                            
-                <div class="col-12 col-md-3">
-                   <p>{{\Carbon\Carbon::parse($item->start_at)->format('d-m-Y')}}</p>
-                </div>
 
-                @else
-                <div class="col-12 col-md-3">
-                </div>
-                @endif
-
-                <div class="col-12 col-md-3 m-0">
-                    <form action="{{ route('maintenance.destroy', ['vehicle' => $vehicle, 'maintenance' => $item]) }}" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <button class="btn btn-outline-danger">Elimina</button>
-                    </form>
+            <div>
+                <div id="documents">
+                    @foreach ($vehicle->documents as $key => $document)
+                        <div class="document row align-items-center">
+                            <div class="col-12 col-md-3">
+                                <input class="form-control" type="text" name="document_name[]" placeholder="Nome del documento" value="{{ $document->name }}">
+                            </div>
+                            <div class="col-12 col-md-3">
+                                @if ($document->file)
+                                    <input class="form-control" type="file" name="document_file[]">
+                                @else
+                                    <input class="form-control" type="file" name="document_file[]">
+                                @endif
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <input class="form-control" type="date" name="document_date_start[]" value="{{ $document->date_start }}">
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <input class="form-control" type="date" name="document_expiry_date[]" value="{{ $document->expiry_date }}">
+                            </div>
+                            <!-- Aggiungi un campo nascosto per l'ID del documento -->
+                            <input type="hidden" name="document_id[]" value="{{ $document->id }}">
+                        </div>
+                    @endforeach
                 </div>
             </div>
-            
-            @endforeach
-            @endif
             
             
             
