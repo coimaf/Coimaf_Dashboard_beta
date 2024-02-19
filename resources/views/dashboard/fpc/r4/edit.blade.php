@@ -5,11 +5,11 @@
         @csrf
         @method('PUT')
         <div class="row g-3">
-                        
+            
             <div class="col-12 col-md-4">
                 <input placeholder="Nome" value="{{$r4->name}}" type="text" name="name" class="form-control">
             </div>
-
+            
             <div class="col-12 col-md-4">
                 <select class="form-control" name="type_r4_id" id="type_r4_id" required>            
                     @foreach ($typer4 as $type)    
@@ -29,24 +29,91 @@
             <div class="col-12 col-md-4">
                 <input value="{{$r4->control_frequency}}" placeholder="Frequenza Controllo" type="text" name="control_frequency" class="form-control mt-4 text-uppercase">
             </div>
-
+            
             <div class="col-12 col-md-4">
                 <label for="buy_date">Data Acquisto</label>
                 <input value="{{$r4->buy_date}}" type="date" name="buy_date" class="form-control">
             </div>
-
+            
             <div class="col-12 col-md-12">
                 <label for="description">Descrizione</label>
                 <textarea name="description" class="form-control w-100" rows="4" style="resize: none;">{{ $r4->description }}</textarea>
             </div>
             
+            <div class="col-12 bg-white">
+                <div id="documents">
+                    <h3>Documenti</h3>
+                    <!-- Loop attraverso i documenti esistenti per la visualizzazione e modifica -->
+                    @foreach ($r4->documents as $key => $document)
+                    <div class="document row align-items-center my-3">
+                        <div class="col-12 col-md-3">
+                            <label for="">Nome del documento</label>
+                            <input class="form-control" type="text" name="document_name[]" placeholder="Nome del documento" value="{{ $document->name }}">
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <label for="">File del documento</label>
+                            <!-- Aggiungi condizione per mostrare il campo solo se il documento ha un file -->
+                            @if ($document->file)
+                            <input class="form-control" type="file" name="document_file[]">
+                            @else
+                            <input class="form-control" type="file" name="document_file[]">
+                            @endif
+                        </div>
+                        <div class="col-12 col-md-2">
+                            <label for="">Data Esecuzione</label>
+                            <input class="form-control" type="date" name="document_date_start[]" value="{{ $document->date_start }}">
+                        </div>
+                        <div class="col-12 col-md-2">
+                            <label for="">Data Scadenza</label>
+                            <input class="form-control" type="date" name="document_expiry_date[]" value="{{ $document->expiry_date }}">
+                        </div>
+                        <!-- Aggiungi un campo nascosto per l'ID del documento -->
+                        <input type="hidden" name="document_id[]" value="{{ $document->id }}">
+                        
+                        @endforeach
+                        <div class="col-12 col-md-2">
+                            <!-- Aggiungi un pulsante per aggiungere un nuovo documento -->
+                            <button type="button" class="btn mt-3" onclick="addDocument()"><i class="bi bi-plus-circle fs-3 text-success"></i></button>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
             
             
             <div class="row py-3">
-                <x-Buttons.buttonBlue type="submit" props="Aggiungi" />
+                <x-Buttons.buttonBlue type="submit" props="Modifica" />
             </div>
-            
         </div>
     </form>
     
 </x-Layouts.layoutDash>
+
+
+<script>
+    // Funzione per aggiungere un nuovo campo documento
+    function addDocument() {
+        var container = document.getElementById('documents');
+        var newDocument = document.createElement('div');
+        newDocument.classList.add('document', 'row', 'align-items-center', 'my-3');
+        newDocument.innerHTML = `
+        <div class="col-12 col-md-3">
+            <label for="">Nome del documento</label>
+            <input class="form-control" type="text" name="new_document_name[]" placeholder="Nome del documento" required>
+        </div>
+        <div class="col-12 col-md-3">
+            <label for="">File del documento</label>
+            <input class="form-control" type="file" name="new_document_file[]">
+        </div>
+        <div class="col-12 col-md-2">
+            <label for="">Data Esecuzione</label>
+            <input class="form-control" type="date" name="new_document_date_start[]">
+        </div>
+        <div class="col-12 col-md-2">
+            <label for="">Data Scadenza</label>
+            <input class="form-control" type="date" name="new_document_expiry_date[]">
+        </div>
+        `;
+        container.appendChild(newDocument);
+    }
+</script>

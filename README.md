@@ -195,6 +195,20 @@ php artisan ldap:browse
 - [x] Filtra;
 - [x] Cerca;
 
+### FPC
+## R4
+- [x] CRUD per modulo R4;
+    - [x] index;
+    - [x] create;
+    - [x] store;
+    - [x] show;
+    - [x] edit;
+    - [x] update;
+    - [ ] destroy;
+- [x] Relazione con i documenti;
+- [x] Filtra;
+- [x] Cerca;
+
 ### Homepage
 - [x] Mostra i ticket aperti - in attesa di ricambio - urgenti.
 - [x] Mostra le scadenze di scadenzario in scadenza - scaduti.
@@ -226,3 +240,4 @@ php artisan ldap:browse
 - [x] Cambiare email e DB fittizio dal controller Ticket in create e store;
 - [ ] Testare le mail operativo e assistenza in ticket - deadline - employee
 - [ ] Aggiungere invio email di scadenze flotta ad amministrazione@coimaf.com
+- [ ] Errore visualizzazione in fase di edit dei documenti di flotta e fpc

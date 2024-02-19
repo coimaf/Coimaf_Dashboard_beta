@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\User;
 use App\Models\TypeR4;
+use App\Models\R4Document;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -33,5 +34,10 @@ class R4 extends Model
     public function TypeR4() 
     {
         return $this->belongsTo(TypeR4::class);
+    }
+
+    public function documents()
+    {
+        return $this->hasMany(R4Document::class);
     }
 }

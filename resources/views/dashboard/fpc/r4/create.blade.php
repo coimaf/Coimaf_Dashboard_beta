@@ -40,6 +40,33 @@
                 <textarea name="description" class="form-control w-100" rows="4" style="resize: none;"></textarea>
             </div>
             
+
+            <div>
+                <h3 class="my-4">Aggiungi Documenti</h3>
+                <div id="documents">
+                    <div class="document row align-items-center">
+                        <div class="col-12 col-md-3">
+                            <label for=""> </label>
+                            <input class="form-control" type="text" name="document_name[]" placeholder="Nome del documento">
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <label for=""> </label>
+                            <input class="form-control" type="file" name="document_file[]">
+                        </div>
+                        <div class="col-12 col-md-2">
+                            <label for="">Data Esecuzione</label>
+                            <input class="form-control" type="date" name="document_date_start[]">
+                        </div>
+                        <div class="col-12 col-md-2">
+                            <label for="">Data Scadenza</label>
+                            <input class="form-control" type="date" name="document_expiry_date[]">
+                        </div>
+                        <div class="col-12 col-md-2 p-0 mt-3">
+                            <button class="btn" type="button" onclick="addDocument()"><i class="bi bi-plus-circle fs-3 text-success"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             
             
             <div class="row py-3">
@@ -50,3 +77,29 @@
     </form>
     
 </x-Layouts.layoutDash>
+
+
+<script>
+    function addDocument() {
+        var container = document.getElementById('documents');
+        var newDocument = document.createElement('div');
+        newDocument.classList.add('document');
+        newDocument.innerHTML = `
+        <div class="document row align-items-center my-4">
+            <div class="col-12 col-md-3">
+                <input class="form-control" type="text" name="document_name[]" placeholder="Nome del documento">
+            </div>
+            <div class="col-12 col-md-3">
+                <input class="form-control" type="file" name="document_file[]">
+            </div>
+            <div class="col-12 col-md-2">
+                <input class="form-control" type="date" name="document_date_start[]">
+            </div>
+            <div class="col-12 col-md-2">
+                <input class="form-control" type="date" name="document_expiry_date[]">
+            </div>
+        </div>
+        `;
+        container.appendChild(newDocument);
+    }
+</script>
