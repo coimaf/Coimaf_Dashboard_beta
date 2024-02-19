@@ -11,12 +11,14 @@
             </div>
             
             <div class="col-12 col-md-4">
-                <select class="form-control" name="type_r4_id" id="type_r4_id" required>            
+                <select class="form-control" name="type_r4_id" id="type_r4_id">            
+                    <option value="">Seleziona tipo</option> <!-- Aggiungi questa opzione per indicare di selezionare un tipo -->
                     @foreach ($typer4 as $type)    
-                    <option value="{{$type->id}}" {{$r4->typer4->name == $type->name ? 'selected' : ''}}>{{$type->name}}</option>  
+                        <option value="{{ $type->id }}" {{ isset($r4->typer4) && $r4->typer4->name == $type->name ? 'selected' : '' }}>{{ $type->name }}</option>  
                     @endforeach            
                 </select>                                              
             </div>
+                     
             
             <div class="col-12 col-md-4">
                 <input placeholder="Matricola" value="{{$r4->serial_number}}" type="text" name="serial_number" class="form-control">

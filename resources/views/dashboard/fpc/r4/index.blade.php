@@ -47,7 +47,7 @@
                 
                 <td class="ps-3">
                     <a class="link-underline link-underline-opacity-0 link-dark" href="{{ route('dashboard.r4.show', compact('r4')) }}"> 
-                        <p>documenti</p>
+                        <i data-mdb-tooltip-init title="{{ $r4->getDocumentStatuses()['tooltipText'] }}" class="{{ $r4->getDocumentStatuses()['icon'] }}"></i>
                     </a>
                 </td>
                 

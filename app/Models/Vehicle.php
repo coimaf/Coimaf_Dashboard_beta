@@ -60,17 +60,20 @@ class Vehicle extends Model
         $daysRemaining = 0;
     
         foreach ($this->documents as $document) {
-            $expiryDate = Carbon::parse($document->expiry_date);
+            // Verifica se expiry_date non è vuoto
+            if ($document->expiry_date) {
+                $expiryDate = Carbon::parse($document->expiry_date);
     
-            if ($expiryDate->isPast()) {
-                $expiredDocuments->push($document->name);
-            } elseif ($expiryDate->diffInDays(now()) <= 60 && $status !== 'red') {
-                $status = 'yellow';
-                $expiringDocuments->push($document->name);
+                if ($expiryDate->isPast()) {
+                    $expiredDocuments->push($document->name);
+                } elseif ($expiryDate->diffInDays(now()) <= 60 && $status !== 'red') {
+                    $status = 'yellow';
+                    $expiringDocuments->push($document->name);
+                }
+    
+                // Calcola i giorni rimanenti fino alla scadenza
+                $daysRemaining = now()->diffInDays($expiryDate, false);
             }
-    
-            // Calcola i giorni rimanenti fino alla scadenza
-            $daysRemaining = now()->diffInDays($expiryDate, false);
         }
     
         // Se ci sono documenti scaduti, assegna la priorità dell'icona a 'red'
@@ -96,5 +99,6 @@ class Vehicle extends Model
         // Restituisci un array contenente 'icon', 'tooltipText' e 'daysRemaining'
         return compact('icon', 'tooltipText', 'daysRemaining');
     }
+    
     
 }
