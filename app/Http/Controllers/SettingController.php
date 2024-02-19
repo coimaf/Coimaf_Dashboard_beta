@@ -210,23 +210,4 @@ class SettingController extends Controller
 
         return redirect()->route('dashboard.settings.vehicle.create')->with('success', 'Tipo di veicolo rimosso con successo!');
     }
-
-    public function documentVehiclesCreate()
-    {
-        $documentVehicles = DocumentVehicle::all();
-        return view('dashboard.settings.vehicle.documentVehicleCreate', compact('documentVehicles'));
-    }
-
-    public function documentVehiclesStore(Request $request)
-    {
-        $documentVehicles = DocumentVehicle::create(['name' => $request->name]);
-        return redirect()->route('dashboard.settings.documentVehiclesCreate.create')->with('success', 'Tipo di documento aggiunto con successo!');
-    }
-
-    public function documentVehiclesDelete($documentVehicleId)
-    {
-        $documentVehicles = DocumentVehicle::find($documentVehicleId);
-        $documentVehicles->delete();
-        return redirect()->route('dashboard.settings.documentVehiclesCreate.create')->with('success', 'Tipo di documento eliminato con successo!');
-    }
 }

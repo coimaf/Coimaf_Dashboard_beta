@@ -225,3 +225,4 @@ php artisan ldap:browse
 - [x] Updatedby non funziona nelle notifiche di employee
 - [x] Cambiare email e DB fittizio dal controller Ticket in create e store;
 - [ ] Testare le mail operativo e assistenza in ticket - deadline - employee
+- [ ] Aggiungere invio email di scadenze flotta ad amministrazione@coimaf.com

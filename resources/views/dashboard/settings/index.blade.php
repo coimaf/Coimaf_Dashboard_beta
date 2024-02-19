@@ -95,22 +95,21 @@
                                             <a href="{{ route('dashboard.settings.vehicle.create') }}"><i class="bi bi-pencil-square text-warning fs-5 mx-2"></i></a>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td>
-                                            <p class="mb-0">Tipo Documento</p>
-                                            <label class="text-muted">Aggiungi o rimuovi i tipi di documenti da aggiungere alla Flotta.</label>
-                                        </td>
-                                        <td>
-                                            <a href="{{ route('dashboard.settings.documentVehiclesCreate.create') }}"><i class="bi bi-pencil-square text-warning fs-5 mx-2"></i></a>
-                                        </td>
+                                </tbody>
+                                <thead>
+                                    <tr class="">
+                                        <th>FPC</th>
+                                        <th></th>
                                     </tr>
+                                </thead>
+                                <tbody>
                                     <tr>
                                         <td>
-                                            <p class="mb-0">Tipo Manutenzione</p>
-                                            <label class="text-muted">Aggiungi o rimuovi i tipi di manutenzione da aggiungere alla Flotta.</label>
+                                            <p class="mb-0">R4</p>
+                                            <label class="text-muted">Aggiungi o rimuovi i tipi da aggiungere a FPC R4.</label>
                                         </td>
                                         <td>
-                                            <a href="{{ route('dashboard.settings.documentVehiclesCreate.create') }}"><i class="bi bi-pencil-square text-warning fs-5 mx-2"></i></a>
+                                            <a href="{{ route('dashboard.settings.r4.create') }}"><i class="bi bi-pencil-square text-warning fs-5 mx-2"></i></a>
                                         </td>
                                     </tr>
                                 </tbody>

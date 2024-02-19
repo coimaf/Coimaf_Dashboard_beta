@@ -70,6 +70,14 @@
                     </a>
                 </li>
                 @endif
+                @if(Str::contains(auth()->user()->groups, 'GESTIONALE-Impostazioni'))
+                <li class="nav-item">
+                    <a href="{{ route('dashboard.fpc.index') }}" class="nav-link {{ Request::is('fpc') ? 'active' : '' }}" aria-current="page">
+                        <i class="bi bi-journal-richtext pe-2"></i>
+                        FPC
+                    </a>
+                </li>
+                @endif
             </ul>
             <hr>
             <div class="dropdown">

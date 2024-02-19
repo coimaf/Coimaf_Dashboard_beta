@@ -66,7 +66,7 @@
         </div>
     </div>
     
-    <div class="col-md-3 my-2">
+    {{-- <div class="col-md-3 my-2">
       <div class="card container-filter-home text-black" style="width: 80%;">
           <h4 class="card-title text-center py-3 text-uppercase fw-bold" style="color: #ffffff; background-color: #081B49;">Articoli sottoscorta</h4>
           <div class="container p-3">
@@ -83,7 +83,7 @@
               </div>
           </div>
       </div>
-  </div>
+  </div> --}}
 
       <div class="col-md-3 my-2">
         <div class="card container-filter-home text-black" style="width: 80%;">
