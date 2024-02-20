@@ -210,7 +210,7 @@ class TicketController extends Controller
         
         public function update(Request $request, $id)
         {
-
+            
             // Trova il ticket da aggiornare
             $ticket = Ticket::findOrFail($id);
             
@@ -233,29 +233,33 @@ class TicketController extends Controller
             
             $ticket->save();
             
-             // Verifica se esistono sostituzioni associate a questo ticket
-    $existingReplacements = Replacement::where('ticket_id', $ticket->id)->get();
-    
-    if ($existingReplacements->isEmpty()) {
-        // Se non ci sono sostituzioni esistenti, crea una nuova istanza di Replacement
-        $replacement = new Replacement();
-    } else {
-        // Se ci sono sostituzioni esistenti, prendi la prima riga (presumendo che ce ne sia solo una)
-        $replacement = $existingReplacements->first();
-    }
-    
-    // Aggiorna i campi di Replacement solo se i valori non sono vuoti
-    if ($request->filled(['art', 'desc', 'qnt', 'prz', 'tot', 'sconto'])) {
-        $replacement->ticket_id = $ticket->id;
-        $replacement->art = $request->input('art');
-        $replacement->desc = $request->input('desc');
-        $replacement->qnt = $request->input('qnt');
-        $replacement->prz = str_replace(',', '.', $request->input('prz')); // Converte il prezzo nel formato corretto
-        $replacement->sconto = $request->input('sconto');
-        $replacement->tot = str_replace(',', '.', $request->input('tot')); // Converte il totale nel formato corretto
-        $replacement->save();
-    }
-    
+            // Verifica se esistono sostituzioni associate a questo ticket
+            $existingReplacements = Replacement::where('ticket_id', $ticket->id)->get();
+            
+            if ($existingReplacements->isEmpty()) {
+                // Se non ci sono sostituzioni esistenti, crea una nuova istanza di Replacement
+                $replacement = new Replacement();
+            } else {
+                // Se ci sono sostituzioni esistenti, prendi la prima riga (presumendo che ce ne sia solo una)
+                $replacement = $existingReplacements->first();
+            }
+            
+            // Aggiorna i campi di Replacement solo se i valori non sono vuoti
+            if ($request->filled(['art', 'desc', 'qnt', 'prz', 'tot', 'sconto'])) {
+                $replacement->ticket_id = $ticket->id;
+                $replacement->art = $request->input('art');
+                $replacement->desc = $request->input('desc');
+                $replacement->qnt = $request->input('qnt');
+                $replacement->prz = str_replace(',', '.', $request->input('prz')); // Converte il prezzo nel formato corretto
+                $replacement->sconto = $request->input('sconto');
+                $replacement->tot = str_replace(',', '.', $request->input('tot')); // Converte il totale nel formato corretto
+                $replacement->save();
+            }
+            
+            $daFatturare = Ticket::where('status', 'Da fatturare')->get();
+            
+            // dd($daFatturare);
+            
             return redirect()->route('dashboard.tickets.edit', compact('ticket'))->with('success', 'Ticket aggiornato con successo!');
         }
         
@@ -263,7 +267,7 @@ class TicketController extends Controller
         {
             $replacement = Replacement::findOrFail($id);
             $replacement->delete();
-        
+            
             return redirect()->back()->with('success', 'Ricambio eliminato con successo');
         }
         
@@ -301,7 +305,6 @@ class TicketController extends Controller
             
             return view('components.printTicket', compact('ticket', 'customers', 'infoCustomers', 'indirizziFiltrati'));
         }
-        
         
     }
     

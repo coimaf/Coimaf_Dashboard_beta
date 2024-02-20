@@ -80,7 +80,7 @@
                     </div>
                 </div>
             </div>
-
+            
             <div class="col-12">
                 <div id="maintenances">
                     <h3>Manutenzioni</h3>
@@ -119,13 +119,38 @@
                 
             </div>
             
-            <div class="row mt-5">
-                <x-Buttons.buttonBlue type="submit" props="Modifica" />
-            </div>
         </div>
     </form>
+    <div class="row fixed-button">
+        <x-Buttons.buttonBlue type="submit" props="Modifica" />
+    </div>
+    
+    
+    <style>
+        
+        .fixed-button {
+            margin-top: 100px;
+            position: fixed;
+            bottom: 0;
+            width: 80%;
+            z-index: 1000; /* Assicurati che il pulsante sia sopra gli altri elementi */
+        }
+        
+    </style>
     
     <script>
+        function scrollToBottom() {
+            window.scrollTo({
+                top: document.body.scrollHeight,
+                behavior: 'smooth'
+            });
+        }
+        
+        // Funzione per scorrere la pagina fino a un elemento specifico
+        function scrollToElement(element) {
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        
         // Funzione per aggiungere un nuovo campo documento
         function addDocument() {
             var container = document.getElementById('documents');
@@ -149,9 +174,17 @@
                 <input class="form-control" type="date" name="new_document_expiry_date[]">
             </div>
             `;
-            container.appendChild(newDocument);
+            // Trova il container delle manutenzioni
+            var maintenancesContainer = document.getElementById('maintenances');
+            
+            // Aggiungi il nuovo documento sopra il container delle manutenzioni
+            maintenancesContainer.parentNode.insertBefore(newDocument, maintenancesContainer);
+            
+            // Scorrere la pagina verso il nuovo documento
+            scrollToElement(newDocument);
         }
-
+        
+        
         // Funzione per aggiungere un nuovo campo manutenzione
         function addMaintenance() {
             var container = document.getElementById('maintenances');
@@ -180,6 +213,7 @@
             </div>
             `;
             container.appendChild(newMaintenance);
+            scrollToBottom()
         }
     </script>
 </x-Layouts.layoutDash>

@@ -240,4 +240,4 @@ php artisan ldap:browse
 - [x] Cambiare email e DB fittizio dal controller Ticket in create e store;
 - [ ] Testare le mail operativo e assistenza in ticket - deadline - employee
 - [ ] Aggiungere invio email di scadenze flotta ad amministrazione@coimaf.com
-- [ ] Errore visualizzazione in fase di edit dei documenti di flotta e fpc
+- [x] Errore visualizzazione in fase di edit dei documenti di flotta e fpc
