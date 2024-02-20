@@ -48,7 +48,7 @@
                     <h3>Documenti</h3>
                     <!-- Loop attraverso i documenti esistenti per la visualizzazione e modifica -->
                     @foreach ($vehicle->documents as $key => $document)
-                    <div class="document row align-items-center my-3">
+                    <div class="document row align-items-center my-3 mx-0 p-0">
                         <div class="col-12 col-md-3">
                             <label for="">Nome del documento</label>
                             <input class="form-control" type="text" name="document_name[]" placeholder="Nome del documento" value="{{ $document->name }}">
@@ -86,7 +86,7 @@
                     <h3>Manutenzioni</h3>
                     <!-- Loop attraverso le manutenzioni esistenti per la visualizzazione e modifica -->
                     @foreach ($vehicle->maintenances as $key => $maintenance)
-                    <div class="maintenance row align-items-center my-3">
+                    <div class="maintenance row align-items-center my-3 mx-0 p-0">
                         <div class="col-12 col-md-2">
                             <label for="">Nome</label>
                             <input class="form-control" type="text" name="maintenance_name[]" placeholder="Nome*" required value="{{ $maintenance->name }}">

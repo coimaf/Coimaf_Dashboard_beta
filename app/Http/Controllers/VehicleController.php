@@ -41,6 +41,20 @@ class VehicleController extends Controller
         $sortBy = $request->input('sortBy', 'default');
         $direction = $request->input('direction', 'asc');
         $routeName = 'dashboard.vehicles.index';
+
+        if ($request->has('inscadenza')) {
+            $queryBuilder->whereHas('documents', function ($query) {
+                $query->where('expiry_date', '>', now())
+                    ->where('expiry_date', '<=', now()->addDays(60));
+            });
+        }
+        
+        // Aggiungi la condizione per le scadenze scadute
+        if ($request->has('scaduti')) {
+            $queryBuilder->whereHas('documents', function ($query) {
+                $query->where('expiry_date', '<', now());
+            });
+        }
         
         if ($searchTerm) {
             $queryBuilder->where('brand', 'like', '%' . $searchTerm . '%')

@@ -204,7 +204,7 @@ php artisan ldap:browse
     - [x] show;
     - [x] edit;
     - [x] update;
-    - [ ] destroy;
+    - [x] destroy;
 - [x] Relazione con i documenti;
 - [x] Filtra;
 - [x] Cerca;

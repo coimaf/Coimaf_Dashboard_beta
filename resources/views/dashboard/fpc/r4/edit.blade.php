@@ -47,7 +47,7 @@
                     <h3>Documenti</h3>
                     <!-- Loop attraverso i documenti esistenti per la visualizzazione e modifica -->
                     @foreach ($r4->documents as $key => $document)
-                    <div class="document row align-items-center my-3">
+                    <div class="document row align-items-center mx-0 p-0 pb-1">
                         <div class="col-12 col-md-3">
                             <label for="">Nome del documento</label>
                             <input class="form-control" type="text" name="document_name[]" placeholder="Nome del documento" value="{{ $document->name }}">
@@ -73,7 +73,7 @@
                         <input type="hidden" name="document_id[]" value="{{ $document->id }}">
                         
                         @endforeach
-                        <div class="col-12 col-md-2">
+                        <div class="col-12 col-md-1">
                             <!-- Aggiungi un pulsante per aggiungere un nuovo documento -->
                             <button type="button" class="btn mt-3" onclick="addDocument()"><i class="bi bi-plus-circle fs-3 text-success"></i></button>
                         </div>
@@ -83,21 +83,39 @@
             </div>
             
             
-            <div class="row py-3">
-                <x-Buttons.buttonBlue type="submit" props="Modifica" />
-            </div>
         </div>
     </form>
+    <div class="fixed-button row">
+        <x-Buttons.buttonBlue type="submit" props="Modifica" />
+    </div>
     
 </x-Layouts.layoutDash>
 
+<style>
+
+.fixed-button {
+    margin-top: 100px;
+    position: fixed;
+    bottom: 0;
+    width: 80%;
+    z-index: 1000; /* Assicurati che il pulsante sia sopra gli altri elementi */
+}
+
+</style>
+
 
 <script>
+    function scrollToBottom() {
+    window.scrollTo({
+        top: document.body.scrollHeight,
+        behavior: 'smooth'
+    });
+}
     // Funzione per aggiungere un nuovo campo documento
     function addDocument() {
         var container = document.getElementById('documents');
         var newDocument = document.createElement('div');
-        newDocument.classList.add('document', 'row', 'align-items-center', 'my-3');
+        newDocument.classList.add('document', 'row', 'align-items-center', 'my-5', 'mx-0');
         newDocument.innerHTML = `
         <div class="col-12 col-md-3">
             <label for="">Nome del documento</label>
@@ -117,5 +135,6 @@
         </div>
         `;
         container.appendChild(newDocument);
+        scrollToBottom();
     }
 </script>

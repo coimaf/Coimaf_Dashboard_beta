@@ -66,7 +66,7 @@
         </div>
     </div>
     
-    {{-- <div class="col-md-3 my-2">
+    <div class="col-md-3 my-2">
       <div class="card container-filter-home text-black" style="width: 80%;">
           <h4 class="card-title text-center py-3 text-uppercase fw-bold" style="color: #ffffff; background-color: #081B49;">Articoli sottoscorta</h4>
           <div class="container p-3">
@@ -83,7 +83,7 @@
               </div>
           </div>
       </div>
-  </div> --}}
+  </div>
 
       <div class="col-md-3 my-2">
         <div class="card container-filter-home text-black" style="width: 80%;">
@@ -94,7 +94,7 @@
                         <a href="{{ route('dashboard.vehicles.index', ['inscadenza' => true]) }}" class="text-decoration-none text-dark">
                             <div class="card-custom card text-warning fw-bold">
                                 <div class="card-body">
-                                    <p class="card-text"><i class="bi pe-3 bi-exclamation-triangle-fill fs-1"></i> In scadenza: </p>
+                                    <p class="card-text"><i class="bi pe-3 bi-exclamation-triangle-fill fs-1"></i> In scadenza: {{ $expiringVehiclesCount }} </p>
                                 </div>
                             </div>
                         </a>
@@ -103,7 +103,7 @@
                         <a href="{{ route('dashboard.vehicles.index', ['scaduti' => true]) }}" class="text-decoration-none text-dark">
                             <div class="card-custom card text-danger fw-bold">
                                 <div class="card-body">
-                                    <p class="card-text"><i class="bi pe-3 bi-x-circle-fill fs-1"></i> Scaduti: </p>
+                                    <p class="card-text"><i class="bi pe-3 bi-x-circle-fill fs-1"></i> Scaduti: {{ $expiredVehiclesCount }} </p>
                                 </div>
                             </div>
                         </a>
