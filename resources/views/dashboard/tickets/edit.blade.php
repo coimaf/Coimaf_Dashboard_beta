@@ -27,12 +27,14 @@
                 <select name="status" class="form-control" required>
                     <option value="">Seleziona uno stato</option>
                     @foreach(\App\Models\Ticket::getStatusOptions() as $statusOption)
-                    <option value="{{ $statusOption }}" {{ old('status', $ticket->status) == $statusOption ? 'selected' : '' }}>
-                        {{ $statusOption }}
-                    </option>
+                        @if($statusOption !== 'Chiuso')
+                            <option value="{{ $statusOption }}" {{ old('status', $ticket->status) == $statusOption ? 'selected' : '' }}>
+                                {{ $statusOption }}
+                            </option>
+                        @endif
                     @endforeach
                 </select>
-            </div>
+            </div>            
             
             <div class="col-12 col-md-4">
                 <label class="pb-3" for="selectedCustomer">Cliente*</label>

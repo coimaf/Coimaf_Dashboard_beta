@@ -175,14 +175,14 @@ class TicketController extends Controller
         public function show(Ticket $ticket)
         {
             $replacements = Replacement::where('ticket_id', $ticket->id)->get();
-        //     $dataInserted = DB::connection('mssql')
-        //     ->table('DOTes')
-        //     ->where('Cd_MGEsercizio', 2024)
-        //     ->where('Cd_Do', 'RAP')
-        //     ->get();
-        
-        // dd($dataInserted[35]);
-
+            //     $dataInserted = DB::connection('mssql')
+            //     ->table('DOTes')
+            //     ->where('Cd_MGEsercizio', 2024)
+            //     ->where('Cd_Do', 'RAP')
+            //     ->get();
+            
+            // dd($dataInserted[35]);
+            
             return view("dashboard.tickets.show", compact('ticket', 'replacements'));
         }
         
@@ -358,9 +358,15 @@ class TicketController extends Controller
             // dd($newDocNum);
             $replacements = Replacement::where('ticket_id', $ticket->id)->get();
             
+            // Verifica se il ticket è chiuso
+            if ($ticket->closed === null) {
+                // Se il ticket non è chiuso, imposta la data di oggi
+                $ticket->closed = now(); // ora corrente
+            }
+            
             $numero_righe_enable = $replacements->count(); // numero di manutenizioni
-            $dataDocumento = "".date('Y-m-d')."T".date('H:i:s');
-            $EsercizioYear = "".date('Y');
+            $dataDocumento = "".$ticket->closed;
+            $EsercizioYear = date('Y', strtotime($ticket->intervention_date));
             $numero_utente_arca = 104;    //numero utente arca di default
             $nome_utente = 'Default user';
             $accontofissov = 0;//$rowMYSQL7["acconto_fisso"]+0;
@@ -463,6 +469,7 @@ class TicketController extends Controller
             
             // Salva il nuovo numero documento nella colonna rapportino del ticket
             $ticket->rapportino = $newDocNum;
+            
             $ticket->save();
             
         }
