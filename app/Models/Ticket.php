@@ -50,7 +50,7 @@ class Ticket extends Model
 
     public static function getStatusOptions()
     {
-        return ['Aperto', 'In lavorazione', 'In attesa di un ricambio', 'Da fatturare', 'Chiuso'];
+        return ['Aperto', 'In lavorazione', 'In attesa di un ricambio', 'Da fatturare', 'Chiuso', 'Annullato'];
     }
 
     public static function getPriorityOptions()

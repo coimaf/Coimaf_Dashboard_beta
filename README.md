@@ -241,3 +241,6 @@ php artisan ldap:browse
 - [ ] Testare le mail operativo e assistenza in ticket - deadline - employee
 - [ ] Aggiungere invio email di scadenze flotta ad amministrazione@coimaf.com
 - [x] Errore visualizzazione in fase di edit dei documenti di flotta e fpc
+- [ ] Controllare tutte le date null nelle viste perche mostrano le date attuali;
+- [x] Validare seleziona cliente esistente su Tickets;
+- [ ] Validazione di tutti i campi;

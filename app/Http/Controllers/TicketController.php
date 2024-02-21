@@ -175,7 +175,7 @@ class TicketController extends Controller
         public function show(Ticket $ticket)
         {
             $replacements = Replacement::where('ticket_id', $ticket->id)->get();
-            //     $dataInserted = DB::connection('mssql')
+            //     $dataInsertedDefault = DB::connection('mssql')
             //     ->table('DOTes')
             //     ->where('Cd_MGEsercizio', 2024)
             //     ->where('Cd_Do', 'RAP')
@@ -256,17 +256,21 @@ class TicketController extends Controller
                 $replacement->sconto = $request->input('sconto');
                 $replacement->tot = str_replace(',', '.', $request->input('tot')); // Converte il totale nel formato corretto
                 $replacement->save();
+
+                return redirect()->route('dashboard.tickets.edit', compact('ticket'))->with('success', 'Ticket aggiornato con successo!');
             } 
             
             //~ Aggiorna lo stato del ticket solo se è stato modificato
             if ($previousStatus !== $ticket->status && $ticket->status === 'Da fatturare' && $ticket->rapportino === null) {
-                $this->testa($ticket);
+                $this->rapportino($ticket);
+                $ticket->status = 'Chiuso';
+                $ticket->save();
                 
             } elseif($previousStatus !== $ticket->status && $ticket->status === 'Da fatturare' && $ticket->rapportino !== null) {
                 // Funzione di update anziche insert
             }
             
-            return redirect()->route('dashboard.tickets.edit', compact('ticket'))->with('success', 'Ticket aggiornato con successo!');
+            return redirect()->route('dashboard.tickets.show', compact('ticket'))->with('success', 'Ticket aggiornato con successo!');
         }
         
         public function destroyReplacement($id)
@@ -312,9 +316,10 @@ class TicketController extends Controller
             return view('components.printTicket', compact('ticket', 'customers', 'infoCustomers', 'indirizziFiltrati'));
         }
         
-        private function testa(Ticket $ticket)
+        private function rapportino(Ticket $ticket)
         {
-            // $daFatturare = Ticket::where('status', 'Da fatturare')->get();
+            $replacements = Replacement::where('ticket_id', $ticket->id)->get();
+            
             /***************************** TESTA DOCUMENTO ******************************/
             
             // Formo la query per cercare l'ultimo numero di documento
@@ -375,12 +380,16 @@ class TicketController extends Controller
             
             $Cd_aliquota = '227';
             $Aliquota = '22.0';
-            $Cd_CGConto = '51010101001';
+            $Cd_CGConto = '51010101008';
             $trasporto = '01';
             $asp_beni = 'AV';
             $porto = '';
             $spedizione = '';
             $prodotto_default = 'MAN.ASSISTENZA';
+            $i = 0;
+            $um  ='HH';
+            $fattore =1;
+            
             
             if ($ticket->pagato == 1)
             {
@@ -390,26 +399,6 @@ class TicketController extends Controller
             {
                 $accontoperc = 0;
             }
-            
-            $dataDebug = [];
-            
-            $dataDebug[] = "Ultimo numero documento rilevato: " . $tsqlDOTes;
-            $dataDebug[] = "Nuovo numero documento: " . $newDocNum;
-            $dataDebug[] = "Numero righe: " . $numero_righe_enable;
-            $dataDebug[] = "Numero utente ARCA: " . $numero_utente_arca . " (" . $nome_utente . ")";
-            $dataDebug[] = "Data documento: " . $dataDocumento;
-            $dataDebug[] = "Esercizio: " . $EsercizioYear;
-            $dataDebug[] = "Codice Pagamento: " . $codicepagamento;
-            $dataDebug[] = "Banca di sconto: " . $bancasconto;
-            $dataDebug[] = "Acconto percentuale: " . $accontoperc;
-            $dataDebug[] = "Acconto fisso V: " . $accontofissov;
-            $dataDebug[] = "Acconto V: " . $accontov;
-            $dataDebug[] = "Abbuono V: " . $abbuonov;
-            $dataDebug[] = "Numero tiket: " . $ticket->id;
-            $dataDebug[] = "Data intervento: " . $ticket->intervention_date;
-            $dataDebug[] = "Note: " . $ticket->description;
-            
-            // dd($dataDebug);
             
             // Creazione dell'array dei dati da inserire
             $dataToInsert = [
@@ -472,55 +461,85 @@ class TicketController extends Controller
             
             $ticket->save();
             
-        }
-        
-        private function RowMaintenance()
-        {
-            // Creazione dell'array dei dati da inserire
-            // $dataToInsert = [
-                //     'ID_DOTes' => $Id_DOTes,
-                //     'Contabile' => 0,
-                //     'NumeroDoc' => $newDocNum,
-                //     'DataDoc' => $dataDocumento,
-                //     'Cd_MGEsercizio' => $EsercizioYear,
-                //     'Cd_DO' => 'RAP',
-                //     'TipoDocumento' => 'D',
-                //     'Cd_CF' => $clienteDocumento,
-                //     'Cd_VL' => 'EUR',
-                //     'Cambio' => 1,
-                //     'Decimali' => 2,
-                //     'DecimaliPrzUn' => 3,
-                //     'Riga' => $i + 1,
-                //     'Cd_MGCausale' => 'DDT',
-                //     'Cd_MG_P' => 'MP',
-                //     'Cd_AR' => $cd_ar,
-                //     'Descrizione' => prepara_stringa($descrizione),
-                //     'Cd_ARMisura' => $um,
-                //     'Cd_CGConto' => $Cd_CGConto,
-                //     'Cd_Aliquota' => $Cd_aliquota,
-                //     'Cd_Aliquota_R' => $Cd_aliquota,
-                //     'Qta' => $qta,
-                //     'FattoreToUM1' => $fattore,
-                //     'QtaEvadibile' => $qta,
-                //     'QtaEvasa' => 0,
-                //     'PrezzoUnitarioV' => $prezzo,
-                //     'PrezzoTotaleV' => round((float)$prezzo * (float)$qta, 2),
-                //     'PrezzoTotaleMovE' => round((float)$prezzo * (float)$qta, 2),
-                //     'Omaggio' => 1,
-                //     'Evasa' => 0,
-                //     'Evadibile' => 1,
-                //     'Esecutivo' => 1,
-                //     'FattoreScontoRiga' => 0,
-                //     'FattoreScontoTotale' => 0,
-                //     'Id_LSArticolo' => $Id_LSArticolo,
-                //     'UserIns' => $numero_utente_arca,
-                //     'UserUpd' => $numero_utente_arca,
-                //     'NoteRiga' => ucfirst(prepara_stringa($rowMYSQL1["resolution"])),
-                // ];
+            /***************************** ROW DOCUMENTO ******************************/
+            /*********************** RIGA DI DEFAULT DI MANODOPERA *********************************/
+            
+            // Recupero dati da inserire
+            $dataInsertedDefault = DB::connection('mssql')
+            ->table('DOTes')
+            ->where('Cd_MGEsercizio', $EsercizioYear)
+            ->where('Cd_Do', 'RAP')
+            ->where('NumeroDoc', $newDocNum)
+            ->first();
+            
+            $Id_DOTes = $dataInsertedDefault->Id_DoTes;
+            $dataToInsertDefaults = [];
+            
+            $Id_LSArticolo = 1; //! da definire query
+            foreach ($replacements as $key => $replacement) {
+                $descrizione = $replacement->desc;
+                $cd_ar = $replacement->art;
+                $qta = $replacement->qnt;
+                $prezzoUnitario = $replacement->prz;
+                $prezzo = $prezzoUnitario;
                 
-                // Esecuzione dell'inserimento dei dati utilizzando il query builder
-                // DB::connection('mssql')->table('DORig')->insert($dataToInsert);
+                // Creazione dell'array dei dati da inserire
+                $dataToInsertDefault[] = [
+                    'ID_DOTes' => $Id_DOTes,
+                    'Contabile' => 0,
+                    'NumeroDoc' => $newDocNum,
+                    'DataDoc' => $dataDocumento,
+                    'Cd_MGEsercizio' => $EsercizioYear,
+                    'Cd_DO' => 'RAP',
+                    'TipoDocumento' => 'D',
+                    'Cd_CF' => $clienteDocumento,
+                    'Cd_VL' => 'EUR',
+                    'Cambio' => 1,
+                    'Decimali' => 2,
+                    'DecimaliPrzUn' => 3,
+                    'Riga' => $i + 1,
+                    'Cd_MGCausale' => 'DDT',
+                    'Cd_MG_P' => 'MP',
+                    'Cd_AR' => $cd_ar,
+                    'Descrizione' => $descrizione,
+                    'Cd_ARMisura' => $um,
+                    'Cd_CGConto' => $Cd_CGConto,
+                    'Cd_Aliquota' => $Cd_aliquota,
+                    'Cd_Aliquota_R' => $Cd_aliquota,
+                    'Qta' => $qta,
+                    'FattoreToUM1' => $fattore,
+                    'QtaEvadibile' => $qta,
+                    'QtaEvasa' => 0,
+                    'PrezzoUnitarioV' => $prezzo,
+                    'PrezzoTotaleV' => round((float)$prezzo * (float)$qta, 2),
+                    'PrezzoTotaleMovE' => round((float)$prezzo * (float)$qta, 2),
+                    'Omaggio' => 1,
+                    'Evasa' => 0,
+                    'Evadibile' => 1,
+                    'Esecutivo' => 1,
+                    'FattoreScontoRiga' => 0,
+                    'FattoreScontoTotale' => 0,
+                    'Id_LSArticolo' => $Id_LSArticolo,
+                    'UserIns' => $numero_utente_arca,
+                    'UserUpd' => $numero_utente_arca,
+                    'NoteRiga' => $ticket->notes,
+                ];
+                
             }
+            
+            // Disabilita il trigger
+            DB::connection('mssql')->statement('DISABLE TRIGGER dbo.DORig_atrg_brd ON dbo.DORig');
+            
+            // Esecuzione dell'inserimento dei dati utilizzando il query builder
+            DB::connection('mssql')->table('DORig')->insert($dataToInsertDefault);
+            
+            // Riabilita il trigger
+            DB::connection('mssql')->statement('ENABLE TRIGGER dbo.DORig_atrg_brd ON dbo.DORig');
             
         }
         
+        
+        
+        
+    }
+    

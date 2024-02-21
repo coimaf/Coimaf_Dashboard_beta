@@ -11,6 +11,8 @@
                 text-success
                 @elseif($ticket->status === 'Chiuso')
                 text-danger
+                @elseif($ticket->status === 'Annullato')
+                text-danger
                 @elseif($ticket->status === 'In lavorazione')
                 text-warning
                 @else
