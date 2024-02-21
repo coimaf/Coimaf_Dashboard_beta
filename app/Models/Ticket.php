@@ -14,7 +14,7 @@ class Ticket extends Model
 {
     use HasFactory, Searchable;
 
-    protected $fillable = ['updated_by','title', 'description', 'notes', 'descrizione', 'cd_cf', 'intervention_date', 'machine_model_id', 'machine_sold_id', 'closed', 'status', 'priority'];
+    protected $fillable = ['updated_by','title', 'description', 'notes', 'descrizione', 'cd_cf', 'intervention_date', 'machine_model_id', 'machine_sold_id', 'closed', 'status', 'priority', 'pagato', 'rapportino'];
 
     public function toSearchableArray()
     {

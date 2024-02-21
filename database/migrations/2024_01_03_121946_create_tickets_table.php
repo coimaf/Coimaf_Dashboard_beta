@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('descrizione');
             $table->string('cd_cf');
             $table->date('intervention_date')->nullable();
+            $table->boolean('pagato')->default(false);
+            $table->bigInteger('rapportino')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->timestamps();
 

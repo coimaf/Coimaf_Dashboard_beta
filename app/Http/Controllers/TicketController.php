@@ -175,6 +175,14 @@ class TicketController extends Controller
         public function show(Ticket $ticket)
         {
             $replacements = Replacement::where('ticket_id', $ticket->id)->get();
+        //     $dataInserted = DB::connection('mssql')
+        //     ->table('DOTes')
+        //     ->where('Cd_MGEsercizio', 2024)
+        //     ->where('Cd_Do', 'RAP')
+        //     ->get();
+        
+        // dd($dataInserted[35]);
+
             return view("dashboard.tickets.show", compact('ticket', 'replacements'));
         }
         
@@ -214,17 +222,20 @@ class TicketController extends Controller
             // Trova il ticket da aggiornare
             $ticket = Ticket::findOrFail($id);
             
+            $previousStatus = $ticket->status;
+            
             // Aggiorna i campi del ticket con i nuovi valori
             $ticket->title = $request->input('title');
             $ticket->description = $request->input('description');
             $ticket->notes = $request->input('notes');
             $ticket->machine_model_id = $request->input('machine_model_id');
             $ticket->machine_sold_id = $request->input('machine_sold_id');
-            $ticket->closed = $request->input('closed');
+            $ticket->intervention_date = $request->input('intervention_date');
             $ticket->status = $request->input('status');
             $ticket->priority = $request->input('priority');
             $ticket->descrizione = trim($request->input('selectedCustomer'));
             $ticket->cd_cf = $request->input('selectedCdCF');
+            $ticket->pagato = $request->has('pagato') ? 1 : 0;
             
             // Aggiorna l'associazione del tecnico al ticket
             $ticket->technician()->associate($request->input('technician_id'));
@@ -233,16 +244,7 @@ class TicketController extends Controller
             
             $ticket->save();
             
-            // Verifica se esistono sostituzioni associate a questo ticket
-            $existingReplacements = Replacement::where('ticket_id', $ticket->id)->get();
-            
-            if ($existingReplacements->isEmpty()) {
-                // Se non ci sono sostituzioni esistenti, crea una nuova istanza di Replacement
-                $replacement = new Replacement();
-            } else {
-                // Se ci sono sostituzioni esistenti, prendi la prima riga (presumendo che ce ne sia solo una)
-                $replacement = $existingReplacements->first();
-            }
+            $replacement = new Replacement();
             
             // Aggiorna i campi di Replacement solo se i valori non sono vuoti
             if ($request->filled(['art', 'desc', 'qnt', 'prz', 'tot', 'sconto'])) {
@@ -254,11 +256,15 @@ class TicketController extends Controller
                 $replacement->sconto = $request->input('sconto');
                 $replacement->tot = str_replace(',', '.', $request->input('tot')); // Converte il totale nel formato corretto
                 $replacement->save();
+            } 
+            
+            //~ Aggiorna lo stato del ticket solo se è stato modificato
+            if ($previousStatus !== $ticket->status && $ticket->status === 'Da fatturare' && $ticket->rapportino === null) {
+                $this->testa($ticket);
+                
+            } elseif($previousStatus !== $ticket->status && $ticket->status === 'Da fatturare' && $ticket->rapportino !== null) {
+                // Funzione di update anziche insert
             }
-            
-            $daFatturare = Ticket::where('status', 'Da fatturare')->get();
-            
-            // dd($daFatturare);
             
             return redirect()->route('dashboard.tickets.edit', compact('ticket'))->with('success', 'Ticket aggiornato con successo!');
         }
@@ -306,5 +312,208 @@ class TicketController extends Controller
             return view('components.printTicket', compact('ticket', 'customers', 'infoCustomers', 'indirizziFiltrati'));
         }
         
-    }
-    
+        private function testa(Ticket $ticket)
+        {
+            // $daFatturare = Ticket::where('status', 'Da fatturare')->get();
+            /***************************** TESTA DOCUMENTO ******************************/
+            
+            // Formo la query per cercare l'ultimo numero di documento
+            $tipo_doumento = 'RAP';
+            
+            $tsqlDOTes = DB::connection('mssql')
+            ->table('DOTes')
+            ->where('Cd_Do', $tipo_doumento)
+            ->whereYear('EsAnno', date('Y'))
+            ->max('NumeroDoc');
+            
+            //  dd($tsqlDOTes);
+            
+            // Cerco i dati del cliente
+            $clienteDocumento = $ticket->cd_cf;
+            
+            // Esegui la query per trovare i dati del cliente
+            $rowCF = DB::connection('mssql')
+            ->table('CF')
+            ->select('*')
+            ->where('Cd_CF', $clienteDocumento)
+            ->first();
+            
+            $codicepagamento = $rowCF->Cd_PG;
+            
+            $bancasconto = $rowCF->Cd_CGConto_Banca;
+            
+            // dd($codicepagamento);
+            
+            if ($bancasconto  == '')
+            {
+                $bancasconto = "NULL";
+            }
+            else
+            {
+                $bancasconto = $bancasconto;
+            }
+            
+            $newDocNum = $tsqlDOTes + 1;
+            
+            // dd($newDocNum);
+            $replacements = Replacement::where('ticket_id', $ticket->id)->get();
+            
+            $numero_righe_enable = $replacements->count(); // numero di manutenizioni
+            $dataDocumento = "".date('Y-m-d')."T".date('H:i:s');
+            $EsercizioYear = "".date('Y');
+            $numero_utente_arca = 104;    //numero utente arca di default
+            $nome_utente = 'Default user';
+            $accontofissov = 0;//$rowMYSQL7["acconto_fisso"]+0;
+            $accontov = 0;//$rowMYSQL7["acconto_fisso"]+0;
+            $abbuonov = 0;//$rowMYSQL7["abbuono"]+0;
+            
+            $Cd_aliquota = '227';
+            $Aliquota = '22.0';
+            $Cd_CGConto = '51010101001';
+            $trasporto = '01';
+            $asp_beni = 'AV';
+            $porto = '';
+            $spedizione = '';
+            $prodotto_default = 'MAN.ASSISTENZA';
+            
+            if ($ticket->pagato == 1)
+            {
+                $accontoperc = 100;
+            }
+            else
+            {
+                $accontoperc = 0;
+            }
+            
+            $dataDebug = [];
+            
+            $dataDebug[] = "Ultimo numero documento rilevato: " . $tsqlDOTes;
+            $dataDebug[] = "Nuovo numero documento: " . $newDocNum;
+            $dataDebug[] = "Numero righe: " . $numero_righe_enable;
+            $dataDebug[] = "Numero utente ARCA: " . $numero_utente_arca . " (" . $nome_utente . ")";
+            $dataDebug[] = "Data documento: " . $dataDocumento;
+            $dataDebug[] = "Esercizio: " . $EsercizioYear;
+            $dataDebug[] = "Codice Pagamento: " . $codicepagamento;
+            $dataDebug[] = "Banca di sconto: " . $bancasconto;
+            $dataDebug[] = "Acconto percentuale: " . $accontoperc;
+            $dataDebug[] = "Acconto fisso V: " . $accontofissov;
+            $dataDebug[] = "Acconto V: " . $accontov;
+            $dataDebug[] = "Abbuono V: " . $abbuonov;
+            $dataDebug[] = "Numero tiket: " . $ticket->id;
+            $dataDebug[] = "Data intervento: " . $ticket->intervention_date;
+            $dataDebug[] = "Note: " . $ticket->description;
+            
+            // dd($dataDebug);
+            
+            // Creazione dell'array dei dati da inserire
+            $dataToInsert = [
+                'Cd_Do' => $tipo_doumento,
+                'TipoDocumento' => 'D',
+                'DoBitMask' => 128,
+                'Cd_CF' => $clienteDocumento,
+                'CliFor' => 'C',
+                'Cd_CN' => $tipo_doumento,
+                'Contabile' => 0,
+                'TipoFattura' => 0,
+                'ImportiIvati' => 0,
+                'IvaSospesa' => 0,
+                'Esecutivo' => 1,
+                'Prelevabile' => 1,
+                'Modificabile' => 1,
+                'ModificabilePdf' => 1,
+                'NumeroDoc' => $newDocNum,
+                'DataDoc' => $dataDocumento,
+                'Cd_MGEsercizio' => $EsercizioYear,
+                'EsAnno' => $EsercizioYear,
+                'Cd_CGConto_Banca' => $bancasconto,
+                'Cd_VL' => 'EUR',
+                'Decimali' => 2,
+                'DecimaliPrzUn' => 3,
+                'Cambio' => 1,
+                'MagPFlag' => 0,
+                'MagAFlag' => 0,
+                'Cd_LS_1' => '0000001',
+                'Cd_LS_2' => '0000001',
+                'Cd_PG' => $codicepagamento,
+                'Colli' => 0,
+                'PesoLordo' => 0,
+                'PesoNetto' => 0,
+                'VolumeTotale' => 0,
+                'AbbuonoV' => $abbuonov,
+                'RigheMerce' => $numero_righe_enable,
+                'RigheSpesa' => 0,
+                'RigheMerceEvadibili' => $numero_righe_enable,
+                'AccontoPerc' => $accontoperc,
+                'AccontoFissoV' => $accontofissov,
+                'AccontoV' => $accontov,
+                'CGCorrispondenzaIvaMerce' => 1,
+                'UserIns' => $numero_utente_arca,
+                'UserUpd' => $numero_utente_arca,
+                'IvaSplit' => 0,
+                'NotePiede' => null,
+                'Cd_DoTrasporto' => $trasporto,
+                'Cd_DoAspBene' => $asp_beni,
+                'Cd_DoSottoCommessa' => 'ASSISTENZA',
+                'NumeroDocRif' => 'TT-' . $ticket->id,
+                'DataDocRif' => $ticket->intervention_date . 'T00:00:00',
+            ];
+            
+            // Esecuzione dell'inserimento dei dati utilizzando il query builder
+            DB::connection('mssql')->table('DOTes')->insert($dataToInsert);
+            
+            // Salva il nuovo numero documento nella colonna rapportino del ticket
+            $ticket->rapportino = $newDocNum;
+            $ticket->save();
+            
+        }
+        
+        private function RowMaintenance()
+        {
+            // Creazione dell'array dei dati da inserire
+            // $dataToInsert = [
+                //     'ID_DOTes' => $Id_DOTes,
+                //     'Contabile' => 0,
+                //     'NumeroDoc' => $newDocNum,
+                //     'DataDoc' => $dataDocumento,
+                //     'Cd_MGEsercizio' => $EsercizioYear,
+                //     'Cd_DO' => 'RAP',
+                //     'TipoDocumento' => 'D',
+                //     'Cd_CF' => $clienteDocumento,
+                //     'Cd_VL' => 'EUR',
+                //     'Cambio' => 1,
+                //     'Decimali' => 2,
+                //     'DecimaliPrzUn' => 3,
+                //     'Riga' => $i + 1,
+                //     'Cd_MGCausale' => 'DDT',
+                //     'Cd_MG_P' => 'MP',
+                //     'Cd_AR' => $cd_ar,
+                //     'Descrizione' => prepara_stringa($descrizione),
+                //     'Cd_ARMisura' => $um,
+                //     'Cd_CGConto' => $Cd_CGConto,
+                //     'Cd_Aliquota' => $Cd_aliquota,
+                //     'Cd_Aliquota_R' => $Cd_aliquota,
+                //     'Qta' => $qta,
+                //     'FattoreToUM1' => $fattore,
+                //     'QtaEvadibile' => $qta,
+                //     'QtaEvasa' => 0,
+                //     'PrezzoUnitarioV' => $prezzo,
+                //     'PrezzoTotaleV' => round((float)$prezzo * (float)$qta, 2),
+                //     'PrezzoTotaleMovE' => round((float)$prezzo * (float)$qta, 2),
+                //     'Omaggio' => 1,
+                //     'Evasa' => 0,
+                //     'Evadibile' => 1,
+                //     'Esecutivo' => 1,
+                //     'FattoreScontoRiga' => 0,
+                //     'FattoreScontoTotale' => 0,
+                //     'Id_LSArticolo' => $Id_LSArticolo,
+                //     'UserIns' => $numero_utente_arca,
+                //     'UserUpd' => $numero_utente_arca,
+                //     'NoteRiga' => ucfirst(prepara_stringa($rowMYSQL1["resolution"])),
+                // ];
+                
+                // Esecuzione dell'inserimento dei dati utilizzando il query builder
+                // DB::connection('mssql')->table('DORig')->insert($dataToInsert);
+            }
+            
+        }
+        

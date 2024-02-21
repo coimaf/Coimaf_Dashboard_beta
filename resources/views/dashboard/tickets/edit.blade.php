@@ -91,16 +91,21 @@
                 </select>
             </div>
             
-            <div class="col-12 col-md-6">
-                <label class="my-2" for="closed">Data Intervento</label>
-                <input type="date" name="closed" class="form-control" value="{{ old('closed', $ticket->closed) }}" >
+            <div class="col-12 col-md-5">
+                <label class="my-2" for="intervention_date">Data Intervento</label>
+                <input type="date" name="intervention_date" class="form-control" value="{{ old('intervention_date', $ticket->intervention_date) }}" >
             </div>
-            
+
+                        
+            <div class="col-12 col-md-1 d-flex justify-content-center align-items-center mt-5">
+                <label class="my-2 me-2 fw-bold" for="pagato">PAGATO:</label>
+                <input type="checkbox" id="pagato" name="pagato" value="1" @if(old('pagato', $ticket->pagato ?? false)) checked @endif>
+            </div> 
             
         </div>
         
         <div class="row py-3">
-            <x-Buttons.buttonBlue type="submit" props="Aggiorna" />
+            <x-Buttons.buttonBlue type="submit" props="Salva" />
         </div>
         
         <div class="row m-3 border rounded-4 p-3 bg-white">
@@ -255,3 +260,62 @@
             
             
         </x-Layouts.layoutDash>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Seleziona il campo dello stato
+                const statusField = document.querySelector('select[name="status"]');
+                // Seleziona il campo della data di intervento
+                const interventionDateField = document.querySelector('input[name="intervention_date"]');
+        
+                // Aggiungi un evento onchange al campo dello stato
+                statusField.addEventListener('change', function() {
+                    // Verifica se lo stato selezionato è "Da fatturare"
+                    if (this.value === 'Da fatturare') {
+                        // Imposta il campo della data di intervento come obbligatorio
+                        interventionDateField.required = true;
+                    } else {
+                        // Rimuovi l'attributo required dal campo della data di intervento
+                        interventionDateField.removeAttribute('required');
+                    }
+                });
+            });
+            document.addEventListener('DOMContentLoaded', function() {
+        // Seleziona il campo dello stato
+        const statusField = document.querySelector('select[name="status"]');
+        // Seleziona tutti gli input e select nel modulo
+        const formControls = document.querySelectorAll('form input, form select, form textarea');
+        
+        // Funzione per impostare lo stato dei campi del modulo
+        function setFormControlsState(disabled) {
+            // Itera su tutti gli input e select nel modulo
+            formControls.forEach(function(control) {
+                // Escludi il campo dello stato stesso
+                if (control !== statusField) {
+                    // Imposta lo stato di readonly/disabled per gli input e select
+                    control.disabled = disabled;
+                }
+            });
+        }
+        
+        // Aggiungi un evento onchange al campo dello stato
+        statusField.addEventListener('change', function() {
+            // Verifica se lo stato selezionato è "Chiuso"
+            if (this.value === 'Chiuso') {
+                // Imposta tutti i campi del modulo come readonly/disabled
+                setFormControlsState(true);
+            } else {
+                // Riattiva tutti i campi del modulo
+                setFormControlsState(false);
+            }
+        });
+        
+        // Inizialmente, imposta il modulo in base allo stato selezionato
+        if (statusField.value === 'Chiuso') {
+            setFormControlsState(true);
+        } else {
+            setFormControlsState(false);
+        }
+    });
+        </script>
+        

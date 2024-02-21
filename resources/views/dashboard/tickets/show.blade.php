@@ -77,8 +77,12 @@
         </div>
         
         <div class="col-12 col-md-6">
-            <label class="fs-5 mb-1 fw-semibold">Chiusura</label>
+            <label class="fs-5 mb-1 fw-semibold">Data Intervento</label>
+            @if($ticket->intervention_date)
             <input value="{{\Carbon\Carbon::parse($ticket->intervention_date)->format('d/m/Y')}}" class="form-control form-custom fs-5" readonly>
+            @else
+            <input class="form-control form-custom fs-5" readonly>
+            @endif
         </div>
         
     </div>
@@ -127,6 +131,13 @@
                             <td class="text-end fw-bold" id="aPagare"></td>
                             <td></td>
                         </tr>
+                        @if ($ticket->pagato == 1)
+                        <tr>
+                            <td colspan="5" class="text-end fw-bold"></td>
+                            <td class="text-end fw-bold text-success fs-3">Pagato</td>
+                            <td></td>
+                        </tr>
+                        @endif
                     </tbody>
                 </table>
             </div>
