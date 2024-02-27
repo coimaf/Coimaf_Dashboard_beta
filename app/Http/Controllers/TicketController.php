@@ -211,6 +211,8 @@ class TicketController extends Controller
             ->select('AR.Descrizione', 'AR.Cd_AR', 'LSArticolo.Prezzo')
             ->get();
             
+            // dd($articles[0]);
+            
             
             
             return view('dashboard.tickets.edit', compact('ticket', 'replacements', 'machines', 'technicians', 'customers', 'articles'));
@@ -256,7 +258,7 @@ class TicketController extends Controller
                 $replacement->sconto = $request->input('sconto');
                 $replacement->tot = str_replace(',', '.', $request->input('tot')); // Converte il totale nel formato corretto
                 $replacement->save();
-
+                
                 return redirect()->route('dashboard.tickets.edit', compact('ticket'))->with('success', 'Ticket aggiornato con successo!');
             } 
             
@@ -318,7 +320,7 @@ class TicketController extends Controller
         
         private function rapportino(Ticket $ticket)
         {
-            $replacements = Replacement::where('ticket_id', $ticket->id)->get();
+            // $replacements = Replacement::where('ticket_id', $ticket->id)->get();
             
             /***************************** TESTA DOCUMENTO ******************************/
             
@@ -361,6 +363,7 @@ class TicketController extends Controller
             $newDocNum = $tsqlDOTes + 1;
             
             // dd($newDocNum);
+            
             $replacements = Replacement::where('ticket_id', $ticket->id)->get();
             
             // Verifica se il ticket è chiuso
@@ -377,8 +380,9 @@ class TicketController extends Controller
             $accontofissov = 0;//$rowMYSQL7["acconto_fisso"]+0;
             $accontov = 0;//$rowMYSQL7["acconto_fisso"]+0;
             $abbuonov = 0;//$rowMYSQL7["abbuono"]+0;
+            $totaleImponibile = 0;
+            $totaleImponibileLordo = 0;
             
-            $Cd_aliquota = '227';
             $Aliquota = '22.0';
             $Cd_CGConto = '51010101008';
             $trasporto = '01';
@@ -386,9 +390,8 @@ class TicketController extends Controller
             $porto = '';
             $spedizione = '';
             $prodotto_default = 'MAN.ASSISTENZA';
-            $i = 0;
-            $um  ='HH';
             $fattore =1;
+            $Id_DORig = 0;
             
             
             if ($ticket->pagato == 1)
@@ -399,6 +402,7 @@ class TicketController extends Controller
             {
                 $accontoperc = 0;
             }
+            
             
             // Creazione dell'array dei dati da inserire
             $dataToInsert = [
@@ -427,8 +431,8 @@ class TicketController extends Controller
                 'Cambio' => 1,
                 'MagPFlag' => 0,
                 'MagAFlag' => 0,
-                'Cd_LS_1' => '0000001',
-                'Cd_LS_2' => '0000001',
+                'Cd_LS_1' => 'LSA0001',
+                'Cd_LS_2' => 'LSA0002',
                 'Cd_PG' => $codicepagamento,
                 'Colli' => 0,
                 'PesoLordo' => 0,
@@ -475,16 +479,41 @@ class TicketController extends Controller
             $Id_DOTes = $dataInsertedDefault->Id_DoTes;
             $dataToInsertDefaults = [];
             
-            $Id_LSArticolo = 1; //! da definire query
+            $cd_ar_values = $replacements->pluck('art'); // Ottieni tutti i valori dell'attributo 'art'
+            
+            $datiReplacements = DB::connection('mssql')
+            ->table('AR')
+            ->whereIn('Cd_AR', $cd_ar_values) // Utilizza 'whereIn' per confrontare con un array di valori
+            ->get();
+            
+            
+            // dd($datiReplacements);
+
+            $i = 0;
+            
             foreach ($replacements as $key => $replacement) {
+                $datiReplacements = DB::connection('mssql')
+                    ->table('AR')
+                    ->where('Cd_AR', $replacement->art)
+                    ->first();
+                
+                // Ottenere dati specifici dell'articolo sostituto
+                $contoArticolo = $datiReplacements->Cd_CGConto_VI;
+                $nota = $datiReplacements->Note_AR;
+                $um  = $datiReplacements->Cd_ARMisura;
+                $Cd_aliquota = $datiReplacements->Cd_Aliquota_A;
+                $Cd_aliquota_V = $datiReplacements->Cd_Aliquota_V;
+                
+                // Altri dati da inserire
+                $Id_LSArticolo = null;
                 $descrizione = $replacement->desc;
                 $cd_ar = $replacement->art;
                 $qta = $replacement->qnt;
                 $prezzoUnitario = $replacement->prz;
                 $prezzo = $prezzoUnitario;
                 
-                // Creazione dell'array dei dati da inserire
-                $dataToInsertDefault[] = [
+                // Creazione dell'array dei dati da inserire per un singolo articolo
+                $dataToInsertDefault = [
                     'ID_DOTes' => $Id_DOTes,
                     'Contabile' => 0,
                     'NumeroDoc' => $newDocNum,
@@ -497,46 +526,182 @@ class TicketController extends Controller
                     'Cambio' => 1,
                     'Decimali' => 2,
                     'DecimaliPrzUn' => 3,
-                    'Riga' => $i + 1,
+                    'Riga' => $i += 1,
                     'Cd_MGCausale' => 'DDT',
                     'Cd_MG_P' => 'MP',
                     'Cd_AR' => $cd_ar,
                     'Descrizione' => $descrizione,
                     'Cd_ARMisura' => $um,
-                    'Cd_CGConto' => $Cd_CGConto,
+                    'Cd_CGConto' => $contoArticolo,
                     'Cd_Aliquota' => $Cd_aliquota,
-                    'Cd_Aliquota_R' => $Cd_aliquota,
+                    'Cd_Aliquota_R' => $Cd_aliquota_V,
                     'Qta' => $qta,
                     'FattoreToUM1' => $fattore,
                     'QtaEvadibile' => $qta,
                     'QtaEvasa' => 0,
                     'PrezzoUnitarioV' => $prezzo,
-                    'PrezzoTotaleV' => round((float)$prezzo * (float)$qta, 2),
-                    'PrezzoTotaleMovE' => round((float)$prezzo * (float)$qta, 2),
+                    'PrezzoTotaleV' => round($replacement->tot, 2),
+                    'PrezzoTotaleMovE' => round($replacement->tot, 2),
                     'Omaggio' => 1,
                     'Evasa' => 0,
                     'Evadibile' => 1,
                     'Esecutivo' => 1,
                     'FattoreScontoRiga' => 0,
                     'FattoreScontoTotale' => 0,
-                    'Id_LSArticolo' => $Id_LSArticolo,
+                    'Id_LSArticolo' => null,
                     'UserIns' => $numero_utente_arca,
                     'UserUpd' => $numero_utente_arca,
-                    'NoteRiga' => $ticket->notes,
+                    'NoteRiga' => $nota,
+                    'ScontoRiga' => $replacement->sconto,
                 ];
                 
+                //! Disabilita il trigger
+                DB::connection('mssql')->statement('DISABLE TRIGGER dbo.DORig_atrg_brd ON dbo.DORig');
+                
+                //& Salva gli articoli in DORig
+                DB::connection('mssql')->table('DORig')->insert($dataToInsertDefault);
+                
+                //* Riabilita il trigger
+                DB::connection('mssql')->statement('ENABLE TRIGGER dbo.DORig_atrg_brd ON dbo.DORig');
+                
+                // Ottieni l'Id_DORig appena inserito
+                $row = DB::connection('mssql')
+                    ->table('DORig')
+                    ->select('Id_DORig')
+                    ->where('ID_DOTes', $Id_DOTes)
+                    ->where('Riga', $i)
+                    ->first();
+                
+                // Ottieni il flag AR_fittizio
+                $rowAR = DB::connection('mssql')
+                    ->table('AR')
+                    ->select('Fittizio')
+                    ->where('Cd_AR', $cd_ar)
+                    ->first();
+                
+                $AR_fittizio = $rowAR ? $rowAR->Fittizio : null;
+                
+                $Id_DORig = $row->Id_DORig;
+                
+                $tsqlMGMovINSERT = [
+                    'DataMov' => $dataDocumento,
+                    'Id_DoRig' => $Id_DORig,
+                    'Cd_MGEsercizio' => $EsercizioYear,
+                    'Cd_AR' => $cd_ar,
+                    'Cd_MG' => 'MP',
+                    'Id_MGMovDes' => 18,
+                    'PartenzaArrivo' => 'P',
+                    'PadreComponente' => 'P',
+                    'EsplosioneDB' => 0,
+                    'Quantita' => $qta * $fattore,
+                    'Valore' => round($prezzo, 2),
+                    'Cd_MGCausale' => 'DDT',
+                    'Ini' => 0,
+                    'Ret' => 0,
+                    'CarA' => 0,
+                    'CarP' => 0,
+                    'CarT' => 0,
+                    'ScaV' => 1,
+                    'ScaP' => 0,
+                    'ScaT' => 0,
+                ];
+                
+                //! Disabilita il trigger
+                DB::connection('mssql')->statement('DISABLE TRIGGER dbo.MGMov_atrg ON dbo.MGMov');
+                
+                //& Salva i movimenti in MGMov
+                if ($AR_fittizio == 0 && $Id_DORig != 0) {
+                    DB::connection('mssql')->table('MGMov')->insert($tsqlMGMovINSERT);
+                }
+                
+                //* Riabilita il trigger
+                DB::connection('mssql')->statement('ENABLE TRIGGER dbo.MGMov_atrg ON dbo.MGMov');
+                
+                // Aggiorna i totali
+                $totaleImponibile += (float)$replacement->tot;
+                $totaleImponibileLordo += (float)$replacement->tot;
+                // Recupero il totale
+                $totaleImposta = ($totaleImponibile * 0.22);
+                $totaleDocumento = $totaleImposta + $totaleImponibile;
+            } //! fine for
+            
+            
+            
+            
+            /***************** TOTALI DOCUMENTO **************/
+            
+            if ($ticket->pagato == 1)
+            {
+                $acconto_tot = $totaleDocumento;
+                $netto_pagare = 0;
+            }
+            else
+            {
+                $acconto_tot = 0;
+                $netto_pagare = $totaleDocumento;
             }
             
-            // Disabilita il trigger
-            DB::connection('mssql')->statement('DISABLE TRIGGER dbo.DORig_atrg_brd ON dbo.DORig');
+            $tsqlDOTotaliINSERT = [
+                'Id_DoTes' => $Id_DOTes,
+                'Cambio' => 1,
+                'AbbuonoV' => 0,
+                'AccontoV' => round($acconto_tot, 2),
+                'AccontoE' => round($acconto_tot, 2),
+                'TotImponibileV' => round($totaleImponibile, 2),
+                'TotImponibileE' => round($totaleImponibile, 2),
+                'TotImpostaV' => round($totaleImposta, 2),
+                'TotImpostaE' => round($totaleImposta, 2),
+                'TotDocumentoV' => round($totaleDocumento, 2),
+                'TotDocumentoE' => round($totaleDocumento, 2),
+                'TotMerceLordoV' => round($totaleImponibileLordo, 2),
+                'TotMerceNettoV' => round($totaleImponibile, 2),
+                'TotEsenteV' => 0,
+                'TotSpese_TV' => 0,
+                'TotSpese_NV' => 0,
+                'TotSpese_MV' => 0,
+                'TotSpese_BV' => 0,
+                'TotSpese_AV' => 0,
+                'TotSpese_VV' => 0,
+                'TotSpese_ZV' => 0,
+                'Totspese_RV' => 0,
+                'TotScontoV' => 0,
+                'TotOmaggio_MV' => 0,
+                'TotOmaggio_IV' => 0,
+                'TotaPagareV' => round($netto_pagare, 2),
+                'TotaPagareE' => round($netto_pagare, 2),
+                'TotProvvigione_1V' => 0,
+                'TotProvvigione_2V' => 0,
+                'RA_ImportoV' => 0,
+                'TotImpostaRCV' => 0,
+                'TotImpostaSPV' => 0,
+            ];
             
-            // Esecuzione dell'inserimento dei dati utilizzando il query builder
-            DB::connection('mssql')->table('DORig')->insert($dataToInsertDefault);
+            DB::connection('mssql')->table('DOTotali')->insert($tsqlDOTotaliINSERT);
             
-            // Riabilita il trigger
-            DB::connection('mssql')->statement('ENABLE TRIGGER dbo.DORig_atrg_brd ON dbo.DORig');
+            /***************** IVA DOCUMENTO **************/
             
-        }
+            // Ultimo numero di documento
+            $massimo = DB::connection('mssql')->table('DOIva')->max('Id_DOIva');
+
+            $totali = DB::connection('mssql')->table('DOTotali')->where('ID_DOTes', $Id_DOTes)->get();
+
+            // dd($totali);
+            
+            $newIvaDocNum = $massimo + 1;
+            
+            DB::connection('mssql')->table('DOIva')->insert([
+                'Id_DOTes' => $Id_DOTes,
+                'Cd_Aliquota' => $Cd_aliquota_V,
+                'Aliquota' => $Aliquota,
+                'Cambio' => '1.000000',
+                'ImponibileV' => round($totaleImponibile, 2),
+                'ImpostaV' => round($totaleImposta, 2),
+                'Omaggio' => '1',
+                'Cd_CGConto' => $contoArticolo,
+                'Cd_DOSottoCommessa' => 'ASSISTENZA'
+            ]);
+            
+        } // Fine Rapportino
         
         
         
