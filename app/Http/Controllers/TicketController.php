@@ -384,7 +384,7 @@ class TicketController extends Controller
             $totaleImponibileLordo = 0;
             
             $Aliquota = '22.0';
-            $Cd_CGConto = '51010101008';
+            // $Cd_CGConto = '51010101008';
             $trasporto = '01';
             $asp_beni = 'AV';
             $porto = '';
@@ -488,14 +488,14 @@ class TicketController extends Controller
             
             
             // dd($datiReplacements);
-
+            
             $i = 0;
             
             foreach ($replacements as $key => $replacement) {
                 $datiReplacements = DB::connection('mssql')
-                    ->table('AR')
-                    ->where('Cd_AR', $replacement->art)
-                    ->first();
+                ->table('AR')
+                ->where('Cd_AR', $replacement->art)
+                ->first();
                 
                 // Ottenere dati specifici dell'articolo sostituto
                 $contoArticolo = $datiReplacements->Cd_CGConto_VI;
@@ -532,16 +532,16 @@ class TicketController extends Controller
                     'Cd_AR' => $cd_ar,
                     'Descrizione' => $descrizione,
                     'Cd_ARMisura' => $um,
-                    'Cd_CGConto' => $contoArticolo,
-                    'Cd_Aliquota' => $Cd_aliquota,
+                    'Cd_CGConto' => $contoArticolo ? $contoArticolo : "51010101012",
+                    'Cd_Aliquota' => $Cd_aliquota_V ? $Cd_aliquota_V : '227',
                     'Cd_Aliquota_R' => $Cd_aliquota_V,
                     'Qta' => $qta,
                     'FattoreToUM1' => $fattore,
                     'QtaEvadibile' => $qta,
                     'QtaEvasa' => 0,
                     'PrezzoUnitarioV' => $prezzo,
-                    'PrezzoTotaleV' => round($replacement->tot, 2),
-                    'PrezzoTotaleMovE' => round($replacement->tot, 2),
+                    'PrezzoTotaleV' => round(((float)$prezzo * (1 - ($replacement->sconto / 100))) * (float)$qta, 2),
+                    'PrezzoTotaleMovE' => round(((float)$prezzo * (1 - ($replacement->sconto / 100))) * (float)$qta, 2),
                     'Omaggio' => 1,
                     'Evasa' => 0,
                     'Evadibile' => 1,
@@ -553,6 +553,8 @@ class TicketController extends Controller
                     'UserUpd' => $numero_utente_arca,
                     'NoteRiga' => $nota,
                     'ScontoRiga' => $replacement->sconto,
+                    'FattoreScontoRiga' => $replacement->sconto/100,
+                    'FattoreScontoTotale' => $replacement->sconto/100,
                 ];
                 
                 //! Disabilita il trigger
@@ -566,18 +568,18 @@ class TicketController extends Controller
                 
                 // Ottieni l'Id_DORig appena inserito
                 $row = DB::connection('mssql')
-                    ->table('DORig')
-                    ->select('Id_DORig')
-                    ->where('ID_DOTes', $Id_DOTes)
-                    ->where('Riga', $i)
-                    ->first();
+                ->table('DORig')
+                ->select('Id_DORig')
+                ->where('ID_DOTes', $Id_DOTes)
+                ->where('Riga', $i)
+                ->first();
                 
                 // Ottieni il flag AR_fittizio
                 $rowAR = DB::connection('mssql')
-                    ->table('AR')
-                    ->select('Fittizio')
-                    ->where('Cd_AR', $cd_ar)
-                    ->first();
+                ->table('AR')
+                ->select('Fittizio')
+                ->where('Cd_AR', $cd_ar)
+                ->first();
                 
                 $AR_fittizio = $rowAR ? $rowAR->Fittizio : null;
                 
@@ -618,8 +620,8 @@ class TicketController extends Controller
                 DB::connection('mssql')->statement('ENABLE TRIGGER dbo.MGMov_atrg ON dbo.MGMov');
                 
                 // Aggiorna i totali
-                $totaleImponibile += (float)$replacement->tot;
-                $totaleImponibileLordo += (float)$replacement->tot;
+                $totaleImponibile += round(((float)$prezzo * (1 - ($replacement->sconto / 100))) * (float)$qta, 2);
+                $totaleImponibileLordo += (float)$prezzo*(float)$qta;
                 // Recupero il totale
                 $totaleImposta = ($totaleImponibile * 0.22);
                 $totaleDocumento = $totaleImposta + $totaleImponibile;
@@ -680,26 +682,34 @@ class TicketController extends Controller
             
             /***************** IVA DOCUMENTO **************/
             
-            // Ultimo numero di documento
-            $massimo = DB::connection('mssql')->table('DOIva')->max('Id_DOIva');
+            // Raggruppa gli articoli per conto
+            $articoliPerConto = DB::connection('mssql')
+            ->table('DORig')
+            ->where('ID_DOTes', $Id_DOTes)
+            ->select('Cd_CGConto', DB::raw('SUM(PrezzoTotaleV) AS TotaleImponibile'))
+            ->groupBy('Cd_CGConto')
+            ->get();
 
-            $totali = DB::connection('mssql')->table('DOTotali')->where('ID_DOTes', $Id_DOTes)->get();
+            // dd($articoliPerConto);
+            
+            // Per ogni gruppo di articoli, aggiungi il totale e l'IVA a DOIva
+            foreach ($articoliPerConto as $artConto) {
 
-            // dd($totali);
-            
-            $newIvaDocNum = $massimo + 1;
-            
-            DB::connection('mssql')->table('DOIva')->insert([
-                'Id_DOTes' => $Id_DOTes,
-                'Cd_Aliquota' => $Cd_aliquota_V,
-                'Aliquota' => $Aliquota,
-                'Cambio' => '1.000000',
-                'ImponibileV' => round($totaleImponibile, 2),
-                'ImpostaV' => round($totaleImposta, 2),
-                'Omaggio' => '1',
-                'Cd_CGConto' => $contoArticolo,
-                'Cd_DOSottoCommessa' => 'ASSISTENZA'
-            ]);
+                $ivaGruppo = $artConto->TotaleImponibile * ($Aliquota / 100);
+                
+                // Aggiungi il totale e l'IVA a DOIva
+                DB::connection('mssql')->table('DOIva')->insert([
+                    'Id_DOTes' => $Id_DOTes,
+                    'Cd_Aliquota' => $Cd_aliquota_V ? $Cd_aliquota_V : '227',
+                    'Aliquota' => $Aliquota,
+                    'Cambio' => '1.000000',
+                    'ImponibileV' => round($artConto->TotaleImponibile, 2),
+                    'ImpostaV' => round($ivaGruppo, 2),
+                    'Omaggio' => 1,
+                    'Cd_CGConto' => $artConto->Cd_CGConto ? $artConto->Cd_CGConto : "51010101012",
+                    'Cd_DOSottoCommessa' => 'ASSISTENZA'
+                ]);
+            }
             
         } // Fine Rapportino
         
