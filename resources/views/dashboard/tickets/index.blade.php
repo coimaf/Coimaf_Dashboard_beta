@@ -30,21 +30,22 @@
                 </td>
                 <td>
                     <a class="link-underline link-underline-opacity-0 link-dark" href="{{route('dashboard.tickets.show', compact('ticket'))}}">
+                        {{ rtrim($ticket->descrizione) }}
+                    </a>
+                </td>
+                <td>
+                    <a class="link-underline link-underline-opacity-0 link-dark" href="{{route('dashboard.tickets.show', compact('ticket'))}}">
+                        {{ $ticket->zona }}
+                    </a>
+                </td>
+                <td>
+                    <a class="link-underline link-underline-opacity-0 link-dark" href="{{route('dashboard.tickets.show', compact('ticket'))}}">
                         {{ $ticket->status }}
                     </a>
                 </td>
                 <td>
                     <a class="link-underline link-underline-opacity-0 link-dark" href="{{route('dashboard.tickets.show', compact('ticket'))}}">
                         {{ $ticket->priority }}
-                    </a>
-                </td>
-                <td>
-                    <a class="link-underline link-underline-opacity-0 link-dark" href="{{route('dashboard.tickets.show', compact('ticket'))}}">
-                        @if ($ticket->technician)
-                        {{ $ticket->technician->name }} {{ $ticket->technician->surname }}
-                        @else
-                        Tecnico non disponibile.
-                        @endif
                     </a>
                 </td>
                 <td class="ps-4">

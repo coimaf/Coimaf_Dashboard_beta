@@ -40,9 +40,10 @@
                 <label class="pb-3" for="selectedCustomer">Cliente*</label>
                 <input type="text" placeholder="Cliente*" list="customer" class="form-control" id="customerInput" name="selectedCustomer" value="{{ $ticket->descrizione }}">
                 <input type="hidden" id="selectedCdCFInput" name="selectedCdCF" value="{{ $ticket->cd_cf }}">
+                <input type="hidden" id="selectedCd_CFClasse3Input" name="selectedCd_CFClasse3" value="{{ $ticket->Cd_CFClasse3 }}">
                 <datalist id="customer" required>
                     @foreach ($customers as $customer)
-                    <option value="{{ trim($customer->Descrizione) }}" data-cd-cf="{{ $customer->Cd_CF }}"></option>
+                    <option value="{{ trim($customer->Descrizione) }}" data-cd-cf="{{ $customer->Cd_CF }}" data-Cd_CFClasse3='{{ $customer->Cd_CFClasse3}}'></option>
                     @endforeach
                 </datalist>
             </div>       

@@ -20,12 +20,14 @@ class TicketController extends Controller
         $sortBy = $request->input('sortBy', 'default');
         $direction = $request->input('direction', 'asc');
         $tickets = Ticket::with('technician')->get();
+        
         $columnTitles = [
             ['text' => 'Ticket ID', 'sortBy' => 'id'],
             ['text' => 'Titolo', 'sortBy' => 'title'],
+            ['text' => 'Cliente', 'sortBy' => 'descrizione'],
+            ['text' => 'Zona', 'sortBy' => ''],
             ['text' => 'Stato', 'sortBy' => 'status'],
             ['text' => 'Priorità', 'sortBy' => 'priority'],
-            ['text' => 'Tecnico', 'sortBy' => 'technician'],
             'Modifica',
             'Elimina'
         ];
@@ -35,6 +37,14 @@ class TicketController extends Controller
         $routeName = 'dashboard.tickets.index';
         
         $queryBuilder = Ticket::with(['machinesSold', 'machineModel', 'technician']);
+
+    $zona = DB::connection('mssql')
+        ->table('cf')
+        ->where('Cliente', 1)
+        ->where('Obsoleto', 0)
+        ->where('cd_cf', 'tickets.cd_cf') // Aggiungi qui la condizione per la join tra le tabelle
+        ->select(DB::raw('count(*) as aggregate'))
+        ->get();
         
         // Filtraggio per stato se specificato nella richiesta
         if ($request->has('status')) {
@@ -87,9 +97,8 @@ class TicketController extends Controller
         })
         ->when($sortBy == 'priority', function ($query) use ($direction) {
             $query->orderBy('tickets.priority', $direction);
-        })->when($sortBy == 'technician', function ($query) use ($direction) {
-            $query->join('technicians', 'tickets.technician_id', '=', 'technicians.id')
-            ->orderBy('technicians.name', $direction);
+        })->when($sortBy == 'descrizione', function ($query) use ($direction) {
+            $query->orderBy('tickets.descrizione', $direction);
         });
         
         $tickets = $queryBuilder->paginate(25)->appends([
@@ -150,6 +159,7 @@ class TicketController extends Controller
                 'priority' => $request->input('priority'),
                 'descrizione' => trim($request->input('selectedCustomer')),
                 'cd_cf' => $request->input('selectedCdCF'),
+                'zona' => $request->input('selectedCd_CFClasse3'),
             ]);
             
             // Salva il ticket nel database
@@ -191,7 +201,10 @@ class TicketController extends Controller
         {
             $machines = MachinesSold::all();
             $technicians = Technician::all();
-            $customers = DB::connection('mssql')->table('cf')->get();
+            $customers = DB::connection('mssql')
+            ->table('cf')
+            ->where('Cliente', 1)
+            ->where('Obsoleto', 0)->get();
             $replacements = Replacement::where('ticket_id', $ticket->id)->get();
             
             $id_LSRevisione = DB::connection('mssql')
@@ -237,6 +250,7 @@ class TicketController extends Controller
             $ticket->priority = $request->input('priority');
             $ticket->descrizione = trim($request->input('selectedCustomer'));
             $ticket->cd_cf = $request->input('selectedCdCF');
+            $ticket->zona = $request->input('selectedCd_CFClasse3');
             $ticket->pagato = $request->has('pagato') ? 1 : 0;
             
             // Aggiorna l'associazione del tecnico al ticket

@@ -13,9 +13,10 @@
             <div class="col-12 col-md-6">
                 <input placeholder="Seleziona un Cliente*" list="customer" class="form-control" id="customerInput" name="selectedCustomer" required>
                 <input type="hidden" id="selectedCdCFInput" name="selectedCdCF">
+                <input type="hidden" id="selectedCd_CFClasse3Input" name="selectedCd_CFClasse3">
                 <datalist id="customer">
                     @foreach ($customers as $customer)
-                    <option value="{{ trim($customer->Descrizione) }}" data-cd-cf="{{ $customer->Cd_CF }}"></option>
+                    <option value="{{ trim($customer->Descrizione) }}" data-cd-cf="{{ $customer->Cd_CF }}" data-Cd_CFClasse3='{{ $customer->Cd_CFClasse3}}'></option>
                     @endforeach
                 </datalist>
                 <p id="customerMessage" style="color: red; display: none;">Seleziona un cliente valido dalla lista.</p>
@@ -98,12 +99,17 @@
     document.getElementById('customerInput').addEventListener('input', function() {
         var selectedOption = document.querySelector('#customer option[value="' + this.value + '"]');
         var cdCFInput = document.getElementById('selectedCdCFInput');
+        var Cd_CFClasse3Input = document.getElementById('selectedCd_CFClasse3Input');
         
         if (selectedOption) {
             cdCFInput.value = selectedOption.getAttribute('data-cd-cf');
+            Cd_CFClasse3Input.value = selectedOption.getAttribute('data-Cd_CFClasse3');
         } else {
             cdCFInput.value = ''; // Se l'utente cancella l'input, azzera il valore di Cd_CF
+            Cd_CFClasse3Input.value = '';
         }
+        console.log(cdCFInput.value);
+        console.log(Cd_CFClasse3Input.value );
     });
     
     // Aggiungi un listener per il submit del form

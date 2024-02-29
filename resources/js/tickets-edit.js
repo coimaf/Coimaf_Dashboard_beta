@@ -1,10 +1,13 @@
 document.getElementById('customerInput').addEventListener('input', function() {
     var selectedOption = document.querySelector('#customer option[value="' + this.value + '"]');
     var cdCFInput = document.getElementById('selectedCdCFInput');
-    
+    var Cd_CFClasse3Input = document.getElementById('selectedCd_CFClasse3Input');
+
     if (selectedOption) {
+        Cd_CFClasse3Input.value = selectedOption.getAttribute('data-Cd_CFClasse3');
         cdCFInput.value = selectedOption.getAttribute('data-cd-cf');
     } else {
+        Cd_CFClasse3Input.value = '';
         cdCFInput.value = ''; // Se l'utente cancella l'input, azzera il valore di Cd_CF
     }
 });
