@@ -285,13 +285,14 @@ class TicketController extends Controller
             } elseif($previousStatus !== $ticket->status && $ticket->status === 'Da fatturare' && $ticket->rapportino !== null) {
                 
                 $tipo_doumento = 'RAP';
+                $EsercizioYear = date('Y', strtotime($ticket->intervention_date));
                 
                 // Cerco i dati del cliente
                 $clienteDocumento = $ticket->rapportino;
                 
                 $existingDocumento = DB::connection('mssql')
                 ->table('DOTes')
-                ->where('EsAnno', '2024')
+                ->where('EsAnno', $EsercizioYear)
                 ->where('Cd_Do', 'RAP')
                 ->whereRaw("LTRIM(NumeroDoc) = $clienteDocumento")
                 ->first();
@@ -329,7 +330,6 @@ class TicketController extends Controller
                 
                 $numero_righe_enable = $replacements->count(); // numero di manutenizioni
                 $dataDocumento = "".$ticket->closed;
-                $EsercizioYear = date('Y', strtotime($ticket->intervention_date));
                 $numero_utente_arca = 104;    //numero utente arca di default
                 $nome_utente = 'Default user';
                 $accontofissov = 0;//$rowMYSQL7["acconto_fisso"]+0;
@@ -637,6 +637,21 @@ class TicketController extends Controller
         public function destroyReplacement($id)
         {
             $replacement = Replacement::findOrFail($id);
+
+            // $EsercizioYear = date('Y', strtotime($ticket->intervention_date));
+            // $clienteDocumento = $ticket->rapportino;
+
+            // $existingDocumento = DB::connection('mssql')
+            // ->table('DOTes')
+            // ->where('EsAnno', $EsercizioYear)
+            // ->where('Cd_Do', 'RAP')
+            // ->whereRaw("LTRIM(NumeroDoc) = $clienteDocumento")
+            // ->first();
+
+            // if ($existingDocumento) {
+
+            // }
+
             $replacement->delete();
             
             return redirect()->back()->with('success', 'Ricambio eliminato con successo');
