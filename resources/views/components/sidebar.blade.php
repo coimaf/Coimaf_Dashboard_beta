@@ -54,7 +54,7 @@
                     </a>
                 </li>
                 @endif
-                @if(Str::contains(auth()->user()->groups, 'GESTIONALE-Impostazioni'))
+                @if(Str::contains(auth()->user()->groups, 'GESTIONALE-Sottoscorta'))
                 <li class="nav-item">
                     <a href="{{ route('items_under_stock') }}" class="nav-link {{ Request::is('articoli-sotto-scorta') ? 'active' : '' }}" aria-current="page">
                         <i class="bi bi-box-seam pe-2"></i>
@@ -62,7 +62,7 @@
                     </a>
                 </li>
                 @endif
-                @if(Str::contains(auth()->user()->groups, 'GESTIONALE-Impostazioni'))
+                @if(Str::contains(auth()->user()->groups, 'GESTIONALE-Flotta'))
                 <li class="nav-item">
                     <a href="{{ route('dashboard.vehicles.index') }}" class="nav-link {{ Request::is('flotta') ? 'active' : '' }}" aria-current="page">
                         <i class="bi bi-car-front-fill pe-2"></i>
@@ -70,7 +70,7 @@
                     </a>
                 </li>
                 @endif
-                @if(Str::contains(auth()->user()->groups, 'GESTIONALE-Impostazioni'))
+                @if(Str::contains(auth()->user()->groups, 'GESTIONALE-FPC'))
                 <li class="nav-item">
                     <a href="{{ route('dashboard.fpc.index') }}" class="nav-link {{ Request::is('fpc') ? 'active' : '' }}" aria-current="page">
                         <i class="bi bi-journal-richtext pe-2"></i>

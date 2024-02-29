@@ -129,28 +129,28 @@ Route::get('/dashboard/tickets/stampa/{ticket}', [TicketController::class, 'prin
 Route::delete('/dashboard/replacements/{id}', [TicketController::class, 'destroyReplacement'])->name('dashboard.replacements.destroy')->middleware('auth', 'ticket');
 
 // Articoli Sotto Scorta
-Route::get('/articoli-sotto-scorta', [ItemsUnderStock::class, 'index'])->name('items_under_stock')->middleware('auth', 'impostazioni');
+Route::get('/articoli-sotto-scorta', [ItemsUnderStock::class, 'index'])->name('items_under_stock')->middleware('auth', 'sottoscorta');
 
 // Flotta
-Route::get('/flotta', [VehicleController::class, 'index'])->name('dashboard.vehicles.index')->middleware('auth', 'impostazioni');
-Route::get('/flotta/crea', [VehicleController::class, 'create'])->name('dashboard.vehicles.create')->middleware('auth', 'impostazioni');
-Route::post('/flotta/store', [VehicleController::class, 'store'])->name('dashboard.vehicles.store')->middleware('auth', 'impostazioni');
-Route::get('/flotta/dettaglio/{vehicle}', [VehicleController::class, 'show'])->name('dashboard.vehicles.show')->middleware('auth', 'impostazioni');
-Route::get('/flotta/modifica/{vehicle}', [VehicleController::class, 'edit'])->name('dashboard.vehicles.edit')->middleware('auth', 'impostazioni');
-Route::put('/flotta/modifica/{vehicle}', [VehicleController::class, 'update'])->name('dashboard.vehicles.update')->middleware('auth', 'impostazioni');
-Route::delete('/flotta/elimina/{vehicle}', [VehicleController::class, 'destroy'])->name('dashboard.vehicles.destroy')->middleware('auth', 'impostazioni');
-Route::delete('/flotta/{vehicle}/maintenances/{maintenance}', [VehicleController::class, 'destroyMaintenance'])->name('maintenance.destroy');
+Route::get('/flotta', [VehicleController::class, 'index'])->name('dashboard.vehicles.index')->middleware('auth', 'flotta');
+Route::get('/flotta/crea', [VehicleController::class, 'create'])->name('dashboard.vehicles.create')->middleware('auth', 'flotta');
+Route::post('/flotta/store', [VehicleController::class, 'store'])->name('dashboard.vehicles.store')->middleware('auth', 'flotta');
+Route::get('/flotta/dettaglio/{vehicle}', [VehicleController::class, 'show'])->name('dashboard.vehicles.show')->middleware('auth', 'flotta');
+Route::get('/flotta/modifica/{vehicle}', [VehicleController::class, 'edit'])->name('dashboard.vehicles.edit')->middleware('auth', 'flotta');
+Route::put('/flotta/modifica/{vehicle}', [VehicleController::class, 'update'])->name('dashboard.vehicles.update')->middleware('auth', 'flotta');
+Route::delete('/flotta/elimina/{vehicle}', [VehicleController::class, 'destroy'])->name('dashboard.vehicles.destroy')->middleware('auth', 'flotta');
+Route::delete('/flotta/{vehicle}/maintenances/{maintenance}', [VehicleController::class, 'destroyMaintenance'])->name('maintenance.destroy')->middleware('auth', 'flotta');
 
 // FPC
-Route::get('fpc', function()  { return view('dashboard.fpc.index'); })->name('dashboard.fpc.index')->middleware('auth', 'impostazioni');
+Route::get('fpc', function()  { return view('dashboard.fpc.index'); })->name('dashboard.fpc.index')->middleware('auth', 'fpc');
     // r4
-    Route::get( '/fpc/r4/index', [R4Controller::class, 'index'])->name('dashboard.fpc.r4.index')->middleware('auth', 'impostazioni');
-    Route::get( '/fpc/r4/crea', [R4Controller::class, 'create'])->name('dashboard.fpc.r4.create')->middleware('auth', 'impostazioni');
-    Route::post('/fpc/r4/store', [R4Controller::class, 'store'])->name('dashboard.fpc.store')->middleware('auth', 'impostazioni');
-    Route::get('/fpc/dettaglio/{r4}', [R4Controller::class, 'show'])->name('dashboard.r4.show')->middleware('auth', 'impostazioni');
-    Route::get('/fpc/modifica/{r4}', [R4Controller::class, 'edit'])->name('dashboard.r4.edit')->middleware('auth', 'impostazioni');
-    Route::put('/fpc/update/{r4}', [R4Controller::class, 'update'])->name('dashboard.r4.update')->middleware('auth', 'impostazioni');
-    Route::delete('/fpc/elimina/{r4}', [R4Controller::class, 'destroy'])->name('dashboard.r4.destroy')->middleware('auth', 'impostazioni');
+    Route::get( '/fpc/r4/index', [R4Controller::class, 'index'])->name('dashboard.fpc.r4.index')->middleware('auth', 'fpc');
+    Route::get( '/fpc/r4/crea', [R4Controller::class, 'create'])->name('dashboard.fpc.r4.create')->middleware('auth', 'fpc');
+    Route::post('/fpc/r4/store', [R4Controller::class, 'store'])->name('dashboard.fpc.store')->middleware('auth', 'fpc');
+    Route::get('/fpc/dettaglio/{r4}', [R4Controller::class, 'show'])->name('dashboard.r4.show')->middleware('auth', 'fpc');
+    Route::get('/fpc/modifica/{r4}', [R4Controller::class, 'edit'])->name('dashboard.r4.edit')->middleware('auth', 'fpc');
+    Route::put('/fpc/update/{r4}', [R4Controller::class, 'update'])->name('dashboard.r4.update')->middleware('auth', 'fpc');
+    Route::delete('/fpc/elimina/{r4}', [R4Controller::class, 'destroy'])->name('dashboard.r4.destroy')->middleware('auth', 'fpc');
 
 
 

@@ -70,5 +70,8 @@ class Kernel extends HttpKernel
         'DbMacchine' => \App\Http\Middleware\DbMacchineMiddleware::class,
         'ticket' => \App\Http\Middleware\TicketMiddleware::class,
         'impostazioni' => \App\Http\Middleware\ImpostazioniMiddleware::class,
+        'sottoscorta' => \App\Http\Middleware\SottoscrotaMiddleware::class,
+        'flotta' => \App\Http\Middleware\FlottaMiddleware::class,
+        'fpc' => \App\Http\Middleware\FPCMiddleware::class,
     ];
 }
