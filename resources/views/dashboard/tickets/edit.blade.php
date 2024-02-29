@@ -27,14 +27,12 @@
                 <select name="status" class="form-control" required>
                     <option value="">Seleziona uno stato</option>
                     @foreach(\App\Models\Ticket::getStatusOptions() as $statusOption)
-                        @if($statusOption !== 'Chiuso')
-                            <option value="{{ $statusOption }}" {{ old('status', $ticket->status) == $statusOption ? 'selected' : '' }}>
-                                {{ $statusOption }}
-                            </option>
-                        @endif
+                    <option value="{{ $statusOption }}" {{ $ticket->status === $statusOption ? 'selected' : '' }}>
+                        {{ $statusOption }}
+                    </option>
                     @endforeach
                 </select>
-            </div>            
+            </div>         
             
             <div class="col-12 col-md-4">
                 <label class="pb-3" for="selectedCustomer">Cliente*</label>
@@ -98,8 +96,8 @@
                 <label class="my-2" for="intervention_date">Data Intervento</label>
                 <input type="date" name="intervention_date" class="form-control" value="{{ old('intervention_date', $ticket->intervention_date) }}" >
             </div>
-
-                        
+            
+            
             <div class="col-12 col-md-1 d-flex justify-content-center align-items-center mt-5">
                 <label class="my-2 me-2 fw-bold" for="pagato">PAGATO:</label>
                 <input type="checkbox" id="pagato" name="pagato" value="1" @if(old('pagato', $ticket->pagato ?? false)) checked @endif>
@@ -205,120 +203,118 @@
                             <td class="text-center" width='10px;'>{{ $replacement->qnt }}</td>
                             <td class="text-end" width='100px;'>{{ number_format($replacement->prz, 3, ',', '.') }}</td>
                             <td class="text-center" width='80px;'>{{ $replacement->sconto }}%</td>
-                                <td class="text-end total" width='80px;'>{{ number_format($replacement->tot, 3, ',', '.') }}</td>
-                                <td class="text-center">
-                                    
-                                    
-                                    <button type="button" class="btn bi bi-trash3-fill text-danger" data-bs-toggle="modal" data-bs-target="#deletereplacementModal{{ $replacement->id }}"></button>
-                                    
-                                    <form action="{{ route('dashboard.replacements.destroy', $replacement->id) }}" method="post">
-                                        @csrf
-                                        @method('delete')
-                                        <!-- Modal -->
-                                        <div class="modal fade" id="deletereplacementModal{{ $replacement->id }}" tabindex="-1" aria-labelledby="deletereplacementModalLabel{{ $replacement->id }}" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title text-black" id="deletereplacementModalLabel{{ $replacement->id }}">Conferma eliminazione dipendente</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body text-black" id="replacementInfoContainer{{ $replacement->id }}">
-                                                        Sicuro di voler eliminare <b>{{ $replacement->art }}</b>?<br>L'azione sarà irreversibile.
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
-                                                        <form action="{{ route('dashboard.replacements.destroy', $replacement->id) }}" method="post">
-                                                            @csrf
-                                                            @method('delete')
-                                                            <button type="submit" class="btn btn-danger">Elimina</button>
-                                                        </form>
-                                                    </div>
+                            <td class="text-end total" width='80px;'>{{ number_format($replacement->tot, 3, ',', '.') }}</td>
+                            <td class="text-center">
+                                
+                                
+                                <button type="button" class="btn bi bi-trash3-fill text-danger" data-bs-toggle="modal" data-bs-target="#deletereplacementModal{{ $replacement->id }}"></button>
+                                
+                                <form action="{{ route('dashboard.replacements.destroy', $replacement->id) }}" method="post">
+                                    @csrf
+                                    @method('delete')
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="deletereplacementModal{{ $replacement->id }}" tabindex="-1" aria-labelledby="deletereplacementModalLabel{{ $replacement->id }}" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title text-black" id="deletereplacementModalLabel{{ $replacement->id }}">Conferma eliminazione dipendente</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body text-black" id="replacementInfoContainer{{ $replacement->id }}">
+                                                    Sicuro di voler eliminare <b>{{ $replacement->art }}</b>?<br>L'azione sarà irreversibile.
+                                                </div>
+                                                <div class="modal-body text-danger fw-bold" id="replacementInfoContainer{{ $replacement->id }}">
+                                                    RICORDA DI AGGIORNARE I DATI MANUALMENTE SU ARCA! <br>Al momento non è prevista una funzione di eliminazione automatica.
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
+                                                    <form action="{{ route('dashboard.replacements.destroy', $replacement->id) }}" method="post">
+                                                        @csrf
+                                                        @method('delete')
+                                                        <button type="submit" class="btn btn-danger">Elimina</button>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
-                                    </td>
-                                </tr>
-                                @endforeach
-                                <tr>
-                                    <td colspan="5" class="text-end fw-bold">Totale:</td>
-                                    <td class="text-end fw-bold" id="totalCell"></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="5" class="text-end fw-bold">Iva:</td>
-                                    <td class="text-end fw-bold" id="iva"></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="5" class="text-end fw-bold">A Pagare:</td>
-                                    <td class="text-end fw-bold" id="aPagare"></td>
-                                    <td></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            @endforeach
+                            <tr>
+                                <td colspan="5" class="text-end fw-bold">Totale:</td>
+                                <td class="text-end fw-bold" id="totalCell"></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td colspan="5" class="text-end fw-bold">Iva:</td>
+                                <td class="text-end fw-bold" id="iva"></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td colspan="5" class="text-end fw-bold">A Pagare:</td>
+                                <td class="text-end fw-bold" id="aPagare"></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-                
-            </section>
+            </div>
             
-            
-        </x-Layouts.layoutDash>
-
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                // Seleziona il campo dello stato
-                const statusField = document.querySelector('select[name="status"]');
-                // Seleziona il campo della data di intervento
-                const interventionDateField = document.querySelector('input[name="intervention_date"]');
+        </section>
         
-                // Aggiungi un evento onchange al campo dello stato
-                statusField.addEventListener('change', function() {
-                    // Verifica se lo stato selezionato è "Da fatturare"
-                    if (this.value === 'Da fatturare') {
-                        // Imposta il campo della data di intervento come obbligatorio
-                        interventionDateField.required = true;
-                    } else {
-                        // Rimuovi l'attributo required dal campo della data di intervento
-                        interventionDateField.removeAttribute('required');
+        
+    </x-Layouts.layoutDash>
+    
+    <script>
+        
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // Seleziona il campo dello stato
+            const statusField = document.querySelector('select[name="status"]');
+            
+            // Seleziona tutti gli input e select nel modulo
+            const formControls = document.querySelectorAll('form input, form select, form textarea');
+            // Seleziona il campo della data di intervento
+            const interventionDateField = document.querySelector('input[name="intervention_date"]');
+            
+            // Funzione per impostare lo stato dei campi del modulo
+            function setFormControlsState(disabled) {
+                // Itera su tutti gli input e select nel modulo
+                formControls.forEach(function(control) {
+                    // Escludi il campo dello stato stesso
+                    if (control !== statusField) {
+                        // Imposta lo stato di readonly/disabled per gli input e select
+                        control.disabled = disabled;
                     }
                 });
-            });
-            document.addEventListener('DOMContentLoaded', function() {
-        // Seleziona il campo dello stato
-        const statusField = document.querySelector('select[name="status"]');
-        // Seleziona tutti gli input e select nel modulo
-        const formControls = document.querySelectorAll('form input, form select, form textarea');
-        
-        // Funzione per impostare lo stato dei campi del modulo
-        function setFormControlsState(disabled) {
-            // Itera su tutti gli input e select nel modulo
-            formControls.forEach(function(control) {
-                // Escludi il campo dello stato stesso
-                if (control !== statusField) {
-                    // Imposta lo stato di readonly/disabled per gli input e select
-                    control.disabled = disabled;
+                // Verifica se lo stato selezionato è "Da fatturare"
+                if (statusField.value === 'Da fatturare') {
+                    // Imposta il campo della data di intervento come obbligatorio
+                    interventionDateField.required = true;
+                } else {
+                    // Rimuovi l'attributo required dal campo della data di intervento
+                    interventionDateField.removeAttribute('required');
+                }
+            }
+            
+            // Aggiungi un evento onchange al campo dello stato
+            statusField.addEventListener('change', function() {
+                // Verifica se lo stato selezionato è "Chiuso"
+                if (this.value === 'Chiuso') {
+                    // Imposta tutti i campi del modulo come readonly/disabled
+                    setFormControlsState(true);
+                } else {
+                    // Riattiva tutti i campi del modulo
+                    setFormControlsState(false);
                 }
             });
-        }
-        
-        // Aggiungi un evento onchange al campo dello stato
-        statusField.addEventListener('change', function() {
-            // Verifica se lo stato selezionato è "Chiuso"
-            if (this.value === 'Chiuso') {
-                // Imposta tutti i campi del modulo come readonly/disabled
+            
+            // Inizialmente, imposta il modulo in base allo stato selezionato
+            if (statusField.value === 'Chiuso') {
                 setFormControlsState(true);
             } else {
-                // Riattiva tutti i campi del modulo
                 setFormControlsState(false);
             }
         });
-        
-        // Inizialmente, imposta il modulo in base allo stato selezionato
-        if (statusField.value === 'Chiuso') {
-            setFormControlsState(true);
-        } else {
-            setFormControlsState(false);
-        }
-    });
-        </script>
-        
+    </script>
+    

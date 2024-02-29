@@ -649,7 +649,12 @@ class TicketController extends Controller
             // ->first();
 
             // if ($existingDocumento) {
-
+                // DB::connection('mssql')
+                // ->table('DOTes')
+                // ->where('EsAnno', $EsercizioYear)
+                // ->where('Cd_Do', 'RAP')
+                // ->whereRaw("LTRIM(NumeroDoc) = $clienteDocumento")
+                // ->delete();
             // }
 
             $replacement->delete();
