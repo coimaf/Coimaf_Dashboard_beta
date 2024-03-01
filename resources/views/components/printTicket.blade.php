@@ -26,11 +26,11 @@
                 <p class="m-0 p-0" style="font-size: 8px;">info@coimaf.com</p>
                 <p class="m-0 p-0" style="font-size: 8px;">www.coimaf.com</p>
             </div>
-            <div class="col-12 ms-2 mt-1" style="font-size: 8px;">
+            <div class="col-12 ms-2 mt-1" style="font-size: 11px;">
                 Ticket Numero {{$ticket->id}} del {{$ticket->created_at->format('d/m/Y')}}
             </div>
             <div class="col-12 m-0 p-0 mt-3">
-                <p style="font-size: 8px; margin:2px;" class="fw-bold">{{$ticket->descrizione}}</p>
+                <p style="font-size: 11px; margin:2px;" class="fw-bold">{{$ticket->descrizione}}</p>
                 @foreach ($customers as $customer)
                 @php $numbers = ''; @endphp
                 
@@ -51,47 +51,47 @@
                 @endif
                 
                 @if(!empty($numbers))
-                <p style="font-size: 8px; margin:2px;">{!! rtrim($numbers, ' - ') !!}</p>
+                <p style="font-size: 11px; margin:2px;">{!! rtrim($numbers, ' - ') !!}</p>
                 @endif
                 @endforeach
                 
                 
                 @foreach ($indirizziFiltrati as $indirizzo)
-                <p style="font-size: 8px; margin:2px;">{{ $indirizzo }}<br></p>
+                <p style="font-size: 11px; margin:2px;">{{ $indirizzo }}<br></p>
                 @endforeach
                 @foreach ($infoCustomers as $info)
-                <p style="font-size: 8px; margin:2px;">{{$info->Città}}</p>
+                <p style="font-size: 11px; margin:2px;">{{$info->Città}}</p>
                 @endforeach
             </div>
             <div class="col-9 m-0 p-0">
-                <h6 class="fw-bold mt-5">PROBLEMA: {{$ticket->title}} 
+                <p style="font-size: 11px;" class="fw-bold mt-5">PROBLEMA: {{$ticket->title}} 
                     @isset($ticket->machinesSold->model)
                     - {{$ticket->machinesSold->model}}
                     @endisset
                     @isset($ticket->machinesSold->serial_number)
                     - {{$ticket->machinesSold->serial_number}}
                     @endisset
-                </h6>
+                </p>
             </div>
             <div class="col-3 m-0 p-0">
-                <h6 style="text-align:end;" class="mt-5 fw-bold">Priorità {{$ticket->priority}}</h6>
+                <p style="text-align:end; font-size: 11px;" class="mt-5 fw-bold">Priorità {{$ticket->priority}}</p>
             </div>
             
             <hr class="hr-print">
 
-            <p>{{$ticket->description}}</p>
+            <p style="font-size: 11px;">{{$ticket->description}}</p>
             
             <div class="col-6 p-0" style="margin-top: 100px;">
-                <h6 class="fw-bold">SOLUZIONE</h6>
+                <p class="fw-bold" style="font-size: 11px;">SOLUZIONE</p>
             </div>
             
             <hr class="hr-print" style="margin-bottom: 180px;">
             
             <div class="col-6 m-0 p-0">
-                <p class="m-0 p-0">Data intervento __________________</p>
+                <p class="m-0 p-0" style="font-size: 11px;">Data intervento __________________</p>
             </div>
             <div class="col-6 m-0 p-0 text-end">
-                <p class="m-0 p-0">Firma __________________</p>
+                <p class="m-0 p-0" style="font-size: 11px;">Firma __________________</p>
             </div>
             
         </div>
