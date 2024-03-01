@@ -64,7 +64,7 @@
                 @endforeach
             </div>
             <div class="col-9 m-0 p-0">
-                <p style="font-size: 11px;" class="fw-bold mt-5">PROBLEMA: {{$ticket->title}} 
+                <p style="font-size: 11px;" class="fw-bold mt-3">PROBLEMA: {{$ticket->title}} 
                     @isset($ticket->machinesSold->model)
                     - {{$ticket->machinesSold->model}}
                     @endisset
@@ -74,23 +74,23 @@
                 </p>
             </div>
             <div class="col-3 m-0 p-0">
-                <p style="text-align:end; font-size: 11px;" class="mt-5 fw-bold">Priorità {{$ticket->priority}}</p>
+                <p style="text-align:end; font-size: 11px;" class="mt-3 fw-bold">Priorità {{$ticket->priority}}</p>
             </div>
             
             <hr class="hr-print">
 
             <p style="font-size: 11px;">{{$ticket->description}}</p>
             
-            <div class="col-6 p-0" style="margin-top: 100px;">
+            <div class="col-6 p-0" style="margin-top: 150px;">
                 <p class="fw-bold" style="font-size: 11px;">SOLUZIONE</p>
             </div>
             
-            <hr class="hr-print" style="margin-bottom: 180px;">
+            <hr class="hr-print" style="margin-bottom: 130px;">
             
-            <div class="col-6 m-0 p-0">
+            <div class="col-6 p-0" style="margin-top: 65px;">
                 <p class="m-0 p-0" style="font-size: 11px;">Data intervento __________________</p>
             </div>
-            <div class="col-6 m-0 p-0 text-end">
+            <div class="col-6 p-0 text-end" style="margin-top: 65px;">
                 <p class="m-0 p-0" style="font-size: 11px;">Firma __________________</p>
             </div>
             
