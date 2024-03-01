@@ -7,266 +7,109 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
-    <title>Ticket Numero {{$ticket->id}}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <title>Document</title>
 </head>
 <body>
-    <div class="print-preview">
-        
-        <div class="layout-container">
-            <!-- Prima metà della pagina -->
-            <div class="half-page">
-                <div class="logo-container">
-                    <img src="{{ asset('assets/coimaf_logo.png') }}" alt="">
-                    <p style="font-size: 6px; width:100px;">COIMAF SRL <br>
-                        VIA DEL LAVORO <br>
-                        88060 SAN SOSTENE (CZ)<br>
-                        Tel. 0967.522303<br>
-                        info@coimaf.com<br>
-                        www.coimaf.com
-                    </p>
-                </div>
-                
-                <div class="numero-ticket-container">
-                    <p> </p>
-                    <p style="text-align: center;  font-size: 10px; margin-top: 20px">Ticket Numero {{$ticket->id}} del {{$ticket->created_at->format('d/m/Y')}}</p>
-                </div>
-                
-                <div class="cliente-container">
-                    <h6 style="padding: 0; margin: 0; font-size: 8px;">DATI CLIENTE</h6>
-                    <hr class="hr-print">
-                    <p style="font-size: 9px; margin:2px;" class="grassetto">{{$ticket->descrizione}}</p>
-                    @foreach ($customers as $customer)
-                    @php $numbers = ''; @endphp
-                    
-                    @if(isset($customer->Telefono) && $customer->Telefono !== null)
-                    @php $numbers .= preg_replace('/[^0-9]/', '', $customer->Telefono) . '<br>'; @endphp
-                    @endif
-                    
-                    @if(isset($customer->Telefono2) && $customer->Telefono2 !== null)
-                    @php $numbers .= preg_replace('/[^0-9]/', '', $customer->Telefono2) . '<br>'; @endphp
-                    @endif
-                    
-                    @if(isset($customer->Cellulare) && $customer->Cellulare !== null)
-                    @php $numbers .= preg_replace('/[^0-9]/', '', $customer->Cellulare) . '<br>'; @endphp
-                    @endif
-                    
-                    @if(isset($customer->Cellulare2) && $customer->Cellulare2 !== null)
-                    @php $numbers .= preg_replace('/[^0-9]/', '', $customer->Cellulare2) . '<br>'; @endphp
-                    @endif
-                    
-                    @if(!empty($numbers))
-                    <p style="font-size: 9px; margin:2px;">{!! rtrim($numbers, '<br>') !!}</p>
-                    @endif
-                    @endforeach
-                    
-                    
-                    @foreach ($indirizziFiltrati as $indirizzo)
-                    <p style="font-size: 9px; margin:2px;">{{ $indirizzo }}<br></p>
-                    @endforeach
-                    @foreach ($infoCustomers as $info)
-                    <p style="font-size: 9px; margin:2px;">{{$info->Città}}</p>
-                    @endforeach
-                </div>
-                
-                <div class="problema-container">
-                    <h6 style="margin-top: 40px; margin-bottom: 0; padding:0;">PROBLEMA: {{$ticket->title}} 
-                        @isset($ticket->machinesSold->model)
-                        - {{$ticket->machinesSold->model}}
-                        @endisset
-                        @isset($ticket->machinesSold->serial_number)
-                        - {{$ticket->machinesSold->serial_number}}
-                        @endisset
-                    </h6>
-                    
-                    
-                    <h6 style="text-align:end; padding:0; margin-top: 40px; margin-bottom:0;">Priorità {{$ticket->priority}}</h6>
-                </div>
-                <hr class="hr-print">
-                
-                <div style="height: 100px;">
-                    <br>
-                    <p>{{$ticket->description}}</p>
-                </div>
-                
-                <div style="height: 180px;">
-                    <h6 style="padding: 0; margin: 0; font-size: 8px;">SOLUZIONE</h6>
-                    <hr class="hr-print">
-                </div>
-                
-                <div class="layout-container">
-                    <div>
-                        <p style="margin-bottom: 50px;">Data intervento</p>
-                        <hr class="hr-print">
-                    </div>
-                    <div>
-                        <p style="margin-bottom: 50px; text-align: center">Firma</p>
-                        <hr style="width: 100px" class="hr-print">
-                    </div>
-                </div>
-            </div>
-            
-            <hr class="dashed-line">
-            
-            <!-- Seconda metà della pagina - Duplicato della prima metà -->
-            <div class="half-page">
-                <div class="logo-container">
-                    <img src="{{ asset('assets/coimaf_logo.png') }}" alt="">
-                    <p style="font-size: 6px; width:100px;">COIMAF SRL <br>
-                        VIA DEL LAVORO <br>
-                        88060 SAN SOSTENE (CZ)<br>
-                        Tel. 0967.522303<br>
-                        info@coimaf.com<br>
-                        www.coimaf.com
-                    </p>
-                </div>
-                
-                <div class="numero-ticket-container">
-                    <p> </p>
-                    <p style="text-align: center;  font-size: 10px; margin-top: 20px">Ticket Numero {{$ticket->id}} del {{$ticket->created_at->format('d/m/Y')}}</p>
-                </div>
-                
-                <div class="cliente-container">
-                    <h6 style="padding: 0; margin: 0; font-size: 8px;">DATI CLIENTE</h6>
-                    <hr class="hr-print">
-                    <p style="font-size: 9px; margin:2px;" class="grassetto">{{$ticket->descrizione}}</p>
-                    @foreach ($customers as $customer)
-                    @php $numbers = ''; @endphp
-                    
-                    @if(isset($customer->Telefono) && $customer->Telefono !== null)
-                    @php $numbers .= preg_replace('/[^0-9]/', '', $customer->Telefono) . '<br>'; @endphp
-                    @endif
-                    
-                    @if(isset($customer->Telefono2) && $customer->Telefono2 !== null)
-                    @php $numbers .= preg_replace('/[^0-9]/', '', $customer->Telefono2) . '<br>'; @endphp
-                    @endif
-                    
-                    @if(isset($customer->Cellulare) && $customer->Cellulare !== null)
-                    @php $numbers .= preg_replace('/[^0-9]/', '', $customer->Cellulare) . '<br>'; @endphp
-                    @endif
-                    
-                    @if(isset($customer->Cellulare2) && $customer->Cellulare2 !== null)
-                    @php $numbers .= preg_replace('/[^0-9]/', '', $customer->Cellulare2) . '<br>'; @endphp
-                    @endif
-                    
-                    @if(!empty($numbers))
-                    <p style="font-size: 9px; margin:2px;">{!! rtrim($numbers, '<br>') !!}</p>
-                    @endif
-                    @endforeach
-                    
-                    
-                    @foreach ($indirizziFiltrati as $indirizzo)
-                    <p style="font-size: 9px; margin:2px;">{{ $indirizzo }}<br></p>
-                    @endforeach
-                    @foreach ($infoCustomers as $info)
-                    <p style="font-size: 9px; margin:2px;">{{$info->Città}}</p>
-                    @endforeach
-                </div>
-                
-                <div class="problema-container">
-                    <h6 style="margin-top: 40px; margin-bottom: 0; padding:0;">PROBLEMA: {{$ticket->title}} 
-                        @isset($ticket->machinesSold->model)
-                        - {{$ticket->machinesSold->model}}
-                        @endisset
-                        @isset($ticket->machinesSold->serial_number)
-                        - {{$ticket->machinesSold->serial_number}}
-                        @endisset
-                    </h6>
-                    
-                    
-                    <h6 style="text-align:end; padding:0; margin-top: 40px; margin-bottom:0;">Priorità {{$ticket->priority}}</h6>
-                </div>
-                <hr class="hr-print">
-                
-                <div style="height: 100px;">
-                    <br>
-                    <p>{{$ticket->description}}</p>
-                </div>
-                
-                <div style="height: 180px;">
-                    <h6 style="padding: 0; margin: 0; font-size: 8px;">SOLUZIONE</h6>
-                    <hr class="hr-print">
-                </div>
-                
-                <div class="layout-container">
-                    <div>
-                        <p style="margin-bottom: 50px;">Data intervento</p>
-                        <hr class="hr-print">
-                    </div>
-                    <div>
-                        <p style="margin-bottom: 50px; text-align: center">Firma</p>
-                        <hr style="width: 100px" class="hr-print">
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <style>
-            .layout-container {
-                display: flex;
-                justify-content: space-between;
-            }
-            
-            .half-page {
-                width: 50%;
-                margin: 0 10px;
-            }
-            
-            .grassetto {
-                font-weight: bold;
-            }
-            
-            @media print {
-                body{
-                    font-family: 'Lato', sans-serif;
-                }
-                p{
-                    padding: 0;
-                    margin: 0;
-                }
-                #printButton {
-                    visibility: hidden;
-                }
-                
-                .logo-container {
-                    display: flex;
-                    margin-bottom: 20px;
-                    justify-content: space-around;
-                }
-                
-                .logo-container img {
-                    width: 100%;
-                    margin: 0 0px;
-                    margin-right: 30px;
-                    align-self: flex-end;
-                }
-                
-                .numero-ticket-container {
-                    display: flex;
-                    justify-content: space-between;
-                    margin-top: 60px;
-                }
-                
-                .hr-print {
-                    border: 1px solid #000; /* Aggiungi uno stile al tuo hr */
-                    margin: 10px 0;
-                }
-                
-                .dashed-line {
-                    position: absolute;
-                    top: 0;
-                    bottom: 0;
-                    left: 50%;
-                    border: none;
-                    border-left: 1px dashed #000;
-                    height: 95%;
-                }
-                
-                .problema-container{
-                    display: flex;
-                    justify-content: space-between;
-                }
-            }
-        </style>
-    </body>
-    </html>
     
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-9 mt-3 p-0">
+                <img width="240px;" src="{{ asset('assets/coimaf_logo.png') }}" alt="">
+                <p style="color: #06205C; font-size: 11px; padding-top:10px;" class="fw-semibold">ARREDAMENTI REFRIGERAZIONE AERAULICA</p>
+            </div>
+            <div class="col-3 m-0 p-0 text-end">
+                <p class="m-0 p-0" style="font-size: 8px;">COIMAF SRL</p>
+                <p class="m-0 p-0" style="font-size: 8px;">VIA DEL LAVORO</p>
+                <p class="m-0 p-0" style="font-size: 8px;">88060 SAN SOSTENE (CZ)</p>
+                <p class="m-0 p-0" style="font-size: 8px;">Tel. 0967.522303</p>
+                <p class="m-0 p-0" style="font-size: 8px;">info@coimaf.com</p>
+                <p class="m-0 p-0" style="font-size: 8px;">www.coimaf.com</p>
+            </div>
+            <div class="col-12 ms-2 mt-1" style="font-size: 8px;">
+                Ticket Numero {{$ticket->id}} del {{$ticket->created_at->format('d/m/Y')}}
+            </div>
+            <div class="col-12 m-0 p-0 mt-3">
+                <p style="font-size: 8px; margin:2px;" class="fw-bold">{{$ticket->descrizione}}</p>
+                @foreach ($customers as $customer)
+                @php $numbers = ''; @endphp
+                
+                @if(isset($customer->Telefono) && $customer->Telefono !== null)
+                @php $numbers .= preg_replace('/[^0-9]/', '', $customer->Telefono) . ' - '; @endphp
+                @endif
+                
+                @if(isset($customer->Telefono2) && $customer->Telefono2 !== null)
+                @php $numbers .= preg_replace('/[^0-9]/', '', $customer->Telefono2) . ' - '; @endphp
+                @endif
+                
+                @if(isset($customer->Cellulare) && $customer->Cellulare !== null)
+                @php $numbers .= preg_replace('/[^0-9]/', '', $customer->Cellulare) . ' - '; @endphp
+                @endif
+                
+                @if(isset($customer->Cellulare2) && $customer->Cellulare2 !== null)
+                @php $numbers .= preg_replace('/[^0-9]/', '', $customer->Cellulare2) . ' - '; @endphp
+                @endif
+                
+                @if(!empty($numbers))
+                <p style="font-size: 8px; margin:2px;">{!! rtrim($numbers, ' - ') !!}</p>
+                @endif
+                @endforeach
+                
+                
+                @foreach ($indirizziFiltrati as $indirizzo)
+                <p style="font-size: 8px; margin:2px;">{{ $indirizzo }}<br></p>
+                @endforeach
+                @foreach ($infoCustomers as $info)
+                <p style="font-size: 8px; margin:2px;">{{$info->Città}}</p>
+                @endforeach
+            </div>
+            <div class="col-9 m-0 p-0">
+                <h6 class="fw-bold mt-5">PROBLEMA: {{$ticket->title}} 
+                    @isset($ticket->machinesSold->model)
+                    - {{$ticket->machinesSold->model}}
+                    @endisset
+                    @isset($ticket->machinesSold->serial_number)
+                    - {{$ticket->machinesSold->serial_number}}
+                    @endisset
+                </h6>
+            </div>
+            <div class="col-3 m-0 p-0">
+                <h6 style="text-align:end;" class="mt-5 fw-bold">Priorità {{$ticket->priority}}</h6>
+            </div>
+            
+            <hr class="hr-print">
+
+            <p>{{$ticket->description}}</p>
+            
+            <div class="col-6 p-0" style="margin-top: 100px;">
+                <h6 class="fw-bold">SOLUZIONE</h6>
+            </div>
+            
+            <hr class="hr-print" style="margin-bottom: 180px;">
+            
+            <div class="col-6 m-0 p-0">
+                <p class="m-0 p-0">Data intervento __________________</p>
+            </div>
+            <div class="col-6 m-0 p-0 text-end">
+                <p class="m-0 p-0">Firma __________________</p>
+            </div>
+            
+        </div>
+    </div>
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>
+
+<style>
+    body{
+        font-family: 'Lato', sans-serif;
+    }
+    
+    .hr-print {
+        border: 1px solid #000;
+        margin-top: 2px;
+    }
+</style>

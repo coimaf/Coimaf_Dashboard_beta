@@ -30,6 +30,8 @@ use App\Http\Controllers\AuthCustomAuthController;
 
 //! Solo per Test
 // Route::get('/test', [TestController::class, 'index'])->name('test');
+// Route::get('/test/{ticket}', [TestController::class, 'print']);
+
 
 //? Non esiste home
 // Route::get('/', function () {
