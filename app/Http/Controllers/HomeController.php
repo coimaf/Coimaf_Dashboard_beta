@@ -52,7 +52,8 @@ class HomeController extends Controller
         INNER JOIN 
         ARARMisura ON AR.Cd_AR = ARARMisura.Cd_AR AND ARARMisura.DefaultMisura = 1 
         WHERE 
-        MGGiacDisp.QuantitaDisp < AR.ScortaMinima");
+        MGGiacDisp.QuantitaDisp < AR.ScortaMinima
+        AND AR.Cd_ARMarca != 'COIMAF-A'");
         
         // Calcolo del numero di documenti in flotta scadute (data di scadenza antecedente alla data odierna)
         $expiredVehiclesCount = Vehicle::whereHas('documents', function ($query) {
@@ -119,7 +120,8 @@ class HomeController extends Controller
             INNER JOIN 
             ARARMisura ON AR.Cd_AR = ARARMisura.Cd_AR AND ARARMisura.DefaultMisura = 1 
             WHERE 
-            MGGiacDisp.QuantitaDisp < AR.ScortaMinima");
+            MGGiacDisp.QuantitaDisp < AR.ScortaMinima
+            AND AR.Cd_ARMarca != 'COIMAF-A'");
             
             // Calcolo del numero di documenti in flotta scadute (data di scadenza antecedente alla data odierna)
             $expiredVehiclesCount = Vehicle::whereHas('documents', function ($query) {
