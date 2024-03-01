@@ -1,7 +1,12 @@
 <x-Layouts.layoutDash>
     
     <h6 class="fw-bold p-4 fs-5">Crea un nuovo Ticket</h6>
-    <p class="px-4">Ticket Numero: {{$nextTicketNumber}}</p>
+
+    <div class='d-flex align-items-center'>
+        <p class="px-4 fw-bold">Ticket Numero: {{$nextTicketNumber}}</p>
+        
+        <p id="differenza" class='fw-bold fs-4 d-flex align-items-center gap-2'></p>
+    </div>
     
     <form id="form" class="p-4" style="overflow: hidden;" action="{{route('dashboard.tickets.store')}}" method="POST">
         @csrf
@@ -94,22 +99,60 @@
     
 </x-Layouts.layoutDash>
 
-
 <script>
     document.getElementById('customerInput').addEventListener('input', function() {
         var selectedOption = document.querySelector('#customer option[value="' + this.value + '"]');
         var cdCFInput = document.getElementById('selectedCdCFInput');
         var Cd_CFClasse3Input = document.getElementById('selectedCd_CFClasse3Input');
+        var totaleDare = 0;
+        var totaleAvere = 0;
         
         if (selectedOption) {
             cdCFInput.value = selectedOption.getAttribute('data-cd-cf');
+            
+            // Invia una richiesta AJAX per ottenere i risultati in base a cdCF
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/fetch-results?cdCF=' + cdCFInput.value, true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    var results = JSON.parse(xhr.responseText);
+                    // Costruisci il testo dei risultati
+                    var resultText = '';
+                    results.forEach(function(result) {
+                        // Aggiungi i valori Dare e Avere al totale
+                        totaleDare += parseFloat(result.ImportoDare);
+                        totaleAvere += parseFloat(result.ImportoAvere);
+                    });
+                    // Calcola la differenza tra Dare e Avere
+                    var differenza = totaleAvere - totaleDare;
+                    
+                    // Costruisci il testo per mostrare la differenza
+                    var differenzaText = '<i class="bi bi-circle-fill"></i>  SALDO: ' + differenza.toFixed(2); // Utilizza toFixed per limitare i decimali a due cifre
+                    
+                    // Aggiorna il paragrafo con la differenza calcolata
+                    var differenzaElement = document.getElementById('differenza');
+                    differenzaElement.innerHTML = differenzaText;
+                    
+                    // Aggiungi lo stile CSS in base al valore della differenza
+                    if (differenza >= 0) {
+                        differenzaElement.style.color = 'green'; // Testo verde per valori positivi, null o 0
+                    } else {
+                        differenzaElement.style.color = 'red'; // Testo rosso per valori negativi
+                    }
+                    
+                    // Aggiungi il valore di cdCF ai dati del modulo
+                    document.getElementById('cdCFInput').value = cdCFInput.value;
+                }
+            };
+            xhr.send();
+            
             Cd_CFClasse3Input.value = selectedOption.getAttribute('data-Cd_CFClasse3');
         } else {
             cdCFInput.value = ''; // Se l'utente cancella l'input, azzera il valore di Cd_CF
             Cd_CFClasse3Input.value = '';
         }
-        console.log(cdCFInput.value);
-        console.log(Cd_CFClasse3Input.value );
+        // console.log(cdCFInput.value);
+        // console.log(Cd_CFClasse3Input.value );
     });
     
     // Aggiungi un listener per il submit del form
