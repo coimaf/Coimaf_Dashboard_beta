@@ -3,7 +3,7 @@
     <h6 class="fw-bold p-4 fs-5">Crea un nuovo Ticket</h6>
 
     <div class='d-flex align-items-center'>
-        <p class="px-4 fw-bold">Ticket Numero: {{$nextTicketNumber}}</p>
+        <p class="px-4 fs-4 fw-bold">Ticket Numero: {{$nextTicketNumber}}</p>
         
         <p id="differenza" class='fw-bold fs-4 d-flex align-items-center gap-2'></p>
     </div>

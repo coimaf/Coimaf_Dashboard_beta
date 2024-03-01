@@ -4,6 +4,7 @@
         <div class="row">
             <div class="col-3">
                 <p class="card-footer fw-semibold m-4 fs-4 print">Ticket Numero: {{$ticket->id}}</p>
+                <p id="differenza" class='card-footer fw-semibold ms-4 d-flex fs-4 print'></p>
             </div>
             <div class="col-3 print">
                 <p class="card-footer fw-semibold m-4 fs-4
@@ -44,6 +45,7 @@
         
         <div class="col-12 col-md-4">
             <label class="fs-5 mb-1 fw-semibold">Cliente</label>
+            <input hidden id="cdcf" value="{{$ticket->cd_cf}} {{$ticket->descrizione}}" class="form-control form-custom fs-5" readonly>
             <input value="{{$ticket->cd_cf}} {{$ticket->descrizione}}" class="form-control form-custom fs-5" readonly>
         </div>
         
@@ -219,6 +221,50 @@ window.onload = function() {
     updateTotal();
     calculateIVA();
 };
+
+
+
+// Ora puoi ottenere il valore di cdCFInput
+var cdCFValue = "<?php echo $ticket->cd_cf; ?>";
+
+var totaleDare = 0;
+        var totaleAvere = 0;
+
+   // Invia una richiesta AJAX per ottenere i risultati in base a cdCF
+   var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/fetch-results?cdCF=' + cdCFValue, true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    var results = JSON.parse(xhr.responseText);
+                    // Costruisci il testo dei risultati
+                    var resultText = '';
+                    results.forEach(function(result) {
+                        // Aggiungi i valori Dare e Avere al totale
+                        totaleDare += parseFloat(result.ImportoDare);
+                        totaleAvere += parseFloat(result.ImportoAvere);
+                    });
+                    // Calcola la differenza tra Dare e Avere
+                    var differenza = totaleAvere - totaleDare;
+                    
+                    // Costruisci il testo per mostrare la differenza
+                    var differenzaText = '<i class="bi bi-circle-fill me-2" style="margin-top: 8px;"></i>  SALDO: ' + differenza.toFixed(2); // Utilizza toFixed per limitare i decimali a due cifre
+                    
+                    // Aggiorna il paragrafo con la differenza calcolata
+                    var differenzaElement = document.getElementById('differenza');
+                    differenzaElement.innerHTML = differenzaText;
+                    
+                    // Aggiungi lo stile CSS in base al valore della differenza
+                    if (differenza >= 0) {
+                        differenzaElement.style.color = 'green'; // Testo verde per valori positivi, null o 0
+                    } else {
+                        differenzaElement.style.color = 'red'; // Testo rosso per valori negativi
+                    }
+                    
+                    // Aggiungi il valore di cdCF ai dati del modulo
+                    document.getElementById('differenza').value = cdCFValue;
+                }
+            };
+            xhr.send();
 
 </script>
 
