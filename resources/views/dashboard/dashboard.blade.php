@@ -1,6 +1,7 @@
 <x-Layouts.layoutDash>
   <div class="container-fluid p-5">
     <div class="row justify-content-between align-items-center">
+      @if(Str::contains(auth()->user()->groups, 'GESTIONALE-Ticket'))
       <div class="col-md-3 my-2">
         <div class="container-filter-home card text-black" style="width: 80%;">
           <h4 class="card-title text-center py-3 text-uppercase fw-bold" style="color: #ffffff; background-color: #081B49;">Tickets</h4>
@@ -37,7 +38,8 @@
           </div>
         </div>
       </div>
-      
+      @endif
+      @if(Str::contains(auth()->user()->groups, 'GESTIONALE-Scadenzario'))
       <div class="col-md-3 my-2">
         <div class="card container-filter-home text-black" style="width: 80%;">
             <h4 class="card-title text-center py-3 text-uppercase fw-bold" style="color: #ffffff; background-color: #081B49;">Scadenze</h4>
@@ -65,7 +67,8 @@
             </div>
         </div>
     </div>
-    
+    @endif
+    @if(Str::contains(auth()->user()->groups, 'GESTIONALE-Sottoscorta'))
     <div class="col-md-3 my-2">
       <div class="card container-filter-home text-black" style="width: 80%;">
           <h4 class="card-title text-center py-3 text-uppercase fw-bold" style="color: #ffffff; background-color: #081B49;">Articoli sottoscorta</h4>
@@ -84,7 +87,8 @@
           </div>
       </div>
   </div>
-
+  @endif
+  @if(Str::contains(auth()->user()->groups, 'GESTIONALE-Flotta'))
       <div class="col-md-3 my-2">
         <div class="card container-filter-home text-black" style="width: 80%;">
             <h4 class="card-title text-center py-3 text-uppercase fw-bold" style="color: #ffffff; background-color: #081B49;">Flotta</h4>
@@ -112,7 +116,7 @@
             </div>
         </div>
     </div>
-
+    @endif
     </div>
   </div>
 </x-Layouts.layoutDash>
