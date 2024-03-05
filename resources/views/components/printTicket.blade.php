@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <title>Document</title>
+    <title>Ticket</title>
 </head>
 <body>
     
@@ -26,7 +26,7 @@
                 <p class="m-0 p-0" style="font-size: 8px;">info@coimaf.com</p>
                 <p class="m-0 p-0" style="font-size: 8px;">www.coimaf.com</p>
             </div>
-            <div class="col-12 ms-2 mt-1" style="font-size: 11px;">
+            <div class="col-12 p-0 mt-1 fw-bold" style="font-size: 11px;">
                 Ticket Numero {{$ticket->id}} del {{$ticket->created_at->format('d/m/Y')}}
             </div>
             <div class="col-12 m-0 p-0 mt-3">
@@ -74,7 +74,7 @@
                 </p>
             </div>
             <div class="col-3 m-0 p-0">
-                <p style="text-align:end; font-size: 11px;" class="mt-3 fw-bold">Priorità {{$ticket->priority}}</p>
+                <p style="text-align:end; font-size: 11px;" class="mt-3 fw-bold text-decoration-underline">Priorità {{$ticket->priority}}</p>
             </div>
             
             <hr class="hr-print">
