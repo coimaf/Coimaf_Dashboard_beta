@@ -2,10 +2,11 @@
 
 namespace App\Exceptions;
 
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -19,6 +20,25 @@ class Handler extends ExceptionHandler
         'password',
         'password_confirmation',
     ];
+
+    public function report(Throwable $exception)
+    {
+        if ($this->shouldReport($exception)) {
+            $this->sendErrorEmail($exception);
+        }
+
+        parent::report($exception);
+    }
+
+    private function sendErrorEmail(Throwable $exception)
+    {
+        $errorMessage = $exception->getMessage();
+        $errorTrace = $exception->getTraceAsString();
+
+        Mail::raw("Error Message: $errorMessage\n\nStack Trace: $errorTrace", function ($message) {
+            $message->to('nicola.mazzaferro@coimaf.com')->subject('Errore in Dashboard Coimaf!');
+        });
+    }
 
     /**
      * Register the exception handling callbacks for the application.
