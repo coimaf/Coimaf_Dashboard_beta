@@ -120,10 +120,10 @@
             </div>
             
         </div>
+        <div class="row fixed-button">
+            <x-Buttons.buttonBlue type="submit" props="Modifica" />
+        </div>
     </form>
-    <div class="row fixed-button">
-        <x-Buttons.buttonBlue type="submit" props="Modifica" />
-    </div>
     
     
     <style>

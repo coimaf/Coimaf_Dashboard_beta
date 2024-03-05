@@ -14,6 +14,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('send:expired-deadline-notifications')->dailyAt('07:00');
         $schedule->command('send:expired-employee-document-notifications')->dailyAt('07:00');
+        $schedule->command('send:expired-vehicle-notifications')->dailyAt('07:00');
     }
     
 

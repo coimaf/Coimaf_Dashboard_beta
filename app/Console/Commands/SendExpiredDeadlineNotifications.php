@@ -40,6 +40,7 @@ class SendExpiredDeadlineNotifications extends Command
     private function sendNotification(Deadline $deadline, int $daysRemaining)
     {
         $deadline->user->notify(new \App\Notifications\ScadenzaScadutaNotification($deadline, $daysRemaining));
+        Mail::to('amministrazione@coimaf.com')->send(new \App\Notifications\ScadenzaScadutaNotification($deadline, $daysRemaining));
         // Mail::to('operativo@coimaf.com')->send(new \App\Notifications\ScadenzaScadutaNotification($deadline, $daysRemaining));
     }
     

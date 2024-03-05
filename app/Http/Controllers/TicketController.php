@@ -294,7 +294,7 @@ public function store(Request $request)
     $ticket->save();
     
     // Invia la notifica passando l'oggetto del ticket
-    \Illuminate\Support\Facades\Notification::route('mail', 'nicola.mazzaferro@coimaf.com')
+    \Illuminate\Support\Facades\Notification::route('mail', 'assistenza@coimaf.com')
     ->notify(new NewTicketNotification($ticket));
     
     return redirect()->route('dashboard.tickets.index')->with('success', 'Ticket creato con successo!');

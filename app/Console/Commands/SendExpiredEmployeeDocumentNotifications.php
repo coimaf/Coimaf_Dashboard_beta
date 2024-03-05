@@ -36,6 +36,7 @@ class SendExpiredEmployeeDocumentNotifications extends Command
         foreach ($employees as $employee) {
             if ($employee->user) {
                 $employee->user->notify(new \App\Notifications\ScadenzaDocumentoEmployeeNotification($employee, 0)); // 0 giorni rimanenti per i documenti già scaduti
+                Mail::to('amministrazione@coimaf.com')->send(new \App\Notifications\ScadenzaDocumentoEmployeeNotification($employee, 0));
                 // Mail::to('operativo@coimaf.com')->send(new \App\Notifications\ScadenzaDocumentoEmployeeNotification($employee, 0));
                 if ($employee->updatedBy) {
                     $employee->updatedBy->notify(new \App\Notifications\ScadenzaDocumentoEmployeeNotification($employee, 0)); // 0 giorni rimanenti per i documenti già scaduti
@@ -56,6 +57,7 @@ class SendExpiredEmployeeDocumentNotifications extends Command
         foreach ($employees as $employee) {
             if ($employee->user) {
                 $employee->user->notify(new \App\Notifications\ScadenzaDocumentoEmployeeNotification($employee, $days));
+                Mail::to('amministrazione@coimaf.com')->send(new \App\Notifications\ScadenzaDocumentoEmployeeNotification($employee, 0));
                 // Mail::to('operativo@coimaf.com')->send(new \App\Notifications\ScadenzaDocumentoEmployeeNotification($employee, $days));
                 if ($employee->updatedBy) {
                     $employee->updatedBy->notify(new \App\Notifications\ScadenzaDocumentoEmployeeNotification($employee, $days));
