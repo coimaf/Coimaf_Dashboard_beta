@@ -145,16 +145,19 @@
                 <label class="my-2" for="qnt">Quantità</label>
                 <input type="number" id="qnt" name="qnt" class="form-control" value="0">
             </div>
-            
+            @php
+                $przValue = 0;
+            @endphp
             <div class="col-12 col-md-2">
                 <label class="my-2" for="prz">Prezzo</label>
                 <div class="input-group">
-                    <input type="text" name="prz" id="prz" class="form-control" value="0.00" step="0.01">
+                    <input type="text" name="prz" id="prz" class="form-control" value="{{ number_format($przValue, 2, ',', '.') }}" step="0.01" readonly>
                     <div class="input-group-append">
                         <span class="input-group-text">€</span>
                     </div>
                 </div>
             </div>
+            
             
             <div class="col-12 col-md-1">
                 <label class="my-2" for="sconto">Sconto</label>
@@ -169,7 +172,7 @@
             <div class="col-12 col-md-2">
                 <label class="my-2" for="tot">Totale</label>
                 <div class="input-group">
-                    <input type="text" id="tot" name="tot" class="form-control" value="0" readonly>
+                    <input type="text" id="tot" name="tot" class="form-control" value="{{ number_format($przValue, 2, ',', '.') }}" readonly>
                     <div class="input-group-append">
                         <span class="input-group-text">€</span>
                     </div>
