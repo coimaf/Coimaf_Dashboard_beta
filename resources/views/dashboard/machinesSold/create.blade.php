@@ -58,6 +58,9 @@
             <div class="col-12 col-md-6 mb-4">
                 <label class="my-2" for="delivery_ddt">Documento di trasporto</label>
                 <input type="text" name="delivery_ddt" class="form-control">
+
+                <label class="my-2" for="img">Immagine</label>
+                <input type="file" name="img" class="form-control">
             </div>
             
             <div class="col-12 col-md-6">

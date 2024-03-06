@@ -93,6 +93,7 @@ class MachineController extends Controller
             'brand' => 'required',
             'serial_number' => 'required',
             'warranty_type_id' => 'nullable|exists:warranty_types,id',
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
         $currentDate = Carbon::now();
@@ -114,6 +115,11 @@ class MachineController extends Controller
             'buyer' => $request->input('buyer'),
             'notes' => $request->input('notes'),
         ]);
+
+        if ($request->hasFile('img')) {
+            $path = $request->file('img')->store('macchine_installate', 'public');
+            $machine->img = $path;
+        }
 
         $machine->user()->associate(Auth::user());
     
@@ -145,6 +151,7 @@ class MachineController extends Controller
             'model' => 'required',
             'brand' => 'required',
             'serial_number' => 'required',
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
     
         $machine->update($request->all());
@@ -156,6 +163,15 @@ class MachineController extends Controller
     
         // Aggiorna la relazione Eloquent con il tipo di garanzia
         $machine->warrantyType()->associate($request->input('warranty_type_id'));
+
+        if ($request->hasFile('img')) {
+            $path = $request->file('img')->store('macchine_installate', 'public');
+            $machine->img = $path;
+        } else {
+            $machine->update([
+                "img" => $machine->img
+            ]);
+        }
 
         $machine->updated_by = Auth::user()->id;
     

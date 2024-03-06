@@ -64,6 +64,10 @@
             <div class="col-12 col-md-6">
                 <label class="my-2" for="delivery_ddt">Documento di trasporto</label>
                 <input type="text" name="delivery_ddt" class="form-control" value="{{ old('delivery_ddt', $machine->delivery_ddt) }}">
+
+                
+                <label class="my-2" for="img">Immagine</label>
+                <input type="file" name="img" class="form-control">
             </div>
             
             <div class="col-12 col-md-6">
@@ -71,7 +75,7 @@
                 <textarea type="text" name="notes" class="form-control" style="height: 100px; resize: none;">{{ old('notes', $machine->notes) }}</textarea>
             </div>
             <div class="row py-3">
-            <x-Buttons.buttonBlue type="submit" props="Aggiorna" />
+            <x-Buttons.buttonBlue type="submit" props="Salva" />
             </div>
         </div>
     </form>
