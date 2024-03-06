@@ -18,7 +18,7 @@
                 <option value="{{ $tag->id }}">{{ $tag->name }}</option>
                 @endforeach
             </select>
-
+            
             <div class="col-12 col-md-6">
                 <label class="my-2" for="pdf">Carica Documento*</label>
                 <input type="file" name="pdf" accept=".pdf" class="form-control" required>
@@ -30,7 +30,7 @@
             </div>
             
             <div class="row py-3">
-            <x-Buttons.buttonBlue type="submit" props="Aggiungi" />
+                <x-Buttons.buttonBlue type="submit" props="Aggiungi" />
             </div>
         </div>
     </form>
@@ -52,6 +52,7 @@
         background-repeat: no-repeat;
         background-position: right .75rem center;
         background-size: 16px 12px;
+        cursor: pointer;
     }
     .multiselect-dropdown span.optext, .multiselect-dropdown span.placeholder{
         margin-right:0.5em; 
@@ -61,8 +62,12 @@
         display:inline-block;
     }
     .multiselect-dropdown span.optext{
-        background-color:lightgray;
+        background-color:#22335C;
+        color:white;
         padding:1px 0.75em; 
+        margin:5px;
+        font-weight:bold;
+        cursor: pointer;
     }
     .multiselect-dropdown span.optext .optdel {
         float: right;
@@ -70,14 +75,14 @@
         font-size: 0.7em;
         margin-top: 2px;
         cursor: pointer;
-        color: #666;
+        color: ##22335C;
     }
     .placeholder{
         cursor:pointer;
     }
-    .multiselect-dropdown span.optext .optdel:hover { color: #c66;}
+    .multiselect-dropdown span.optext .optdel:hover { color: #22335C;}
     .multiselect-dropdown span.placeholder{
-        color:#ced4da;
+        color:#ffffff;
     }
     .multiselect-dropdown-list-wrapper{
         box-shadow: gray 0 3px 8px;
@@ -234,6 +239,7 @@
                             div.appendChild(c);
                         });
                     }
+                    
                     if(0==el.selectedOptions.length) div.appendChild(newEl('span',{class:'placeholder',text:el.attributes['placeholder']?.value??config.placeholder}));
                 };
                 div.refresh();

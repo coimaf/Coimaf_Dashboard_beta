@@ -42,7 +42,7 @@
             
             
             <div class="row">
-                <x-Buttons.buttonBlue type="submit" props="Aggiorna" />
+                <x-Buttons.buttonBlue type="submit" props="Salva" />
             </div>
         </div>
     </form>
