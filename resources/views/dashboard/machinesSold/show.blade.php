@@ -1,7 +1,13 @@
     <x-Layouts.layoutDash>
         
         <div class="row justify-content-end">
-            <div class="col-3 no-print">
+            <div class="col-12 col-md-3">
+                <p class="card-footer fw-semibold mt-3 ps-3">Creato da: {{$machine->user->name}}  il: {{$machine->created_at->format('d/m/Y')}} 
+                @if($machine->updated_by)
+                <br><br>Modificato da: {{$machine->updatedBy->name}} il: {{$machine->updated_at->format('d/m/Y')}}</p>
+                @endif
+            </div>
+            <div class="col-12 col-md-2 no-print">
                 <a href="{{ route('dashboard.machinesSolds.edit', $machine->id) }}" class="btn btn-warning float-end fs-4 m-4">Modifica</a>
             </div>
         </div>
@@ -45,8 +51,9 @@
             
             <div class="col-12 col-md-6">
                 <label class="fs-5 mb-1 fw-semibold">Data installazione</label>
-                <input value="{{ \Carbon\Carbon::parse($machine->sale_date)->format('d-m-Y' )}}" class="form-control form-custom fs-5" readonly>
+                <input value="{{ $machine->sale_date ? \Carbon\Carbon::parse($machine->sale_date)->format('d-m-Y') : '' }}" class="form-control form-custom fs-5" readonly>
             </div>
+            
             
             <div class="col-12 col-md-6">
                 <label class="fs-5 mb-1 fw-semibold">Registrata il</label>
@@ -64,10 +71,7 @@
             </div>
             
         </div>
-        <p class="card-footer fw-semibold mt-3 ps-3">Creato da: {{$machine->user->name}}  il: {{$machine->created_at->format('d/m/Y')}} 
-            @if($machine->updated_by)
-            <br><br>Modificato da: {{$machine->updatedBy->name}} il: {{$machine->updated_at->format('d/m/Y')}}</p>
-            @endif
+
     </x-Layouts.layoutDash>
     
     <style>

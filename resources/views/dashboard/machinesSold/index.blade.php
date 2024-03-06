@@ -39,10 +39,13 @@
                     </a>
                 </td>
                 <td class="ps-3">
-                    <a class="link-underline link-underline-opacity-0 link-dark" href="{{route('dashboard.machinesSolds.show', compact('machine'))}}">
-                        {{ \Carbon\Carbon::parse($machine->sale_date)->format('d-m-Y') }}
-                    </a>
+                    @if($machine->sale_date)
+                        <a class="link-underline link-underline-opacity-0 link-dark" href="{{ route('dashboard.machinesSolds.show', compact('machine')) }}">
+                            {{ \Carbon\Carbon::parse($machine->sale_date)->format('d-m-Y') }}
+                        </a>
+                    @endif
                 </td>
+                
                 <td class="ps-4">
                     <a href="{{ route('dashboard.machinesSolds.edit', $machine->id) }}">
                         <i class='bi bi-pencil-square text-warning'></i>

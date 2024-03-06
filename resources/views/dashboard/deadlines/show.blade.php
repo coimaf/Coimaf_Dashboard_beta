@@ -55,7 +55,7 @@
                                 </div>
                                 <div class="col-sm-9">
                                     @foreach ($deadline->tags as $tag)
-                                    <span class="badge bg-primary fs-6">{{ $tag->name }}</span>
+                                    <span class="badge bg-primary-cust fs-6">{{ $tag->name }}</span>
                                     @endforeach
                                 </div>
                             </div>

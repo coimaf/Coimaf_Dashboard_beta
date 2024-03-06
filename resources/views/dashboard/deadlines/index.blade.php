@@ -43,7 +43,7 @@
                 
                 <td>
                     @foreach ($deadline->tags as $tag)
-                    <a class="badge bg-primary link-underline link-underline-opacity-0" href="{{ route('dashboard.deadlines.tag', $tag->name) }}">{{ $tag->name }}</a>
+                    <a class="badge bg-primary-cust p-2 link-underline link-underline-opacity-0" href="{{ route('dashboard.deadlines.tag', $tag->name) }}">{{ $tag->name }}</a>
                     @endforeach
                     
                 </a>

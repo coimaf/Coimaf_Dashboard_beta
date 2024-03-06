@@ -238,9 +238,10 @@ php artisan ldap:browse
 - [x] Utente persistente non funziona con Guards diversa da web
 - [x] Updatedby non funziona nelle notifiche di employee
 - [x] Cambiare email e DB fittizio dal controller Ticket in create e store;
-- [ ] Testare le mail operativo e assistenza in ticket - deadline - employee
-- [ ] Aggiungere invio email di scadenze flotta ad amministrazione@coimaf.com
+- [x] Testare le mail operativo e assistenza in ticket - deadline - employee
+- [x] Aggiungere invio email di scadenze flotta ad amministrazione@coimaf.com
 - [x] Errore visualizzazione in fase di edit dei documenti di flotta e fpc
-- [ ] Controllare tutte le date null nelle viste perche mostrano le date attuali;
+- [x] Controllare tutte le date null nelle viste perche mostrano le date attuali;
 - [x] Validare seleziona cliente esistente su Tickets;
-- [ ] Validazione di tutti i campi;
+- [x] Validazione di tutti i campi;
+- [x] StartAt in flotta non si salva in modifica;

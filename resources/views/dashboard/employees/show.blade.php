@@ -56,9 +56,11 @@
                                 <div class="col-sm-3">
                                     <p class="mb-0">Data di nascita</p>
                                 </div>
+                                @if($employee->birthday)
                                 <div class="col-sm-9">
                                     <p class=" mb-0">{{ \Carbon\Carbon::parse($employee->birthday)->format('d/m/Y') }}</p>
                                 </div>
+                                @endif
                             </div>
                             <hr>
                             <div class="row">

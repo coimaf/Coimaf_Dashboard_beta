@@ -105,8 +105,9 @@
                         </div>
                         <div class="col-12 col-md-2">
                             <label for="">Data Esecuzione</label>
-                            <input class="form-control" type="date" name="maintenance_execution_date[]" value="{{ $maintenance->execution_date }}">
+                            <input class="form-control" type="date" name="maintenance_start_at[]" value="{{ $maintenance->start_at ? \Carbon\Carbon::parse($maintenance->start_at)->format('Y-m-d') : '' }}">
                         </div>
+                                             
                         <!-- Aggiungi un campo nascosto per l'ID -->
                         <input type="hidden" name="maintenance_id[]" value="{{ $maintenance->id }}">
                         @endforeach
@@ -121,7 +122,7 @@
             
         </div>
         <div class="row fixed-button">
-            <x-Buttons.buttonBlue type="submit" props="Modifica" />
+            <x-Buttons.buttonBlue type="submit" props="Salva" />
         </div>
     </form>
     
@@ -209,7 +210,7 @@
             </div>
             <div class="col-12 col-md-2">
                 <label for="">Data Esecuzione</label>
-                <input class="form-control" type="date" name="new_maintenance_execution_date[]">
+                <input class="form-control" type="date" name="new_maintenance_start_at[]">
             </div>
             `;
             container.appendChild(newMaintenance);

@@ -10,7 +10,7 @@ class VehicleMaintenance extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['vehicle_id', 'name', 'description', 'file', 'date', 'price'];
+    protected $fillable = ['vehicle_id', 'name', 'description', 'file', 'start_at', 'price'];
 
     public function vehicle()
     {

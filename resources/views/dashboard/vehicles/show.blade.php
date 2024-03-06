@@ -83,31 +83,41 @@
                     @foreach ($vehicle->maintenances as $item)
                     
                     <div class="row g-3 my-3 bg-white border border-1 m-2 rounded-2 align-items-center">
-                        <div class="col-12 col-md-3">
+                        <div class="col-12 col-md-2">
                             <p class="fw-bold fs-5">{{$item->name}}</p>
                         </div>
 
-                        <div class="col-12 col-md-3">
+                        <div class="col-12 col-md-2">
                             <p>{{$item->description}}</p>
                          </div>
                          @if( $item->price )
-                            <div class="col-12 col-md-3">
+                            <div class="col-12 col-md-2">
                                 <p>{{ $item->price . " €"}}</p>
                             </div>
                             @else
-                            <div class="col-12 col-md-3">
+                            <div class="col-12 col-md-2">
                                 <p> </p>
                             </div>
                         @endif
                         @if( $item->start_at )
-                        <div class="col-12 col-md-3">
+                        <div class="col-12 col-md-2">
                            <p>{{\Carbon\Carbon::parse($item->start_at)->format('d-m-Y')}}</p>
                         </div>
                         @else
-                        <div class="col-12 col-md-3">
+                        <div class="col-12 col-md-2">
                             <p> </p>
                          </div>
                          @endif
+
+                         @if($item->file)
+                         <div class="col-12 col-md-2">
+                             <a class="link-underline link-underline-opacity-0 link-dark fw-bold" href="{{ asset("storage/{$item->file}") }}" download="{{ $item->name }}" >
+                                 <p class="mb-0"><i class="bi bi-download pe-2"></i> Download</p>
+                             </a>
+                         </div>
+     
+                         @endif
+
                     </div>
                     
                     @endforeach

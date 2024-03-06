@@ -84,10 +84,10 @@
             
             
         </div>
+        <div class="fixed-button row">
+            <x-Buttons.buttonBlue type="submit" props="Modifica" />
+        </div>
     </form>
-    <div class="fixed-button row">
-        <x-Buttons.buttonBlue type="submit" props="Modifica" />
-    </div>
     
 </x-Layouts.layoutDash>
 
