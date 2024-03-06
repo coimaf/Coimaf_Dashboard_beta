@@ -27,9 +27,15 @@
                 <select name="status" class="form-control" required>
                     <option value="">Seleziona uno stato</option>
                     @foreach(\App\Models\Ticket::getStatusOptions() as $statusOption)
-                    <option value="{{ $statusOption }}" {{ $ticket->status === $statusOption ? 'selected' : '' }}>
+                    @if($statusOption !== 'Chiuso')
+                    <option value="{{ $statusOption }}" {{ old('status', $ticket->status) == $statusOption ? 'selected' : '' }}>
                         {{ $statusOption }}
                     </option>
+                    @elseif($ticket->status === 'Chiuso')
+                    <option value="{{ $statusOption }}" selected>
+                        {{ $statusOption }}
+                    </option>
+                    @endif
                     @endforeach
                 </select>
             </div>         
@@ -82,7 +88,7 @@
             
             <div class="col-12 col-md-6">
                 <label class="my-2" for="technician_id">Tecnico</label>
-                <select name="technician_id" class="form-control" required>
+                <select name="technician_id" class="form-control">
                     <option value="">Seleziona un Tecnico</option>
                     @foreach($technicians as $technician)
                     <option value="{{ $technician->id }}" {{ old('technician_id', $ticket->technician_id) == $technician->id ? 'selected' : '' }}>
@@ -271,11 +277,13 @@
         document.addEventListener('DOMContentLoaded', function() {
             // Seleziona il campo dello stato
             const statusField = document.querySelector('select[name="status"]');
-            
+            let statoIniziale = statusField.value;
             // Seleziona tutti gli input e select nel modulo
             const formControls = document.querySelectorAll('form input, form select, form textarea');
             // Seleziona il campo della data di intervento
             const interventionDateField = document.querySelector('input[name="intervention_date"]');
+            // Seleziona il campo seleziona un articolo
+            const articleInput = document.querySelector('#articleInput');
             
             // Funzione per impostare lo stato dei campi del modulo
             function setFormControlsState(disabled) {
@@ -297,6 +305,44 @@
                 }
             }
             
+            // Funzione per controllare se la lista degli articoli è vuota
+            function isArticleListEmpty() {
+                const articleList = document.querySelectorAll('#art option');
+                return articleList.length === 0;
+            }
+            
+            // Funzione per impostare lo stato dei campi del modulo
+            function setFormControlsState(disabled) {
+                // Itera su tutti gli input e select nel modulo
+                formControls.forEach(function(control) {
+                    // Escludi il campo dello stato stesso
+                    if (control !== statusField) {
+                        // Imposta lo stato di readonly/disabled per gli input e select
+                        control.disabled = disabled;
+                    }
+                });
+                // Verifica se lo stato selezionato è "Da fatturare"
+                if (statusField.value === 'Da fatturare') {
+                    // Imposta il campo della data di intervento come obbligatorio
+                    interventionDateField.required = true;
+                    // Controlla se la lista degli articoli è vuota
+                    if (isArticleListEmpty()) {
+                        articleInput.required = true;
+                    }
+                } else {
+                    // Rimuovi l'attributo required dal campo della data di intervento
+                    interventionDateField.removeAttribute('required');
+                    articleInput.removeAttribute('required');
+                }
+            }
+            
+            
+            // Verifica lo stato iniziale al caricamento della pagina
+            if (statoIniziale === 'Chiuso') {
+                // Imposta tutti i campi del modulo come readonly/disabled
+                setFormControlsState(true);
+            }
+            
             // Aggiungi un evento onchange al campo dello stato
             statusField.addEventListener('change', function() {
                 // Verifica se lo stato selezionato è "Chiuso"
@@ -309,12 +355,7 @@
                 }
             });
             
-            // Inizialmente, imposta il modulo in base allo stato selezionato
-            if (statusField.value === 'Chiuso') {
-                setFormControlsState(true);
-            } else {
-                setFormControlsState(false);
-            }
+            
         });
     </script>
     

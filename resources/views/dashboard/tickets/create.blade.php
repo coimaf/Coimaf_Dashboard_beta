@@ -60,8 +60,8 @@
             </div>
             
             <div class="col-12 col-md-6 mb-4">
-                <select name="technician_id" class="form-control" required>
-                    <option value="">Seleziona un Tecnico*</option>
+                <select name="technician_id" class="form-control">
+                    <option value="">Seleziona un Tecnico</option>
                     @foreach($technicians as $technician)
                     <option value="{{ $technician->id }}">{{ $technician->name }} {{ $technician->surname }}</option>
                     @endforeach

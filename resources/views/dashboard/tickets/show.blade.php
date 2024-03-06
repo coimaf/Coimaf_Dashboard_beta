@@ -77,7 +77,7 @@
         
         <div class="col-12 col-md-6">
             <label class="fs-5 mb-1 fw-semibold">Tecnico</label>
-            <input value="{{$ticket->technician->name}} {{$ticket->technician->surname}}" class="form-control form-custom fs-5" readonly>
+            <input value="{{$ticket->technician->name ?? ''}} {{$ticket->technician->surname ?? ''}}" class="form-control form-custom fs-5" readonly>
         </div>
         
         <div class="col-12 col-md-6">
