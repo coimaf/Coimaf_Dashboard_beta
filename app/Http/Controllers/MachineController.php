@@ -15,7 +15,7 @@ class MachineController extends Controller
     {
         $sortBy = $request->input('sortBy', 'default');
         $direction = $request->input('direction', 'asc');
-
+        
         $columnTitles = [
             ['text' => 'Modello', 'sortBy' => 'model'],
             ['text' => 'Marca', 'sortBy' => 'brand'],
@@ -26,29 +26,29 @@ class MachineController extends Controller
             'Elimina'
         ];
         $searchTerm = $request->input('machinesSearch');
-
-        $routeName = 'dashboard.machinesSolds.index';
-    
         
-    
+        $routeName = 'dashboard.machinesSolds.index';
+        
+        
+        
         $queryBuilder = MachinesSold::with('warrantyType');
-    
+        
         if ($searchTerm) {
             $queryBuilder->where('machines_solds.model', 'like', '%' . $searchTerm . '%')
-                ->orWhere('brand', 'LIKE', "%$searchTerm%")
-                ->orWhere('serial_number', 'LIKE', "%$searchTerm%")
-                ->orWhere('sale_date', 'LIKE', "%$searchTerm%")
-                ->orWhere('old_buyer', 'LIKE', "%$searchTerm%")
-                ->orWhere('buyer', 'LIKE', "%$searchTerm%")
-                ->orWhere('warranty_expiration_date', 'LIKE', "%$searchTerm%")
-                ->orWhere('registration_date', 'LIKE', "%$searchTerm%")
-                ->orWhere('delivery_ddt', 'LIKE', "%$searchTerm%")
-                ->orWhere('notes', 'LIKE', "%$searchTerm%")
-                ->orWhereHas('warrantyType', function ($query) use ($searchTerm) {
-                    $query->where('name', 'LIKE', "%$searchTerm%");
-                });
+            ->orWhere('brand', 'LIKE', "%$searchTerm%")
+            ->orWhere('serial_number', 'LIKE', "%$searchTerm%")
+            ->orWhere('sale_date', 'LIKE', "%$searchTerm%")
+            ->orWhere('old_buyer', 'LIKE', "%$searchTerm%")
+            ->orWhere('buyer', 'LIKE', "%$searchTerm%")
+            ->orWhere('warranty_expiration_date', 'LIKE', "%$searchTerm%")
+            ->orWhere('registration_date', 'LIKE', "%$searchTerm%")
+            ->orWhere('delivery_ddt', 'LIKE', "%$searchTerm%")
+            ->orWhere('notes', 'LIKE', "%$searchTerm%")
+            ->orWhereHas('warrantyType', function ($query) use ($searchTerm) {
+                $query->where('name', 'LIKE', "%$searchTerm%");
+            });
         }
-
+        
         $queryBuilder->when($sortBy == 'model', function ($query) use ($direction) {
             $query->orderBy('machines_solds.model', $direction);
         })->when($sortBy == 'brand', function ($query) use ($direction) {
@@ -57,17 +57,17 @@ class MachineController extends Controller
             $query->orderBy('machines_solds.buyer', $direction);
         })->when($sortBy == 'warrantyType', function ($query) use ($direction) {
             $query->join('warranty_types', 'machines_solds.warranty_type_id', '=', 'warranty_types.id')
-                  ->orderBy('warranty_types.name', $direction);
+            ->orderBy('warranty_types.name', $direction);
         })->when($sortBy == 'sale_date', function ($query) use ($direction) {
             $query->orderBy('machines_solds.sale_date', $direction);
         });
-
+        
         $machines = $queryBuilder->paginate(25)->appends([
             'sortBy' => $sortBy,
             'direction' => $direction,
             'machinesSearch' => $searchTerm,
         ]);
-    
+        
         return view('dashboard.machinesSold.index', [
             'machines' => $machines,
             'sortBy' => $sortBy,
@@ -95,12 +95,12 @@ class MachineController extends Controller
             'warranty_type_id' => 'nullable|exists:warranty_types,id',
             'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
-
+        
         $currentDate = Carbon::now();
         $warranty_expiration_date = $currentDate->addYear();
-
+        
         $registration_date = Carbon::today();
-    
+        
         // Aggiorna il nome del campo nel create
         $machine = MachinesSold::create([
             'model' => $request->input('model'),
@@ -115,16 +115,16 @@ class MachineController extends Controller
             'buyer' => $request->input('buyer'),
             'notes' => $request->input('notes'),
         ]);
-
+        
         if ($request->hasFile('img')) {
             $path = $request->file('img')->store('macchine_installate', 'public');
             $machine->img = $path;
         }
-
+        
         $machine->user()->associate(Auth::user());
-    
+        
         $machine->save();
-    
+        
         return redirect()->route("dashboard.machinesSolds.index")->with("success", "Macchina inserita con successo.");
     }
     
@@ -140,7 +140,7 @@ class MachineController extends Controller
         $brands = DB::connection('mssql')->table('ARMarca')->get();
         // Invia le Garanzie alla vista di modifica macchine
         $warranty_type = WarrantyType::all();
-
+        
         // e passale alla vista di modifica.
         return view('dashboard.machinesSold.edit', compact('machine', 'warranty_type', 'brands', 'customers'));
     }
@@ -151,19 +151,21 @@ class MachineController extends Controller
             'model' => 'required',
             'brand' => 'required',
             'serial_number' => 'required',
-            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
+            'img' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Massimo 2MB (2048 kilobyte)
+        ], [
+            'img.max' => 'Il file immagine non può superare i 2 megabyte di dimensione.',
         ]);
-    
+        
         $machine->update($request->all());
-    
+        
         // Aggiorna i campi dei proprietari
         $machine->old_buyer = $request->input('old_buyer');
         $machine->buyer = $request->input('buyer');
         $machine->save();
-    
+        
         // Aggiorna la relazione Eloquent con il tipo di garanzia
         $machine->warrantyType()->associate($request->input('warranty_type_id'));
-
+        
         if ($request->hasFile('img')) {
             $path = $request->file('img')->store('macchine_installate', 'public');
             $machine->img = $path;
@@ -172,11 +174,11 @@ class MachineController extends Controller
                 "img" => $machine->img
             ]);
         }
-
+        
         $machine->updated_by = Auth::user()->id;
-    
+        
         $machine->save();
-    
+        
         return redirect()->route("dashboard.machinesSolds.index")->with("success", "Macchina aggiornata con successo.");
     }
     

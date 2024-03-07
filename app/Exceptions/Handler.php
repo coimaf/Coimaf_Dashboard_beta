@@ -6,6 +6,7 @@ use Throwable;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Http\Exceptions\PostTooLargeException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -60,6 +61,10 @@ class Handler extends ExceptionHandler
     if ($exception instanceof ModelNotFoundException || $exception instanceof NotFoundHttpException) {
 
         return response()->view('Errors.notFound', [], 404);
+    }
+
+    if ($exception instanceof PostTooLargeException) {
+        return redirect()->back()->with("error", "Immagine troppo grande.");
     }
 
     return parent::render($request, $exception);

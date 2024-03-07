@@ -1,4 +1,7 @@
 <x-Layouts.layoutDash>
+
+<x-allert />
+
     <h6 class="fw-bold px-4 pt-4 fs-5">Modifica Macchina</h6>
     
     <form action="{{ route('dashboard.machinesSolds.update', $machine->id) }}" method="POST" class="p-4" style="overflow: hidden;" enctype="multipart/form-data">
