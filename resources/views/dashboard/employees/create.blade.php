@@ -52,6 +52,9 @@
                 <!-- Questa sezione verrà popolata dinamicamente dal JavaScript -->
             </div>
             <div class="row py-3">
+                @error('documents.*')
+                <div class="alert alert-danger my-2">{{ $message }}</div>
+                @enderror
                 <x-Buttons.buttonBlue type="submit" props="Aggiungi" />
             </div>
         </div>

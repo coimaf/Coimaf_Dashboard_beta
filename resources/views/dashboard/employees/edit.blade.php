@@ -72,6 +72,9 @@
             
             
             <div class="row py-3">
+                @error('documentEmployees.*')
+                <div class="alert alert-danger my-2">{{ $message }}</div>
+                @enderror
                 <x-Buttons.buttonBlue type="submit" props="Salva" />
             </div>
         </div>

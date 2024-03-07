@@ -90,22 +90,14 @@ class EmployeeController extends Controller
     
     public function store(Request $request)
     {
-        // $request->validate([
-        //     'name' => 'required|string|max:255',
-        //     'surname' => 'required|string|max:255',
-        //     'fiscal_code' => 'required|string|max:255',
-        //     'birthday' => 'string|max:255',
-        //     'phone' => 'string|max:255',
-        //     'address' => 'string|max:255',
-        //     'email' => 'required|email|max:255',
-        //     'email_work' => 'email|max:255',
-        //     'roles' => 'array',
-        //     'roles.*' => 'exists:roles,id',
-        //     'documents' => 'array',
-        //     'documents.*.id' => 'exists:documents,id',
-        //     'documents.*.pdf_path' => 'string|max:255',
-        //     'documents.*.expiry_date' => 'date',
-        // ]);
+        $request->validate([
+            'documents.*' => 'required|file|mimes:pdf|max:2048', // Accetta solo file PDF
+        ], [
+            'documents.*.required' => __("Devi caricare tutti i documenti."),
+            'documents.*.file' => __("Devi caricare un file."),
+            'documents.*.mimes' => __("Puoi caricare solo formati PDF."),
+            'documents.*.max' => __("Dimensione max 2mb.")
+        ]);
         
         // Crea un nuovo Employee
         $employee = Employee::create([
@@ -129,18 +121,29 @@ class EmployeeController extends Controller
         
         foreach ($request->file('documents', []) as $index => $documentFile) {
             $documentName = $request->input('document_names')[$index] ?? null;
-            
+        
             // Cerca il documento corrispondente al nome e al ruolo
             $documentModel = $role->documents->firstWhere('name', $documentName);
-            
+        
             if ($documentModel && $documentFile->isValid()) {
-                $pdfPath = $documentFile->store('employee_documents', 'public');
+                // Ottieni l'estensione del file
+                $ext = $documentFile->extension();
+        
+                // Genera il nome personalizzato combinando nome e cognome del dipendente, nome del documento e data e ora correnti formattate
+                $customName = $request->input('name') . '_' . $request->input('surname') . '_' . $documentName . '_' . now()->format('d_m_Y_H_i') . '.' . $ext;
+        
+                // Salva il file con il nome personalizzato
+                $pdfPath = $documentFile->storeAs('Dipendenti', $customName, 'public');
+        
+                // Collega il documento all'employee con i dettagli aggiuntivi
                 $employee->documents()->attach($documentModel->id, [
                     'pdf_path' => $pdfPath,
                     'expiry_date' => $request->input('expiry_dates')[$index],
                 ]);
             }
         }
+        
+        
         
         $employee->user()->associate(Auth::user());
     
@@ -171,18 +174,6 @@ class EmployeeController extends Controller
     
     public function update(Request $request, Employee $employee)
     {
-        // $request->validate([
-        //     'name' => 'required|string|max:255',
-        //     'surname' => 'required|string|max:255',
-        //     'fiscal_code' => 'required|string|max:255',
-        //     'birthday' => 'required|string|max:255',
-        //     'phone' => 'required|string|max:255',
-        //     'address' => 'required|string|max:255',
-        //     'email' => 'required|email|max:255',
-        //     'email_work' => 'nullable|email|max:255',
-        //     'documentEmployees.*.pdf' => 'nullable|mimes:pdf|max:2048',
-        //     'documentEmployees.*.expiry_date' => 'nullable|date',
-        // ]);
     
         // Aggiorna i campi dell'utente
         $employee->update([
@@ -201,16 +192,25 @@ class EmployeeController extends Controller
             
             if ($document && $employee->documents->contains($document)) {
                 // Verifica che il documento sia associato all'utente
-    
+        
                 // Aggiorna i dati del documento se necessario
                 $employee->documents()->updateExistingPivot($documentId, [
                     'expiry_date' => $request->input("expiry_dates.$key"),
                     // Altri campi del documento, se necessario
                 ]);
-    
+        
                 // Aggiorna il file del documento solo se è stato fornito
                 if ($request->hasFile("documentEmployees.$key.pdf") && $request->file("documentEmployees.$key.pdf")->isValid()) {
-                    $pdfPath = $request->file("documentEmployees.$key.pdf")->store('employee_documents', 'public');
+                    // Ottieni l'estensione del file
+                    $ext = $request->file("documentEmployees.$key.pdf")->extension();
+        
+                    // Genera il nome personalizzato combinando nome e cognome del dipendente, nome del documento e data e ora correnti formattate
+                    $customName = $employee->name . '_' . $employee->surname . '_' . $document->name . '_' . now()->format('d_m_Y_H_i') . '.' . $ext;
+        
+                    // Salva il file con il nome personalizzato
+                    $pdfPath = $request->file("documentEmployees.$key.pdf")->storeAs('Dipendenti', $customName, 'public');
+        
+                    // Aggiorna il percorso del file del documento
                     $employee->documents()->updateExistingPivot($documentId, [
                         'pdf_path' => $pdfPath,
                     ]);
@@ -222,11 +222,11 @@ class EmployeeController extends Controller
         }
         
         $employee->updated_by = Auth::user()->id;
-    
+        
         $employee->save();
-    
+        
         return redirect()->route('dashboard.employees.index')->with('success', 'Dipendente aggiornato con successo.');
-    }
+    }        
     
     public function destroy(Employee $employee)
     {

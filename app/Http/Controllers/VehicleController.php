@@ -129,7 +129,7 @@ class VehicleController extends Controller
                     $document = new VehicleDocument();
                     $document->name = $documentName;
                     if ($request->hasFile('document_file.' . $key)) {
-                        $document->file = $request->file('document_file')[$key]->store('documents', 'public');
+                        $document->file = $request->file('document_file')[$key]->store('Flotta', 'public');
                     }
                     $document->date_start = $request->input('document_date_start.' . $key); // Campo data di inizio
                     $document->expiry_date = $request->input('document_expiry_date.' . $key); // Campo data di scadenza
@@ -180,7 +180,7 @@ class VehicleController extends Controller
                 
                 // Modifica solo se sono stati forniti nuovi dati
                 if ($request->hasFile('document_file.' . $key)) {
-                    $document->file = $request->file('document_file')[$key]->store('documents', 'public');
+                    $document->file = $request->file('document_file')[$key]->store('Flotta', 'public');
                 }
                 $document->name = $request->input('document_name.' . $key);
                 $document->date_start = $request->input('document_date_start.' . $key);
@@ -200,7 +200,7 @@ class VehicleController extends Controller
                 
                 // Se è fornito un file, lo salva
                 if ($request->hasFile('new_document_file.' . $key)) {
-                    $newDocument->file = $request->file('new_document_file')[$key]->store('documents', 'public');
+                    $newDocument->file = $request->file('new_document_file')[$key]->store('Flotta', 'public');
                 }
                 
                 // Associa il documento al veicolo
@@ -218,7 +218,7 @@ class VehicleController extends Controller
                 $newMaintenance->description = $request->input('new_maintenance_description.' . $key, null);
                 // Verifica se è stato caricato un file per la manutenzione e imposta il valore se presente
                 if ($request->hasFile('new_maintenance_file.' . $key)) {
-                    $newMaintenance->file = $request->file('new_maintenance_file.' . $key)->store('maintenances', 'public');
+                    $newMaintenance->file = $request->file('new_maintenance_file.' . $key)->store('Flotta', 'public');
                 }
                 // Verifica se è stato fornito un prezzo per la manutenzione e imposta il valore se presente
                 $newMaintenance->price = $request->input('new_maintenance_price.' . $key, null);
@@ -239,7 +239,7 @@ class VehicleController extends Controller
                     'name' => $request->input('maintenance_name.' . $key),
                     'description' => $request->input('maintenance_description.' . $key, null),
                     // Aggiorna il file solo se è stato fornito un nuovo file
-                    'file' => $request->hasFile('maintenance_file.' . $key) ? $request->file('maintenance_file.' . $key)->store('maintenances', 'public') : $existingMaintenance->file,
+                    'file' => $request->hasFile('maintenance_file.' . $key) ? $request->file('maintenance_file.' . $key)->store('Flotta', 'public') : $existingMaintenance->file,
                     'price' => $request->input('maintenance_price.' . $key, null),
                     'start_at' => $request->input('maintenance_start_at.' . $key, null),
                 ]);

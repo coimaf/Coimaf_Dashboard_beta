@@ -102,7 +102,7 @@ class R4Controller extends Controller
                         $document = new R4Document();
                         $document->name = $documentName;
                         if ($request->hasFile('document_file.' . $key)) {
-                            $document->file = $request->file('document_file')[$key]->store('documents', 'public');
+                            $document->file = $request->file('document_file')[$key]->store('FPC_R4', 'public');
                         }
                         $document->date_start = $request->input('document_date_start.' . $key); // Campo data di inizio
                         $document->expiry_date = $request->input('document_expiry_date.' . $key); // Campo data di scadenza
@@ -153,7 +153,7 @@ class R4Controller extends Controller
                     
                     // Modifica solo se sono stati forniti nuovi dati
                     if ($request->hasFile('document_file.' . $key)) {
-                        $document->file = $request->file('document_file')[$key]->store('documents', 'public');
+                        $document->file = $request->file('document_file')[$key]->store('FPC_R4', 'public');
                     }
                     $document->name = $request->input('document_name.' . $key);
                     $document->date_start = $request->input('document_date_start.' . $key);
@@ -174,7 +174,7 @@ class R4Controller extends Controller
                     
                     // Se è fornito un file, lo salva
                     if ($request->hasFile('new_document_file.' . $key)) {
-                        $newDocument->file = $request->file('new_document_file')[$key]->store('documents', 'public');
+                        $newDocument->file = $request->file('new_document_file')[$key]->store('FPC_R4', 'public');
                     }
                     
                     // Associa il documento al r4

@@ -48,7 +48,7 @@
                     @endforeach
                 </select>
             </div>                            
-
+            
             <div class="col-12 col-md-6 mb-4">
                 <label class="my-2" for="sale_date">Data installazione</label>
                 <input type="date" name="sale_date" class="form-control">
@@ -58,9 +58,12 @@
             <div class="col-12 col-md-6 mb-4">
                 <label class="my-2" for="delivery_ddt">Documento di trasporto</label>
                 <input type="text" name="delivery_ddt" class="form-control">
-
+                
                 <label class="my-2" for="img">Immagine</label>
                 <input type="file" name="img" class="form-control">
+                @error('img')
+                    <div class="alert alert-danger my-2">{{ $message }}</div>
+                @enderror
             </div>
             
             <div class="col-12 col-md-6">

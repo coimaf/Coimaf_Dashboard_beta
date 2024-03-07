@@ -246,4 +246,4 @@ php artisan ldap:browse
 - [x] Validazione di tutti i campi;
 - [x] StartAt in flotta non si salva in modifica;
 - [x] Visualizza errori validate immagine in macchine installate;
-- [ ] Separa cartelle con nomi adeguiti per gli asset in storage;
+- [ ] Separa cartelle con nomi adeguati per gli asset in storage;

@@ -93,7 +93,11 @@ class MachineController extends Controller
             'brand' => 'required',
             'serial_number' => 'required',
             'warranty_type_id' => 'nullable|exists:warranty_types,id',
-            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
+            'img' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
+        ],[
+            'img.image' => __("Puoi caricare solo immagini jpeg, png, jpg o gif."),
+            'img.mimes' => __("Puoi caricare solo immagini jpeg, png, jpg o gif."),
+            'img.max' => __("L'immagine deve essere massimo 2mb."),
         ]);
         
         $currentDate = Carbon::now();
@@ -117,7 +121,9 @@ class MachineController extends Controller
         ]);
         
         if ($request->hasFile('img')) {
-            $path = $request->file('img')->store('macchine_installate', 'public');
+            $ext = $request->file('img')->extension();
+            $customName =  $request->input('model') . '_' . $request->input('brand') . '_' . now()->format('d_m_Y_H_i') . '.' . $ext;
+            $path = $request->file('img')->storeAs('Macchine_installate', $customName , 'public');
             $machine->img = $path;
         }
         
@@ -151,9 +157,12 @@ class MachineController extends Controller
             'model' => 'required',
             'brand' => 'required',
             'serial_number' => 'required',
-            'img' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Massimo 2MB (2048 kilobyte)
-        ], [
-            'img.max' => 'Il file immagine non può superare i 2 megabyte di dimensione.',
+            'warranty_type_id' => 'nullable|exists:warranty_types,id',
+            'img' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
+        ],[
+            'img.image' => __("Puoi caricare solo immagini jpeg, png, jpg o gif."),
+            'img.mimes' => __("Puoi caricare solo immagini jpeg, png, jpg o gif."),
+            'img.max' => __("L'immagine deve essere massimo 2mb."),
         ]);
         
         $machine->update($request->all());
@@ -167,7 +176,9 @@ class MachineController extends Controller
         $machine->warrantyType()->associate($request->input('warranty_type_id'));
         
         if ($request->hasFile('img')) {
-            $path = $request->file('img')->store('macchine_installate', 'public');
+            $ext = $request->file('img')->extension();
+            $customName =  $request->input('model') . '_' . $request->input('brand') . '_' . now()->format('d_m_Y_H_i') . '.' . $ext;
+            $path = $request->file('img')->storeAs('Macchine_installate', $customName , 'public');
             $machine->img = $path;
         } else {
             $machine->update([

@@ -77,7 +77,6 @@ class SettingController extends Controller
         } else {
             $messageType = 'error';
             $message = 'Il ruolo già esiste!';
-            session()->flash('error', 'Questo è un messaggio di errore di debug.');
         }
     
         return redirect()->route('dashboard.settings.employees.create')->with($messageType, $message);

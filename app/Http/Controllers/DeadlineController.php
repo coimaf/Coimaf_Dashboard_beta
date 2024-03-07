@@ -140,7 +140,7 @@ class DeadlineController extends Controller
         
         $deadline->tags()->attach($request->input('tags'));
         
-        $pdfPath = $request->file('pdf')->store('pdfs', 'public');
+        $pdfPath = $request->file('pdf')->store('Scadenzario', 'public');
         
         $documentName = $request->input('name');
         
@@ -194,7 +194,7 @@ class DeadlineController extends Controller
         $expiryDate = $request->input('expiry_date');
         
         if ($request->hasFile('pdf')) {
-            $pdfPath = $request->file('pdf')->store('pdfs', 'public');
+            $pdfPath = $request->file('pdf')->store('Scadenzario', 'public');
             $deadline->documentDeadlines()->update([
                 'name' => $documentName,
                 'pdf_path' => $pdfPath,

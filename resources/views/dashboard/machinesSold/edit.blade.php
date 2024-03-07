@@ -1,7 +1,7 @@
 <x-Layouts.layoutDash>
-
-<x-allert />
-
+    
+    <x-allert />
+    
     <h6 class="fw-bold px-4 pt-4 fs-5">Modifica Macchina</h6>
     
     <form action="{{ route('dashboard.machinesSolds.update', $machine->id) }}" method="POST" class="p-4" style="overflow: hidden;" enctype="multipart/form-data">
@@ -58,7 +58,7 @@
                     @endforeach
                 </select>
             </div>
-
+            
             <div class="col-12 col-md-6">
                 <label class="my-2" for="sale_date">Data installazione</label>
                 <input type="date" name="sale_date" class="form-control" value="{{ old('sale_date', $machine->sale_date) }}">
@@ -67,10 +67,13 @@
             <div class="col-12 col-md-6">
                 <label class="my-2" for="delivery_ddt">Documento di trasporto</label>
                 <input type="text" name="delivery_ddt" class="form-control" value="{{ old('delivery_ddt', $machine->delivery_ddt) }}">
-
+                
                 
                 <label class="my-2" for="img">Immagine</label>
                 <input type="file" name="img" class="form-control">
+                @error('img')
+                <div class="alert alert-danger my-2">{{ $message }}</div>
+                @enderror
             </div>
             
             <div class="col-12 col-md-6">
@@ -78,7 +81,7 @@
                 <textarea type="text" name="notes" class="form-control" style="height: 100px; resize: none;">{{ old('notes', $machine->notes) }}</textarea>
             </div>
             <div class="row py-3">
-            <x-Buttons.buttonBlue type="submit" props="Salva" />
+                <x-Buttons.buttonBlue type="submit" props="Salva" />
             </div>
         </div>
     </form>
