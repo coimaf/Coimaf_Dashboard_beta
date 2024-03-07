@@ -35,7 +35,7 @@
                                         @endif
                                     </div>
                                     @if($document->file)
-                                    <a class="link-underline link-underline-opacity-0 link-dark fw-bold" href="{{ asset("storage/{$document->file}") }}" download="{{ $document->name }}" >
+                                    <a class="link-underline link-underline-opacity-0 link-dark fw-bold" href="{{ asset("storage/{$document->file}") }}" download="" >
                                         <p class="mb-0"><i class="bi bi-download pe-2"></i> Download</p>
                                     </a>
                                     @endif
@@ -111,7 +111,7 @@
 
                          @if($item->file)
                          <div class="col-12 col-md-2">
-                             <a class="link-underline link-underline-opacity-0 link-dark fw-bold" href="{{ asset("storage/{$item->file}") }}" download="{{ $item->name }}" >
+                             <a class="link-underline link-underline-opacity-0 link-dark fw-bold" href="{{ asset("storage/{$item->file}") }}" download="" >
                                  <p class="mb-0"><i class="bi bi-download pe-2"></i> Download</p>
                              </a>
                          </div>

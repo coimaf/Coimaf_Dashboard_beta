@@ -101,9 +101,22 @@ class R4Controller extends Controller
                     if (!empty($documentName)) {
                         $document = new R4Document();
                         $document->name = $documentName;
+                        
+                        // Se è fornito un file, lo salva con un nome personalizzato
                         if ($request->hasFile('document_file.' . $key)) {
-                            $document->file = $request->file('document_file')[$key]->store('FPC_R4', 'public');
+                            // Ottieni il file dalla richiesta
+                            $file = $request->file('document_file.' . $key);
+                            
+                            // Ottieni l'estensione del file
+                            $ext = $file->extension();
+                            
+                            // Genera il nome personalizzato combinando il nome del documento, la data corrente e l'estensione del file
+                            $customName = $documentName . '_' . now()->format('d_m_Y_H_i') . '.' . $ext;
+                            
+                            // Salva il file con il nome personalizzato
+                            $document->file = $file->storeAs('FPC_R4', $customName, 'public');
                         }
+                        
                         $document->date_start = $request->input('document_date_start.' . $key); // Campo data di inizio
                         $document->expiry_date = $request->input('document_expiry_date.' . $key); // Campo data di scadenza
                         $document->r4_id = $r4->id;
@@ -111,6 +124,7 @@ class R4Controller extends Controller
                     }
                 }            
             }
+            
             
             return redirect()->route('dashboard.fpc.r4.index')->with('success', 'R4 creato correttamente');
         }
@@ -145,7 +159,7 @@ class R4Controller extends Controller
             
             $r4->save();
             
-            // Se sono stati forniti documenti, li elabora
+            // Se sono stati forniti documenti esistenti, li aggiorna
             if ($request->filled('document_id')) {
                 foreach ($request->input('document_id') as $key => $documentId) {
                     // Trova il documento esistente
@@ -153,14 +167,24 @@ class R4Controller extends Controller
                     
                     // Modifica solo se sono stati forniti nuovi dati
                     if ($request->hasFile('document_file.' . $key)) {
-                        $document->file = $request->file('document_file')[$key]->store('FPC_R4', 'public');
+                        // Ottieni il file dalla richiesta
+                        $file = $request->file('document_file.' . $key);
+                        
+                        // Ottieni l'estensione del file
+                        $ext = $file->extension();
+                        
+                        // Genera il nome personalizzato combinando il nome del documento, la data corrente e l'estensione del file
+                        $customName = $document->name . '_' . now()->format('d_m_Y_H_i') . '.' . $ext;
+                        
+                        // Salva il file con il nome personalizzato
+                        $document->file = $file->storeAs('FPC_R4', $customName, 'public');
                     }
+                    
                     $document->name = $request->input('document_name.' . $key);
                     $document->date_start = $request->input('document_date_start.' . $key);
                     $document->expiry_date = $request->input('document_expiry_date.' . $key);
                     $document->save();
                 }
-                
             }
             
             // Se sono stati forniti nuovi documenti, li salva
@@ -172,9 +196,19 @@ class R4Controller extends Controller
                     $newDocument->date_start = $request->input('new_document_date_start.' . $key);
                     $newDocument->expiry_date = $request->input('new_document_expiry_date.' . $key);
                     
-                    // Se è fornito un file, lo salva
+                    // Se è fornito un file, lo salva con un nome personalizzato
                     if ($request->hasFile('new_document_file.' . $key)) {
-                        $newDocument->file = $request->file('new_document_file')[$key]->store('FPC_R4', 'public');
+                        // Ottieni il file dalla richiesta
+                        $file = $request->file('new_document_file.' . $key);
+                        
+                        // Ottieni l'estensione del file
+                        $ext = $file->extension();
+                        
+                        // Genera il nome personalizzato combinando il nome del documento, la data corrente e l'estensione del file
+                        $customName = $documentName . '_' . now()->format('d_m_Y_H_i') . '.' . $ext;
+                        
+                        // Salva il file con il nome personalizzato
+                        $newDocument->file = $file->storeAs('FPC_R4', $customName, 'public');
                     }
                     
                     // Associa il documento al r4
@@ -182,6 +216,7 @@ class R4Controller extends Controller
                     $newDocument->save();
                 }
             }
+            
             
             
             return redirect()->route('dashboard.fpc.r4.index')->with('success', 'R4 aggiornato correttamente');

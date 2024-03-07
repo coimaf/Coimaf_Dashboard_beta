@@ -139,8 +139,11 @@ class DeadlineController extends Controller
         ]);
         
         $deadline->tags()->attach($request->input('tags'));
+
+        $ext = $request->file('pdf')->extension();
+        $customName =  $request->input('name') . '_' . now()->format('d_m_Y_H_i') . '.' . $ext;
         
-        $pdfPath = $request->file('pdf')->store('Scadenzario', 'public');
+        $pdfPath = $request->file('pdf')->storeAs('Scadenzario', $customName , 'public');
         
         $documentName = $request->input('name');
         
@@ -149,7 +152,7 @@ class DeadlineController extends Controller
             'pdf_path' => $pdfPath,
             'expiry_date' => $request->input('expiry_date'),
         ]);
-        
+
         $deadline->user()->associate(Auth::user());
     
         $deadline->save();
@@ -194,7 +197,10 @@ class DeadlineController extends Controller
         $expiryDate = $request->input('expiry_date');
         
         if ($request->hasFile('pdf')) {
-            $pdfPath = $request->file('pdf')->store('Scadenzario', 'public');
+            $ext = $request->file('pdf')->extension();
+            $customName =  $request->input('name') . '_' . now()->format('d_m_Y_H_i') . '.' . $ext;
+            
+            $pdfPath = $request->file('pdf')->storeAs('Scadenzario', $customName , 'public');
             $deadline->documentDeadlines()->update([
                 'name' => $documentName,
                 'pdf_path' => $pdfPath,

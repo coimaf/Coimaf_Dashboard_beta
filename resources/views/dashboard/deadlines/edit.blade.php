@@ -37,7 +37,7 @@
             
             <div class="col-6 mb-3">
                 <label class="my-2" for="pdf">Documento</label>
-                <input type="file" name="pdf" class="form-control">
+                <input type="file" name="pdf" accept=".pdf" class="form-control">
             </div>
             
             

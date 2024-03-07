@@ -41,11 +41,11 @@ class VehicleController extends Controller
         $sortBy = $request->input('sortBy', 'default');
         $direction = $request->input('direction', 'asc');
         $routeName = 'dashboard.vehicles.index';
-
+        
         if ($request->has('inscadenza')) {
             $queryBuilder->whereHas('documents', function ($query) {
                 $query->where('expiry_date', '>', now())
-                    ->where('expiry_date', '<=', now()->addDays(60));
+                ->where('expiry_date', '<=', now()->addDays(60));
             });
         }
         
@@ -125,19 +125,25 @@ class VehicleController extends Controller
         // Se sono stati forniti documenti, li elabora
         if ($request->filled('document_name')) {
             foreach ($request->input('document_name') as $key => $documentName) {
-                if (!empty($documentName)) {
+                if (!empty($documentName) && $request->hasFile('document_file.' . $key)) {
                     $document = new VehicleDocument();
                     $document->name = $documentName;
-                    if ($request->hasFile('document_file.' . $key)) {
-                        $document->file = $request->file('document_file')[$key]->store('Flotta', 'public');
-                    }
+                    
+                    $file = $request->file('document_file')[$key];
+                    $ext = $file->extension();
+                    
+                    // Genera il nome personalizzato combinando il nome del documento, la data corrente e l'estensione del file
+                    $customName = $documentName . '_' . now()->format('d_m_Y_H_i') . '.' . $ext;
+                    
+                    $document->file = $file->storeAs('Flotta', $customName, 'public');
                     $document->date_start = $request->input('document_date_start.' . $key); // Campo data di inizio
                     $document->expiry_date = $request->input('document_expiry_date.' . $key); // Campo data di scadenza
                     $document->vehicle_id = $vehicle->id;
                     $document->save();
                 }
-            }            
+            }
         }
+        
         
         return redirect()->route("dashboard.vehicles.index")->with("success", "Veicolo inserito con successo.");
     }
@@ -179,8 +185,19 @@ class VehicleController extends Controller
                 $document = VehicleDocument::findOrFail($documentId);
                 
                 // Modifica solo se sono stati forniti nuovi dati
+                // Modifica solo se sono stati forniti nuovi dati
                 if ($request->hasFile('document_file.' . $key)) {
-                    $document->file = $request->file('document_file')[$key]->store('Flotta', 'public');
+                    // Ottieni il file dalla richiesta
+                    $file = $request->file('document_file')[$key];
+                    
+                    // Ottieni l'estensione del file
+                    $ext = $file->extension();
+                    
+                    // Genera il nome personalizzato combinando il nome del documento, la data corrente e l'estensione del file
+                    $customName = $document->name . '_' . now()->format('d_m_Y_H_i') . '.' . $ext;
+                    
+                    // Salva il file con il nome personalizzato
+                    $document->file = $file->storeAs('Flotta', $customName, 'public');
                 }
                 $document->name = $request->input('document_name.' . $key);
                 $document->date_start = $request->input('document_date_start.' . $key);
@@ -199,8 +216,19 @@ class VehicleController extends Controller
                 $newDocument->expiry_date = $request->input('new_document_expiry_date.' . $key);
                 
                 // Se è fornito un file, lo salva
+                // Se è fornito un file, lo salva con un nome personalizzato
                 if ($request->hasFile('new_document_file.' . $key)) {
-                    $newDocument->file = $request->file('new_document_file')[$key]->store('Flotta', 'public');
+                    // Ottieni il file dalla richiesta
+                    $file = $request->file('new_document_file')[$key];
+                    
+                    // Ottieni l'estensione del file
+                    $ext = $file->extension();
+                    
+                    // Genera il nome personalizzato combinando il nome del documento, la data corrente e l'estensione del file
+                    $customName = $documentName . '_' . now()->format('d_m_Y_H_i') . '.' . $ext;
+                    
+                    // Salva il file con il nome personalizzato
+                    $newDocument->file = $file->storeAs('Flotta', $customName, 'public');
                 }
                 
                 // Associa il documento al veicolo
@@ -216,14 +244,27 @@ class VehicleController extends Controller
                 $newMaintenance->name = $maintenanceName;
                 // Verifica se è stata fornita una descrizione per la manutenzione e imposta il valore se presente
                 $newMaintenance->description = $request->input('new_maintenance_description.' . $key, null);
-                // Verifica se è stato caricato un file per la manutenzione e imposta il valore se presente
+                
+                // Se è fornito un file, lo salva con un nome personalizzato
                 if ($request->hasFile('new_maintenance_file.' . $key)) {
-                    $newMaintenance->file = $request->file('new_maintenance_file.' . $key)->store('Flotta', 'public');
+                    // Ottieni il file dalla richiesta
+                    $file = $request->file('new_maintenance_file.' . $key);
+                    
+                    // Ottieni l'estensione del file
+                    $ext = $file->extension();
+                    
+                    // Genera il nome personalizzato combinando il nome della manutenzione, la data corrente e l'estensione del file
+                    $customName = $maintenanceName . '_' . now()->format('d_m_Y_H_i') . '.' . $ext;
+                    
+                    // Salva il file con il nome personalizzato
+                    $newMaintenance->file = $file->storeAs('Flotta', $customName, 'public');
                 }
+                
                 // Verifica se è stato fornito un prezzo per la manutenzione e imposta il valore se presente
                 $newMaintenance->price = $request->input('new_maintenance_price.' . $key, null);
                 // Verifica se è stata fornita una data di esecuzione per la manutenzione e imposta il valore se presente
                 $newMaintenance->start_at = $request->input('new_maintenance_start_at.' . $key, null);
+                
                 // Associa la manutenzione al veicolo
                 $vehicle->maintenances()->save($newMaintenance);
             }
@@ -234,12 +275,13 @@ class VehicleController extends Controller
             foreach ($request->input('maintenance_id') as $key => $maintenanceId) {
                 // Trova la manutenzione esistente
                 $existingMaintenance = VehicleMaintenance::findOrFail($maintenanceId);
+                
                 // Aggiorna i dettagli della manutenzione
                 $existingMaintenance->update([
                     'name' => $request->input('maintenance_name.' . $key),
                     'description' => $request->input('maintenance_description.' . $key, null),
                     // Aggiorna il file solo se è stato fornito un nuovo file
-                    'file' => $request->hasFile('maintenance_file.' . $key) ? $request->file('maintenance_file.' . $key)->store('Flotta', 'public') : $existingMaintenance->file,
+                    'file' => $request->hasFile('maintenance_file.' . $key) ? $this->storeMaintenanceFile($request->file('maintenance_file.' . $key), $request->input('maintenance_name.' . $key)) : $existingMaintenance->file,
                     'price' => $request->input('maintenance_price.' . $key, null),
                     'start_at' => $request->input('maintenance_start_at.' . $key, null),
                 ]);
@@ -247,6 +289,17 @@ class VehicleController extends Controller
         }
         
         return redirect()->route("dashboard.vehicles.index")->with("success", "Veicolo aggiornato con successo.");
+    }
+    
+    private function storeMaintenanceFile($file, $maintenanceName) {
+        // Ottieni l'estensione del file
+        $ext = $file->extension();
+        
+        // Genera il nome personalizzato combinando il nome della manutenzione, la data corrente e l'estensione del file
+        $customName = $maintenanceName . '_' . now()->format('d_m_Y_H_i') . '.' . $ext;
+        
+        // Salva il file con il nome personalizzato e restituisci il percorso
+        return $file->storeAs('Flotta', $customName, 'public');
     }
     
     

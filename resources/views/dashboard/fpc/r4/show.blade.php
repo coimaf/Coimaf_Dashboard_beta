@@ -69,7 +69,7 @@
                                 <td>{{ $document->expiry_date ? \Carbon\Carbon::parse($document->expiry_date)->format('d-m-Y') : '' }}</td>
                                 <td>
                                     @if($document->file)
-                                    <a class="link-underline link-underline-opacity-0 link-dark fw-bold" href="{{ asset("storage/{$document->file}") }}" download="{{ $document->name }}">
+                                    <a class="link-underline link-underline-opacity-0 link-dark fw-bold" href="{{ asset("storage/{$document->file}") }}" download="">
                                         <i class="bi bi-download pe-2"></i> Download
                                     </a>
                                     @else
