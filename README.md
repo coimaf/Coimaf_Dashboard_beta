@@ -195,6 +195,11 @@ php artisan ldap:browse
 - [x] Filtra;
 - [x] Cerca;
 
+### Listini
+- [x] Mostra lista dei listini;
+- [x] Mostra dettagli dei listini;
+- [x] Modifica prezzi e sconti dei listini;
+
 ### FPC
 ## R4
 - [x] CRUD per modulo R4;
@@ -246,4 +251,4 @@ php artisan ldap:browse
 - [x] Validazione di tutti i campi;
 - [x] StartAt in flotta non si salva in modifica;
 - [x] Visualizza errori validate immagine in macchine installate;
-- [ ] Separa cartelle con nomi adeguati per gli asset in storage;
+- [x] Separa cartelle con nomi adeguati per gli asset in storage;

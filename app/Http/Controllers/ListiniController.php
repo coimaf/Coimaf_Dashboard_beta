@@ -124,48 +124,32 @@ class ListiniController extends Controller
     
     public function update(Request $request, $id)
     {
-        // Ottieni i nuovi valori di prezzo e sconto dal form
+        
         $nuoviPrezzi = $request->input('prezzo');
         $nuoviSconti = $request->input('sconto');
         
-        // Controlla se almeno uno dei valori è stato modificato
-        $valoriModificati = false;
-        
-        // Cicla attraverso i nuovi valori e aggiorna i record corrispondenti nel database
         foreach ($nuoviPrezzi as $revisioneId => $nuovoPrezzo) {
-            // Ottieni il nuovo sconto corrispondente all'ID della revisione attuale
-            $nuovoSconto = $nuoviSconti[$revisioneId] ?? 0; // Assegna 0 se il valore è nullo
-    
+            
+            $nuovoSconto = $nuoviSconti[$revisioneId] ?? 0;
+            
             // Verifica se il prezzo o lo sconto sono stati modificati
             if ($nuovoPrezzo !== null) {
                 // Se il prezzo è stato fornito, aggiorna il record
                 DB::connection('mssql')->table('LSArticolo')
-                    ->where('Cd_AR', $id)
-                    ->where('Id_LSRevisione', $revisioneId)
-                    ->update(['Prezzo' => $nuovoPrezzo, 'Sconto' => $nuovoSconto]);
-                
-                // Segna che almeno un valore è stato modificato
-                $valoriModificati = true;
+                ->where('Cd_AR', $id)
+                ->where('Id_LSRevisione', $revisioneId)
+                ->update(['Prezzo' => $nuovoPrezzo, 'Sconto' => $nuovoSconto]);
             } else {
                 // Se il prezzo non è stato fornito, imposta il prezzo su 0 e aggiorna il record
                 DB::connection('mssql')->table('LSArticolo')
-                    ->where('Cd_AR', $id)
-                    ->where('Id_LSRevisione', $revisioneId)
-                    ->update(['Prezzo' => 0, 'Sconto' => $nuovoSconto]);
-                
-                // Segna che almeno un valore è stato modificato
-                $valoriModificati = true;
+                ->where('Cd_AR', $id)
+                ->where('Id_LSRevisione', $revisioneId)
+                ->update(['Prezzo' => 0, 'Sconto' => $nuovoSconto]);
             }
         }
         
-        // Verifica se sono stati effettuati aggiornamenti
-        if ($valoriModificati) {
-            // Se almeno un aggiornamento è stato effettuato, reindirizza alla pagina di visualizzazione del listino con un messaggio di successo
-            return redirect()->route('dashboard.listini.show', $id)->with('success', 'Prezzi e sconti aggiornati con successo.');
-        } else {
-            // Se non sono stati effettuati aggiornamenti, reindirizza alla pagina di visualizzazione del listino con un messaggio informativo
-            return redirect()->route('dashboard.listini.show', $id)->with('info', 'Nessun aggiornamento effettuato.');
-        }
+        return redirect()->route('dashboard.listini.show', $id)->with('success', 'Prezzi e sconti aggiornati con successo.');
+        
     }
     
     
