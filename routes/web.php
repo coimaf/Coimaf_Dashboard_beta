@@ -8,6 +8,7 @@ use App\Http\Controllers\ItemsUnderStock;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\TypeR4Controller;
+use App\Http\Controllers\ListiniController;
 use App\Http\Controllers\MachineController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingController;
@@ -156,7 +157,11 @@ Route::get('fpc', function()  { return view('dashboard.fpc.index'); })->name('da
     Route::put('/fpc/update/{r4}', [R4Controller::class, 'update'])->name('dashboard.r4.update')->middleware('auth', 'fpc');
     Route::delete('/fpc/elimina/{r4}', [R4Controller::class, 'destroy'])->name('dashboard.r4.destroy')->middleware('auth', 'fpc');
 
-
+// Listini
+Route::get('/listini', [ListiniController::class, 'index'])->name('dashboard.listini.index')->middleware('auth', 'impostazioni');
+Route::get('listini/dettaglio/{id}', [ListiniController::class, 'show'])->name('dashboard.listini.show')->middleware('auth', 'impostazioni');
+Route::get('listini/modifica/{id}', [ListiniController::class, 'edit'])->name('dashboard.listini.edit')->middleware('auth', 'impostazioni');
+Route::put('/listini/update/{id}', [ListiniController::class, 'update'])->name('dashboard.listini.update')->middleware('auth', 'impostazioni');
 
 // Searchable
 // Route::get('/dashboard/search', [SearchController::class, 'search'])->name('dashboard.search')->middleware('auth', 'officina');

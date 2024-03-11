@@ -78,6 +78,14 @@
                     </a>
                 </li>
                 @endif
+                @if(Str::contains(auth()->user()->groups, 'GESTIONALE-Impostazioni'))
+                <li class="nav-item">
+                    <a href="{{ route('dashboard.listini.index') }}" class="nav-link {{ Request::is('listini') ? 'active' : '' }}" aria-current="page">
+                        <i class="bi bi-journal-richtext pe-2"></i>
+                        Listini
+                    </a>
+                </li>
+                @endif
             </ul>
             <hr>
             <div class="dropdown">
