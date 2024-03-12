@@ -78,27 +78,32 @@ class MachineController extends Controller
     }
     
     
-    public function create()
+    public function create(Request $request)
     {
         $customers = DB::connection('mssql')->table('cf')->where('Cliente', 1)->get();
-        $brands = DB::connection('mssql')->table('ARMarca')->get();
         $warranty_type = WarrantyType::all();
-        return view('dashboard.machinesSold.create', compact('warranty_type', 'customers', 'brands'));
+        $codeArticles = DB::connection('mssql')->table('AR')
+        ->where('Obsoleto', 0)
+        ->select('Cd_AR', 'Descrizione', 'Cd_ARMarca')
+        ->get();
+
+        return view('dashboard.machinesSold.create', compact('warranty_type', 'customers', 'codeArticles'));
     }
+
     
     public function store(Request $request)
     {
-        $request->validate([
-            'model' => 'required',
-            'brand' => 'required',
-            'serial_number' => 'required',
-            'warranty_type_id' => 'nullable|exists:warranty_types,id',
-            'img' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
-        ],[
-            'img.image' => __("Puoi caricare solo immagini jpeg, png, jpg o gif."),
-            'img.mimes' => __("Puoi caricare solo immagini jpeg, png, jpg o gif."),
-            'img.max' => __("L'immagine deve essere massimo 2mb."),
-        ]);
+        // $request->validate([
+        //     'model' => 'required',
+        //     'brand' => 'required',
+        //     'serial_number' => 'required',
+        //     'warranty_type_id' => 'nullable|exists:warranty_types,id',
+        //     'img' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
+        // ],[
+        //     'img.image' => __("Puoi caricare solo immagini jpeg, png, jpg o gif."),
+        //     'img.mimes' => __("Puoi caricare solo immagini jpeg, png, jpg o gif."),
+        //     'img.max' => __("L'immagine deve essere massimo 2mb."),
+        // ]);
         
         $currentDate = Carbon::now();
         $warranty_expiration_date = $currentDate->addYear();
@@ -108,7 +113,8 @@ class MachineController extends Controller
         // Aggiorna il nome del campo nel create
         $machine = MachinesSold::create([
             'model' => $request->input('model'),
-            'brand' => $request->input('brand'),
+            'brand' => $request->input('brand') ?? ' ',
+            'codeArticle' => $request->input('artCode'),
             'serial_number' => $request->input('serial_number'),
             'sale_date' => $request->input('sale_date'),
             'warranty_expiration_date' => $warranty_expiration_date,
@@ -143,12 +149,15 @@ class MachineController extends Controller
     {
         // Implementa la logica per ottenere le opzioni da ARCA e dalle impostazioni
         $customers = DB::connection('mssql')->table('cf')->get();
-        $brands = DB::connection('mssql')->table('ARMarca')->get();
         // Invia le Garanzie alla vista di modifica macchine
         $warranty_type = WarrantyType::all();
+        $codeArticles = DB::connection('mssql')->table('AR')
+        ->where('Obsoleto', 0)
+        ->select('Cd_AR', 'Descrizione', 'Cd_ARMarca')
+        ->get();
         
         // e passale alla vista di modifica.
-        return view('dashboard.machinesSold.edit', compact('machine', 'warranty_type', 'brands', 'customers'));
+        return view('dashboard.machinesSold.edit', compact('machine', 'warranty_type', 'customers', 'codeArticles'));
     }
     
     public function update(Request $request, MachinesSold $machine)

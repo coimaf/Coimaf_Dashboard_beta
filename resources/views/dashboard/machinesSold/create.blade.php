@@ -4,19 +4,34 @@
     <form class="p-4" style="overflow: hidden;" action="{{route('dashboard.machinesSolds.store')}}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="row g-3">
-            <div class="col-12">
-                <input placeholder="Modello*" type="text" name="model" class="form-control" required>
-            </div>
             
             <div class="col-12 col-md-6">
-                <input placeholder="Seleziona Marca*" list="brandList" class="form-control" id="brandInput" name="brand" required>
-                <datalist id="brandList">
-                    @foreach($brands as $brand)
-                    <option value="{{ $brand->Descrizione }}" data-cd-ar-marca="{{ $brand->Cd_ARMarca }}"></option>
+                <input type="text" placeholder="Codice articolo*" list="artCodeList" class="form-control" id="artCodeInput" name="artCode">
+                <datalist id="artCodeList">
+                    @foreach ($codeArticles as $codeArticle)
+                        <option value="{{ trim($codeArticle->Cd_AR) }}" data-description="{{ $codeArticle->Descrizione }}" data-brand="{{ $codeArticle->Cd_ARMarca }}"></option>
                     @endforeach
                 </datalist>
             </div>
+
+            <div class="col-12 col-md-6">
+                <input placeholder="Seleziona Marca*" list="brandList" class="form-control" id="brandInput" name="brand" readonly>
+                <datalist id="brandList">
+                    @foreach ($codeArticles as $codeArticle)
+                        <option value="{{ $codeArticle->Cd_ARMarca }}" data-description="{{ $codeArticle->Descrizione }}" data-code="{{ trim($codeArticle->Cd_AR) }}"></option>
+                    @endforeach
+                </datalist>
+            </div> 
             
+            <div class="col-12 col-md-6">
+                <input type="text" placeholder="Descrizione*" list="artDescList" class="form-control" id="artDescInput" name="model">
+                <datalist id="artDescList">
+                    @foreach ($codeArticles as $codeArticle)
+                        <option value="{{ $codeArticle->Descrizione }}" data-code="{{ trim($codeArticle->Cd_AR) }}" data-brand="{{ $codeArticle->Cd_ARMarca }}"></option>
+                    @endforeach
+                </datalist>
+            </div>
+                   
             <div class="col-12 col-md-6">
                 <input placeholder="Numero di Serie*" type="text" name="serial_number" class="form-control" required>
             </div>
@@ -78,17 +93,64 @@
     
 </x-Layouts.layoutDash>
 
-
-
 <script>
-    document.getElementById('customerInput').addEventListener('input', function() {
-        var selectedOption = document.querySelector('#customer option[value="' + this.value + '"]');
-        var cdCFInput = document.getElementById('selectedCdCFInput');
+    document.addEventListener("DOMContentLoaded", function () {
+        var artCodeInput = document.getElementById("artCodeInput");
+        var artDescInput = document.getElementById("artDescInput");
+        var brandInput = document.getElementById("brandInput");
         
-        if (selectedOption) {
-            cdCFInput.value = selectedOption.getAttribute('data-cd-cf');
-        } else {
-            cdCFInput.value = ''; // Se l'utente cancella l'input, azzera il valore di Cd_CF
-        }
+        artCodeInput.addEventListener("input", function () {
+            var selectedCode = this.value.trim();
+            var dataList = document.getElementById("artCodeList");
+            var options = dataList.querySelectorAll("option");
+            for (var i = 0; i < options.length; i++) {
+                if (options[i].value.trim() === selectedCode) {
+                    artDescInput.value = options[i].getAttribute("data-description");
+                    brandInput.value = options[i].getAttribute("data-brand");
+                    break;
+                }
+            }
+            // Se il campo codice articolo è vuoto, cancella i valori degli altri due campi
+            if (selectedCode === "") {
+                artDescInput.value = "";
+                brandInput.value = "";
+            }
+        });
+
+        artDescInput.addEventListener("input", function () {
+            var selectedDesc = this.value.trim();
+            var dataList = document.getElementById("artDescList");
+            var options = dataList.querySelectorAll("option");
+            for (var i = 0; i < options.length; i++) {
+                if (options[i].value.trim() === selectedDesc) {
+                    artCodeInput.value = options[i].getAttribute("data-code");
+                    brandInput.value = options[i].getAttribute("data-brand");
+                    break;
+                }
+            }
+            // Se il campo descrizione è vuoto, cancella i valori degli altri due campi
+            if (selectedDesc === "") {
+                artCodeInput.value = "";
+                brandInput.value = "";
+            }
+        });
+        
+        brandInput.addEventListener("input", function () {
+            var selectedBrand = this.value.trim();
+            var dataList = document.getElementById("brandList");
+            var options = dataList.querySelectorAll("option");
+            for (var i = 0; i < options.length; i++) {
+                if (options[i].value.trim() === selectedBrand) {
+                    artCodeInput.value = options[i].getAttribute("data-code");
+                    artDescInput.value = options[i].getAttribute("data-description");
+                    break;
+                }
+            }
+            // Se il campo marca è vuoto, cancella i valori degli altri due campi
+            if (selectedBrand === "") {
+                artCodeInput.value = "";
+                artDescInput.value = "";
+            }
+        });
     });
 </script>

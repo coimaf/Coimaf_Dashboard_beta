@@ -124,32 +124,45 @@ class ListiniController extends Controller
     
     public function update(Request $request, $id)
     {
-        
         $nuoviPrezzi = $request->input('prezzo');
         $nuoviSconti = $request->input('sconto');
         
         foreach ($nuoviPrezzi as $revisioneId => $nuovoPrezzo) {
-            
+            $listini = $this->getListini($id);
             $nuovoSconto = $nuoviSconti[$revisioneId] ?? 0;
             
             // Verifica se il prezzo o lo sconto sono stati modificati
             if ($nuovoPrezzo !== null) {
-                // Se il prezzo è stato fornito, aggiorna il record
-                DB::connection('mssql')->table('LSArticolo')
-                ->where('Cd_AR', $id)
-                ->where('Id_LSRevisione', $revisioneId)
-                ->update(['Prezzo' => $nuovoPrezzo, 'Sconto' => $nuovoSconto]);
+                foreach ($listini as $item) {
+                    if (!isset($item['revisione'])) { // Controlla se il campo "revisione" non è presente nell'elemento $item
+                        // Se il campo "revisione" non è presente, inserisci il nuovo record solo se non esiste già
+                        $existingRecord = DB::connection('mssql')->table('LSArticolo')
+                            ->where('Cd_AR', $id)
+                            ->where('Id_LSRevisione', $revisioneId)
+                            ->exists();
+                        
+                        if (!$existingRecord) {
+                            DB::connection('mssql')->table('LSArticolo')
+                                ->insert(['Cd_AR' => $id, 'Id_LSRevisione' => $revisioneId, 'Prezzo' => $nuovoPrezzo, 'Sconto' => $nuovoSconto]);
+                        }
+                    } else {
+                        // Se il campo "revisione" è presente, aggiorna il record
+                        DB::connection('mssql')->table('LSArticolo')
+                            ->where('Cd_AR', $id)
+                            ->where('Id_LSRevisione', $revisioneId)
+                            ->update(['Prezzo' => $nuovoPrezzo, 'Sconto' => $nuovoSconto]);
+                    }
+                }
             } else {
                 // Se il prezzo non è stato fornito, imposta il prezzo su 0 e aggiorna il record
                 DB::connection('mssql')->table('LSArticolo')
-                ->where('Cd_AR', $id)
-                ->where('Id_LSRevisione', $revisioneId)
-                ->update(['Prezzo' => 0, 'Sconto' => $nuovoSconto]);
+                    ->where('Cd_AR', $id)
+                    ->where('Id_LSRevisione', $revisioneId)
+                    ->update(['Prezzo' => 0, 'Sconto' => $nuovoSconto]);
             }
         }
         
         return redirect()->route('dashboard.listini.show', $id)->with('success', 'Prezzi e sconti aggiornati con successo.');
-        
     }
     
     

@@ -13,16 +13,22 @@
             </div>
             
             <div class="p-3 row g-3">
-                
-                <div class="col-12">
-                    <label class="fs-5 mb-1 fw-semibold">Modello</label>
-                    <input value="{{$machine->model}}" class="form-control form-custom fs-5" readonly>
+
+                <div class="col-6">
+                    <label class="fs-5 mb-1 fw-semibold">Codice articolo</label>
+                    <input value="{{$machine->codeArticle}}" class="form-control form-custom fs-5" readonly>
                 </div>
                 
                 <div class="col-12 col-md-6">
                     <label class="fs-5 mb-1 fw-semibold">Marca</label>
                     <input value="{{$machine->brand}}" class="form-control form-custom fs-5" readonly>
                 </div>
+                
+                <div class="col-6">
+                    <label class="fs-5 mb-1 fw-semibold">Modello</label>
+                    <input value="{{$machine->model}}" class="form-control form-custom fs-5" readonly>
+                </div>
+                
                 
                 <div class="col-12 col-md-6">
                     <label class="fs-5 mb-1 fw-semibold">Numero di Serie</label>

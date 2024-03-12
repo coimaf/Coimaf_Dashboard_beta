@@ -16,6 +16,7 @@ class MachinesSold extends Model
     protected $fillable = [
         'model',
         'brand',
+        'codeArticle',
         'serial_number',
         'sale_date',
         'old_buyer',

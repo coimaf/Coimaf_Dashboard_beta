@@ -8,18 +8,30 @@
         @csrf
         @method('PUT')
         <div class="row g-3">
-            <div class="col-12">
-                <label class="my-2" for="model">Modello</label>
-                <input type="text" name="model" class="form-control" value="{{ old('model', $machine->model) }}" required>
+            
+            <div class="col-12 col-md-6">
+                <input type="text" placeholder="Codice articolo*" list="artCodeList" class="form-control" id="artCodeInput" name="artCode" value="{{ old('artCode', $machine->codeArticle) }}" readonly>
+                <datalist id="artCodeList">
+                    @foreach ($codeArticles as $codeArticle)
+                    <option value="{{ trim($codeArticle->Cd_AR) }}" data-description="{{ $codeArticle->Descrizione }}" data-brand="{{ $codeArticle->Cd_ARMarca }}"></option>
+                    @endforeach
+                </datalist>
             </div>
             
             <div class="col-12 col-md-6">
-                <label class="my-2" for="brandInput">Marca</label>
-                <input list="brandList" class="form-control" id="brandInput" name="brand" value="{{ old('brand', $machine->brand) }}">
+                <input placeholder="Seleziona Marca*" list="brandList" class="form-control" id="brandInput" name="brand" readonly value="{{ old('brand', $machine->brand) }}">
                 <datalist id="brandList">
-                    <option value="">Seleziona una Marca</option>
-                    @foreach($brands as $brand)
-                    <option value="{{ $brand->Descrizione }}" data-cd-ar-marca="{{ $brand->Cd_ARMarca }}"></option>
+                    @foreach ($codeArticles as $codeArticle)
+                    <option value="{{ $codeArticle->Cd_ARMarca }}" data-description="{{ $codeArticle->Descrizione }}" data-code="{{ trim($codeArticle->Cd_AR) }}"></option>
+                    @endforeach
+                </datalist>
+            </div> 
+            
+            <div class="col-12 col-md-6">
+                <input type="text" placeholder="Descrizione*" list="artDescList" class="form-control" id="artDescInput" name="model" value="{{ old('model', $machine->model) }}" readonly>
+                <datalist id="artDescList">
+                    @foreach ($codeArticles as $codeArticle)
+                    <option value="{{ $codeArticle->Descrizione }}" data-code="{{ trim($codeArticle->Cd_AR) }}" data-brand="{{ $codeArticle->Cd_ARMarca }}"></option>
                     @endforeach
                 </datalist>
             </div>
