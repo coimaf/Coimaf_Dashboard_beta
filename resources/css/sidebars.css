@@ -1,6 +1,7 @@
 .sidebar{
   width: 17%;
   position: fixed;
+  overflow-y: auto;
 }
 
 main {

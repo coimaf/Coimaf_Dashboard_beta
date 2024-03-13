@@ -87,6 +87,11 @@
                 </li>
                 @endif
             </ul>
+            <div class="flex">
+                <i class="bi bi-circle-fill text-success fw-semibold"> Valido</i>
+                <i class="bi bi-circle-fill text-warning fw-semibold"> Sta per scadere</i>
+                <i class="bi bi-circle-fill text-danger fw-semibold"> Scaduto</i>
+            </div>
             <hr>
             <div class="dropdown">
                 <a href="#" class="d-flex align-items-center text-black text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
