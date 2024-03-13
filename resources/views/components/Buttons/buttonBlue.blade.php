@@ -1,4 +1,4 @@
-<button type="{{$type}}" class="btn bg-primary-cust text-white btn-cust">{{ $props }}</button>
+<button type="{{$type}}" class="btn bg-primary-cust text-white btn-cust fs-5 me-2">{{ $props }}</button>
 
 <style>
     .btn-cust{

@@ -52,33 +52,37 @@
                 
                 <div class="col-12 col-md-6">
                     <label class="fs-5 mb-1 fw-semibold">Scadenza garanzia</label>
-                    <input value="{{ \Carbon\Carbon::parse($machine->warranty_expiration_date)->format('d/m/Y') }}" class="form-control form-custom fs-5" readonly>
+                    <input value="{{ $machine->warranty_expiration_date ? \Carbon\Carbon::parse($machine->warranty_expiration_date)->format('d/m/Y') : '' }}" class="form-control form-custom fs-5" readonly>
                 </div>
                 
                 <div class="col-12 col-md-6">
                     <label class="fs-5 mb-1 fw-semibold">Data installazione</label>
-                    <input value="{{ $machine->sale_date ? \Carbon\Carbon::parse($machine->sale_date)->format('d-m-Y') : '' }}" class="form-control form-custom fs-5" readonly>
+                    <input value="{{ $machine->sale_date ? \Carbon\Carbon::parse($machine->sale_date)->format('d/m/Y') : '' }}" class="form-control form-custom fs-5" readonly>
                 </div>
                 
                 
-                <div class="col-12 col-md-6">
+                {{-- <div class="col-12 col-md-6">
                     <label class="fs-5 mb-1 fw-semibold">Registrata il</label>
                     <input value="{{ \Carbon\Carbon::parse($machine->registration_date)->format('d-m-Y' )}}" class="form-control form-custom fs-5" readonly>
-                </div>
+                </div> --}}
                 
                 <div class="col-12 col-md-6">
                     <label class="fs-5 mb-1 fw-semibold">Documento di trasporto</label>
-                    <input value="{{$machine->delivery_ddt}}" class="form-control form-custom fs-5" readonly>
-                    
-                    <div class="card my-3" id="img">
-                        <img src="{{ asset('storage/' . $machine->img) }}" alt="img" width="150px" onclick="showOriginalSize('{{ asset('storage/' . $machine->img) }}')">
-                    </div>             
-                    
+                    <input value="{{$machine->delivery_ddt}}" class="form-control form-custom fs-5" readonly>          
                 </div>
                 
                 <div class="col-12 col-md-6">
                     <label class="fs-5 mb-1 fw-semibold">Note</label>
-                    <textarea class="form-control form-custom fs-5" style="height: 100px; resize: none;" readonly>{{$machine->notes}}</textarea>
+                    <textarea class="form-control form-custom fs-5" style="height: 155px; resize: none;" readonly>{{$machine->notes}}</textarea>
+                </div>
+
+                <div class="col-12 col-md-6">
+                    @if($machine->img)
+                    <label class="fs-5 mb-1 fw-semibold">Immagine</label>
+                    <div class="card w-25" id="img">
+                        <img src="{{ asset('storage/' . $machine->img) }}" alt="img" onclick="showOriginalSize('{{ asset('storage/' . $machine->img) }}')">
+                    </div>   
+                    @endif
                 </div>
                 
             </div>
