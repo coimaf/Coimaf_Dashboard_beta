@@ -45,8 +45,8 @@
         
         <div class="col-12 col-md-4">
             <label class="fs-5 mb-1 fw-semibold">Cliente</label>
-            <input hidden id="cdcf" value="{{$ticket->cd_cf}} {{$ticket->descrizione}}" class="form-control form-custom fs-5" readonly>
-            <input value="{{$ticket->cd_cf}} {{$ticket->descrizione}}" class="form-control form-custom fs-5" readonly>
+            <input hidden id="cdcf" value="{{$ticket->descrizione}}" class="form-control form-custom fs-5" readonly>
+            <input value="{{$ticket->descrizione}}" class="form-control form-custom fs-5" readonly>
         </div>
         
         <div class="col-12 col-md-4">
