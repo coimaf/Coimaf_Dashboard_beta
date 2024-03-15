@@ -34,7 +34,7 @@
                     <tr>
                         <td>{{ $item['descrizione'] }}</td>
                         <td>
-                            <input class="form-control" type="text" name="prezzo[{{ $item['id_revisione'] }}]" value="{{ number_format($item['prezzo'], 3, '.', '') }}">
+                            <input class="form-control" type="text" name="prezzo[{{ $item['id_revisione'] }}]" value="{{ $item['prezzo'] ? number_format($item['prezzo'], 3) : null}}">
                         </td>
                         <td>
                             <input class="form-control" type="text" name="sconto[{{ $item['id_revisione'] }}]" value="{{ $item['sconto'] }}">

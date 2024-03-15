@@ -17,8 +17,8 @@
                     <thead>
                         <tr>
                             <th>Listino</th>
-                            <th>Prezzo</th>
-                            <th>Sconto</th>
+                            <th class="text-end">Prezzo</th>
+                            <th class="text-center">Sconto</th>
                             <th>Revisione</th>
                         </tr>
                     </thead>
@@ -26,8 +26,8 @@
                         @foreach($listini as $item)
                         <tr>
                             <td>{{ $item['descrizione'] }}</td>
-                            <td>{{ number_format($item['prezzo'], 3, '.', '') ?? '0' }}</td>
-                            <td>{{ $item['sconto'] ?? '0' }}</td>
+                            <td class="text-end">{{ $item['prezzo'] ? number_format($item['prezzo'], 2, '.', '') : '' }}</td>
+                            <td class="text-center">{{ $item['sconto'] ?? '' }}</td>
                             <td>{{ $item['revisione'] ?? 'Articolo non presente in revisione.' }}</td>
                         </tr>
                         @endforeach

@@ -128,40 +128,38 @@ class ListiniController extends Controller
         $nuoviSconti = $request->input('sconto');
         
         foreach ($nuoviPrezzi as $revisioneId => $nuovoPrezzo) {
-            $nuovoSconto = $nuoviSconti[$revisioneId] ?? '';
-            if ($nuovoPrezzo === null) {
-                $nuovoPrezzo = 0;
-            }
-            
-            $result = DB::connection('mssql')
-            ->table('LSArticolo')
-            ->join('LSRevisione', 'LSArticolo.Id_LSRevisione', '=', 'LSRevisione.Id_LSRevisione')
-            ->where('Cd_AR', $id)
-            ->whereNotNull('DataPubblicazione')
-            ->where('LSRevisione.Id_LSRevisione', $revisioneId)
-            ->get();
-
-            if ($result->isEmpty()) {
-                DB::connection('mssql')
+            // Controlla se il prezzo è stato fornito
+            if ($nuovoPrezzo !== null && $nuovoPrezzo !== '') {
+                $nuovoSconto = $nuoviSconti[$revisioneId] ?? '';
+                
+                $result = DB::connection('mssql')
                 ->table('LSArticolo')
-                ->insert([
-                    'Id_LSRevisione' => $revisioneId,
-                    'Cd_AR' => $id,
-                    'Prezzo' => $nuovoPrezzo,
-                    'Sconto' => $nuovoSconto
-                ]);
-            } else {
-                DB::connection('mssql')
-                ->table('LSArticolo')
+                ->join('LSRevisione', 'LSArticolo.Id_LSRevisione', '=', 'LSRevisione.Id_LSRevisione')
                 ->where('Cd_AR', $id)
-                ->where('Id_LSRevisione', $revisioneId)
-                ->update(['Prezzo' => $nuovoPrezzo, 'Sconto' => $nuovoSconto]);
+                ->whereNotNull('DataPubblicazione')
+                ->where('LSRevisione.Id_LSRevisione', $revisioneId)
+                ->get();
+                
+                if ($result->isEmpty()) {
+                    DB::connection('mssql')
+                    ->table('LSArticolo')
+                    ->insert([
+                        'Id_LSRevisione' => $revisioneId,
+                        'Cd_AR' => $id,
+                        'Prezzo' => $nuovoPrezzo,
+                        'Sconto' => $nuovoSconto
+                    ]);
+                } else {
+                    DB::connection('mssql')
+                    ->table('LSArticolo')
+                    ->where('Cd_AR', $id)
+                    ->where('Id_LSRevisione', $revisioneId)
+                    ->update(['Prezzo' => $nuovoPrezzo, 'Sconto' => $nuovoSconto]);
+                }
             }
-            
         }
         
         return redirect()->route('dashboard.listini.show', $id)->with('success', 'Prezzi e sconti aggiornati con successo.');
-    }
-    
+    } 
     
 }
