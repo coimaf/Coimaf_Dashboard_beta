@@ -89,7 +89,7 @@
             </ul>
             <div class="row justify-content-between text-center">
                 <div class="col-4">
-                    <i class="bi bi-circle-fill text-success fw-semibold">test Valido</i>
+                    <i class="bi bi-circle-fill text-success fw-semibold"> Valido</i>
                 </div>
                 <div class="col-4">
                     <i class="bi bi-circle-fill text-warning fw-semibold"> Sta per scadere</i>
