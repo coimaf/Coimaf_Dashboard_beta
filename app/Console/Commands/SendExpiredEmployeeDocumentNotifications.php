@@ -22,6 +22,7 @@ class SendExpiredEmployeeDocumentNotifications extends Command
         $this->sendNotificationsForExpiringDocuments(60);
         $this->sendNotificationsForExpiringDocuments(30);
         $this->sendNotificationsForExpiringDocuments(7);
+        $this->sendNotificationsForExpiringDocuments(3);
     }
     
     private function sendExpiredDocumentsNotification()

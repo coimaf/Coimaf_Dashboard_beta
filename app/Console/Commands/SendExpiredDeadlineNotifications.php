@@ -20,7 +20,8 @@ class SendExpiredDeadlineNotifications extends Command
         $deadlines = Deadline::whereHas('documentDeadlines', function ($query) {
             $query->where('expiry_date', '<=', now()->addDays(60)->format('Y-m-d'))
                   ->orWhere('expiry_date', '<=', now()->addDays(30)->format('Y-m-d'))
-                  ->orWhere('expiry_date', '<=', now()->addDays(7)->format('Y-m-d'));
+                  ->orWhere('expiry_date', '<=', now()->addDays(7)->format('Y-m-d'))
+                  ->orWhere('expiry_date', '<=', now()->addDays(3)->format('Y-m-d'));
         })->get();    
         
         foreach ($deadlines as $deadline) {
@@ -29,7 +30,7 @@ class SendExpiredDeadlineNotifications extends Command
             $daysRemaining = now()->diffInDays($expiryDate, false);
             
             // Invia la notifica solo se mancano 60, 30 o 7 giorni alla scadenza oppure se è già scaduta
-            if ($daysRemaining <= 0 || $daysRemaining === 6 || $daysRemaining === 29 || $daysRemaining === 59) {
+            if ($daysRemaining <= 0 || $daysRemaining === 3 || $daysRemaining === 6 || $daysRemaining === 29 || $daysRemaining === 59) {
                 $this->sendNotification($deadline, $daysRemaining);
                 $this->sendNotificationToUpdatedBy($deadline, $daysRemaining);
             }

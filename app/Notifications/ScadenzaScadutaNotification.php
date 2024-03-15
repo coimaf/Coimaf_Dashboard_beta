@@ -47,6 +47,8 @@ class ScadenzaScadutaNotification extends Notification
         // Costruisci il messaggio in base ai giorni rimanenti
         if ($daysRemaining == 0) {
             $message = 'Il Documento è scaduto il: ' . $expiryDateString;
+        } elseif ($daysRemaining <= 3) {
+            $message = 'Mancano solo 3 giorni alla scadenza: ' . $expiryDateString;
         } elseif ($daysRemaining <= 7) {
             $message = 'Mancano solo 7 giorni alla scadenza: ' . $expiryDateString;
         } elseif ($daysRemaining <= 30) {
