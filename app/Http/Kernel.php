@@ -73,5 +73,6 @@ class Kernel extends HttpKernel
         'sottoscorta' => \App\Http\Middleware\SottoscrotaMiddleware::class,
         'flotta' => \App\Http\Middleware\FlottaMiddleware::class,
         'fpc' => \App\Http\Middleware\FPCMiddleware::class,
+        'listini' => \App\Http\Middleware\ListiniMiddleware::class,
     ];
 }
