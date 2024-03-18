@@ -16,15 +16,16 @@
 - [ ] Quando inserisco o modifico e cambio pagina, prima di uscire inserire un alert "stai uscendo senza salvare, continuare?";
 
 ## Ticket
-- [x] Il saldo va formattato con , per i centesimi e i . per le migliaia;
-- [ ] Deve apparire il saldo anche nella lista dei ticket;
 - [ ] Dobbiamo rilevare un flag di "bloccato"; (aspettare francesco per la query)
-- [ ] Nella lista dei ticket aperti mettiamo anche la data di apertura del tiket;
+- [x] Il saldo va formattato con , per i centesimi e i . per le migliaia;
+- [x] La index deve avere titolo - cliente - stato - priorita - data - zona - saldo;
 - [x] Togliere la colonna elimina dalla lista dei ticket;
 - [ ] In ticket quando seleziono il modello macchina dal db macchine la lista che mi appare deve essere filtrata solo con le macchine assegnate al cliente inserito nella casella cliente altrimenti la selezione è impossibile;
 
 ## Macchine Installate
-- [ ] Nella index del db macchine togliere la colonna elimina e mettere numero di serie e modello inteso come codice;
+- [x] Nella index del db macchine togliere la colonna elimina;
+- [x] Codice articolo diventa modello e Modello diventa descrizione;
+- [x] Mettere nella index numero di serie e modello;
 
 ## Sottoscorta
 - [ ] In sottoscorta le colonne con i numeri devono avere tutte la stessa larghezza;

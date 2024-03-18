@@ -15,7 +15,7 @@
             <div class="p-3 row g-3">
 
                 <div class="col-6">
-                    <label class="fs-5 mb-1 fw-semibold">Codice articolo</label>
+                    <label class="fs-5 mb-1 fw-semibold">Modello</label>
                     <input value="{{$machine->codeArticle}}" class="form-control form-custom fs-5" readonly>
                 </div>
                 
@@ -25,7 +25,7 @@
                 </div>
                 
                 <div class="col-6">
-                    <label class="fs-5 mb-1 fw-semibold">Modello</label>
+                    <label class="fs-5 mb-1 fw-semibold">Descrizione</label>
                     <input value="{{$machine->model}}" class="form-control form-custom fs-5" readonly>
                 </div>
                 

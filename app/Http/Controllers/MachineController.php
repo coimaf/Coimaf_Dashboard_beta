@@ -17,13 +17,14 @@ class MachineController extends Controller
         $direction = $request->input('direction', 'asc');
         
         $columnTitles = [
-            ['text' => 'Modello', 'sortBy' => 'model'],
+            ['text' => 'Modello', 'sortBy' => 'codeArticle'],
+            ['text' => 'Descrizione', 'sortBy' => 'model'],
             ['text' => 'Marca', 'sortBy' => 'brand'],
+            'Numero Serie',
             ['text' => 'Propietario Attuale', 'sortBy' => 'buyer'],
             ['text' => 'Tipo Garanzia', 'sortBy' => 'warrantyType'],
             ['text' => 'Data installazione', 'sortBy' => 'sale_date'],
             'Modifica',
-            'Elimina'
         ];
         $searchTerm = $request->input('machinesSearch');
         
@@ -35,6 +36,7 @@ class MachineController extends Controller
         
         if ($searchTerm) {
             $queryBuilder->where('machines_solds.model', 'like', '%' . $searchTerm . '%')
+            ->orWhere('codeArticle', 'LIKE', "%$searchTerm%")
             ->orWhere('brand', 'LIKE', "%$searchTerm%")
             ->orWhere('serial_number', 'LIKE', "%$searchTerm%")
             ->orWhere('sale_date', 'LIKE', "%$searchTerm%")
@@ -58,6 +60,8 @@ class MachineController extends Controller
         })->when($sortBy == 'warrantyType', function ($query) use ($direction) {
             $query->join('warranty_types', 'machines_solds.warranty_type_id', '=', 'warranty_types.id')
             ->orderBy('warranty_types.name', $direction);
+        })->when($sortBy == 'codeArticle', function ($query) use ($direction) {
+            $query->orderBy('machines_solds.codeArticle', $direction);
         })->when($sortBy == 'sale_date', function ($query) use ($direction) {
             $query->orderBy('machines_solds.sale_date', $direction);
         });

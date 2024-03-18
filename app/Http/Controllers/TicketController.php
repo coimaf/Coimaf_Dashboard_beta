@@ -25,9 +25,11 @@ class TicketController extends Controller
             ['text' => 'Ticket ID', 'sortBy' => 'id'],
             ['text' => 'Titolo', 'sortBy' => 'title'],
             ['text' => 'Cliente', 'sortBy' => 'descrizione'],
-            ['text' => 'Zona', 'sortBy' => ''],
             ['text' => 'Stato', 'sortBy' => 'status'],
             ['text' => 'Priorità', 'sortBy' => 'priority'],
+            ['text' => 'Data', 'sortBy' => 'created_at'],
+            ['text' => 'Zona', 'sortBy' => 'zona'],
+            'Saldo',
             'Modifica',
         ];
         
@@ -70,6 +72,7 @@ class TicketController extends Controller
             ->orWhere('cd_cf', 'LIKE', "%$searchTerm%")
             ->orWhere('status', 'LIKE', "%$searchTerm%")
             ->orWhere('priority', 'LIKE', "%$searchTerm%")
+            ->orWhere('zona', 'LIKE', "%$searchTerm%")
             ->orWhereHas('technician', function ($query) use ($searchTerm) {
                 $query->where('name', 'LIKE', "%$searchTerm%");
             })
@@ -98,6 +101,8 @@ class TicketController extends Controller
             $query->orderBy('tickets.priority', $direction);
         })->when($sortBy == 'descrizione', function ($query) use ($direction) {
             $query->orderBy('tickets.descrizione', $direction);
+        })->when($sortBy == 'created_at', function ($query) use ($direction) {
+            $query->orderBy('tickets.created_at', $direction);
         });
         
         $tickets = $queryBuilder->paginate(25)->appends([

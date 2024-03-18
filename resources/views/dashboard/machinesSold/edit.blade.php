@@ -10,7 +10,7 @@
         <div class="row g-3">
             
             <div class="col-12 col-md-6">
-                <input type="text" placeholder="Codice articolo*" list="artCodeList" class="form-control" id="artCodeInput" name="artCode" value="{{ old('artCode', $machine->codeArticle) }}" readonly>
+                <input type="text" placeholder="Modello*" list="artCodeList" class="form-control" id="artCodeInput" name="artCode" value="{{ old('artCode', $machine->codeArticle) }}" readonly>
                 <datalist id="artCodeList">
                     @foreach ($codeArticles as $codeArticle)
                     <option value="{{ trim($codeArticle->Cd_AR) }}" data-description="{{ $codeArticle->Descrizione }}" data-brand="{{ $codeArticle->Cd_ARMarca }}"></option>
