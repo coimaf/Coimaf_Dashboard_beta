@@ -1,7 +1,7 @@
 <x-Layouts.layoutDash>
     
     <h6 class="fw-bold p-4 fs-5">Crea un nuovo Ticket</h6>
-
+    
     <div class='d-flex align-items-center'>
         <p class="px-4 fs-4 fw-bold">Ticket Numero: {{$nextTicketNumber}}</p>
         
@@ -127,7 +127,11 @@
                     var differenza = totaleAvere - totaleDare;
                     
                     // Costruisci il testo per mostrare la differenza
-                    var differenzaText = '<i class="bi bi-circle-fill"></i>  SALDO: ' + differenza.toFixed(2); // Utilizza toFixed per limitare i decimali a due cifre
+                    var differenzaText = '<i class="bi bi-circle-fill"></i>  SALDO: ' + differenza.toLocaleString('it-IT', {
+                        style: 'decimal',
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    }); // Utilizza toFixed per limitare i decimali a due cifre
                     
                     // Aggiorna il paragrafo con la differenza calcolata
                     var differenzaElement = document.getElementById('differenza');

@@ -29,7 +29,6 @@ class TicketController extends Controller
             ['text' => 'Stato', 'sortBy' => 'status'],
             ['text' => 'Priorità', 'sortBy' => 'priority'],
             'Modifica',
-            'Elimina'
         ];
         
         $searchTerm = $request->input('ticketsSearch');

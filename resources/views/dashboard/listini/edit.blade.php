@@ -37,7 +37,7 @@
                             <input class="form-control" type="text" name="prezzo[{{ $item['id_revisione'] }}]" value="{{ $item['prezzo'] ? number_format($item['prezzo'], 3) : null}}">
                         </td>
                         <td>
-                            <input class="form-control" type="text" name="sconto[{{ $item['id_revisione'] }}]" value="{{ $item['sconto'] }}">
+                            <input class="form-control" type="text" name="sconto[{{ $item['id_revisione'] }}]" value="{{ str_replace(',', '.', $item['sconto']) }}">
                         </td>
                         <td>{{ $item['revisione'] ?? 'Articolo non presente in revisione.' }}</td>
                     </tr>

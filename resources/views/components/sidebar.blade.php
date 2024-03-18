@@ -70,11 +70,11 @@
                     </a>
                 </li>
                 @endif
-                @if(Str::contains(auth()->user()->groups, 'GESTIONALE-FPC'))
+                @if(Str::contains(auth()->user()->groups, 'GESTIONALE-Impostazioni'))
                 <li class="nav-item">
                     <a href="{{ route('dashboard.fpc.index') }}" class="nav-link {{ Request::is('fpc') ? 'active' : '' }}" aria-current="page">
                         <i class="bi bi-journal-richtext pe-2"></i>
-                        FPC
+                        FPC <span class="text-white fw-bold bg-warning p-1 border rounded-3"> Work in progress</span>
                     </a>
                 </li>
                 @endif

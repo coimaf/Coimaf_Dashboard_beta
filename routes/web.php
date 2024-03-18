@@ -159,9 +159,9 @@ Route::get('fpc', function()  { return view('dashboard.fpc.index'); })->name('da
 
 // Listini
 Route::get('/listini', [ListiniController::class, 'index'])->name('dashboard.listini.index')->middleware('auth', 'listini');
-Route::get('listini/dettaglio/{id}', [ListiniController::class, 'show'])->name('dashboard.listini.show')->middleware('auth', 'listini');
-Route::get('listini/modifica/{id}', [ListiniController::class, 'edit'])->name('dashboard.listini.edit')->middleware('auth', 'listini');
-Route::put('/listini/update/{id}', [ListiniController::class, 'update'])->name('dashboard.listini.update')->middleware('auth', 'listini');
+Route::get('listini/dettaglio/{id}', [ListiniController::class, 'show'])->name('dashboard.listini.show')->middleware('auth', 'listini')->where('id', '(.*)');
+Route::get('listini/modifica/{id}', [ListiniController::class, 'edit'])->name('dashboard.listini.edit')->middleware('auth', 'listini')->where('id', '(.*)');
+Route::put('/listini/update/{id}', [ListiniController::class, 'update'])->name('dashboard.listini.update')->middleware('auth', 'listini')->where('id', '(.*)');
 
 // Searchable
 // Route::get('/dashboard/search', [SearchController::class, 'search'])->name('dashboard.search')->middleware('auth', 'officina');

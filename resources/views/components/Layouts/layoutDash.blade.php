@@ -34,6 +34,12 @@
     </div>
 
         @vite(['resources/js/app.js'])
+        <script>
+            setTimeout(function() {
+                window.location.reload(true);
+            },  3600000); // Ricarica la pagina ogni ora (3,600,000 millisecondi)
+        </script>
+        
         <script
         type="text/javascript"
         src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.umd.min.js"

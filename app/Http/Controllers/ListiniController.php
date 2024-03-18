@@ -130,7 +130,9 @@ class ListiniController extends Controller
         foreach ($nuoviPrezzi as $revisioneId => $nuovoPrezzo) {
             // Controlla se il prezzo è stato fornito
             if ($nuovoPrezzo !== null && $nuovoPrezzo !== '') {
+                $nuovoPrezzo = str_replace(',', '.', $nuovoPrezzo);
                 $nuovoSconto = $nuoviSconti[$revisioneId] ?? '';
+                $nuovoSconto = str_replace(',', '.', $nuovoSconto);
                 
                 $result = DB::connection('mssql')
                 ->table('LSArticolo')

@@ -247,7 +247,11 @@ var totaleDare = 0;
                     var differenza = totaleAvere - totaleDare;
                     
                     // Costruisci il testo per mostrare la differenza
-                    var differenzaText = '<i class="bi bi-circle-fill me-2" style="margin-top: 8px;"></i>  SALDO: ' + differenza.toFixed(2); // Utilizza toFixed per limitare i decimali a due cifre
+                    var differenzaText = '<i class="bi bi-circle-fill me-2" style="margin-top: 8px;"></i>  SALDO: ' + differenza.toLocaleString('it-IT', {
+                        style: 'decimal',
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    }); // Utilizza toFixed per limitare i decimali a due cifre; // Utilizza toFixed per limitare i decimali a due cifre
                     
                     // Aggiorna il paragrafo con la differenza calcolata
                     var differenzaElement = document.getElementById('differenza');
