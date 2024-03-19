@@ -7,6 +7,58 @@ use Illuminate\Support\Facades\DB;
 
 class ListiniController extends Controller
 {
+
+    private function getListiniIndex($id)
+    {
+        // Dati connessione Database
+        $serverName = "192.168.2.22, 1433";
+        $connectionOptions = array(
+            "database" => "ADB_COIMAF",
+            "uid" => "sa",
+            "pwd" => "SiStEmA2006!",
+            "TrustServerCertificate" => true
+        );
+        
+        // Establishes the connection
+        $conn = DB::connection('mssql');
+        
+        // Array dei codici listino
+        $Cd_Listino = [
+            'LSA0001', '', '', '', '', '', '', 'LSA0008', 'LSA0009'
+        ];
+        
+        // Array per memorizzare i risultati delle query per ogni listino
+        $listini = [];
+        
+        // Esegui le query per ogni listino
+        for ($i = 0; $i < 9; $i++) {
+            if ($Cd_Listino[$i] != '') {
+                
+                $risultatiLSArticolo = $conn->table('LSArticolo')
+                    ->join('LSRevisione', 'LSArticolo.Id_LSRevisione', '=', 'LSRevisione.Id_LSRevisione')
+                    ->select('Descrizione', 'Cd_AR', 'Prezzo', 'LSArticolo.Sconto as Sconto', 'LSRevisione.Id_LSRevisione')
+                    ->where('Cd_AR', $id)
+                    ->whereNotNull('DataPubblicazione')
+                    ->where('Cd_LS', 'LIKE', $Cd_Listino[$i])
+                    ->orderBy('DataPubblicazione', 'desc')
+                    ->first();
+                
+                // Memorizza i risultati in un array associativo
+                $listini[$i] = [
+                    'Cd_AR' => $risultatiLSArticolo ? $risultatiLSArticolo->Cd_AR : null,
+                    'prezzo' => $risultatiLSArticolo ? $risultatiLSArticolo->Prezzo : null,
+                    'sconto' => $risultatiLSArticolo ? $risultatiLSArticolo->Sconto : null,
+                ];
+            }
+        }
+        
+        
+        // Chiudi la connessione al database
+        $conn->disconnect();
+        
+        return $listini;
+    }
+
     public function index(Request $request)
     {
         $sortBy = $request->input('sortBy', 'Cd_AR');
@@ -15,6 +67,9 @@ class ListiniController extends Controller
         $columnTitles = [
             ['text' => 'Codice', 'sortBy' => 'Cd_AR'],
             ['text' => 'Descrizione', 'sortBy' => 'Descrizione'],
+            'Prezzo Listino 1',
+            'Prezzo Listino 8',
+            'Prezzo Listino 9',
             'Modifica'
         ];
         $searchTerm = $request->input('searchListino');
@@ -35,10 +90,15 @@ class ListiniController extends Controller
         // Applica il filtro di ordinamento e paginazione
         $listini = $listini->select('Cd_AR', 'Descrizione')->orderByRaw("TRIM($sortBy) $direction")->paginate(25);
         
+        foreach ($listini as $item) {
+            $listiniLS[$item->Cd_AR] = $this->getListiniIndex($item->Cd_AR);
+        }
+        
         // Aggiungi i valori dei filtri alla query di paginazione
         $listini->appends(['sortBy' => $sortBy, 'direction' => $direction, 'searchListino' => $searchTerm]);
+
         
-        return view('dashboard.listini.index', compact('columnTitles', 'listini', 'direction', 'sortBy', 'routeName'));
+        return view('dashboard.listini.index', compact('columnTitles', 'listini', 'direction', 'sortBy', 'routeName', 'listiniLS'));
     }
     
     public function show($id)

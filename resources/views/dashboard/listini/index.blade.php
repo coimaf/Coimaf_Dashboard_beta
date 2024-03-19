@@ -9,31 +9,53 @@
                 </form>
             </th>
         </tr>
-        <tbody>
-{{-- 
-            @dd($listini) --}}
+        <tbody> 
             @foreach ($listini as $listino)
             <tr class="align-middle">
-                <td class="py-1">
+                <td class="py-1 ps-2">
                     <a class="link-underline link-underline-opacity-0 link-dark" href="{{ route('dashboard.listini.show', ['id' => $listino->Cd_AR]) }}">
                         {{ $listino->Cd_AR }}
                     </a>
                 </td>
-                <td class="">
+                <td>
                     <a class="link-underline link-underline-opacity-0 link-dark" href="{{ route('dashboard.listini.show', ['id' => $listino->Cd_AR]) }}">
                         {{ $listino->Descrizione }}
                     </a>
                 </td>
+                @foreach ($listiniLS[$listino->Cd_AR] as $index => $itemLS)
+                    @if ($index === 7)
+                    <td class="ps-3">
+                        <a class="link-underline link-underline-opacity-0 link-dark" href="{{ route('dashboard.listini.show', ['id' => $listino->Cd_AR]) }}">
+                        {{ number_format($itemLS['prezzo'], 2, ',', '') }}
+                        @if($itemLS['sconto'] != '' || null)
+                        <span> + {{ $itemLS['sconto'] }}%</span>
+                        </a>
+                        @endif
+                    </td>
+                    @else
+                    
+                    <td class="ps-5">
+                        <a class="link-underline link-underline-opacity-0 link-dark" href="{{ route('dashboard.listini.show', ['id' => $listino->Cd_AR]) }}">
+                        {{ number_format($itemLS['prezzo'], 2, ',', '') }}
+                        </a>
+                    </td>
+                    @endif
+                @endforeach
+                
                 <td class="ps-4">
-                    <a href="{{route('dashboard.listini.edit', ['id' => $listino->Cd_AR])}}">
+                    <a href="{{ route('dashboard.listini.edit', ['id' => $listino->Cd_AR]) }}">
                         <i class='bi bi-pencil-square text-warning'></i>
                     </a>                    
                 </td>
             </tr>
-            @endforeach
-        </tbody>
-        </x-table>
+        @endforeach
         
-        <x-pagination :props="$listini" />
-
+            
+            
+            
+        </tbody>
+    </x-table>
+    
+    <x-pagination :props="$listini" />
+    
 </x-Layouts.layoutDash>

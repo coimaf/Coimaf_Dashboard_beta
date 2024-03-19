@@ -27,7 +27,7 @@
                         <tr>
                             <td>{{ $item['descrizione'] }}</td>
                             <td class="text-end">{{ $item['prezzo'] ? number_format($item['prezzo'], 2, ',', '') : '' }}</td>
-                            <td class="text-center">{{ number_format($item['sconto'], 2, ',', '') ?? '' }}</td>
+                            <td class="text-center">{{ $item['sconto'] ? number_format($item['sconto'], 2, ',', '') : '' }}</td>
                             <td>{{ $item['revisione'] ?? 'Articolo non presente in revisione.' }}</td>
                         </tr>
                         @endforeach
