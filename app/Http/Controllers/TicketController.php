@@ -241,26 +241,36 @@ class TicketController extends Controller
     // Restituire i risultati come risposta JSON
     return response()->json($results);
 }
+
+public function fetchMachines(Request $request)
+{
     
+    $cdCFName = $request->input('cdCFName'); // Aggiungi questa linea per ottenere il nome del cliente
+
+    // Esegui la query per ottenere le macchine associate al cliente utilizzando sia cdCF che cdCFName
+    $machines = MachinesSold::where('buyer', '=', $cdCFName)
+        ->get();
+
+    // Restituisci le macchine trovate come una risposta JSON
+    return response()->json($machines);
+}
+
+
     
-    public function create(Request $request)
-    {
-        $machines = MachinesSold::all();
-        $technicians = Technician::all();
-        $nextTicketNumber = DB::table('tickets')->max('id') + 1;
-        $customers = DB::connection('mssql')
+public function create(Request $request)
+{
+    $technicians = Technician::all();
+    $nextTicketNumber = DB::table('tickets')->max('id') + 1;
+    $customers = DB::connection('mssql')
         ->table('cf')
         ->where('Cliente', 1)
         ->where('Obsoleto', 0)
-        ->get();  
+        ->get();
 
-        $currentYear = date('Y');
-        // Ottenere il valore di cdCF dalla richiesta
-        $cdCF = $request->input('cdCF'); 
-        
-        
-        return view('dashboard.tickets.create', compact('machines', 'nextTicketNumber', 'technicians', 'customers'));
-    }
+    $currentYear = date('Y');
+
+    return view('dashboard.tickets.create', compact( 'nextTicketNumber', 'technicians', 'customers'));
+}
                     
 public function store(Request $request)
 {

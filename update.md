@@ -20,7 +20,8 @@
 - [x] Il saldo va formattato con , per i centesimi e i . per le migliaia;
 - [x] La index deve avere titolo - cliente - stato - priorita - data - zona - saldo;
 - [x] Togliere la colonna elimina dalla lista dei ticket;
-- [ ] In ticket quando seleziono il modello macchina dal db macchine la lista che mi appare deve essere filtrata solo con le macchine assegnate al cliente inserito nella casella cliente altrimenti la selezione è impossibile;
+- [x] In ticket quando seleziono il modello macchina dal db macchine la lista che mi appare deve essere filtrata solo con le macchine assegnate al cliente inserito nella casella cliente altrimenti la selezione è impossibile;
+- [x] Se il ticket e' chiuso nella index deve apparire in rosso;
 
 ## Macchine Installate
 - [x] Nella index del db macchine togliere la colonna elimina;

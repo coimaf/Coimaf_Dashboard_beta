@@ -34,9 +34,9 @@
                     </a>
                 </td>
                 <td>
-                    <a class="link-underline link-underline-opacity-0 link-dark" href="{{route('dashboard.tickets.show', compact('ticket'))}}">
+                    <a class="link-underline link-underline-opacity-0 {{ $ticket->status !== 'Chiuso' ? 'link-dark' : '' }}" href="{{ route('dashboard.tickets.show', compact('ticket')) }}" style="color: {{ $ticket->status === 'Chiuso' ? 'red' : 'inherit' }}; font-weight: {{ $ticket->status === 'Chiuso' ? 'bold' : 'inherit' }}">
                         {{ $ticket->status }}
-                    </a>
+                    </a>                    
                 </td>
                 <td>
                     <a class="link-underline link-underline-opacity-0 link-dark" href="{{route('dashboard.tickets.show', compact('ticket'))}}">

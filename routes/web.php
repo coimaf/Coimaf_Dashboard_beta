@@ -131,6 +131,8 @@ Route::delete('/dashboard/tickets/elimina/{ticket}', [TicketController::class, '
 Route::get('/dashboard/tickets/stampa/{ticket}', [TicketController::class, 'print'])->name('dashboard.tickets.print')->middleware('auth', 'ticket');
 Route::delete('/dashboard/replacements/{id}', [TicketController::class, 'destroyReplacement'])->name('dashboard.replacements.destroy')->middleware('auth', 'ticket');
 Route::get('/fetch-results', [TicketController::class, 'fetchResults'])->name('fetch.results');
+Route::get('/fetch-machines', [TicketController::class, 'fetchMachines'])->name('fetch.machines');
+
 
 
 // Articoli Sotto Scorta

@@ -54,10 +54,10 @@
             
             <div class="col-12 col-md-4">
                 <label class="my-2" for="machine_model_id">Modello Macchina</label>
-                <select name="machine_model_id" class="form-control">
+                <select id="machine_model_id" name="machine_model_id" class="form-control">
                     <option value="">Seleziona un Modello</option>
                     @foreach($machines as $machine)
-                    <option value="{{ $machine->id }}" {{ old('machine_model_id', $ticket->machine_model_id) == $machine->id ? 'selected' : '' }}>
+                    <option id="modelVal" value="{{ $machine->id }}" {{ old('machine_model_id', $ticket->machine_model_id) == $machine->id ? 'selected' : '' }}>
                         {{ $machine->model }}
                     </option>
                     @endforeach
@@ -66,7 +66,7 @@
             
             <div class="col-12 col-md-4">
                 <label class="my-2" for="machine_sold_id">Seriale Macchina</label>
-                <select name="machine_sold_id" class="form-control">
+                <select  id="machine_sold_id" name="machine_sold_id" class="form-control">
                     <option value="">Seleziona un Seriale</option>
                     @foreach($machines as $machine)
                     <option value="{{ $machine->id }}" {{ old('machine_sold_id', $ticket->machine_sold_id) == $machine->id ? 'selected' : '' }}>
@@ -146,7 +146,7 @@
                 <input type="number" id="qnt" name="qnt" class="form-control" value="0">
             </div>
             @php
-                $przValue = 0;
+            $przValue = 0;
             @endphp
             <div class="col-12 col-md-2">
                 <label class="my-2" for="prz">Prezzo</label>
@@ -278,6 +278,78 @@
         
         
         document.addEventListener('DOMContentLoaded', function() {
+            var customerInput = document.getElementById('customerInput');
+            console.log(customerInput.value);
+            
+            var xhrName = new XMLHttpRequest();
+            xhrName.open('GET', '/fetch-machines?cdCFName=' + encodeURIComponent(customerInput.value), true);
+            xhrName.onreadystatechange = function() {
+                if (xhrName.readyState == 4 && xhrName.status == 200) {
+                    var machines = JSON.parse(xhrName.responseText);
+                    updateMachineOptions(machines);
+                    console.log(machines);
+                }
+            };
+            xhrName.send();
+            
+            
+            function updateMachineOptions(machines) {
+                var machineModelSelect = document.getElementById('machine_model_id');
+                var machineSoldSelect = document.getElementById('machine_sold_id');
+                
+                // Rimuovi tutte le opzioni attuali
+                
+    var selectedModelOption = machineModelSelect.options[machineModelSelect.selectedIndex];
+    var modelValue = selectedModelOption.textContent;
+    console.log(modelValue);
+
+    var selectedSerialOption = machineSoldSelect.options[machineSoldSelect.selectedIndex];
+var serialValue = selectedSerialOption.textContent;
+console.log(serialValue);
+
+                machineModelSelect.innerHTML = `<option value="">${modelValue}</option>`;
+                machineSoldSelect.innerHTML = `<option value="">${serialValue}</option>`;
+                
+               // Aggiungi le nuove opzioni
+               machines.forEach(function(machine) {
+                    var optionModel = document.createElement('option');
+                    optionModel.value = machine.id;
+                    optionModel.textContent = machine.model;
+                    machineModelSelect.appendChild(optionModel);
+                    
+                    var optionSerial = document.createElement('option');
+                    optionSerial.value = machine.id;
+                    optionSerial.textContent = machine.serial_number;
+                    machineSoldSelect.appendChild(optionSerial);
+                    // Aggiungi un listener per il cambio del modello della macchina
+                    document.getElementById('machine_model_id').addEventListener('change', function() {
+                        // Ottieni il valore selezionato del modello della macchina
+                        var selectedModelId = this.value;
+                        
+                        // Ottieni il campo select del seriale della macchina
+                        var machineSoldSelect = document.getElementById('machine_sold_id');
+                        
+                        // Rimuovi tutte le opzioni attuali
+                        machineSoldSelect.innerHTML = '';
+                        
+                        // Aggiungi le opzioni dei seriali della macchina corrispondenti al modello selezionato
+                        machines.forEach(function(machine) {
+                            if (machine.id === parseInt(selectedModelId)) {
+                                var optionSerial = document.createElement('option');
+                                optionSerial.value = machine.id;
+                                optionSerial.textContent = machine.serial_number;
+                                machineSoldSelect.appendChild(optionSerial);
+                            }
+                        });
+                    });
+                    // machineSoldSelect.selectedIndex = 1;
+                });
+            }
+            
+            
+            
+            
+            
             // Seleziona il campo dello stato
             const statusField = document.querySelector('select[name="status"]');
             let statoIniziale = statusField.value;
