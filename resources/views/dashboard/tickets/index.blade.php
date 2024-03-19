@@ -25,12 +25,12 @@
                 </td>
                 <td>
                     <a class="link-underline link-underline-opacity-0 link-dark" href="{{route('dashboard.tickets.show', compact('ticket'))}}">
-                        {{ $ticket->title }}
+                        {{ rtrim($ticket->descrizione) }}
                     </a>
                 </td>
                 <td>
                     <a class="link-underline link-underline-opacity-0 link-dark" href="{{route('dashboard.tickets.show', compact('ticket'))}}">
-                        {{ rtrim($ticket->descrizione) }}
+                        {{ $ticket->title }}
                     </a>
                 </td>
                 <td>

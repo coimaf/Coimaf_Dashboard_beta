@@ -23,8 +23,8 @@ class TicketController extends Controller
         
         $columnTitles = [
             ['text' => 'Ticket ID', 'sortBy' => 'id'],
-            ['text' => 'Titolo', 'sortBy' => 'title'],
             ['text' => 'Cliente', 'sortBy' => 'descrizione'],
+            ['text' => 'Titolo', 'sortBy' => 'title'],
             ['text' => 'Stato', 'sortBy' => 'status'],
             ['text' => 'Priorità', 'sortBy' => 'priority'],
             ['text' => 'Data', 'sortBy' => 'created_at'],
