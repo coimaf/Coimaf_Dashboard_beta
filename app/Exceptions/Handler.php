@@ -32,7 +32,7 @@ class Handler extends ExceptionHandler
 
         parent::report($exception);
     }
-
+//test
     private function sendErrorEmail(Throwable $exception)
     {
         $errorMessage = $exception->getMessage();
