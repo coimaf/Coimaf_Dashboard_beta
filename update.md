@@ -39,8 +39,9 @@
 - [x] Risolto bug listini per la formattazione;
 - [x] Risolto bug listini per articoli contenenti caratte come ABC/D;
 - [x] Risolto bug se Sconto e NULL;
-- [ ] Aggiungere marca alla index;
-- [ ] Filtrare i listini;
+- [x] Aggiungere marca alla index;
+- [x] Sconto formattato con Sc;
+- [x] Prezzi Listini allineati a destra;
 
 ### IMPORTANTE
-- [ ] Ticket soluzione se ce manassistenza in dorig fai nuova riga
+- [ ] Ticket soluzione in note;

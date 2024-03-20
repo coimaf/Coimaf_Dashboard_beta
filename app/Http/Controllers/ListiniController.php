@@ -60,46 +60,65 @@ class ListiniController extends Controller
     }
 
     public function index(Request $request)
-    {
-        $sortBy = $request->input('sortBy', 'Cd_AR');
-        $direction = $request->input('direction', 'asc');
-        
-        $columnTitles = [
-            ['text' => 'Codice', 'sortBy' => 'Cd_AR'],
-            ['text' => 'Descrizione', 'sortBy' => 'Descrizione'],
-            'Prezzo Listino 1',
-            'Prezzo Listino 8',
-            'Prezzo Listino 9',
-            'Modifica'
-        ];
-        $searchTerm = $request->input('searchListino');
-        $routeName = 'dashboard.listini.index';
-        
-        $query = DB::connection('mssql')->table('AR')->where('Obsoleto', 0);
-        
-        // Inizializza $listini come una query senza restrizioni
-        $listini = $query;
-        
-        if ($searchTerm) {
-            $listini = $query->where(function ($query) use ($searchTerm) {
-                $query->where('Cd_AR', 'LIKE', '%'.$searchTerm.'%')
-                ->orWhere('Descrizione', 'LIKE', '%'.$searchTerm.'%');
-            });
-        }
-        
-        // Applica il filtro di ordinamento e paginazione
-        $listini = $listini->select('Cd_AR', 'Descrizione')->orderByRaw("TRIM($sortBy) $direction")->paginate(25);
-        
-        foreach ($listini as $item) {
-            $listiniLS[$item->Cd_AR] = $this->getListiniIndex($item->Cd_AR);
-        }
-        
-        // Aggiungi i valori dei filtri alla query di paginazione
-        $listini->appends(['sortBy' => $sortBy, 'direction' => $direction, 'searchListino' => $searchTerm]);
+{
+    $sortBy = $request->input('sortBy', 'default');
+    $direction = $request->input('direction', 'asc');
+    
+    $columnTitles = [
+        ['text' => 'Codice', 'sortBy' => 'Cd_AR'],
+        ['text' => 'Descrizione', 'sortBy' => 'Descrizione'],
+        ['text' => 'Marca', 'sortBy' => 'Cd_ARMarca'],
+        ['text' => 'Listino 1', 'sortBy' => 'Prezzo'],
+        'Listino 8',
+        'Sconto 8',
+        'Listino 9',
+        'Modifica'
+    ];
+    
+    $searchTerm = $request->input('searchListino');
 
-        
-        return view('dashboard.listini.index', compact('columnTitles', 'listini', 'direction', 'sortBy', 'routeName', 'listiniLS'));
+    $routeName = 'dashboard.listini.index';
+    
+    $query = DB::connection('mssql')->table('AR')->where('Obsoleto', 0);
+    
+    // Inizializza $listini come una query senza restrizioni
+    $listini = $query;
+    
+    if ($searchTerm) {
+        $listini = $listini->where(function ($query) use ($searchTerm) {
+            $query->where('Cd_AR', 'LIKE', '%'.$searchTerm.'%')
+            ->orWhere('Descrizione', 'LIKE', '%'.$searchTerm.'%')
+            ->orWhere('Cd_ARMarca', 'LIKE', '%'.$searchTerm.'%');
+        });
     }
+
+    // Applica l'ordinamento
+    switch ($sortBy) {
+        case 'Cd_AR':
+        case 'Descrizione':
+        case 'Cd_ARMarca':
+            $listini = $listini->orderBy($sortBy, $direction);
+            break;
+    }
+
+    // Applica il filtro di paginazione
+    $listini = $listini->select('Cd_AR', 'Descrizione')->paginate(25);
+    
+    foreach ($listini as $item) {
+        $brands[$item->Cd_AR] = DB::connection('mssql')->selectOne("SELECT Cd_ARMarca, Cd_AR FROM dbo.AR WHERE Cd_AR = ? AND Obsoleto = 0", [$item->Cd_AR]);
+        $listiniLS[$item->Cd_AR] = $this->getListiniIndex($item->Cd_AR);
+    }
+    
+    // Aggiungi i valori dei filtri alla query di paginazione
+    $listini->appends([
+        'sortBy' => $sortBy,
+        'direction' => $direction,
+        'searchListino' => $searchTerm,
+    ]);
+
+    return view('dashboard.listini.index', compact('columnTitles', 'listini', 'direction', 'sortBy', 'routeName', 'listiniLS', 'brands'));
+}
+
     
     public function show($id)
     {

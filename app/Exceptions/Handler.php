@@ -41,9 +41,9 @@ class Handler extends ExceptionHandler
         $date = Carbon::now()->format('d-m-Y H:i');;
         $userName = $user ? $user->name : 'Utente non identificato';
         
-        Mail::raw("User: $userName il giorno: $date\n\nError Message: $errorMessage\n\nStack Trace: $errorTrace", function ($message) {
-            $message->to('root@coimaf.com')->cc('nicola.mazzaferro@coimaf.com')->subject('Errore in Dashboard Coimaf!');
-        });
+        // Mail::raw("User: $userName il giorno: $date\n\nError Message: $errorMessage\n\nStack Trace: $errorTrace", function ($message) {
+        //     $message->to('root@coimaf.com')->cc('nicola.mazzaferro@coimaf.com')->subject('Errore in Dashboard Coimaf!');
+        // });
     }
 
     /**
