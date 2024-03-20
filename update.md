@@ -32,7 +32,7 @@
 - [x] Mettere nella index numero di serie e modello;
 
 ## Sottoscorta
-- [ ] In sottoscorta le colonne con i numeri devono avere tutte la stessa larghezza;
+- [x] In sottoscorta le colonne con i numeri devono avere tutte la stessa larghezza;
 
 ## Listini
 - [x] Nei listini, nella lista mettiamo anche il prezzo del listino 1, del listino 8+sconto e del listino 9 come colonne;

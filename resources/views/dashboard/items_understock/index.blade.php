@@ -37,32 +37,32 @@
                         {{ $result->Cd_ARMisura }}
                     </p>
                 </td>
-                <td class="ps-3  {{ $result->Quantita < 0 ? 'text-danger' : '' }}">
+                <td class="text-end  {{ $result->Quantita < 0 ? 'text-danger' : '' }}">
                     <p>
                         {{ str_replace('.', ',', number_format($result->Quantita, 2)) }}
                     </p>
                 </td>
-                <td class="ps-3  {{ $result->ImpQ < 0 ? 'text-danger' : '' }}">
+                <td class="text-end  {{ $result->ImpQ < 0 ? 'text-danger' : '' }}">
                     <p>
                         {{ str_replace('.', ',', number_format($result->ImpQ, 2)) }}
                     </p>
                 </td>
-                <td class="ps-3  {{ $result->OrdQ < 0 ? 'text-danger' : '' }}">
+                <td class="text-end  {{ $result->OrdQ < 0 ? 'text-danger' : '' }}">
                     <p>
                         {{ str_replace('.', ',', number_format($result->OrdQ, 2)) }}
                     </p>
                 </td>
-                <td class="ps-3  {{ $result->QuantitaDisp < 0 ? 'text-danger' : '' }}">
+                <td class="text-end  {{ $result->QuantitaDisp < 0 ? 'text-danger' : '' }}">
                     <p>
                         {{ str_replace('.', ',', number_format($result->QuantitaDisp, 2)) }}
                     </p>
                 </td>
-                <td class="ps-3  {{ $result->ScortaMinima < 0 ? 'text-danger' : '' }}">
+                <td class="text-end  {{ $result->ScortaMinima < 0 ? 'text-danger' : '' }}">
                     <p>
                         {{ str_replace('.', ',', number_format($result->ScortaMinima, 2)) }}
                     </p>
                 </td>
-                <td class="ps-3  {{ $result->SottoScortaQ < 0 ? 'text-danger' : '' }}">
+                <td class="text-end pe-3  {{ $result->SottoScortaQ < 0 ? 'text-danger' : '' }}">
                     <p class="link-underline link-underline-opacity-0 link-dark text-danger">
                         {{ str_replace('.', ',', number_format($result->SottoScortaQ, 2)) }}
                     </p>
