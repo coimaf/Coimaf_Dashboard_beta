@@ -44,4 +44,4 @@
 - [x] Prezzi Listini allineati a destra;
 
 ### IMPORTANTE
-- [ ] Ticket soluzione in note;
+- [x] Ticket soluzione in note;

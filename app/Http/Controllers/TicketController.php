@@ -562,7 +562,7 @@ class TicketController extends Controller
                                     
                                     // Ottenere dati specifici dell'articolo sostituto
                                     $contoArticolo = $datiReplacements->Cd_CGConto_VI;
-                                    $nota = $datiReplacements->Note_AR;
+                                    $nota = $ticket->notes;
                                     $um  = $datiReplacements->Cd_ARMisura;
                                     $Cd_aliquota = $datiReplacements->Cd_Aliquota_A;
                                     $Cd_aliquota_V = $datiReplacements->Cd_Aliquota_V;
@@ -1017,7 +1017,7 @@ class TicketController extends Controller
                                 
                                 // Ottenere dati specifici dell'articolo sostituto
                                 $contoArticolo = $datiReplacements->Cd_CGConto_VI;
-                                $nota = $datiReplacements->Note_AR;
+                                $nota = $ticket->notes;
                                 $um  = $datiReplacements->Cd_ARMisura;
                                 $Cd_aliquota = $datiReplacements->Cd_Aliquota_A;
                                 $Cd_aliquota_V = $datiReplacements->Cd_Aliquota_V;
