@@ -1,7 +1,7 @@
 <x-Layouts.layoutDash>
     <h6 class="fw-bold p-4 fs-5">Aggiungi Dipendente</h6>
     
-    <form style="overflow: hidden;" class="p-4" action="{{ route('dashboard.employees.store') }}" method="POST" enctype="multipart/form-data">
+    <form id="form" style="overflow: hidden;" class="p-4" action="{{ route('dashboard.employees.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="row g-3">
             <div class="col-12 col-md-6">

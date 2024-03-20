@@ -942,7 +942,7 @@ class TicketController extends Controller
                                 'DataDoc' => $dataDocumento,
                                 'Cd_MGEsercizio' => $EsercizioYear,
                                 'EsAnno' => $EsercizioYear,
-                                'Cd_CGConto_Banca' => $bancasconto,
+                                'Cd_CGConto_Banca' => $bancasconto, //! Da controllare per clienti tipo comune di pizzoni
                                 'Cd_VL' => 'EUR',
                                 'Decimali' => 2,
                                 'DecimaliPrzUn' => 3,

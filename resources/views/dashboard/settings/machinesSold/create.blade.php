@@ -20,7 +20,7 @@
     <div class="col-12 col-md-3 ps-3 pt-3 bg-white border border-2">
         @if(count($warrantyType) > 0)
         @foreach($warrantyType as $warranty)
-        <form action="{{ route('dashboard.settings.machinesSold.delete', ['warrantyId' => $warranty->id]) }}" method="post">
+        <form id="form" action="{{ route('dashboard.settings.machinesSold.delete', ['warrantyId' => $warranty->id]) }}" method="post">
             @csrf
             @method('delete')
             <label class="mb-3" for="name">Garanzia: </label>

@@ -3,7 +3,7 @@
 
     <x-allert />
     
-    <form style="overflow: hidden;" action="{{ route('dashboard.employees.update', ['employee' => $employee->id]) }}" method="post" class="p-4" enctype="multipart/form-data">
+    <form id="form" style="overflow: hidden;" action="{{ route('dashboard.employees.update', ['employee' => $employee->id]) }}" method="post" class="p-4" enctype="multipart/form-data">
         @csrf
         @method('PUT') <!-- Utilizza il metodo PUT per l'aggiornamento -->
         

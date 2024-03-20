@@ -1,7 +1,7 @@
 <x-Layouts.layoutDash>
     <h6 class="fw-bold p-4 fs-5">Modifica R4</h6>
     
-    <form class="px-4 py-3" style="overflow: hidden;" action="{{ route('dashboard.r4.update', compact('r4')) }}" method="POST" enctype="multipart/form-data">
+    <form id="form" class="px-4 py-3" style="overflow: hidden;" action="{{ route('dashboard.r4.update', compact('r4')) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <div class="row g-3">

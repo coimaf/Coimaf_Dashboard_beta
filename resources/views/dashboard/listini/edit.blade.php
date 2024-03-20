@@ -16,7 +16,7 @@
         </div>
     </div>
     
-    <form action="{{ route('dashboard.listini.update', $id) }}" method="POST" class="p-4" style="overflow: hidden;">
+    <form id="form" action="{{ route('dashboard.listini.update', $id) }}" method="POST" class="p-4" style="overflow: hidden;">
         @csrf
         @method('PUT')
         <div class="row g-3">

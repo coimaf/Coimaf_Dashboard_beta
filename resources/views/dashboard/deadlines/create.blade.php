@@ -1,7 +1,7 @@
 <x-Layouts.layoutDash>
     <h6 class="fw-bold p-4 fs-5">Aggiungi Documento</h6>
     
-    <form class="px-4 py-3" style="overflow: hidden;" action="{{ route('dashboard.deadlines.store') }}" method="POST" enctype="multipart/form-data">
+    <form id="form" class="px-4 py-3" style="overflow: hidden;" action="{{ route('dashboard.deadlines.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="row g-3">
             <div class="col-12">

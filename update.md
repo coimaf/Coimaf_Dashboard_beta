@@ -13,7 +13,7 @@
 
 ## Generali
 - [x] In tutte le pagine va inserito un refresh di 1 ora per evitare che permangano su dati obsoleti;
-- [ ] Quando inserisco o modifico e cambio pagina, prima di uscire inserire un alert "stai uscendo senza salvare, continuare?";
+- [x] Quando inserisco o modifico e cambio pagina, prima di uscire inserire un alert "stai uscendo senza salvare, continuare?";
 
 ## Ticket
 - [ ] Dobbiamo rilevare un flag di "bloccato"; (aspettare francesco per la query)

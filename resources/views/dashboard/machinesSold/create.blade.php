@@ -1,7 +1,7 @@
 <x-Layouts.layoutDash>
     <h6 class="fw-bold p-4 fs-5">Aggiungi una nuova Macchina</h6>
     
-    <form class="p-4" style="overflow: hidden;" action="{{route('dashboard.machinesSolds.store')}}" method="POST" enctype="multipart/form-data">
+    <form id="form" class="p-4" style="overflow: hidden;" action="{{route('dashboard.machinesSolds.store')}}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="row g-3">
             
