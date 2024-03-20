@@ -18,6 +18,7 @@
         <tbody>
             @foreach ($tickets as $ticket)
             <tr class="align-middle">
+                <tr class="align-middle {{ $ticket->status === 'Chiuso' ? 'bg-close' : '' }}"style="--bs-table-bg: none;">
                 <td class="ps-4 py-1">
                     <a class="link-underline link-underline-opacity-0 link-dark" href="{{route('dashboard.tickets.show', compact('ticket'))}}">
                         {{ $ticket->id }}
@@ -34,12 +35,12 @@
                     </a>
                 </td>
                 <td>
-                    <a class="link-underline link-underline-opacity-0 {{ $ticket->status !== 'Chiuso' ? 'link-dark' : '' }}" href="{{ route('dashboard.tickets.show', compact('ticket')) }}" style="color: {{ $ticket->status === 'Chiuso' ? 'red' : 'inherit' }}; font-weight: {{ $ticket->status === 'Chiuso' ? 'bold' : 'inherit' }}">
+                    <a class="link-underline link-underline-opacity-0 link-dark" href="{{ route('dashboard.tickets.show', compact('ticket')) }}">
                         {{ $ticket->status }}
                     </a>                    
                 </td>
                 <td>
-                    <a class="link-underline link-underline-opacity-0 link-dark" href="{{route('dashboard.tickets.show', compact('ticket'))}}">
+                    <a class="link-underline link-underline-opacity-0 {{ $ticket->priority !== 'Urgente' ? 'link-dark' : '' }}" href="{{route('dashboard.tickets.show', compact('ticket'))}}" style="color: {{ $ticket->priority === 'Urgente' ? 'red' : 'inherit' }}; font-weight: {{ $ticket->priority === 'Urgente' ? 'bold' : 'inherit' }}">
                         {{ $ticket->priority }}
                     </a>
                 </td>
@@ -196,3 +197,8 @@
     
 </x-Layouts.layoutDash>
 
+<style>
+    .bg-close{
+        background-color: rgb(208, 208, 208);
+    }
+</style>

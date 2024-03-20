@@ -9,7 +9,7 @@
 - [x] 'Registrata il' rimosso, si puo risalire in base a chi lo ha creato conrtollando la data;
 - [x] Immagine mostrata solo se esiste;
 
-### 18/03/2024 - 19/03/2024
+### 18/03/2024 - 19/03/2024 - 20/03/2024
 
 ## Generali
 - [x] In tutte le pagine va inserito un refresh di 1 ora per evitare che permangano su dati obsoleti;
@@ -23,7 +23,8 @@
 - [x] In ticket quando seleziono il modello macchina dal db macchine la lista che mi appare deve essere filtrata solo con le macchine assegnate al cliente inserito nella casella cliente altrimenti la selezione è impossibile;
 - [x] Se il ticket e' chiuso nella index deve apparire in rosso;
 - [x] Prima cliente e poi titolo in ticket index;
-- [ ] Ordine decrescente e 'chiusi' alla fine con sfondo grigio e 'urgente' in rosso;
+- [x] Ordine decrescente e 'chiusi' alla fine;
+- [x] Sfondo grigio a Chiuso, e 'urgente' in rosso;
 
 ## Macchine Installate
 - [x] Nella index del db macchine togliere la colonna elimina;
@@ -38,3 +39,8 @@
 - [x] Risolto bug listini per la formattazione;
 - [x] Risolto bug listini per articoli contenenti caratte come ABC/D;
 - [x] Risolto bug se Sconto e NULL;
+- [ ] Aggiungere marca alla index;
+- [ ] Filtrare i listini;
+
+### IMPORTANTE
+- [ ] Ticket soluzione se ce manassistenza in dorig fai nuova riga
