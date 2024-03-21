@@ -143,7 +143,7 @@
             
             <div class="col-12 col-md-1">
                 <label class="my-2" for="qnt">Quantità</label>
-                <input type="number" id="qnt" name="qnt" class="form-control" value="0">
+                <input type="text" id="qnt" name="qnt" class="form-control" value="0">
             </div>
             @php
             $przValue = 0;

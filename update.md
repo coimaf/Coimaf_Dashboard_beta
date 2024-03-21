@@ -45,3 +45,4 @@
 
 ### IMPORTANTE
 - [x] Ticket soluzione in note;
+- [ ] Sistemare la duplicazione di righe articoli in fase di update su rapportino;

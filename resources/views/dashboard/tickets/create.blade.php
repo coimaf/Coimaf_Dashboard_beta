@@ -128,7 +128,7 @@
                                 totaleAvere += parseFloat(result.ImportoAvere);
                             });
                             // Calcola la differenza tra Dare e Avere
-                            var differenza = totaleAvere - totaleDare;
+                            var differenza = totaleDare - totaleAvere;
                             
                             // Costruisci il testo per mostrare la differenza
                             var differenzaText = '<i class="bi bi-circle-fill"></i>  SALDO: ' + differenza.toLocaleString('it-IT', {

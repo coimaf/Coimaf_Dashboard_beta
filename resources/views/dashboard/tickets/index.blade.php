@@ -173,7 +173,7 @@
                     }
 
                     // Calcola la differenza tra Avere e Dare
-                    $differenza = $totaleAvere - $totaleDare;
+                    $differenza = $totaleDare - $totaleAvere;
 
                     $colore = $differenza < 0 ? 'red' : 'green';
                     @endphp
