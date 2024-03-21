@@ -30,7 +30,6 @@
 - [x] Nella index del db macchine togliere la colonna elimina;
 - [x] Codice articolo diventa modello e Modello diventa descrizione;
 - [x] Mettere nella index numero di serie e modello;
-test
 
 ## Sottoscorta
 - [x] In sottoscorta le colonne con i numeri devono avere tutte la stessa larghezza;

@@ -113,8 +113,15 @@ class MachineController extends Controller
                 $registration_date = Carbon::today();
                 
                 // Calcola la data di scadenza della garanzia (1 anno dopo la data di vendita)
-                $sale_date = Carbon::createFromFormat('Y-m-d', $request->input('sale_date'));
-                $warranty_expiration_date = $sale_date->copy()->addYear();
+                $sale_date = $request->input('sale_date') ? Carbon::createFromFormat('Y-m-d', $request->input('sale_date')) : null;
+
+                $warranty_expiration_date = null;
+                
+                // Verifica se $sale_date non è null prima di utilizzarlo
+                if ($sale_date) {
+                    $warranty_expiration_date = $sale_date->copy()->addYear();
+                }
+                
                 
                 // Aggiorna il nome del campo nel create
                 $machine = MachinesSold::create([
@@ -186,14 +193,28 @@ class MachineController extends Controller
                         $machine->old_buyer = $request->input('old_buyer');
                         $machine->buyer = $request->input('buyer');
                         
-                        // Calcola la data di scadenza della garanzia (1 anno dopo la data di vendita)
-                        $sale_date = Carbon::createFromFormat('Y-m-d', $request->input('sale_date'));
-                        $warranty_expiration_date = $sale_date->copy()->addYear();
+                        $sale_date = null;
+                        $warranty_expiration_date = null;
                         
+                        // Verifica se è stata fornita una data di vendita valida
+                        if ($request->has('sale_date') && $request->input('sale_date')) {
+                            // Prova a creare un'istanza di Carbon dalla data di vendita fornita
+                            $sale_date = Carbon::createFromFormat('Y-m-d', $request->input('sale_date'));
+                        
+                            // Verifica se la data di vendita è stata creata correttamente
+                            if ($sale_date instanceof Carbon) {
+                                // Se la data di vendita è valida, calcola la data di scadenza della garanzia
+                                $warranty_expiration_date = $sale_date->copy()->addYear();
+                            } else {
+                                // Se la data di vendita non è valida, imposta la data di scadenza della garanzia come null o fai qualche altra gestione degli errori
+                                // Ad esempio:
+                                // throw new Exception("La data di vendita fornita non è valida");
+                            }
+                        }
+                        
+                        // Imposta la data di scadenza della garanzia per la macchina
                         $machine->warranty_expiration_date = $warranty_expiration_date;
                         
-                        // Aggiorna la relazione Eloquent con il tipo di garanzia
-                        $machine->warrantyType()->associate($request->input('warranty_type_id'));
                         
                         if ($request->hasFile('img')) {
                             $ext = $request->file('img')->extension();

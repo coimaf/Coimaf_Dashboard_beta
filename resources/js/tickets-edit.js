@@ -61,8 +61,8 @@ document.getElementById('descInput').addEventListener('input', function() {
     
     if (selectedOption) {
         articleInput.value = selectedOption.getAttribute('data-art');
-        var price = parseFloat(selectedOption.getAttribute('data-prezzo')) / 100; // Converti il prezzo da centesimi a euro
-        priceInput.value = price; // Visualizza il prezzo con due decimali
+        var price = parseFloat(selectedOption.getAttribute('data-prezzo')); // Converti il prezzo da centesimi a euro
+        priceInput.value = formatPrice(price); // Visualizza il prezzo con due decimali
         quantityInput.value = 1; // Imposta la quantità a 1
         updateTotal();
     } else {
@@ -123,6 +123,10 @@ function updateTotalWithDiscount() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('prz').addEventListener('input', function() {
+        updateTotal();
+    });
+    
     
     // Pulisci gli input per l'articolo e la descrizione
     document.getElementById('articleInput').value = '';

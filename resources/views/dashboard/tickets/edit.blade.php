@@ -151,7 +151,7 @@
             <div class="col-12 col-md-2">
                 <label class="my-2" for="prz">Prezzo</label>
                 <div class="input-group">
-                    <input type="text" name="prz" id="prz" class="form-control" value="{{ number_format($przValue, 2, ',', '.') }}" step="0.01" readonly>
+                    <input type="text" name="prz" id="prz" class="form-control" value="{{ number_format($przValue, 2, ',', '.') }}" step="0.01">
                     <div class="input-group-append">
                         <span class="input-group-text">€</span>
                     </div>
