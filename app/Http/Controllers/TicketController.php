@@ -106,7 +106,7 @@ class TicketController extends Controller
         });
         
         // Ordinamento dei biglietti
-        $tickets = $queryBuilder->orderByRaw("CASE WHEN status = 'Chiuso' THEN 1 ELSE 0 END")
+        $tickets = $queryBuilder->orderByRaw("CASE WHEN status = 'Chiuso' OR  status = 'Annullato' THEN 1 ELSE 0 END")
         ->orderBy('id', 'desc')
         ->paginate(25)
         ->appends([

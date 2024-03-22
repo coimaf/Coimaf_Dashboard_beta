@@ -17,7 +17,7 @@
         </tr>
         <tbody>
             @foreach ($tickets as $ticket)
-            <tr class="align-middle" style="--bs-table-bg: {{ $ticket->status === 'Chiuso' ? 'rgb(208, 208, 208)' : 'white' }}">
+            <tr class="align-middle" style="--bs-table-bg: {{ $ticket->status === 'Chiuso' || $ticket->status === 'Annullato' ? 'rgb(208, 208, 208)' : 'white' }}">
                 <td class="ps-4 py-1">
                     <a class="link-underline link-underline-opacity-0 link-dark" href="{{route('dashboard.tickets.show', compact('ticket'))}}">
                         {{ $ticket->id }}

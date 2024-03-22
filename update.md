@@ -46,3 +46,8 @@
 ### IMPORTANTE
 - [x] Ticket soluzione in note;
 - [ ] Sistemare la duplicazione di righe articoli in fase di update su rapportino;
+
+### 22/03/2024
+
+## Ticket
+- [x] Annullati messi alla fine della index;
