@@ -252,3 +252,5 @@ php artisan ldap:browse
 - [x] StartAt in flotta non si salva in modifica;
 - [x] Visualizza errori validate immagine in macchine installate;
 - [x] Separa cartelle con nomi adeguati per gli asset in storage;
+- [ ] Sistemare la duplicazione di righe articoli in fase di update su rapportino;
+- [ ] Controllare i saldi dei clienti;

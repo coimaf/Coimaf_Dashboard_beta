@@ -3,10 +3,12 @@
 namespace App\Console\Commands;
 
 use Carbon\Carbon;
+use App\Models\User;
 use App\Models\Deadline;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Cache;
+use App\Notifications\ScadenzaScadutaNotification;
 
 class SendExpiredDeadlineNotifications extends Command
 {
@@ -38,11 +40,22 @@ class SendExpiredDeadlineNotifications extends Command
     }
     
     
+
     private function sendNotification(Deadline $deadline, int $daysRemaining)
     {
-        $deadline->user->notify(new \App\Notifications\ScadenzaScadutaNotification($deadline, $daysRemaining));
-        Mail::to('amministrazione@coimaf.com')->send(new \App\Notifications\ScadenzaScadutaNotification($deadline, $daysRemaining));
-        // Mail::to('operativo@coimaf.com')->send(new \App\Notifications\ScadenzaScadutaNotification($deadline, $daysRemaining));
+        // Ottieni l'utente che ha creato la scadenza
+        $user = $deadline->user;
+    
+        // Verifica se l'utente esiste e ha un indirizzo email
+        if ($user && $user->email) {
+            // Invia la notifica all'utente che ha creato la scadenza
+            $user->notify(new ScadenzaScadutaNotification($deadline, $daysRemaining));
+        }
+    
+        // Invia la notifica anche all'indirizzo di amministrazione
+        $adminUser = new User();
+        $adminUser->email = 'amministrazione@coimaf.com';
+        $adminUser->notify(new ScadenzaScadutaNotification($deadline, $daysRemaining));
     }
     
     private function sendNotificationToUpdatedBy(Deadline $deadline, int $daysRemaining)

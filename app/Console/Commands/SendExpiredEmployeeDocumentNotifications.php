@@ -2,10 +2,13 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
-use App\Models\Employee;
-use Illuminate\Support\Facades\Cache;
 use Carbon\Carbon;
+use App\Models\User;
+use App\Models\Employee;
+use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Cache;
+use App\Notifications\ScadenzaDocumentoEmployeeNotification;
 
 class SendExpiredEmployeeDocumentNotifications extends Command
 {
@@ -17,7 +20,7 @@ class SendExpiredEmployeeDocumentNotifications extends Command
     {
         // Invia le notifiche per i documenti già scaduti
         $this->sendExpiredDocumentsNotification();
-
+        
         // Invia le notifiche per i documenti in scadenza entro 60, 30 e 7 giorni
         $this->sendNotificationsForExpiringDocuments(60);
         $this->sendNotificationsForExpiringDocuments(30);
@@ -29,39 +32,47 @@ class SendExpiredEmployeeDocumentNotifications extends Command
     {
         // Trova tutti gli impiegati con documenti già scaduti
         $employees = Employee::with('user', 'updatedBy')
-            ->whereHas('documents', function ($query) {
-                $query->where('expiry_date', '<', now()->format('Y-m-d'));
-            })
-            ->get();
-
+        ->whereHas('documents', function ($query) {
+            $query->where('expiry_date', '<', now()->format('Y-m-d'));
+        })
+        ->get();
+        
         foreach ($employees as $employee) {
             if ($employee->user) {
-                $employee->user->notify(new \App\Notifications\ScadenzaDocumentoEmployeeNotification($employee, 0)); // 0 giorni rimanenti per i documenti già scaduti
-                Mail::to('amministrazione@coimaf.com')->send(new \App\Notifications\ScadenzaDocumentoEmployeeNotification($employee, 0));
-                // Mail::to('operativo@coimaf.com')->send(new \App\Notifications\ScadenzaDocumentoEmployeeNotification($employee, 0));
+                // Invia la notifica all'utente che ha creato la scadenza
+                $employee->user->notify(new ScadenzaDocumentoEmployeeNotification($employee, 0)); // 0 giorni rimanenti per i documenti già scaduti
+                // Invia la notifica all'indirizzo di amministrazione fittizio
+                $adminUser = new User();
+                $adminUser->email = 'amministrazione@coimaf.com';
+                $adminUser->notify(new ScadenzaDocumentoEmployeeNotification($employee, 0));
                 if ($employee->updatedBy) {
-                    $employee->updatedBy->notify(new \App\Notifications\ScadenzaDocumentoEmployeeNotification($employee, 0)); // 0 giorni rimanenti per i documenti già scaduti
+                    // Invia la notifica all'utente che ha aggiornato il documento
+                    $employee->updatedBy->notify(new ScadenzaDocumentoEmployeeNotification($employee, 0)); // 0 giorni rimanenti per i documenti già scaduti
                 }
             }
         }
     }
-
+    
     private function sendNotificationsForExpiringDocuments($days)
     {
         // Trova tutti gli impiegati con documenti che scadono entro $days giorni
         $employees = Employee::with('user', 'updatedBy')
-            ->whereHas('documents', function ($query) use ($days) {
-                $query->where('expiry_date', '=', now()->addDays($days)->format('Y-m-d'));
-            })
-            ->get();
-
+        ->whereHas('documents', function ($query) use ($days) {
+            $query->where('expiry_date', '=', now()->addDays($days)->format('Y-m-d'));
+        })
+        ->get();
+        
         foreach ($employees as $employee) {
             if ($employee->user) {
-                $employee->user->notify(new \App\Notifications\ScadenzaDocumentoEmployeeNotification($employee, $days));
-                Mail::to('amministrazione@coimaf.com')->send(new \App\Notifications\ScadenzaDocumentoEmployeeNotification($employee, 0));
-                // Mail::to('operativo@coimaf.com')->send(new \App\Notifications\ScadenzaDocumentoEmployeeNotification($employee, $days));
+                // Invia la notifica all'utente che ha creato la scadenza
+                $employee->user->notify(new ScadenzaDocumentoEmployeeNotification($employee, $days));
+                // Invia la notifica all'indirizzo di amministrazione fittizio
+                $adminUser = new User();
+                $adminUser->email = 'amministrazione@coimaf.com';
+                $adminUser->notify(new ScadenzaDocumentoEmployeeNotification($employee, $days));
                 if ($employee->updatedBy) {
-                    $employee->updatedBy->notify(new \App\Notifications\ScadenzaDocumentoEmployeeNotification($employee, $days));
+                    // Invia la notifica all'utente che ha aggiornato il documento
+                    $employee->updatedBy->notify(new ScadenzaDocumentoEmployeeNotification($employee, $days));
                 }
             }
         }

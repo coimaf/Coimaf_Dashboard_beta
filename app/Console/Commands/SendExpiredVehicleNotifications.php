@@ -3,8 +3,10 @@
 namespace App\Console\Commands;
 
 use Carbon\Carbon;
+use App\Models\User;
 use App\Models\Vehicle;
 use Illuminate\Console\Command;
+use App\Notifications\ScadenzaDocumentoVehicleNotification;
 
 class SendExpiredVehicleNotifications extends Command
 {
@@ -49,7 +51,9 @@ class SendExpiredVehicleNotifications extends Command
         foreach ($vehicles as $vehicle) {
             if ($vehicle->user) {
                 $vehicle->user->notify(new \App\Notifications\ScadenzaDocumentoVehicleNotification($vehicle, 0)); // 0 giorni rimanenti per i documenti già scaduti
-                Mail::to('amministrazione@coimaf.com')->send(new \App\Notifications\ScadenzaDocumentoVehicleNotification($vehicle, 0));
+                $adminUser = new User();
+                $adminUser->email = 'amministrazione@coimaf.com';
+                $adminUser->notify(new ScadenzaDocumentoVehicleNotification($vehicle, 0));
                 // Mail::to('operativo@coimaf.com')->send(new \App\Notifications\ScadenzaDocumentoVehicleNotification($employee, 0));
                 if ($vehicle->updatedBy) {
                     $vehicle->updatedBy->notify(new \App\Notifications\ScadenzaDocumentoVehicleNotification($vehicle, 0)); // 0 giorni rimanenti per i documenti già scaduti
@@ -70,7 +74,12 @@ class SendExpiredVehicleNotifications extends Command
         foreach ($vehicles as $vehicle) {
             if ($vehicle->user) {
                 $vehicle->user->notify(new \App\Notifications\ScadenzaDocumentoVehicleNotification($vehicle, $days));
-                Mail::to('amministrazione@coimaf.com')->send(new \App\Notifications\ScadenzaDocumentoVehicleNotification($vehicle, 0));
+                
+                 // Invia la notifica all'indirizzo di amministrazione fittizio
+                 $adminUser = new User();
+                 $adminUser->email = 'amministrazione@coimaf.com';
+                 $adminUser->notify(new ScadenzaDocumentoVehicleNotification($vehicle, $days));
+
                 // Mail::to('operativo@coimaf.com')->send(new \App\Notifications\ScadenzaDocumentoVehicleNotification($vehicle, $days));
                 if ($vehicle->updatedBy) {
                     $vehicle->updatedBy->notify(new \App\Notifications\ScadenzaDocumentoVehicleNotification($vehicle, $days));
