@@ -48,7 +48,7 @@ class ScadenzaDocumentoVehicleNotification extends Notification
     public function toMail($notifiable)
     {
         $documents = $this->vehicle->documents()->get(); // Ottenere i documenti tramite la relazione
-        
+        $maintenances = $this->vehicle->maintenances()->get();
         // Rimuovi dd($documents) poiché interrompe l'esecuzione del codice
         
         $message = '';
@@ -67,6 +67,29 @@ class ScadenzaDocumentoVehicleNotification extends Notification
                     $message .= $document->name . ' scaduto il ' . $expiryDateString;
                 } else {
                     $message .= 'Mancano solo ' . $daysRemaining . ' giorni alla scadenza di: ' .  $document->name . ' ' . $expiryDateString;
+                }
+                
+                $message .= " "; // Aggiungi una nuova riga dopo ogni documento
+            }
+        } else {
+            // Nessun documento trovato
+            $message = 'Nessun documento trovato per ' . $this->vehicle->name . ' ' . $this->vehicle->surname;
+        }
+
+        if ($maintenances->isNotEmpty()) {
+            // Itera su tutti i maintenancei 
+            foreach ($maintenances as $maintenance) {
+                $expiryDate = Carbon::parse($maintenance->end_at);
+                $expiryDateString = $expiryDate->format('d-m-Y');
+                
+                // Calcola i giorni rimanenti fino alla scadenza del maintenanceo
+                $daysRemaining = now()->diffInDays($expiryDate, false) + 1;
+                
+                // Costruisci il messaggio in base ai giorni rimanenti
+                if ($daysRemaining <= 0) {
+                    $message .= $maintenance->name . ' scaduto il ' . $expiryDateString;
+                } else {
+                    $message .= 'Mancano solo ' . $daysRemaining . ' giorni alla scadenza di: ' .  $maintenance->name . ' ' . $expiryDateString;
                 }
                 
                 $message .= " "; // Aggiungi una nuova riga dopo ogni documento

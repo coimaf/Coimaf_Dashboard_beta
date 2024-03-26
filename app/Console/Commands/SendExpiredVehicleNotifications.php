@@ -46,6 +46,9 @@ class SendExpiredVehicleNotifications extends Command
         ->whereHas('documents', function ($query) {
             $query->where('expiry_date', '<', now()->format('Y-m-d'));
         })
+        ->orWhereHas('maintenances', function ($subquery) {
+            $subquery->where('end_at', '<', now()->format('Y-m-d'));
+        })
         ->get();
         
         foreach ($vehicles as $vehicle) {
@@ -68,6 +71,9 @@ class SendExpiredVehicleNotifications extends Command
         $vehicles = Vehicle::with('user', 'updatedBy')
         ->whereHas('documents', function ($query) use ($days) {
             $query->where('expiry_date', '=', now()->addDays($days)->format('Y-m-d'));
+        })
+        ->orWhereHas('maintenances', function ($subquery) {
+            $subquery->where('end_at', '<', now()->format('Y-m-d'));
         })
         ->get();
         
