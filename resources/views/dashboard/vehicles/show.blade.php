@@ -109,6 +109,16 @@
                          </div>
                          @endif
 
+                         @if( $item->end_at )
+                         <div class="col-12 col-md-2">
+                            <p>{{\Carbon\Carbon::parse($item->end_at)->format('d-m-Y')}}</p>
+                         </div>
+                         @else
+                         <div class="col-12 col-md-2">
+                             <p> </p>
+                          </div>
+                          @endif
+
                          @if($item->file)
                          <div class="col-12 col-md-2">
                              <a class="link-underline link-underline-opacity-0 link-dark fw-bold" href="{{ asset("storage/{$item->file}") }}" download="" >

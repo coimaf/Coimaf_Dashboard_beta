@@ -99,6 +99,56 @@ class Vehicle extends Model
         // Restituisci un array contenente 'icon', 'tooltipText' e 'daysRemaining'
         return compact('icon', 'tooltipText', 'daysRemaining');
     }
+
+    public function getMaintenanceStatuses()
+    {
+        $status = 'green';
+        $icon = '';
+        $tooltipText = '';
+        $expiredMaintenances = collect();
+        $expiringMaintenances = collect();
+        $daysRemaining = 0;
+    
+        foreach ($this->maintenances as $maintenance) {
+            // Verifica se expiry_date non è vuoto
+            if ($maintenance->end_at) {
+                $expiryDate = Carbon::parse($maintenance->end_at);
+    
+                if ($expiryDate->isPast()) {
+                    $expiredMaintenances->push($maintenance->name);
+                } elseif ($expiryDate->diffInDays(now()) <= 60 && $status !== 'red') {
+                    $status = 'yellow';
+                    $expiringMaintenances->push($maintenance->name);
+                }
+    
+                // Calcola i giorni rimanenti fino alla scadenza
+                $daysRemaining = now()->diffInDays($expiryDate, false);
+            }
+        }
+    
+        // Se ci sono documenti scaduti, assegna la priorità dell'icona a 'red'
+        if ($expiredMaintenances->isNotEmpty()) {
+            $status = 'red';
+        }
+    
+        $icon = match ($status) {
+            'red' => '<i class="bi bi-dash-circle-fill text-danger fs-3"></i>',
+            'yellow' => '<i class="bi bi-exclamation-circle-fill text-warning fs-3"></i>',
+            default => '<i class="bi bi-check-circle-fill text-success fs-3"></i>',
+        };
+    
+        // Aggiungi i nomi dei documenti scaduti e di quelli che stanno per scadere al tooltip
+        if ($expiredMaintenances->isNotEmpty()) {
+            $tooltipText .= 'Scaduti: ' . implode(', ', $expiredMaintenances->toArray()) . "\n";
+        }
+    
+        if ($expiringMaintenances->isNotEmpty()) {
+            $tooltipText .= 'Stanno per scadere: ' . implode(', ', $expiringMaintenances->toArray()) . "\n";
+        }
+    
+        // Restituisci un array contenente 'icon', 'tooltipText' e 'daysRemaining'
+        return compact('icon', 'tooltipText', 'daysRemaining');
+    }
     
     
 }

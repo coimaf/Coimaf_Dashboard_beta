@@ -107,6 +107,10 @@
                             <label for="">Data Esecuzione</label>
                             <input class="form-control" type="date" name="maintenance_start_at[]" value="{{ $maintenance->start_at ? \Carbon\Carbon::parse($maintenance->start_at)->format('Y-m-d') : '' }}">
                         </div>
+                        <div class="col-12 col-md-2">
+                            <label for="">Scadenza</label>
+                            <input class="form-control" type="date" name="maintenance_end_at[]" value="{{ $maintenance->end_at ? \Carbon\Carbon::parse($maintenance->end_at)->format('Y-m-d') : '' }}">
+                        </div>
                                              
                         <!-- Aggiungi un campo nascosto per l'ID -->
                         <input type="hidden" name="maintenance_id[]" value="{{ $maintenance->id }}">
@@ -211,6 +215,10 @@
             <div class="col-12 col-md-2">
                 <label for="">Data Esecuzione</label>
                 <input class="form-control" type="date" name="new_maintenance_start_at[]">
+            </div>
+            <div class="col-12 col-md-2">
+                <label for="">Data Scadenza</label>
+                <input class="form-control" type="date" name="new_maintenance_end_at[]">
             </div>
             `;
             container.appendChild(newMaintenance);

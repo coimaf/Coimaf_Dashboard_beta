@@ -264,6 +264,7 @@ class VehicleController extends Controller
                 $newMaintenance->price = $request->input('new_maintenance_price.' . $key, null);
                 // Verifica se è stata fornita una data di esecuzione per la manutenzione e imposta il valore se presente
                 $newMaintenance->start_at = $request->input('new_maintenance_start_at.' . $key, null);
+                $newMaintenance->end_at = $request->input('new_maintenance_end_at.' . $key, null);
                 
                 // Associa la manutenzione al veicolo
                 $vehicle->maintenances()->save($newMaintenance);
@@ -284,6 +285,7 @@ class VehicleController extends Controller
                     'file' => $request->hasFile('maintenance_file.' . $key) ? $this->storeMaintenanceFile($request->file('maintenance_file.' . $key), $request->input('maintenance_name.' . $key)) : $existingMaintenance->file,
                     'price' => $request->input('maintenance_price.' . $key, null),
                     'start_at' => $request->input('maintenance_start_at.' . $key, null),
+                    'end_at' => $request->input('maintenance_end_at.' . $key, null),
                 ]);
             }
         }

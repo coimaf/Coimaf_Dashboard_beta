@@ -46,6 +46,9 @@
                 <td class="ps-5">
                     <a class="link-underline link-underline-opacity-0 link-dark" href="{{ route('dashboard.vehicles.show', compact('vehicle')) }}"> 
                         <i data-mdb-tooltip-init title="{{ $vehicle->getDocumentStatuses()['tooltipText'] }}" class="{{ $vehicle->getDocumentStatuses()['icon'] }}"></i>
+                            
+                        <i data-mdb-tooltip-init title="{{ $vehicle->getMaintenanceStatuses()['tooltipText'] }}" class="{{ $vehicle->getMaintenanceStatuses()['icon'] }}"></i>
+                        
                     </a>
                 </td>
                 
